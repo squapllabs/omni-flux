@@ -13,6 +13,7 @@ interface grnBody {
   grn_details: Array<grnDetailsBody>;
   site_id: number;
   purchase_order_type: string;
+  is_product_received: boolean;
 }
 
 interface grnDetailsBody {

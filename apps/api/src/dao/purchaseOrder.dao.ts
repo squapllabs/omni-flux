@@ -267,73 +267,82 @@ const searchPurchaseOrder = async (
     let checkPurchaseOrderDataAvailability = [];
     let projectId: number, siteId: number;
 
-    for (const item of filter.AND) {
-      if (item.indent_request_data) {
-        if (item.indent_request_data.project_id) {
-          projectId = item.indent_request_data.project_id;
-        }
-        if (item.indent_request_data.site_id) {
-          siteId = item.indent_request_data.site_id;
-        }
+    if (filter.AND) {
+      for (const item of filter.AND) {
+        if (item.indent_request_data) {
+          if (item.indent_request_data.project_id) {
+            projectId = item.indent_request_data.project_id;
+          }
+          if (item.indent_request_data.site_id) {
+            siteId = item.indent_request_data.site_id;
+          }
 
-        if (projectId && siteId) {
-          checkPurchaseOrderDataAvailability =
-            await transaction.purchase_order.findMany({
-              where: {
-                is_delete: filter.is_delete,
-                indent_request_data: {
-                  project_id: projectId,
-                  site_id: siteId,
+          if (projectId && siteId) {
+            checkPurchaseOrderDataAvailability =
+              await transaction.purchase_order.findMany({
+                where: {
+                  is_delete: filter.is_delete,
+                  indent_request_data: {
+                    project_id: projectId,
+                    site_id: siteId,
+                  },
                 },
-              },
-            });
-        } else if (projectId) {
-          checkPurchaseOrderDataAvailability =
-            await transaction.purchase_order.findMany({
-              where: {
-                is_delete: filter.is_delete,
-                indent_request_data: {
-                  project_id: projectId,
+              });
+          } else if (projectId) {
+            checkPurchaseOrderDataAvailability =
+              await transaction.purchase_order.findMany({
+                where: {
+                  is_delete: filter.is_delete,
+                  indent_request_data: {
+                    project_id: projectId,
+                  },
                 },
-              },
-            });
-        } else {
-          checkPurchaseOrderDataAvailability =
-            await transaction.purchase_order.findMany({
-              where: {
-                is_delete: filter.is_delete,
-              },
-            });
-        }
-      } else if (item.purchase_request_data) {
-        if (item.purchase_request_data.project_id) {
-          projectId = item.purchase_request_data.project_id;
-        }
-        if (item.purchase_request_data.site_id) {
-          siteId = item.purchase_request_data.site_id;
-        }
+              });
+          } else {
+            checkPurchaseOrderDataAvailability =
+              await transaction.purchase_order.findMany({
+                where: {
+                  is_delete: filter.is_delete,
+                },
+              });
+          }
+        } else if (item.purchase_request_data) {
+          if (item.purchase_request_data.project_id) {
+            projectId = item.purchase_request_data.project_id;
+          }
+          if (item.purchase_request_data.site_id) {
+            siteId = item.purchase_request_data.site_id;
+          }
 
-        if (projectId && siteId) {
-          checkPurchaseOrderDataAvailability =
-            await transaction.purchase_order.findMany({
-              where: {
-                is_delete: filter.is_delete,
-                purchase_request_data: {
-                  project_id: projectId,
-                  site_id: siteId,
+          if (projectId && siteId) {
+            checkPurchaseOrderDataAvailability =
+              await transaction.purchase_order.findMany({
+                where: {
+                  is_delete: filter.is_delete,
+                  purchase_request_data: {
+                    project_id: projectId,
+                    site_id: siteId,
+                  },
                 },
-              },
-            });
-        } else if (projectId) {
-          checkPurchaseOrderDataAvailability =
-            await transaction.purchase_order.findMany({
-              where: {
-                is_delete: filter.is_delete,
-                purchase_request_data: {
-                  project_id: projectId,
+              });
+          } else if (projectId) {
+            checkPurchaseOrderDataAvailability =
+              await transaction.purchase_order.findMany({
+                where: {
+                  is_delete: filter.is_delete,
+                  purchase_request_data: {
+                    project_id: projectId,
+                  },
                 },
-              },
-            });
+              });
+          } else {
+            checkPurchaseOrderDataAvailability =
+              await transaction.purchase_order.findMany({
+                where: {
+                  is_delete: filter.is_delete,
+                },
+              });
+          }
         } else {
           checkPurchaseOrderDataAvailability =
             await transaction.purchase_order.findMany({

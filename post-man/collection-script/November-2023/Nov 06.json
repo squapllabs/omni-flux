@@ -25731,6 +25731,123 @@
 							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"project_name\": \"WTP Demo Project 4th October\",\n            \"project_id\": 176,\n            \"estimated_budget\": 3289945987,\n            \"actual_budget\": 3289945987,\n            \"total_po_count\": 3,\n            \"count_of_completed_po\": 0,\n            \"count_of_pending_po\": 3,\n            \"total_cost_completed\": 0,\n            \"total_cost_other_than_completed\": 30000,\n            \"total_purchase_order_cost\": 30000,\n            \"purchase_order_statistics\": {\n                \"total_cost_processing\": 63331,\n                \"total_cost_product_received\": 3044501.0903000003,\n                \"total_cost_invoice\": 244450,\n                \"total_cost_completed\": 368900,\n                \"total_cost_other_than_completed\": 3352282.0903000003,\n                \"total_purchase_order_cost\": 3721182.0903000003,\n                \"completed_po\": 7,\n                \"pending_po\": 42\n            },\n            \"total_vendor_count\": 17,\n            \"total_vendor_involved_in_po\": 12\n        },\n        {\n            \"project_name\": \"Bhiwandi Nizampur water supply\",\n            \"project_id\": 149,\n            \"estimated_budget\": 50000,\n            \"actual_budget\": 25000,\n            \"total_po_count\": 2,\n            \"count_of_completed_po\": 0,\n            \"count_of_pending_po\": 2,\n            \"total_cost_completed\": 0,\n            \"total_cost_other_than_completed\": 10000,\n            \"total_purchase_order_cost\": 10000,\n            \"purchase_order_statistics\": {\n                \"total_cost_processing\": 63331,\n                \"total_cost_product_received\": 3044501.0903000003,\n                \"total_cost_invoice\": 244450,\n                \"total_cost_completed\": 368900,\n                \"total_cost_other_than_completed\": 3352282.0903000003,\n                \"total_purchase_order_cost\": 3721182.0903000003,\n                \"completed_po\": 7,\n                \"pending_po\": 42\n            },\n            \"total_vendor_count\": 17,\n            \"total_vendor_involved_in_po\": 12\n        },\n        {\n            \"project_name\": \"Waste Water Recycle Plant - Madurai\",\n            \"project_id\": 172,\n            \"estimated_budget\": 15000,\n            \"actual_budget\": 15000,\n            \"total_po_count\": 2,\n            \"count_of_completed_po\": 1,\n            \"count_of_pending_po\": 1,\n            \"total_cost_completed\": 20000,\n            \"total_cost_other_than_completed\": 1200000,\n            \"total_purchase_order_cost\": 1220000,\n            \"purchase_order_statistics\": {\n                \"total_cost_processing\": 63331,\n                \"total_cost_product_received\": 3044501.0903000003,\n                \"total_cost_invoice\": 244450,\n                \"total_cost_completed\": 368900,\n                \"total_cost_other_than_completed\": 3352282.0903000003,\n                \"total_purchase_order_cost\": 3721182.0903000003,\n                \"completed_po\": 7,\n                \"pending_po\": 42\n            },\n            \"total_vendor_count\": 17,\n            \"total_vendor_involved_in_po\": 12\n        },\n        {\n            \"project_name\": \"WTP Ayappakkam\",\n            \"project_id\": 174,\n            \"estimated_budget\": 10000000,\n            \"actual_budget\": 0,\n            \"total_po_count\": 1,\n            \"count_of_completed_po\": 0,\n            \"count_of_pending_po\": 1,\n            \"total_cost_completed\": 0,\n            \"total_cost_other_than_completed\": 10000,\n            \"total_purchase_order_cost\": 10000,\n            \"purchase_order_statistics\": {\n                \"total_cost_processing\": 63331,\n                \"total_cost_product_received\": 3044501.0903000003,\n                \"total_cost_invoice\": 244450,\n                \"total_cost_completed\": 368900,\n                \"total_cost_other_than_completed\": 3352282.0903000003,\n                \"total_purchase_order_cost\": 3721182.0903000003,\n                \"completed_po\": 7,\n                \"pending_po\": 42\n            },\n            \"total_vendor_count\": 17,\n            \"total_vendor_involved_in_po\": 12\n        },\n        {\n            \"project_name\": \"Pipe line Project ambur\",\n            \"project_id\": 137,\n            \"estimated_budget\": 20000,\n            \"actual_budget\": 0,\n            \"total_po_count\": 20,\n            \"count_of_completed_po\": 5,\n            \"count_of_pending_po\": 15,\n            \"total_cost_completed\": 344900,\n            \"total_cost_other_than_completed\": 2024425.0903000003,\n            \"total_purchase_order_cost\": 2369325.0903000003,\n            \"purchase_order_statistics\": {\n                \"total_cost_processing\": 63331,\n                \"total_cost_product_received\": 3044501.0903000003,\n                \"total_cost_invoice\": 244450,\n                \"total_cost_completed\": 368900,\n                \"total_cost_other_than_completed\": 3352282.0903000003,\n                \"total_purchase_order_cost\": 3721182.0903000003,\n                \"completed_po\": 7,\n                \"pending_po\": 42\n            },\n            \"total_vendor_count\": 17,\n            \"total_vendor_involved_in_po\": 12\n        }\n    ]\n}"
 						}
 					]
+				},
+				{
+					"name": "API To Get Purchase Order Report",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"status\": \"AC\",\r\n    \"project_id\": 195,\r\n    \"purchase_order_type\": \"Head Office\",\r\n    \"from_order_date\": \"2023-10-26\",\r\n    \"to_order_date\": \"2023-11-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/purchase-order/get-po-report",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"purchase-order",
+								"get-po-report"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Get Purchase Order Report",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"updated_date\",\r\n    \"order_by_direction\": \"desc\",\r\n    \"status\": \"AC\",\r\n    \"project_id\": 195,\r\n    \"purchase_order_type\": \"Head Office\",\r\n    \"from_order_date\": \"2023-10-26\",\r\n    \"to_order_date\": \"2023-11-01\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/api/purchase-order/get-po-report",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"purchase-order",
+										"get-po-report"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "26022"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"65a6-KP/5KxuZ61+pkCvRYHrHeWNjH68\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 06 Nov 2023 11:54:09 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 3,\n    \"content\": [\n        {\n            \"purchase_order_id\": 170,\n            \"purchase_order_type\": \"Head Office\",\n            \"indent_request_id\": null,\n            \"purchase_request_id\": 285,\n            \"vendor_id\": 20,\n            \"order_date\": \"2023-11-01T00:00:00.000Z\",\n            \"order_id\": \"PO2023004244\",\n            \"status\": \"Processing\",\n            \"total_cost\": 1800,\n            \"order_remark\": \"Order Requested\",\n            \"purchase_order_documents\": null,\n            \"purchase_order_details\": null,\n            \"payment_mode\": null,\n            \"payment_date\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-11-01T16:39:36.137Z\",\n            \"updated_date\": \"2023-11-01T16:39:36.137Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"purchase_request_data\": {\n                \"purchase_request_id\": 285,\n                \"purchase_request_code\": \"PUR202300266\",\n                \"indent_request_id\": 151,\n                \"requester_user_id\": 1,\n                \"request_date\": \"2023-11-01T00:00:00.000Z\",\n                \"status\": \"Approved\",\n                \"vendor_selection_method\": null,\n                \"project_id\": 195,\n                \"site_id\": 36,\n                \"selected_vendor_id\": 20,\n                \"total_cost\": 1800,\n                \"purchase_request_documents\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PR285/file-1698856677700-981963474-assessment.txt\",\n                        \"index\": 0,\n                        \"is_delete\": \"N\"\n                    }\n                ],\n                \"is_delete\": false,\n                \"created_date\": \"2023-11-01T16:37:41.336Z\",\n                \"updated_date\": \"2023-11-01T16:39:26.928Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"indent_request_data\": {\n                    \"indent_request_id\": 151,\n                    \"indent_request_code\": \"IND202300124\",\n                    \"project_id\": 195,\n                    \"site_id\": 36,\n                    \"requester_user_id\": 1,\n                    \"requested_date\": \"2023-11-01T00:00:00.000Z\",\n                    \"request_status\": \"Pending\",\n                    \"priority\": \"Medium\",\n                    \"description\": \"Description\",\n                    \"expected_delivery_date\": \"2023-11-16T00:00:00.000Z\",\n                    \"total_cost\": 1500,\n                    \"approver_user_id\": 102,\n                    \"approver_status\": \"Approved\",\n                    \"approved_date\": \"2023-10-31T00:00:00.000Z\",\n                    \"rejected_date\": null,\n                    \"approver_comments\": null,\n                    \"request_type\": \"Head Office\",\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-11-01T16:35:21.763Z\",\n                    \"updated_date\": \"2023-11-01T16:36:39.971Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": 102,\n                    \"requester_user_data\": {\n                        \"first_name\": \"Vijay\",\n                        \"last_name\": \"Perumalsamy\",\n                        \"contact_no\": \"8667604201\",\n                        \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n                    },\n                    \"approver_user_data\": {\n                        \"first_name\": \"Deepan\",\n                        \"last_name\": \"Raj\",\n                        \"contact_no\": \"9876543210\",\n                        \"email_id\": \"planningengineer@aalamsoft.com\"\n                    }\n                },\n                \"project_data\": {\n                    \"project_id\": 195,\n                    \"project_name\": \"CPS water treatment project\",\n                    \"description\": \"CPS water treatment project\",\n                    \"user_id\": 97,\n                    \"date_started\": \"2023-10-17T00:00:00.000Z\",\n                    \"date_ended\": \"2024-03-15T00:00:00.000Z\",\n                    \"status\": \"Inprogress\",\n                    \"client_id\": 41,\n                    \"project_documents\": [\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/CPS-WTP-11/file-1698584113728-680336535-HSN sample.csv\",\n                            \"index\": 0,\n                            \"is_delete\": \"N\"\n                        },\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/CPS-WTP-11/file-1698584113734-331163114-data (1).csv\",\n                            \"index\": 0,\n                            \"is_delete\": \"N\"\n                        }\n                    ],\n                    \"created_date\": \"2023-10-17T13:08:26.580Z\",\n                    \"updated_date\": \"2023-10-29T12:55:15.645Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null,\n                    \"is_delete\": false,\n                    \"project_notes\": \"\",\n                    \"project_type\": \"Water Treatment Plan\",\n                    \"code\": \"CPS-WTP-11\",\n                    \"estimated_budget\": 75000,\n                    \"actual_budget\": 60000,\n                    \"approvar_id\": 102\n                },\n                \"site_data\": {\n                    \"site_contractor_id\": 36,\n                    \"name\": \"T Nagar\",\n                    \"type\": \"Site\",\n                    \"mobile_number\": \"\",\n                    \"contact_number\": \"\",\n                    \"address\": {\n                        \"street\": \"\",\n                        \"city\": \"\",\n                        \"state\": \"\",\n                        \"pin_code\": \"\",\n                        \"country\": \"\"\n                    },\n                    \"description\": \"\",\n                    \"created_date\": \"2023-10-02T07:33:00.117Z\",\n                    \"updated_date\": \"2023-10-02T07:33:00.117Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null,\n                    \"is_delete\": false,\n                    \"code\": \"CITNR\"\n                },\n                \"selected_vendor_data\": {\n                    \"vendor_id\": 20,\n                    \"vendor_name\": \"Anbu\",\n                    \"contact_person\": \"Anbu\",\n                    \"contact_email\": \"anbu@gmail.cpm\",\n                    \"contact_phone_no\": \"9090878987\",\n                    \"address\": {\n                        \"city\": \"\",\n                        \"state\": \"\",\n                        \"street\": \"Elango street\",\n                        \"country\": \"\",\n                        \"pin_code\": \"\"\n                    },\n                    \"tax_id\": \"GSTIN1234K\",\n                    \"payment_terms\": \"\",\n                    \"preferred_payment_method_id\": 98,\n                    \"bank_account_details\": {\n                        \"bank_name\": \"\",\n                        \"ifsc_code\": \"PNBL0009876\",\n                        \"account_no\": \"432187650912\",\n                        \"acc_holder_name\": \"Anbu\"\n                    },\n                    \"currency\": \"Rupees\",\n                    \"vendor_category_id\": 103,\n                    \"lead_time\": \"\",\n                    \"minimum_order_quantity\": 0,\n                    \"notes\": \"\",\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-22T12:57:41.502Z\",\n                    \"updated_date\": \"2023-09-22T12:57:41.502Z\",\n                    \"created_by\": 108,\n                    \"updated_by\": null\n                },\n                \"requester_user_data\": {\n                    \"first_name\": \"Vijay\",\n                    \"last_name\": \"Perumalsamy\",\n                    \"contact_no\": \"8667604201\",\n                    \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n                },\n                \"purchase_request_quotation_details\": [\n                    {\n                        \"purchase_request_quotation_details_id\": 290,\n                        \"purchase_request_id\": 285,\n                        \"item_id\": 166,\n                        \"indent_request_details_id\": 352,\n                        \"indent_requested_quantity\": 15,\n                        \"purchase_requested_quantity\": 15,\n                        \"unit_cost\": 120,\n                        \"total_cost\": 1800,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-11-01T16:39:27.246Z\",\n                        \"updated_date\": \"2023-11-01T16:39:27.246Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"item_data\": {\n                            \"item_id\": 166,\n                            \"item_name\": \"Pipe\",\n                            \"description\": \"water pipes\",\n                            \"hsn_code_id\": 367,\n                            \"gst_id\": 48,\n                            \"uom_id\": 4,\n                            \"created_date\": \"2023-09-04T12:32:07.422Z\",\n                            \"updated_date\": \"2023-09-04T12:32:07.422Z\",\n                            \"created_by\": null,\n                            \"updated_by\": null,\n                            \"item_type_id\": 109,\n                            \"brand_id\": 6,\n                            \"rate\": 340,\n                            \"is_delete\": false,\n                            \"uom\": {\n                                \"uom_id\": 4,\n                                \"name\": \"Meter\",\n                                \"description\": \"Unit length measurement\",\n                                \"created_date\": \"2023-07-18T07:15:09.336Z\",\n                                \"updated_date\": \"2023-08-23T23:53:09.931Z\",\n                                \"created_by\": null,\n                                \"updated_by\": null,\n                                \"uom_type\": \"RAWMT\",\n                                \"is_delete\": false\n                            }\n                        }\n                    }\n                ]\n            },\n            \"vendor_data\": {\n                \"vendor_id\": 20,\n                \"vendor_name\": \"Anbu\",\n                \"contact_person\": \"Anbu\",\n                \"contact_email\": \"anbu@gmail.cpm\",\n                \"contact_phone_no\": \"9090878987\",\n                \"address\": {\n                    \"city\": \"\",\n                    \"state\": \"\",\n                    \"street\": \"Elango street\",\n                    \"country\": \"\",\n                    \"pin_code\": \"\"\n                },\n                \"tax_id\": \"GSTIN1234K\",\n                \"payment_terms\": \"\",\n                \"preferred_payment_method_id\": 98,\n                \"bank_account_details\": {\n                    \"bank_name\": \"\",\n                    \"ifsc_code\": \"PNBL0009876\",\n                    \"account_no\": \"432187650912\",\n                    \"acc_holder_name\": \"Anbu\"\n                },\n                \"currency\": \"Rupees\",\n                \"vendor_category_id\": 103,\n                \"lead_time\": \"\",\n                \"minimum_order_quantity\": 0,\n                \"notes\": \"\",\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-22T12:57:41.502Z\",\n                \"updated_date\": \"2023-09-22T12:57:41.502Z\",\n                \"created_by\": 108,\n                \"updated_by\": null\n            },\n            \"indent_request_data\": null,\n            \"grn\": [\n                {\n                    \"grn_id\": 162,\n                    \"project_id\": 195,\n                    \"purchase_order_id\": 170,\n                    \"goods_received_by\": 1,\n                    \"goods_received_date\": \"2023-11-05T00:00:00.000Z\",\n                    \"invoice_id\": \"BQE242L\",\n                    \"invoice_amount\": null,\n                    \"notes\": \"Recieved\",\n                    \"bill_details\": [\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/INVOICE/file-1699185531766-208535319-assessment.txt\",\n                            \"index\": 0,\n                            \"is_delete\": \"N\"\n                        }\n                    ],\n                    \"grn_status\": \"Pending\",\n                    \"created_date\": \"2023-11-05T11:59:00.265Z\",\n                    \"created_by\": 1,\n                    \"grn_details\": [\n                        {\n                            \"grn_details_id\": 460,\n                            \"grn_id\": 162,\n                            \"item_id\": 166,\n                            \"received_quantity\": 2,\n                            \"accepted_quantity\": 2,\n                            \"rejected_quantity\": 0,\n                            \"notes\": null,\n                            \"created_date\": \"2023-11-05T11:59:00.229Z\",\n                            \"created_by\": 1,\n                            \"item_data\": {\n                                \"item_id\": 166,\n                                \"item_name\": \"Pipe\",\n                                \"description\": \"water pipes\",\n                                \"hsn_code_id\": 367,\n                                \"gst_id\": 48,\n                                \"uom_id\": 4,\n                                \"created_date\": \"2023-09-04T12:32:07.422Z\",\n                                \"updated_date\": \"2023-09-04T12:32:07.422Z\",\n                                \"created_by\": null,\n                                \"updated_by\": null,\n                                \"item_type_id\": 109,\n                                \"brand_id\": 6,\n                                \"rate\": 340,\n                                \"is_delete\": false,\n                                \"uom\": {\n                                    \"name\": \"Meter\"\n                                }\n                            }\n                        }\n                    ]\n                }\n            ]\n        },\n        {\n            \"purchase_order_id\": 139,\n            \"purchase_order_type\": \"Head Office\",\n            \"indent_request_id\": null,\n            \"purchase_request_id\": 205,\n            \"vendor_id\": 8,\n            \"order_date\": \"2023-10-28T00:00:00.000Z\",\n            \"order_id\": \"PO2023004210\",\n            \"status\": \"Product Received\",\n            \"total_cost\": 13900,\n            \"order_remark\": \"Order Requested\",\n            \"purchase_order_documents\": [],\n            \"purchase_order_details\": null,\n            \"payment_mode\": null,\n            \"payment_date\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-28T12:08:16.482Z\",\n            \"updated_date\": \"2023-11-01T15:05:17.987Z\",\n            \"created_by\": null,\n            \"updated_by\": 1,\n            \"purchase_request_data\": {\n                \"purchase_request_id\": 205,\n                \"purchase_request_code\": \"PUR202300182\",\n                \"indent_request_id\": 122,\n                \"requester_user_id\": 1,\n                \"request_date\": \"2023-10-28T00:00:00.000Z\",\n                \"status\": \"Approved\",\n                \"vendor_selection_method\": null,\n                \"project_id\": 195,\n                \"site_id\": 36,\n                \"selected_vendor_id\": 8,\n                \"total_cost\": 13900,\n                \"purchase_request_documents\": [],\n                \"is_delete\": false,\n                \"created_date\": \"2023-10-28T12:07:13.546Z\",\n                \"updated_date\": \"2023-10-28T12:08:04.552Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"indent_request_data\": {\n                    \"indent_request_id\": 122,\n                    \"indent_request_code\": \"IND20230071\",\n                    \"project_id\": 195,\n                    \"site_id\": 36,\n                    \"requester_user_id\": 1,\n                    \"requested_date\": \"2023-10-24T00:00:00.000Z\",\n                    \"request_status\": \"\",\n                    \"priority\": \"Medium\",\n                    \"description\": \"Indent Description\",\n                    \"expected_delivery_date\": \"2023-11-09T00:00:00.000Z\",\n                    \"total_cost\": 5800,\n                    \"approver_user_id\": 102,\n                    \"approver_status\": \"Converted To PO\",\n                    \"approved_date\": \"2023-10-26T00:00:00.000Z\",\n                    \"rejected_date\": null,\n                    \"approver_comments\": null,\n                    \"request_type\": \"Local Purchase\",\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-10-24T12:43:52.631Z\",\n                    \"updated_date\": \"2023-11-01T05:26:52.139Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": 102,\n                    \"requester_user_data\": {\n                        \"first_name\": \"Vijay\",\n                        \"last_name\": \"Perumalsamy\",\n                        \"contact_no\": \"8667604201\",\n                        \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n                    },\n                    \"approver_user_data\": {\n                        \"first_name\": \"Deepan\",\n                        \"last_name\": \"Raj\",\n                        \"contact_no\": \"9876543210\",\n                        \"email_id\": \"planningengineer@aalamsoft.com\"\n                    }\n                },\n                \"project_data\": {\n                    \"project_id\": 195,\n                    \"project_name\": \"CPS water treatment project\",\n                    \"description\": \"CPS water treatment project\",\n                    \"user_id\": 97,\n                    \"date_started\": \"2023-10-17T00:00:00.000Z\",\n                    \"date_ended\": \"2024-03-15T00:00:00.000Z\",\n                    \"status\": \"Inprogress\",\n                    \"client_id\": 41,\n                    \"project_documents\": [\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/CPS-WTP-11/file-1698584113728-680336535-HSN sample.csv\",\n                            \"index\": 0,\n                            \"is_delete\": \"N\"\n                        },\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/CPS-WTP-11/file-1698584113734-331163114-data (1).csv\",\n                            \"index\": 0,\n                            \"is_delete\": \"N\"\n                        }\n                    ],\n                    \"created_date\": \"2023-10-17T13:08:26.580Z\",\n                    \"updated_date\": \"2023-10-29T12:55:15.645Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null,\n                    \"is_delete\": false,\n                    \"project_notes\": \"\",\n                    \"project_type\": \"Water Treatment Plan\",\n                    \"code\": \"CPS-WTP-11\",\n                    \"estimated_budget\": 75000,\n                    \"actual_budget\": 60000,\n                    \"approvar_id\": 102\n                },\n                \"site_data\": {\n                    \"site_contractor_id\": 36,\n                    \"name\": \"T Nagar\",\n                    \"type\": \"Site\",\n                    \"mobile_number\": \"\",\n                    \"contact_number\": \"\",\n                    \"address\": {\n                        \"street\": \"\",\n                        \"city\": \"\",\n                        \"state\": \"\",\n                        \"pin_code\": \"\",\n                        \"country\": \"\"\n                    },\n                    \"description\": \"\",\n                    \"created_date\": \"2023-10-02T07:33:00.117Z\",\n                    \"updated_date\": \"2023-10-02T07:33:00.117Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null,\n                    \"is_delete\": false,\n                    \"code\": \"CITNR\"\n                },\n                \"selected_vendor_data\": {\n                    \"vendor_id\": 8,\n                    \"vendor_name\": \"Bharath\",\n                    \"contact_person\": \"Bharath\",\n                    \"contact_email\": \"bharath@gmail.com\",\n                    \"contact_phone_no\": \"9889899889\",\n                    \"address\": {\n                        \"city\": \"Chennai\",\n                        \"state\": \"Tamil Nadu\",\n                        \"street\": \"Elango Nagar\",\n                        \"country\": \"India\",\n                        \"pin_code\": \"656778\"\n                    },\n                    \"tax_id\": \"IN321657\",\n                    \"payment_terms\": \"Payment terms\",\n                    \"preferred_payment_method_id\": 98,\n                    \"bank_account_details\": {\n                        \"bank_name\": \"State Bank of India\",\n                        \"ifsc_code\": \"ASAS1212113\",\n                        \"account_no\": \"123456654\",\n                        \"acc_holder_name\": \"Bharath\"\n                    },\n                    \"currency\": \"Dollar\",\n                    \"vendor_category_id\": 102,\n                    \"lead_time\": \"100 days\",\n                    \"minimum_order_quantity\": 250,\n                    \"notes\": \"Other details notes\",\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-08T12:58:38.508Z\",\n                    \"updated_date\": \"2023-09-08T13:03:46.848Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": null\n                },\n                \"requester_user_data\": {\n                    \"first_name\": \"Vijay\",\n                    \"last_name\": \"Perumalsamy\",\n                    \"contact_no\": \"8667604201\",\n                    \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n                },\n                \"purchase_request_quotation_details\": [\n                    {\n                        \"purchase_request_quotation_details_id\": 5,\n                        \"purchase_request_id\": 205,\n                        \"item_id\": 216,\n                        \"indent_request_details_id\": 236,\n                        \"indent_requested_quantity\": 30,\n                        \"purchase_requested_quantity\": 30,\n                        \"unit_cost\": 0,\n                        \"total_cost\": 0,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-10-28T12:08:05.113Z\",\n                        \"updated_date\": \"2023-10-28T12:08:05.113Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"item_data\": {\n                            \"item_id\": 216,\n                            \"item_name\": \"Plumbing Tapes\",\n                            \"description\": \"Sealing and insulation tape\",\n                            \"hsn_code_id\": 361,\n                            \"gst_id\": 48,\n                            \"uom_id\": 58,\n                            \"created_date\": \"2023-09-26T14:48:33.674Z\",\n                            \"updated_date\": \"2023-09-26T14:48:33.674Z\",\n                            \"created_by\": null,\n                            \"updated_by\": null,\n                            \"item_type_id\": 109,\n                            \"brand_id\": 1,\n                            \"rate\": 10,\n                            \"is_delete\": false,\n                            \"uom\": {\n                                \"uom_id\": 58,\n                                \"name\": \"Each\",\n                                \"description\": \"Individuals\",\n                                \"created_date\": \"2023-09-26T13:46:59.091Z\",\n                                \"updated_date\": \"2023-09-26T13:46:59.091Z\",\n                                \"created_by\": null,\n                                \"updated_by\": null,\n                                \"uom_type\": \"RAWMT\",\n                                \"is_delete\": false\n                            }\n                        }\n                    },\n                    {\n                        \"purchase_request_quotation_details_id\": 6,\n                        \"purchase_request_id\": 205,\n                        \"item_id\": 166,\n                        \"indent_request_details_id\": 235,\n                        \"indent_requested_quantity\": 15,\n                        \"purchase_requested_quantity\": 15,\n                        \"unit_cost\": 0,\n                        \"total_cost\": 0,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-10-28T12:08:05.289Z\",\n                        \"updated_date\": \"2023-10-28T12:08:05.289Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"item_data\": {\n                            \"item_id\": 166,\n                            \"item_name\": \"Pipe\",\n                            \"description\": \"water pipes\",\n                            \"hsn_code_id\": 367,\n                            \"gst_id\": 48,\n                            \"uom_id\": 4,\n                            \"created_date\": \"2023-09-04T12:32:07.422Z\",\n                            \"updated_date\": \"2023-09-04T12:32:07.422Z\",\n                            \"created_by\": null,\n                            \"updated_by\": null,\n                            \"item_type_id\": 109,\n                            \"brand_id\": 6,\n                            \"rate\": 340,\n                            \"is_delete\": false,\n                            \"uom\": {\n                                \"uom_id\": 4,\n                                \"name\": \"Meter\",\n                                \"description\": \"Unit length measurement\",\n                                \"created_date\": \"2023-07-18T07:15:09.336Z\",\n                                \"updated_date\": \"2023-08-23T23:53:09.931Z\",\n                                \"created_by\": null,\n                                \"updated_by\": null,\n                                \"uom_type\": \"RAWMT\",\n                                \"is_delete\": false\n                            }\n                        }\n                    },\n                    {\n                        \"purchase_request_quotation_details_id\": 7,\n                        \"purchase_request_id\": 205,\n                        \"item_id\": 215,\n                        \"indent_request_details_id\": 240,\n                        \"indent_requested_quantity\": 2,\n                        \"purchase_requested_quantity\": 2,\n                        \"unit_cost\": 0,\n                        \"total_cost\": 0,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-10-28T12:08:05.379Z\",\n                        \"updated_date\": \"2023-10-28T12:08:05.379Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"item_data\": {\n                            \"item_id\": 215,\n                            \"item_name\": \"Bitumen \",\n                            \"description\": \"Material for road construction\",\n                            \"hsn_code_id\": 361,\n                            \"gst_id\": 48,\n                            \"uom_id\": 62,\n                            \"created_date\": \"2023-09-26T14:45:16.994Z\",\n                            \"updated_date\": \"2023-09-26T14:45:16.994Z\",\n                            \"created_by\": null,\n                            \"updated_by\": null,\n                            \"item_type_id\": 108,\n                            \"brand_id\": 1,\n                            \"rate\": 2000,\n                            \"is_delete\": false,\n                            \"uom\": {\n                                \"uom_id\": 62,\n                                \"name\": \"Ton\",\n                                \"description\": \"For Huge things\",\n                                \"created_date\": \"2023-09-26T14:44:23.283Z\",\n                                \"updated_date\": \"2023-10-18T11:33:26.037Z\",\n                                \"created_by\": null,\n                                \"updated_by\": null,\n                                \"uom_type\": \"RAWMT\",\n                                \"is_delete\": false\n                            }\n                        }\n                    }\n                ]\n            },\n            \"vendor_data\": {\n                \"vendor_id\": 8,\n                \"vendor_name\": \"Bharath\",\n                \"contact_person\": \"Bharath\",\n                \"contact_email\": \"bharath@gmail.com\",\n                \"contact_phone_no\": \"9889899889\",\n                \"address\": {\n                    \"city\": \"Chennai\",\n                    \"state\": \"Tamil Nadu\",\n                    \"street\": \"Elango Nagar\",\n                    \"country\": \"India\",\n                    \"pin_code\": \"656778\"\n                },\n                \"tax_id\": \"IN321657\",\n                \"payment_terms\": \"Payment terms\",\n                \"preferred_payment_method_id\": 98,\n                \"bank_account_details\": {\n                    \"bank_name\": \"State Bank of India\",\n                    \"ifsc_code\": \"ASAS1212113\",\n                    \"account_no\": \"123456654\",\n                    \"acc_holder_name\": \"Bharath\"\n                },\n                \"currency\": \"Dollar\",\n                \"vendor_category_id\": 102,\n                \"lead_time\": \"100 days\",\n                \"minimum_order_quantity\": 250,\n                \"notes\": \"Other details notes\",\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-08T12:58:38.508Z\",\n                \"updated_date\": \"2023-09-08T13:03:46.848Z\",\n                \"created_by\": 1,\n                \"updated_by\": null\n            },\n            \"indent_request_data\": null,\n            \"grn\": []\n        },\n        {\n            \"purchase_order_id\": 144,\n            \"purchase_order_type\": \"Head Office\",\n            \"indent_request_id\": null,\n            \"purchase_request_id\": 282,\n            \"vendor_id\": 11,\n            \"order_date\": \"2023-10-31T00:00:00.000Z\",\n            \"order_id\": \"PO2023004215\",\n            \"status\": \"Processing\",\n            \"total_cost\": 5200,\n            \"order_remark\": \"Order Requested\",\n            \"purchase_order_documents\": null,\n            \"purchase_order_details\": null,\n            \"payment_mode\": null,\n            \"payment_date\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-10-31T04:26:55.348Z\",\n            \"updated_date\": \"2023-10-31T04:26:55.348Z\",\n            \"created_by\": null,\n            \"updated_by\": null,\n            \"purchase_request_data\": {\n                \"purchase_request_id\": 282,\n                \"purchase_request_code\": \"PUR202300263\",\n                \"indent_request_id\": 133,\n                \"requester_user_id\": 1,\n                \"request_date\": \"2023-10-31T00:00:00.000Z\",\n                \"status\": \"Approved\",\n                \"vendor_selection_method\": null,\n                \"project_id\": 195,\n                \"site_id\": 36,\n                \"selected_vendor_id\": 11,\n                \"total_cost\": 5200,\n                \"purchase_request_documents\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PR282/file-1698726386612-361365437-12th.pdf\",\n                        \"index\": 0,\n                        \"is_delete\": \"N\"\n                    }\n                ],\n                \"is_delete\": false,\n                \"created_date\": \"2023-10-31T04:24:40.604Z\",\n                \"updated_date\": \"2023-10-31T04:26:42.935Z\",\n                \"created_by\": null,\n                \"updated_by\": 1,\n                \"indent_request_data\": {\n                    \"indent_request_id\": 133,\n                    \"indent_request_code\": \"IND202300106\",\n                    \"project_id\": 195,\n                    \"site_id\": 36,\n                    \"requester_user_id\": 1,\n                    \"requested_date\": \"2023-10-30T00:00:00.000Z\",\n                    \"request_status\": \"Draft\",\n                    \"priority\": \"Medium\",\n                    \"description\": \"Hi\",\n                    \"expected_delivery_date\": \"2023-11-01T00:00:00.000Z\",\n                    \"total_cost\": 24200,\n                    \"approver_user_id\": 102,\n                    \"approver_status\": \"Converted To PO\",\n                    \"approved_date\": \"2023-10-30T00:00:00.000Z\",\n                    \"rejected_date\": null,\n                    \"approver_comments\": null,\n                    \"request_type\": \"Head Office\",\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-10-30T06:09:39.406Z\",\n                    \"updated_date\": \"2023-11-01T04:56:42.145Z\",\n                    \"created_by\": 1,\n                    \"updated_by\": 102,\n                    \"requester_user_data\": {\n                        \"first_name\": \"Vijay\",\n                        \"last_name\": \"Perumalsamy\",\n                        \"contact_no\": \"8667604201\",\n                        \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n                    },\n                    \"approver_user_data\": {\n                        \"first_name\": \"Deepan\",\n                        \"last_name\": \"Raj\",\n                        \"contact_no\": \"9876543210\",\n                        \"email_id\": \"planningengineer@aalamsoft.com\"\n                    }\n                },\n                \"project_data\": {\n                    \"project_id\": 195,\n                    \"project_name\": \"CPS water treatment project\",\n                    \"description\": \"CPS water treatment project\",\n                    \"user_id\": 97,\n                    \"date_started\": \"2023-10-17T00:00:00.000Z\",\n                    \"date_ended\": \"2024-03-15T00:00:00.000Z\",\n                    \"status\": \"Inprogress\",\n                    \"client_id\": 41,\n                    \"project_documents\": [\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/CPS-WTP-11/file-1698584113728-680336535-HSN sample.csv\",\n                            \"index\": 0,\n                            \"is_delete\": \"N\"\n                        },\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/CPS-WTP-11/file-1698584113734-331163114-data (1).csv\",\n                            \"index\": 0,\n                            \"is_delete\": \"N\"\n                        }\n                    ],\n                    \"created_date\": \"2023-10-17T13:08:26.580Z\",\n                    \"updated_date\": \"2023-10-29T12:55:15.645Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null,\n                    \"is_delete\": false,\n                    \"project_notes\": \"\",\n                    \"project_type\": \"Water Treatment Plan\",\n                    \"code\": \"CPS-WTP-11\",\n                    \"estimated_budget\": 75000,\n                    \"actual_budget\": 60000,\n                    \"approvar_id\": 102\n                },\n                \"site_data\": {\n                    \"site_contractor_id\": 36,\n                    \"name\": \"T Nagar\",\n                    \"type\": \"Site\",\n                    \"mobile_number\": \"\",\n                    \"contact_number\": \"\",\n                    \"address\": {\n                        \"street\": \"\",\n                        \"city\": \"\",\n                        \"state\": \"\",\n                        \"pin_code\": \"\",\n                        \"country\": \"\"\n                    },\n                    \"description\": \"\",\n                    \"created_date\": \"2023-10-02T07:33:00.117Z\",\n                    \"updated_date\": \"2023-10-02T07:33:00.117Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null,\n                    \"is_delete\": false,\n                    \"code\": \"CITNR\"\n                },\n                \"selected_vendor_data\": {\n                    \"vendor_id\": 11,\n                    \"vendor_name\": \"Agn TMT\",\n                    \"contact_person\": \"Vijay Perumalsamy\",\n                    \"contact_email\": \"vijay.perumalsamy@aalamsoft.com\",\n                    \"contact_phone_no\": \"+91 8776881092\",\n                    \"address\": {\n                        \"city\": \"Chennai\",\n                        \"state\": \"Tamilnadu\",\n                        \"street\": \"12, Eswari Ammal Street\",\n                        \"country\": \"India\",\n                        \"postal_code\": \"638000\"\n                    },\n                    \"tax_id\": \"IN123456789\",\n                    \"payment_terms\": \"Net 30 Days\",\n                    \"preferred_payment_method_id\": 98,\n                    \"bank_account_details\": {\n                        \"bank_name\": \"HDFC\",\n                        \"ifsc_code\": \"HDFC0001999\",\n                        \"account_number\": \"1085484420784146\"\n                    },\n                    \"currency\": \"INR\",\n                    \"vendor_category_id\": 101,\n                    \"lead_time\": \"10 days\",\n                    \"minimum_order_quantity\": 100,\n                    \"notes\": \"Supplier of raw materials\",\n                    \"is_delete\": false,\n                    \"created_date\": \"2023-09-22T07:22:54.577Z\",\n                    \"updated_date\": \"2023-09-22T07:22:54.577Z\",\n                    \"created_by\": null,\n                    \"updated_by\": null\n                },\n                \"requester_user_data\": {\n                    \"first_name\": \"Vijay\",\n                    \"last_name\": \"Perumalsamy\",\n                    \"contact_no\": \"8667604201\",\n                    \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n                },\n                \"purchase_request_quotation_details\": [\n                    {\n                        \"purchase_request_quotation_details_id\": 30,\n                        \"purchase_request_id\": 282,\n                        \"item_id\": 198,\n                        \"indent_request_details_id\": 315,\n                        \"indent_requested_quantity\": 10,\n                        \"purchase_requested_quantity\": 10,\n                        \"unit_cost\": 300,\n                        \"total_cost\": 3000,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-10-31T04:26:43.128Z\",\n                        \"updated_date\": \"2023-10-31T04:26:43.128Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"item_data\": {\n                            \"item_id\": 198,\n                            \"item_name\": \"Aggregates \",\n                            \"description\": \"Crushed stone for concrete\",\n                            \"hsn_code_id\": 2173,\n                            \"gst_id\": 48,\n                            \"uom_id\": 54,\n                            \"created_date\": \"2023-09-26T14:16:58.033Z\",\n                            \"updated_date\": \"2023-09-26T14:16:58.033Z\",\n                            \"created_by\": null,\n                            \"updated_by\": null,\n                            \"item_type_id\": 108,\n                            \"brand_id\": 1,\n                            \"rate\": 2000,\n                            \"is_delete\": false,\n                            \"uom\": {\n                                \"uom_id\": 54,\n                                \"name\": \"Cubic Meter\",\n                                \"description\": \"Cubic Meter for things like Gravel\",\n                                \"created_date\": \"2023-09-26T13:32:04.119Z\",\n                                \"updated_date\": \"2023-09-26T13:32:04.119Z\",\n                                \"created_by\": null,\n                                \"updated_by\": null,\n                                \"uom_type\": \"RAWMT\",\n                                \"is_delete\": false\n                            }\n                        }\n                    },\n                    {\n                        \"purchase_request_quotation_details_id\": 31,\n                        \"purchase_request_id\": 282,\n                        \"item_id\": 248,\n                        \"indent_request_details_id\": 313,\n                        \"indent_requested_quantity\": 10,\n                        \"purchase_requested_quantity\": 10,\n                        \"unit_cost\": 200,\n                        \"total_cost\": 2000,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-10-31T04:26:43.214Z\",\n                        \"updated_date\": \"2023-10-31T04:26:43.214Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"item_data\": {\n                            \"item_id\": 248,\n                            \"item_name\": \"Scum Removal\",\n                            \"description\": \"Scum Removal description\",\n                            \"hsn_code_id\": 5917,\n                            \"gst_id\": 50,\n                            \"uom_id\": 61,\n                            \"created_date\": \"2023-10-26T13:43:30.754Z\",\n                            \"updated_date\": \"2023-10-26T13:48:56.813Z\",\n                            \"created_by\": null,\n                            \"updated_by\": null,\n                            \"item_type_id\": 109,\n                            \"brand_id\": 1,\n                            \"rate\": 400,\n                            \"is_delete\": false,\n                            \"uom\": {\n                                \"uom_id\": 61,\n                                \"name\": \"Liter\",\n                                \"description\": \"To measure liquids\",\n                                \"created_date\": \"2023-09-26T14:23:07.810Z\",\n                                \"updated_date\": \"2023-09-26T14:23:07.810Z\",\n                                \"created_by\": null,\n                                \"updated_by\": null,\n                                \"uom_type\": \"RAWMT\",\n                                \"is_delete\": false\n                            }\n                        }\n                    },\n                    {\n                        \"purchase_request_quotation_details_id\": 32,\n                        \"purchase_request_id\": 282,\n                        \"item_id\": 216,\n                        \"indent_request_details_id\": 314,\n                        \"indent_requested_quantity\": 20,\n                        \"purchase_requested_quantity\": 20,\n                        \"unit_cost\": 10,\n                        \"total_cost\": 200,\n                        \"is_delete\": false,\n                        \"created_date\": \"2023-10-31T04:26:43.256Z\",\n                        \"updated_date\": \"2023-10-31T04:26:43.256Z\",\n                        \"created_by\": 1,\n                        \"updated_by\": null,\n                        \"item_data\": {\n                            \"item_id\": 216,\n                            \"item_name\": \"Plumbing Tapes\",\n                            \"description\": \"Sealing and insulation tape\",\n                            \"hsn_code_id\": 361,\n                            \"gst_id\": 48,\n                            \"uom_id\": 58,\n                            \"created_date\": \"2023-09-26T14:48:33.674Z\",\n                            \"updated_date\": \"2023-09-26T14:48:33.674Z\",\n                            \"created_by\": null,\n                            \"updated_by\": null,\n                            \"item_type_id\": 109,\n                            \"brand_id\": 1,\n                            \"rate\": 10,\n                            \"is_delete\": false,\n                            \"uom\": {\n                                \"uom_id\": 58,\n                                \"name\": \"Each\",\n                                \"description\": \"Individuals\",\n                                \"created_date\": \"2023-09-26T13:46:59.091Z\",\n                                \"updated_date\": \"2023-09-26T13:46:59.091Z\",\n                                \"created_by\": null,\n                                \"updated_by\": null,\n                                \"uom_type\": \"RAWMT\",\n                                \"is_delete\": false\n                            }\n                        }\n                    }\n                ]\n            },\n            \"vendor_data\": {\n                \"vendor_id\": 11,\n                \"vendor_name\": \"Agn TMT\",\n                \"contact_person\": \"Vijay Perumalsamy\",\n                \"contact_email\": \"vijay.perumalsamy@aalamsoft.com\",\n                \"contact_phone_no\": \"+91 8776881092\",\n                \"address\": {\n                    \"city\": \"Chennai\",\n                    \"state\": \"Tamilnadu\",\n                    \"street\": \"12, Eswari Ammal Street\",\n                    \"country\": \"India\",\n                    \"postal_code\": \"638000\"\n                },\n                \"tax_id\": \"IN123456789\",\n                \"payment_terms\": \"Net 30 Days\",\n                \"preferred_payment_method_id\": 98,\n                \"bank_account_details\": {\n                    \"bank_name\": \"HDFC\",\n                    \"ifsc_code\": \"HDFC0001999\",\n                    \"account_number\": \"1085484420784146\"\n                },\n                \"currency\": \"INR\",\n                \"vendor_category_id\": 101,\n                \"lead_time\": \"10 days\",\n                \"minimum_order_quantity\": 100,\n                \"notes\": \"Supplier of raw materials\",\n                \"is_delete\": false,\n                \"created_date\": \"2023-09-22T07:22:54.577Z\",\n                \"updated_date\": \"2023-09-22T07:22:54.577Z\",\n                \"created_by\": null,\n                \"updated_by\": null\n            },\n            \"indent_request_data\": null,\n            \"grn\": [\n                {\n                    \"grn_id\": 68,\n                    \"project_id\": 195,\n                    \"purchase_order_id\": 144,\n                    \"goods_received_by\": 1,\n                    \"goods_received_date\": \"2023-11-02T00:00:00.000Z\",\n                    \"invoice_id\": \"dsd\",\n                    \"invoice_amount\": null,\n                    \"notes\": \"dsds\",\n                    \"bill_details\": [\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/INVOICE/file-1698907119228-527755513-six.pdf\",\n                            \"index\": 0,\n                            \"is_delete\": \"N\"\n                        }\n                    ],\n                    \"grn_status\": \"Pending\",\n                    \"created_date\": \"2023-11-02T06:38:41.956Z\",\n                    \"created_by\": 1,\n                    \"grn_details\": [\n                        {\n                            \"grn_details_id\": 163,\n                            \"grn_id\": 68,\n                            \"item_id\": 216,\n                            \"received_quantity\": null,\n                            \"accepted_quantity\": null,\n                            \"rejected_quantity\": 0,\n                            \"notes\": null,\n                            \"created_date\": \"2023-11-02T06:38:41.934Z\",\n                            \"created_by\": 1,\n                            \"item_data\": {\n                                \"item_id\": 216,\n                                \"item_name\": \"Plumbing Tapes\",\n                                \"description\": \"Sealing and insulation tape\",\n                                \"hsn_code_id\": 361,\n                                \"gst_id\": 48,\n                                \"uom_id\": 58,\n                                \"created_date\": \"2023-09-26T14:48:33.674Z\",\n                                \"updated_date\": \"2023-09-26T14:48:33.674Z\",\n                                \"created_by\": null,\n                                \"updated_by\": null,\n                                \"item_type_id\": 109,\n                                \"brand_id\": 1,\n                                \"rate\": 10,\n                                \"is_delete\": false,\n                                \"uom\": {\n                                    \"name\": \"Each\"\n                                }\n                            }\n                        },\n                        {\n                            \"grn_details_id\": 164,\n                            \"grn_id\": 68,\n                            \"item_id\": 198,\n                            \"received_quantity\": null,\n                            \"accepted_quantity\": null,\n                            \"rejected_quantity\": 0,\n                            \"notes\": null,\n                            \"created_date\": \"2023-11-02T06:38:41.934Z\",\n                            \"created_by\": 1,\n                            \"item_data\": {\n                                \"item_id\": 198,\n                                \"item_name\": \"Aggregates \",\n                                \"description\": \"Crushed stone for concrete\",\n                                \"hsn_code_id\": 2173,\n                                \"gst_id\": 48,\n                                \"uom_id\": 54,\n                                \"created_date\": \"2023-09-26T14:16:58.033Z\",\n                                \"updated_date\": \"2023-09-26T14:16:58.033Z\",\n                                \"created_by\": null,\n                                \"updated_by\": null,\n                                \"item_type_id\": 108,\n                                \"brand_id\": 1,\n                                \"rate\": 2000,\n                                \"is_delete\": false,\n                                \"uom\": {\n                                    \"name\": \"Cubic Meter\"\n                                }\n                            }\n                        },\n                        {\n                            \"grn_details_id\": 165,\n                            \"grn_id\": 68,\n                            \"item_id\": 248,\n                            \"received_quantity\": null,\n                            \"accepted_quantity\": null,\n                            \"rejected_quantity\": 0,\n                            \"notes\": null,\n                            \"created_date\": \"2023-11-02T06:38:41.934Z\",\n                            \"created_by\": 1,\n                            \"item_data\": {\n                                \"item_id\": 248,\n                                \"item_name\": \"Scum Removal\",\n                                \"description\": \"Scum Removal description\",\n                                \"hsn_code_id\": 5917,\n                                \"gst_id\": 50,\n                                \"uom_id\": 61,\n                                \"created_date\": \"2023-10-26T13:43:30.754Z\",\n                                \"updated_date\": \"2023-10-26T13:48:56.813Z\",\n                                \"created_by\": null,\n                                \"updated_by\": null,\n                                \"item_type_id\": 109,\n                                \"brand_id\": 1,\n                                \"rate\": 400,\n                                \"is_delete\": false,\n                                \"uom\": {\n                                    \"name\": \"Liter\"\n                                }\n                            }\n                        }\n                    ]\n                },\n                {\n                    \"grn_id\": 123,\n                    \"project_id\": 195,\n                    \"purchase_order_id\": 144,\n                    \"goods_received_by\": 1,\n                    \"goods_received_date\": \"2023-11-02T00:00:00.000Z\",\n                    \"invoice_id\": \"ewew\",\n                    \"invoice_amount\": null,\n                    \"notes\": \"dwds\",\n                    \"bill_details\": [\n                        {\n                            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/INVOICE/file-1698929146265-569643275-one.pdf\",\n                            \"index\": 0,\n                            \"is_delete\": \"N\"\n                        }\n                    ],\n                    \"grn_status\": \"Pending\",\n                    \"created_date\": \"2023-11-02T12:45:48.562Z\",\n                    \"created_by\": 1,\n                    \"grn_details\": [\n                        {\n                            \"grn_details_id\": 346,\n                            \"grn_id\": 123,\n                            \"item_id\": 216,\n                            \"received_quantity\": 2,\n                            \"accepted_quantity\": 2,\n                            \"rejected_quantity\": 0,\n                            \"notes\": null,\n                            \"created_date\": \"2023-11-02T12:45:48.544Z\",\n                            \"created_by\": 1,\n                            \"item_data\": {\n                                \"item_id\": 216,\n                                \"item_name\": \"Plumbing Tapes\",\n                                \"description\": \"Sealing and insulation tape\",\n                                \"hsn_code_id\": 361,\n                                \"gst_id\": 48,\n                                \"uom_id\": 58,\n                                \"created_date\": \"2023-09-26T14:48:33.674Z\",\n                                \"updated_date\": \"2023-09-26T14:48:33.674Z\",\n                                \"created_by\": null,\n                                \"updated_by\": null,\n                                \"item_type_id\": 109,\n                                \"brand_id\": 1,\n                                \"rate\": 10,\n                                \"is_delete\": false,\n                                \"uom\": {\n                                    \"name\": \"Each\"\n                                }\n                            }\n                        },\n                        {\n                            \"grn_details_id\": 347,\n                            \"grn_id\": 123,\n                            \"item_id\": 198,\n                            \"received_quantity\": 1,\n                            \"accepted_quantity\": 1,\n                            \"rejected_quantity\": 0,\n                            \"notes\": null,\n                            \"created_date\": \"2023-11-02T12:45:48.544Z\",\n                            \"created_by\": 1,\n                            \"item_data\": {\n                                \"item_id\": 198,\n                                \"item_name\": \"Aggregates \",\n                                \"description\": \"Crushed stone for concrete\",\n                                \"hsn_code_id\": 2173,\n                                \"gst_id\": 48,\n                                \"uom_id\": 54,\n                                \"created_date\": \"2023-09-26T14:16:58.033Z\",\n                                \"updated_date\": \"2023-09-26T14:16:58.033Z\",\n                                \"created_by\": null,\n                                \"updated_by\": null,\n                                \"item_type_id\": 108,\n                                \"brand_id\": 1,\n                                \"rate\": 2000,\n                                \"is_delete\": false,\n                                \"uom\": {\n                                    \"name\": \"Cubic Meter\"\n                                }\n                            }\n                        },\n                        {\n                            \"grn_details_id\": 348,\n                            \"grn_id\": 123,\n                            \"item_id\": 248,\n                            \"received_quantity\": 1,\n                            \"accepted_quantity\": 1,\n                            \"rejected_quantity\": 0,\n                            \"notes\": null,\n                            \"created_date\": \"2023-11-02T12:45:48.544Z\",\n                            \"created_by\": 1,\n                            \"item_data\": {\n                                \"item_id\": 248,\n                                \"item_name\": \"Scum Removal\",\n                                \"description\": \"Scum Removal description\",\n                                \"hsn_code_id\": 5917,\n                                \"gst_id\": 50,\n                                \"uom_id\": 61,\n                                \"created_date\": \"2023-10-26T13:43:30.754Z\",\n                                \"updated_date\": \"2023-10-26T13:48:56.813Z\",\n                                \"created_by\": null,\n                                \"updated_by\": null,\n                                \"item_type_id\": 109,\n                                \"brand_id\": 1,\n                                \"rate\": 400,\n                                \"is_delete\": false,\n                                \"uom\": {\n                                    \"name\": \"Liter\"\n                                }\n                            }\n                        }\n                    ]\n                }\n            ]\n        }\n    ]\n}"
+						}
+					]
 				}
 			]
 		},
@@ -32589,7 +32706,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"purchase_order_id\": 163,\r\n    \"goods_received_by\": 1,\r\n    \"goods_received_date\": \"2023-10-31\",\r\n    \"invoice_id\": \"APVSRI20231124\",\r\n    \"invoice_amount\": 35000,\r\n    \"notes\": \"Goods Delivered on Nov 01\",\r\n    \"bill_details\": [\r\n        {\r\n            \"index\": 0,\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n        }\r\n    ],\r\n    \"grn_status\": \"Pending\",\r\n    \"created_by\": 1,\r\n    \"purchase_order_type\": \"Local Purchase\",\r\n    \"grn_details\": [\r\n        {\r\n            \"item_id\": 170,\r\n            \"previously_received_quantity\": 10,\r\n            \"currently_received_quantity\": 5,\r\n            \"notes\": \"All Are Received\",\r\n            \"purchase_order_item_id\": 326,\r\n            \"order_quantity\": 30,\r\n            \"unit_price\": 1000\r\n        },\r\n        {\r\n            \"item_id\": 177,\r\n            \"previously_received_quantity\": 10,\r\n            \"currently_received_quantity\": 5,\r\n            \"notes\": \"All Are Received\",\r\n            \"purchase_order_item_id\": 327,\r\n            \"order_quantity\": 27,\r\n            \"unit_price\": 1200\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"project_id\": 137,\r\n    \"site_id\": 17,\r\n    \"purchase_order_id\": 163,\r\n    \"goods_received_by\": 1,\r\n    \"goods_received_date\": \"2023-10-31\",\r\n    \"invoice_id\": \"APVSRI20231124\",\r\n    \"invoice_amount\": 35000,\r\n    \"notes\": \"Goods Delivered on Nov 01\",\r\n    \"is_product_received\": true,\r\n    \"bill_details\": [\r\n        {\r\n            \"index\": 0,\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\"\r\n        }\r\n    ],\r\n    \"grn_status\": \"Pending\",\r\n    \"created_by\": 1,\r\n    \"purchase_order_type\": \"Local Purchase\",\r\n    \"grn_details\": [\r\n        {\r\n            \"item_id\": 170,\r\n            \"previously_received_quantity\": 10,\r\n            \"currently_received_quantity\": 5,\r\n            \"notes\": \"All Are Received\",\r\n            \"purchase_order_item_id\": 326,\r\n            \"order_quantity\": 30,\r\n            \"unit_price\": 1000\r\n        },\r\n        {\r\n            \"item_id\": 177,\r\n            \"previously_received_quantity\": 10,\r\n            \"currently_received_quantity\": 5,\r\n            \"notes\": \"All Are Received\",\r\n            \"purchase_order_item_id\": 327,\r\n            \"order_quantity\": 27,\r\n            \"unit_price\": 1200\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -33618,6 +33735,764 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"notification_id\": 1,\n            \"notification_from_user_id\": 62,\n            \"notification_to_user_id\": 1,\n            \"notification_type_id\": 141,\n            \"notification_type\": \"Indent-Request\",\n            \"notification_description\": \"Indent Requested for Approval\",\n            \"is_read\": true,\n            \"created_date\": \"2023-11-02T12:18:42.003Z\",\n            \"updated_date\": \"2023-11-02T12:18:42.003Z\",\n            \"created_by\": \"62\",\n            \"updated_by\": null\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Purchase Order Invoice",
+			"item": [
+				{
+					"name": "API To Create Purchase Order Invoice",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"purchase_order_id\": 163,\r\n    \"grn_id\": 173,\r\n    \"requested_by\": 1,\r\n    \"invoice_number\": \"APVSRI20231124\",\r\n    \"invoice_document\": [\r\n        {\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\r\n            \"index\": 0\r\n        }\r\n    ],\r\n    \"invoice_date\": \"2023-11-06\",\r\n    \"due_date\": \"2023-11-24\",\r\n    \"status\": \"To Be Paid\",\r\n    \"total_amount\": 108500,\r\n    \"created_by\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/purchase-order-invoice/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"purchase-order-invoice",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Create Purchase Order Invoice",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"purchase_order_id\": 163,\r\n    \"grn_id\": 173,\r\n    \"requested_by\": 1,\r\n    \"invoice_number\": \"APVSRI20231124\",\r\n    \"invoice_document\": [\r\n        {\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\r\n            \"index\": 0\r\n        }\r\n    ],\r\n    \"invoice_date\": \"2023-11-06\",\r\n    \"due_date\": \"2023-11-24\",\r\n    \"status\": \"To Be Paid\",\r\n    \"total_amount\": 108500,\r\n    \"created_by\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/api/purchase-order-invoice/",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"purchase-order-invoice",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "631"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"277-ayaqIVErKQzxIhGeMcVUmh4NMsU\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 06 Nov 2023 13:25:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"purchase_order_invoice_id\": 1,\n        \"purchase_order_id\": 163,\n        \"grn_id\": 173,\n        \"invoice_number\": \"APVSRI20231124\",\n        \"invoice_document\": [\n            {\n                \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                \"index\": 0\n            }\n        ],\n        \"requested_by\": 1,\n        \"invoice_date\": \"2023-11-06T00:00:00.000Z\",\n        \"due_date\": \"2023-11-24T00:00:00.000Z\",\n        \"status\": \"To Be Paid\",\n        \"additional_info\": null,\n        \"total_amount\": 108500,\n        \"paid_by\": null,\n        \"paid_date\": null,\n        \"created_date\": \"2023-11-06T13:25:27.369Z\",\n        \"updated_date\": \"2023-11-06T13:25:27.369Z\",\n        \"created_by\": 1,\n        \"updated_by\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Update Purchase Order Invoice",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"purchase_order_id\": 163,\r\n    \"grn_id\": 173,\r\n    \"requested_by\": 1,\r\n    \"invoice_number\": \"APVSRI20231124\",\r\n    \"invoice_document\": [\r\n        {\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\r\n            \"index\": 0\r\n        }\r\n    ],\r\n    \"invoice_date\": \"2023-11-06\",\r\n    \"due_date\": \"2023-11-24\",\r\n    \"status\": \"Paid\",\r\n    \"total_amount\": 108500,\r\n    \"updated_by\": 1,\r\n    \"purchase_order_invoice_id\": 1,\r\n    \"paid_by\": 1,\r\n    \"paid_date\": \"2023-11-06\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/purchase-order-invoice/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"purchase-order-invoice",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Update Purchase Order Invoice",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"purchase_order_id\": 163,\r\n    \"grn_id\": 173,\r\n    \"requested_by\": 1,\r\n    \"invoice_number\": \"APVSRI20231124\",\r\n    \"invoice_document\": [\r\n        {\r\n            \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\r\n            \"index\": 0\r\n        }\r\n    ],\r\n    \"invoice_date\": \"2023-11-06\",\r\n    \"due_date\": \"2023-11-24\",\r\n    \"status\": \"Paid\",\r\n    \"total_amount\": 108500,\r\n    \"updated_by\": 1,\r\n    \"purchase_order_invoice_id\": 1,\r\n    \"paid_by\": 1,\r\n    \"paid_date\": \"2023-11-06\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/api/purchase-order-invoice/",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"purchase-order-invoice",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "641"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"281-gYaLt+C/icyQvGF+v6e5/pzyN3s\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 06 Nov 2023 13:48:36 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"purchase_order_invoice_id\": 1,\n        \"purchase_order_id\": 163,\n        \"grn_id\": 173,\n        \"invoice_number\": \"APVSRI20231124\",\n        \"invoice_document\": [\n            {\n                \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                \"index\": 0\n            }\n        ],\n        \"requested_by\": 1,\n        \"invoice_date\": \"2023-11-06T00:00:00.000Z\",\n        \"due_date\": \"2023-11-24T00:00:00.000Z\",\n        \"status\": \"Paid\",\n        \"additional_info\": null,\n        \"total_amount\": 108500,\n        \"paid_by\": 1,\n        \"paid_date\": \"2023-11-06T00:00:00.000Z\",\n        \"created_date\": \"2023-11-06T13:48:28.577Z\",\n        \"updated_date\": \"2023-11-06T13:48:36.270Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Get Purchase Order Invoice By Purchase Order Invoice Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/purchase-order-invoice/get/1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"purchase-order-invoice",
+								"get",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Get Purchase Order Invoice By Purchase Order Invoice Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/api/purchase-order-invoice/get/1",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"purchase-order-invoice",
+										"get",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1934"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"78e-++EABJpi/GET5jyWWf5t3BqXpgk\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 06 Nov 2023 13:53:27 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": {\n        \"purchase_order_invoice_id\": 1,\n        \"purchase_order_id\": 163,\n        \"grn_id\": 173,\n        \"invoice_number\": \"APVSRI20231124\",\n        \"invoice_document\": [\n            {\n                \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                \"index\": 0\n            }\n        ],\n        \"requested_by\": 1,\n        \"invoice_date\": \"2023-11-06T00:00:00.000Z\",\n        \"due_date\": \"2023-11-24T00:00:00.000Z\",\n        \"status\": \"Paid\",\n        \"additional_info\": null,\n        \"total_amount\": 108500,\n        \"paid_by\": 1,\n        \"paid_date\": \"2023-11-06T00:00:00.000Z\",\n        \"created_date\": \"2023-11-06T13:48:28.577Z\",\n        \"updated_date\": \"2023-11-06T13:48:36.270Z\",\n        \"created_by\": 1,\n        \"updated_by\": 1,\n        \"purchase_order_data\": {\n            \"purchase_order_id\": 163,\n            \"purchase_order_type\": \"Local Purchase\",\n            \"indent_request_id\": 147,\n            \"purchase_request_id\": null,\n            \"vendor_id\": null,\n            \"order_date\": \"2023-11-01T00:00:00.000Z\",\n            \"order_id\": \"POLP2023004237\",\n            \"status\": \"Product Received\",\n            \"total_cost\": 500.5,\n            \"order_remark\": \"Local Purchase Order\",\n            \"purchase_order_documents\": null,\n            \"purchase_order_details\": null,\n            \"payment_mode\": null,\n            \"payment_date\": null,\n            \"is_delete\": false,\n            \"created_date\": \"2023-11-01T10:20:19.161Z\",\n            \"updated_date\": \"2023-11-06T09:40:13.699Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1\n        },\n        \"grn_data\": {\n            \"grn_id\": 173,\n            \"project_id\": 137,\n            \"purchase_order_id\": 163,\n            \"goods_received_by\": 1,\n            \"goods_received_date\": \"2023-10-31T00:00:00.000Z\",\n            \"invoice_id\": \"APVSRI20231124\",\n            \"invoice_amount\": 35000,\n            \"notes\": \"Goods Delivered on Nov 01\",\n            \"bill_details\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                    \"index\": 0\n                }\n            ],\n            \"grn_status\": \"Pending\",\n            \"created_date\": \"2023-11-06T09:40:12.690Z\",\n            \"created_by\": 1\n        },\n        \"requested_by_data\": {\n            \"first_name\": \"Vijay\",\n            \"last_name\": \"Perumalsamy\",\n            \"contact_no\": \"8667604201\",\n            \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n        },\n        \"paid_by_data\": {\n            \"first_name\": \"Vijay\",\n            \"last_name\": \"Perumalsamy\",\n            \"contact_no\": \"8667604201\",\n            \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Get All Purchase Order Invoice",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/purchase-order-invoice/get-all",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"purchase-order-invoice",
+								"get-all"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Get All Purchase Order Invoice",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/api/purchase-order-invoice/get-all",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"purchase-order-invoice",
+										"get-all"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "3703"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"e77-a7HwWSP+mX1x+lgMwwcdS1oASQg\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 06 Nov 2023 14:00:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"purchase_order_invoice_id\": 1,\n            \"purchase_order_id\": 163,\n            \"grn_id\": 173,\n            \"invoice_number\": \"APVSRI20231124\",\n            \"invoice_document\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                    \"index\": 0\n                }\n            ],\n            \"requested_by\": 1,\n            \"invoice_date\": \"2023-11-06T00:00:00.000Z\",\n            \"due_date\": \"2023-11-24T00:00:00.000Z\",\n            \"status\": \"Paid\",\n            \"additional_info\": null,\n            \"total_amount\": 108500,\n            \"paid_by\": 1,\n            \"paid_date\": \"2023-11-06T00:00:00.000Z\",\n            \"created_date\": \"2023-11-06T13:48:28.577Z\",\n            \"updated_date\": \"2023-11-06T13:48:36.270Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"purchase_order_data\": {\n                \"purchase_order_id\": 163,\n                \"purchase_order_type\": \"Local Purchase\",\n                \"indent_request_id\": 147,\n                \"purchase_request_id\": null,\n                \"vendor_id\": null,\n                \"order_date\": \"2023-11-01T00:00:00.000Z\",\n                \"order_id\": \"POLP2023004237\",\n                \"status\": \"Product Received\",\n                \"total_cost\": 500.5,\n                \"order_remark\": \"Local Purchase Order\",\n                \"purchase_order_documents\": null,\n                \"purchase_order_details\": null,\n                \"payment_mode\": null,\n                \"payment_date\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-11-01T10:20:19.161Z\",\n                \"updated_date\": \"2023-11-06T09:40:13.699Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1\n            },\n            \"grn_data\": {\n                \"grn_id\": 173,\n                \"project_id\": 137,\n                \"purchase_order_id\": 163,\n                \"goods_received_by\": 1,\n                \"goods_received_date\": \"2023-10-31T00:00:00.000Z\",\n                \"invoice_id\": \"APVSRI20231124\",\n                \"invoice_amount\": 35000,\n                \"notes\": \"Goods Delivered on Nov 01\",\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"grn_status\": \"Pending\",\n                \"created_date\": \"2023-11-06T09:40:12.690Z\",\n                \"created_by\": 1\n            },\n            \"requested_by_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\",\n                \"contact_no\": \"8667604201\",\n                \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n            },\n            \"paid_by_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\",\n                \"contact_no\": \"8667604201\",\n                \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n            }\n        },\n        {\n            \"purchase_order_invoice_id\": 2,\n            \"purchase_order_id\": 163,\n            \"grn_id\": 173,\n            \"invoice_number\": \"APVSRI20231124\",\n            \"invoice_document\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                    \"index\": 0\n                }\n            ],\n            \"requested_by\": 1,\n            \"invoice_date\": \"2023-11-06T00:00:00.000Z\",\n            \"due_date\": \"2023-11-24T00:00:00.000Z\",\n            \"status\": \"To Be Paid\",\n            \"additional_info\": null,\n            \"total_amount\": 108500,\n            \"paid_by\": null,\n            \"paid_date\": null,\n            \"created_date\": \"2023-11-06T13:48:33.163Z\",\n            \"updated_date\": \"2023-11-06T13:48:33.163Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"purchase_order_data\": {\n                \"purchase_order_id\": 163,\n                \"purchase_order_type\": \"Local Purchase\",\n                \"indent_request_id\": 147,\n                \"purchase_request_id\": null,\n                \"vendor_id\": null,\n                \"order_date\": \"2023-11-01T00:00:00.000Z\",\n                \"order_id\": \"POLP2023004237\",\n                \"status\": \"Product Received\",\n                \"total_cost\": 500.5,\n                \"order_remark\": \"Local Purchase Order\",\n                \"purchase_order_documents\": null,\n                \"purchase_order_details\": null,\n                \"payment_mode\": null,\n                \"payment_date\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-11-01T10:20:19.161Z\",\n                \"updated_date\": \"2023-11-06T09:40:13.699Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1\n            },\n            \"grn_data\": {\n                \"grn_id\": 173,\n                \"project_id\": 137,\n                \"purchase_order_id\": 163,\n                \"goods_received_by\": 1,\n                \"goods_received_date\": \"2023-10-31T00:00:00.000Z\",\n                \"invoice_id\": \"APVSRI20231124\",\n                \"invoice_amount\": 35000,\n                \"notes\": \"Goods Delivered on Nov 01\",\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"grn_status\": \"Pending\",\n                \"created_date\": \"2023-11-06T09:40:12.690Z\",\n                \"created_by\": 1\n            },\n            \"requested_by_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\",\n                \"contact_no\": \"8667604201\",\n                \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n            },\n            \"paid_by_data\": null\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Get Purchase Order Invoice By Purchase Order Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/purchase-order-invoice/get-by-po-id/163",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"purchase-order-invoice",
+								"get-by-po-id",
+								"163"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Get Purchase Order Invoice By Purchase Order Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/api/purchase-order-invoice/get-by-po-id/163",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"purchase-order-invoice",
+										"get-by-po-id",
+										"163"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "3703"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"e77-a7HwWSP+mX1x+lgMwwcdS1oASQg\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 06 Nov 2023 14:02:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"data\": [\n        {\n            \"purchase_order_invoice_id\": 1,\n            \"purchase_order_id\": 163,\n            \"grn_id\": 173,\n            \"invoice_number\": \"APVSRI20231124\",\n            \"invoice_document\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                    \"index\": 0\n                }\n            ],\n            \"requested_by\": 1,\n            \"invoice_date\": \"2023-11-06T00:00:00.000Z\",\n            \"due_date\": \"2023-11-24T00:00:00.000Z\",\n            \"status\": \"Paid\",\n            \"additional_info\": null,\n            \"total_amount\": 108500,\n            \"paid_by\": 1,\n            \"paid_date\": \"2023-11-06T00:00:00.000Z\",\n            \"created_date\": \"2023-11-06T13:48:28.577Z\",\n            \"updated_date\": \"2023-11-06T13:48:36.270Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"purchase_order_data\": {\n                \"purchase_order_id\": 163,\n                \"purchase_order_type\": \"Local Purchase\",\n                \"indent_request_id\": 147,\n                \"purchase_request_id\": null,\n                \"vendor_id\": null,\n                \"order_date\": \"2023-11-01T00:00:00.000Z\",\n                \"order_id\": \"POLP2023004237\",\n                \"status\": \"Product Received\",\n                \"total_cost\": 500.5,\n                \"order_remark\": \"Local Purchase Order\",\n                \"purchase_order_documents\": null,\n                \"purchase_order_details\": null,\n                \"payment_mode\": null,\n                \"payment_date\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-11-01T10:20:19.161Z\",\n                \"updated_date\": \"2023-11-06T09:40:13.699Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1\n            },\n            \"grn_data\": {\n                \"grn_id\": 173,\n                \"project_id\": 137,\n                \"purchase_order_id\": 163,\n                \"goods_received_by\": 1,\n                \"goods_received_date\": \"2023-10-31T00:00:00.000Z\",\n                \"invoice_id\": \"APVSRI20231124\",\n                \"invoice_amount\": 35000,\n                \"notes\": \"Goods Delivered on Nov 01\",\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"grn_status\": \"Pending\",\n                \"created_date\": \"2023-11-06T09:40:12.690Z\",\n                \"created_by\": 1\n            },\n            \"requested_by_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\",\n                \"contact_no\": \"8667604201\",\n                \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n            },\n            \"paid_by_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\",\n                \"contact_no\": \"8667604201\",\n                \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n            }\n        },\n        {\n            \"purchase_order_invoice_id\": 2,\n            \"purchase_order_id\": 163,\n            \"grn_id\": 173,\n            \"invoice_number\": \"APVSRI20231124\",\n            \"invoice_document\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                    \"index\": 0\n                }\n            ],\n            \"requested_by\": 1,\n            \"invoice_date\": \"2023-11-06T00:00:00.000Z\",\n            \"due_date\": \"2023-11-24T00:00:00.000Z\",\n            \"status\": \"To Be Paid\",\n            \"additional_info\": null,\n            \"total_amount\": 108500,\n            \"paid_by\": null,\n            \"paid_date\": null,\n            \"created_date\": \"2023-11-06T13:48:33.163Z\",\n            \"updated_date\": \"2023-11-06T13:48:33.163Z\",\n            \"created_by\": 1,\n            \"updated_by\": null,\n            \"purchase_order_data\": {\n                \"purchase_order_id\": 163,\n                \"purchase_order_type\": \"Local Purchase\",\n                \"indent_request_id\": 147,\n                \"purchase_request_id\": null,\n                \"vendor_id\": null,\n                \"order_date\": \"2023-11-01T00:00:00.000Z\",\n                \"order_id\": \"POLP2023004237\",\n                \"status\": \"Product Received\",\n                \"total_cost\": 500.5,\n                \"order_remark\": \"Local Purchase Order\",\n                \"purchase_order_documents\": null,\n                \"purchase_order_details\": null,\n                \"payment_mode\": null,\n                \"payment_date\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-11-01T10:20:19.161Z\",\n                \"updated_date\": \"2023-11-06T09:40:13.699Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1\n            },\n            \"grn_data\": {\n                \"grn_id\": 173,\n                \"project_id\": 137,\n                \"purchase_order_id\": 163,\n                \"goods_received_by\": 1,\n                \"goods_received_date\": \"2023-10-31T00:00:00.000Z\",\n                \"invoice_id\": \"APVSRI20231124\",\n                \"invoice_amount\": 35000,\n                \"notes\": \"Goods Delivered on Nov 01\",\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"grn_status\": \"Pending\",\n                \"created_date\": \"2023-11-06T09:40:12.690Z\",\n                \"created_by\": 1\n            },\n            \"requested_by_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\",\n                \"contact_no\": \"8667604201\",\n                \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n            },\n            \"paid_by_data\": null\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Delete Purchase Order Invoice By Purchase Order Invoice Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/purchase-order-invoice/delete/2",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"purchase-order-invoice",
+								"delete",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Delete Purchase Order Invoice By Purchase Order Invoice Id",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{API_URL}}/api/purchase-order-invoice/delete/2",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"purchase-order-invoice",
+										"delete",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "86"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"56-i3SUngZCKQ/Reh/qNWF7Lzx3BiY\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 06 Nov 2023 14:03:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"PurchaseOrderInvoice Data Deleted Successfully\",\n    \"status\": true,\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "API To Search Purchase Order Invoice",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{omni_access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"created_date\",\r\n    \"order_by_direction\": \"asc\",\r\n    \"purchase_order_id\": 163,\r\n    \"global_search\":\"VijAy\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/purchase-order-invoice/search",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"purchase-order-invoice",
+								"search"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "API To Search Purchase Order Invoice",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"limit\": 5,\r\n    \"offset\": 0,\r\n    \"order_by_column\": \"created_date\",\r\n    \"order_by_direction\": \"asc\",\r\n    \"purchase_order_id\": 163,\r\n    \"global_search\":\"VijAy\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{API_URL}}/api/purchase-order-invoice/search",
+									"host": [
+										"{{API_URL}}"
+									],
+									"path": [
+										"api",
+										"purchase-order-invoice",
+										"search"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Origin, X-Requested-With, Content-Type, Accept,Authorization"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1990"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"7c6-/NyWOh42XVqRB1KkajFOFZoSXhc\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 06 Nov 2023 14:16:08 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"success\",\n    \"status\": true,\n    \"total_count\": 1,\n    \"total_page\": 1,\n    \"is_available\": true,\n    \"content\": [\n        {\n            \"purchase_order_invoice_id\": 1,\n            \"purchase_order_id\": 163,\n            \"grn_id\": 173,\n            \"invoice_number\": \"APVSRI20231124\",\n            \"invoice_document\": [\n                {\n                    \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                    \"index\": 0\n                }\n            ],\n            \"requested_by\": 1,\n            \"invoice_date\": \"2023-11-06T00:00:00.000Z\",\n            \"due_date\": \"2023-11-24T00:00:00.000Z\",\n            \"status\": \"Paid\",\n            \"additional_info\": null,\n            \"total_amount\": 108500,\n            \"paid_by\": 1,\n            \"paid_date\": \"2023-11-06T00:00:00.000Z\",\n            \"created_date\": \"2023-11-06T13:48:28.577Z\",\n            \"updated_date\": \"2023-11-06T13:48:36.270Z\",\n            \"created_by\": 1,\n            \"updated_by\": 1,\n            \"purchase_order_data\": {\n                \"purchase_order_id\": 163,\n                \"purchase_order_type\": \"Local Purchase\",\n                \"indent_request_id\": 147,\n                \"purchase_request_id\": null,\n                \"vendor_id\": null,\n                \"order_date\": \"2023-11-01T00:00:00.000Z\",\n                \"order_id\": \"POLP2023004237\",\n                \"status\": \"Product Received\",\n                \"total_cost\": 500.5,\n                \"order_remark\": \"Local Purchase Order\",\n                \"purchase_order_documents\": null,\n                \"purchase_order_details\": null,\n                \"payment_mode\": null,\n                \"payment_date\": null,\n                \"is_delete\": false,\n                \"created_date\": \"2023-11-01T10:20:19.161Z\",\n                \"updated_date\": \"2023-11-06T09:40:13.699Z\",\n                \"created_by\": 1,\n                \"updated_by\": 1\n            },\n            \"grn_data\": {\n                \"grn_id\": 173,\n                \"project_id\": 137,\n                \"purchase_order_id\": 163,\n                \"goods_received_by\": 1,\n                \"goods_received_date\": \"2023-10-31T00:00:00.000Z\",\n                \"invoice_id\": \"APVSRI20231124\",\n                \"invoice_amount\": 35000,\n                \"notes\": \"Goods Delivered on Nov 01\",\n                \"bill_details\": [\n                    {\n                        \"path\": \"https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/file-1691582320217-181824419-file-1691557004931-678480558-sample.pdf\",\n                        \"index\": 0\n                    }\n                ],\n                \"grn_status\": \"Pending\",\n                \"created_date\": \"2023-11-06T09:40:12.690Z\",\n                \"created_by\": 1\n            },\n            \"requested_by_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\",\n                \"contact_no\": \"8667604201\",\n                \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n            },\n            \"paid_by_data\": {\n                \"first_name\": \"Vijay\",\n                \"last_name\": \"Perumalsamy\",\n                \"contact_no\": \"8667604201\",\n                \"email_id\": \"vijay.perumalsamy@aalamsoft.com\"\n            }\n        }\n    ]\n}"
 						}
 					]
 				}
