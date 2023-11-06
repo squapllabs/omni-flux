@@ -55,6 +55,13 @@ const GrnData: React.FC = (props: any) => {
     });
   };
 
+  const downloadFile = (file: any) => {
+    const url = file?.path;
+    const link = document.createElement('a');
+    link.href = url;
+    link.click();
+  };
+
   return (
     <div>
       <div className={Styles.tableContainer}>
@@ -97,7 +104,29 @@ const GrnData: React.FC = (props: any) => {
                         'MMM dd, yyyy'
                       )}
                     </td>
-                    <td>{data?.invoice_id}</td>
+                    <td>
+                      <div>
+                        {data?.bill_details.length > 0 ? (
+                          data?.bill_details.map(
+                            (document: any, index: number) => (
+                              <div onClick={() => downloadFile(document)}>
+                                {/* <a
+                                  href={document.path} download
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  
+                                </a> */}
+                                {data?.invoice_id}
+                              </div>
+                            )
+                          )
+                        ) : (
+                          <div>-</div>
+                        )}
+                      </div>
+                      {/* {data?.invoice_id} */}
+                    </td>
                     <td>{data?.notes}</td>
                   </tr>
                   {data?.grn_id === poID?.grn_id && (
@@ -158,7 +187,7 @@ const GrnData: React.FC = (props: any) => {
               handleSubmit();
             }}
           >
-            Movo to Invoice
+            Approve for payment
           </Button>
         </div>
       </div>

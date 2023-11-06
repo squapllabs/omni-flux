@@ -17,7 +17,7 @@ const PurchaseOrderView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   const PurchaseOrderId = Number(routeParams?.id);
-  const [openSnack, setOpenSnack] = useState<any>([]);
+  const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [open, setOpen] = useState(false);
   const { data: getOnePurchaseOrderView, isLoading: dataLoading } =
