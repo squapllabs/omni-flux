@@ -11,13 +11,17 @@ import Select from '../ui/selectNew';
 import PurchaseRequestService from '../../service/purchase-request.service';
 import { getBymasertDataType } from '../../hooks/masertData-hook';
 import DatePicker from '../ui/CustomDatePicker';
+import { editInvoiceValidateyup } from '../../helper/constants/invoice-constants';
+import * as Yup from 'yup';
 
 const CustomEditInvoicePopup = (props: {
   isVissible: any;
   onAction: any;
   selectedPurchaseOrder: any;
+  selectedInvoive: any;
 }) => {
-  const { isVissible, onAction, selectedPurchaseOrder } = props;
+  const { isVissible, onAction, selectedPurchaseOrder, selectedInvoive } =
+    props;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { data: getAllBillStatusTypeDatadrop = [] } =
     getBymasertDataType('PYS');
@@ -106,61 +110,51 @@ const CustomEditInvoicePopup = (props: {
     }
   };
 
+  const validationSchema = editInvoiceValidateyup(Yup);
   const formik = useFormik({
     initialValues: initialValues,
+    validationSchema,
     enableReinitialize: true,
     onSubmit: async (values, { resetForm }) => {
+      console.log('inn');
+
       const s3UploadUrl = await handleDocuments(
         selectedFiles,
         `purchase-order-item-${selectedPurchaseOrder}`,
         'purchase-order-item'
       );
       const Object: any = {
-        status: values.bill_status,
+        status: 'Completed',
         payment_mode: values.payment_mode,
-        payment_date: values.payment_date,
+        payment_date: new Date(),
         purchase_order_documents:
           s3UploadUrl && s3UploadUrl.length > 0 ? s3UploadUrl : existingFileUrl,
         purchase_order_id: Number(selectedPurchaseOrder),
         updated_by: 1,
       };
-      if (Object.status === 'Completed' || Object.status === 'Invoice') {
-        if (Object.purchase_order_documents?.length > 0) {
-          updatePoBillStatus(Object, {
-            onSuccess: (data, variables, context) => {
-              if (data?.status === true) {
-                setMessage('Purchase order edited');
-                setOpenSnack(true);
-                setIsFormSubmitted(true);
-                handleCloseForm();
-                resetForm();
-              }
-            },
-          });
-        } else {
-          setDocErrorMsg('Document is mandatory for the above status');
-        }
-      } else {
-        updatePoBillStatus(Object, {
-          onSuccess: (data, variables, context) => {
-            if (data?.status === true) {
-              setMessage('Purchase order edited');
-              setOpenSnack(true);
-              setIsFormSubmitted(true);
-              handleCloseForm();
-              resetForm();
-            }
-          },
-        });
-      }
+      console.log('object', Object);
+      updatePoBillStatus(Object, {
+        onSuccess: (data, variables, context) => {
+          if (data?.status === true) {
+            setMessage('Purchase order edited');
+            setOpenSnack(true);
+            setIsFormSubmitted(true);
+            handleCloseForm();
+            resetForm();
+          }
+        },
+      });
     },
   });
 
   const handleCloseForm = () => {
-    onAction(false);
+    // onAction(false);
     setSelectedFileName([]);
     setFileSizeError('');
     formik.resetForm();
+    setTimeout(() => {
+      handleClose();
+    }, 1000);
   };
 
   const handleSnackBarClose = () => {
@@ -231,176 +225,131 @@ const CustomEditInvoicePopup = (props: {
       }
     }
   };
+  const handleClose = () => {
+    props.setOpen(false);
+  };
 
   return (
     <div>
-      <div>
-        {isVissible && (
-          <CustomPopup className="sample">
-            <div className={Styles.popupContent}>
-              <form onSubmit={formik.handleSubmit}>
-                <div className={Styles.header}>
+      <form onSubmit={formik.handleSubmit}>
+        <div className={Styles.divOne}>
+          <div className={Styles.invDiv}>
+            <h5>Invoice</h5>
+            <span>:</span>
+            <p className={Styles.invoiceNumber}>{selectedInvoive}</p>
+          </div>
+          <div>
+            <div>
+              <Select
+                label="Payment Mode"
+                defaultLabel="Select the payment mode"
+                placeholder="Select the payment mode"
+                name="payment_mode"
+                onChange={formik.handleChange}
+                value={formik.values.payment_mode}
+                width="250px"
+                error={
+                  formik.touched.payment_mode && formik.errors.payment_mode
+                }
+              >
+                {getAllPaymentTypeDatadrop?.map((option: any) => (
+                  <option
+                    key={option.master_data_id}
+                    value={option.master_data_name}
+                  >
+                    {option.master_data_name}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            <div className={Styles.topDocumnetLayer}>
+              <p className={Styles.documentheading}>Reference documents</p>
+              <div className={Styles.documentOuterLayer}>
+                <div className={Styles.documentContent}>
                   <div>
-                    <h4>Edit Payment Details</h4>
+                    <UploadIcon />
                   </div>
-                  <div>
-                    <CloseIcon onClick={handleCloseForm} />
-                  </div>
-                </div>
-                <div className={Styles.dividerStyle}></div>
-                <div className={Styles.mainField}>
-                  <div>
-                    <Select
-                      label="Bill Status"
-                      defaultLabel="Select the Status"
-                      placeholder="Select the Status"
-                      name="bill_status"
-                      onChange={formik.handleChange}
-                      value={formik.values.bill_status}
-                      width="250px"
-                    >
-                      {getAllBillStatusTypeDatadrop?.map((option: any) => (
-                        <option
-                          key={option.master_data_id}
-                          value={option.master_data_name}
-                        >
-                          {option.master_data_name}
-                        </option>
-                      ))}
-                    </Select>
-                  </div>
-                  <div>
-                    <DatePicker
-                      label="Payment Date"
-                      name="payment_date"
-                      mandatory={true}
-                      width="250px"
-                      value={formik.values.payment_date}
-                      onChange={formik.handleChange}
-                      InputProps={{
-                        min: '1930-01-01',
-                        max: `${new Date().toISOString().slice(0, 10)}`,
-                      }}
-                      error={
-                        formik.touched.payment_date &&
-                        formik.errors.payment_date
-                      }
-                    />
-                  </div>
-                  <div>
-                    <Select
-                      label="Payment Mode"
-                      defaultLabel="Select the payment mode"
-                      placeholder="Select the payment mode"
-                      name="payment_mode"
-                      onChange={formik.handleChange}
-                      value={formik.values.payment_mode}
-                      width="250px"
-                    >
-                      {getAllPaymentTypeDatadrop?.map((option: any) => (
-                        <option
-                          key={option.master_data_id}
-                          value={option.master_data_name}
-                        >
-                          {option.master_data_name}
-                        </option>
-                      ))}
-                    </Select>
-                  </div>
-                </div>
-                <div className={Styles.topDocumnetLayer}>
-                  <p className={Styles.documentheading}>
-                    Bill (If the bill status is invoice or completed *)
-                  </p>
-                  <div className={Styles.documentOuterLayer}>
-                    <div className={Styles.documentContent}>
-                      <div>
-                        <UploadIcon />
-                      </div>
-                      <div
-                        id="drop-area"
-                        onDrop={(e) => handleDrop(e)}
-                        onDragOver={(e) => e.preventDefault()}
-                      >
-                        <h6>Select a file or drag and drop here</h6>
-                        <span className={Styles.documentSpan}>
-                          JPG,PNG or PDF, file size no more than 10MB
-                        </span>
-                      </div>
-                      <input
-                        ref={fileInputRef}
-                        id="upload-photo"
-                        name="upload_photo"
-                        type="file"
-                        style={{ display: 'none' }}
-                        onChange={handleFileSelect}
-                        // multiple
-                      />
-                      <Button
-                        onClick={onButtonClick}
-                        type="button"
-                        shape="rectangle"
-                        size="small"
-                      >
-                        Add Files
-                      </Button>
-                    </div>
-                  </div>
-                  <div>
-                    {selectedFileName?.length === 0 ? (
-                      <span>
-                        <ol className={Styles.listStyles}>
-                          {existingFileName?.map((fileName, index) => (
-                            <ol key={index}>{fileName}</ol>
-                          ))}
-                        </ol>
-                      </span>
-                    ) : (
-                      <span>
-                        <ol className={Styles.listStyles}>
-                          {selectedFileName?.map((fileName, index) => (
-                            <ol key={index}>{fileName}</ol>
-                          ))}
-                        </ol>
-                      </span>
-                    )}
-                    <span>
-                      {' '}
-                      <p className={Styles.errorStyles}>{fileSizeError}</p>
-                      <p className={Styles.errorStyles}>{docErrorMsg}</p>
+                  <div
+                    id="drop-area"
+                    onDrop={(e) => handleDrop(e)}
+                    onDragOver={(e) => e.preventDefault()}
+                  >
+                    <h6>Select a file or drag and drop here</h6>
+                    <span className={Styles.documentSpan}>
+                      JPG,PNG or PDF, file size no more than 10MB
                     </span>
                   </div>
+                  <input
+                    ref={fileInputRef}
+                    id="upload-photo"
+                    name="upload_photo"
+                    type="file"
+                    style={{ display: 'none' }}
+                    onChange={handleFileSelect}
+                    // multiple
+                  />
+                  <Button
+                    onClick={onButtonClick}
+                    type="button"
+                    shape="rectangle"
+                    size="small"
+                  >
+                    Add Files
+                  </Button>
                 </div>
-                <div className={Styles.dividerStyleOne}></div>
-                <div className={Styles.formButton}>
-                  <div>
-                    <Button
-                      className={Styles.cancelButton}
-                      shape="rectangle"
-                      justify="center"
-                      size="small"
-                      onClick={handleCloseForm}
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                  <div>
-                    <Button
-                      color="primary"
-                      shape="rectangle"
-                      justify="center"
-                      size="small"
-                      type="submit"
-                    >
-                      Save
-                    </Button>
-                  </div>
-                </div>
-              </form>
+              </div>
+              <div>
+                {selectedFileName?.length === 0 ? (
+                  <span>
+                    <ol className={Styles.listStyles}>
+                      {existingFileName?.map((fileName, index) => (
+                        <ol key={index}>{fileName}</ol>
+                      ))}
+                    </ol>
+                  </span>
+                ) : (
+                  <span>
+                    <ol className={Styles.listStyles}>
+                      {selectedFileName?.map((fileName, index) => (
+                        <ol key={index}>{fileName}</ol>
+                      ))}
+                    </ol>
+                  </span>
+                )}
+                <span>
+                  {' '}
+                  <p className={Styles.errorStyles}>{fileSizeError}</p>
+                  <p className={Styles.errorStyles}>{docErrorMsg}</p>
+                </span>
+              </div>
             </div>
-          </CustomPopup>
-        )}
-      </div>
+          </div>
+        </div>
+
+        <div className={Styles.footer}>
+          <div className={Styles.dividerStyle}></div>
+          <div className={Styles.button}>
+            <Button
+              shape="rectangle"
+              justify="center"
+              size="small"
+              onClick={handleClose}
+              className={Styles.cancelButton}
+            >
+              Cancel
+            </Button>
+            <Button
+              shape="rectangle"
+              color="primary"
+              justify="center"
+              size="small"
+              type="submit"
+            >
+              Paid
+            </Button>
+          </div>
+        </div>
+      </form>
       <CustomSnackBar
         open={openSnack}
         message={message}

@@ -217,12 +217,12 @@ const MyOrderList = () => {
                                 ''
                               )}
                               <td>
-                                {/* <ViewIcon onClick={() => {
+                                <ViewIcon onClick={() => {
                                                                     navigate(
                                                                         `/my-orders-view/${data.purchase_order_id}`,
                                                                         { state: { projectId } }
                                                                     );
-                                                                }} /> */}
+                                                                }} />
                                 <EditIcon
                                   onClick={() => {
                                     navigate(
