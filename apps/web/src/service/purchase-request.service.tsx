@@ -110,6 +110,20 @@ const getPoData = async (values: JSON) => {
   }
 };
 
+const getMyOrdersData = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/purchase-order/my-orders`,
+      values
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log('Error in myorders filter :', error);
+    throw error;
+  }
+};
+
 const documentUpload = async (file: any, code: string, folder: string) => {
   const formData = new FormData();
   formData.append('storage', 's3');
@@ -172,5 +186,6 @@ export default {
   documentUpload,
   purchaseDetailData,
   getOnePurchaseOrderTableDataByID,
-  purchseOrderGetAll
+  purchseOrderGetAll,
+  getMyOrdersData
 };

@@ -106,6 +106,17 @@ const useGetAllPurchaseOrderData = (data: any) => {
   );
 };
 
+const useGetAllMyOrderData = (data: any) => {
+  return useQuery(
+    ['useGetAllMyOrderData'],
+    () => purchaseRequestService.getMyOrdersData(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
+    }
+  );
+};
+
 const getBySearchPoData = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -165,5 +176,6 @@ export {
   useGetOnePurchaseOrder,
   getBySearchPR,
   useGetOnePurchaseOrderTableData,
-  purchaseOrderGetAll
+  purchaseOrderGetAll,
+  useGetAllMyOrderData
 };

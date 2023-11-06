@@ -13,6 +13,7 @@ import {
   searchPurchaseOrder,
   updatePurchaseOrder,
   updateStatusAndDocument,
+  searchPurchaseOrderWithMultipleStatus
 } from '../../controller/purchaseOrder.controller';
 import { runValidation } from '../../validations/index';
 
@@ -39,6 +40,9 @@ router.delete(
 );
 
 router.post('/search', authMiddleware, searchPurchaseOrder);
+
+
+router.post('/my-orders', authMiddleware, searchPurchaseOrderWithMultipleStatus);
 
 router.post(
   '/purchase-order-with-item',

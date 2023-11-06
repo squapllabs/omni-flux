@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   useGetAllPurchaseOrderData,
-  getBySearchPoData,
   purchaseOrderGetAll,
 } from '../../hooks/purchase-request-hooks';
 import Styles from '../../styles/purchaseRequestView.module.scss';
 import CustomLoader from '../ui/customLoader';
-import EditIcon from '../menu/icons/newEditIcon';
 import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 import CustomEditPoPopup from '../ui/CustomEditPoPopup';
 import { formatBudgetValue } from '../../helper/common-function';
@@ -16,7 +14,6 @@ import Button from '../ui/Button';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useGetAllProject } from '../../hooks/project-hooks';
 import ReportGenerator from '../ui/reportGenerator';
-import AddIcon from '../menu/icons/addIcon';
 import PurchaseOrderReport from '../reportGenerator/pdfReport/purchaseOrder';
 import ProjectSubheader from '../project/projectSubheader';
 import ViewIcon from '../menu/icons/newViewIcon';
@@ -35,7 +32,8 @@ const OrderView = () => {
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [dataShow, setDataShow] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
-    { label: 'Processing', value: 'Processing' },
+    { label: 'PO Released', value: 'Processing' },
+    { label: 'Partially Recieved', value: 'Partially Received' },
     { label: 'Product Received', value: 'Product Received' },
     { label: 'Invoice', value: 'Invoice' },
     { label: 'Completed', value: 'Completed' },
@@ -61,7 +59,7 @@ const OrderView = () => {
     data: getAllData,
     refetch,
   } = useGetAllPurchaseOrderData(getPoData);
-
+  
   const orderType = {
     purchase_order_type: 'Head Office',
   };
@@ -70,7 +68,6 @@ const OrderView = () => {
 
   const { data: getAllProjectDataForDrop = [], isLoading: dropLoading } =
     useGetAllProject();
-
 
   const handleEdit = (value: any) => {
     setPurchaseId(value);
@@ -215,54 +212,66 @@ const OrderView = () => {
                   <th className={Styles.tableHeading}>Amount</th>
                   <th className={Styles.tableHeading}>Quotation </th>
                   <th className={Styles.tableHeading}>Status</th>
-                  <th className={Styles.tableHeading}>Bill</th>
+                  {/* <th className={Styles.tableHeading}>Invoice</th> */}
                   <th className={Styles.tableHeading}>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {getAllData?.content?.map((data: any, index: number) => {
-                  const customBillName = generateCustomBillName(data);
-                  const customQuotationName = generateCustomQuotationName(data);
-                  return (
-                    <tr>
-                      <td>{startingIndex + index}</td>
-                      <td>{data?.vendor_data?.vendor_name}</td>
-                      <td>
-                        {
-                          data?.purchase_request_data?.project_data
-                            ?.project_name
-                        }
-                      </td>
-                      <td>
-                        {formatBudgetValue(
-                          data?.total_cost ? data?.total_cost : 0
-                        )}
-                      </td>
-                      <td>
-                        <div>
-                          {data?.purchase_request_data
-                            ?.purchase_request_documents?.length > 0 ? (
-                            data?.purchase_request_data?.purchase_request_documents.map(
-                              (document: any, index: number) => (
-                                <div key={document.code}>
-                                  <a
-                                    href={document.path}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    {customQuotationName}
-                                    {/* Uploaded Document */}
-                                  </a>
-                                </div>
-                              )
-                            )
-                          ) : (
-                            <div>-</div>
+                {getAllData?.total_count === 0 ? (
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>No data found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                ) : (
+                  getAllData?.content?.map((data: any, index: number) => {
+                    const customBillName = generateCustomBillName(data);
+                    const customQuotationName =
+                      generateCustomQuotationName(data);
+                    return (
+                      <tr>
+                        <td>{startingIndex + index}</td>
+                        <td>{data?.vendor_data?.vendor_name}</td>
+                        <td>
+                          {
+                            data?.purchase_request_data?.project_data
+                              ?.project_name
+                          }
+                        </td>
+                        <td>
+                          {formatBudgetValue(
+                            data?.total_cost ? data?.total_cost : 0
                           )}
-                        </div>
-                      </td>
-                      <td>{data.status}</td>
-                      <td>
+                        </td>
+                        <td>
+                          <div>
+                            {data?.purchase_request_data
+                              ?.purchase_request_documents?.length > 0 ? (
+                              data?.purchase_request_data?.purchase_request_documents.map(
+                                (document: any, index: number) => (
+                                  <div key={document.code}>
+                                    <a
+                                      href={document.path}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      {customQuotationName}
+                                      {/* Uploaded Document */}
+                                    </a>
+                                  </div>
+                                )
+                              )
+                            ) : (
+                              <div>-</div>
+                            )}
+                          </div>
+                        </td>
+                        <td>{data.status}</td>
+                        {/* <td>
                         <div>
                           {data?.purchase_order_documents?.length > 0 ? (
                             data?.purchase_order_documents.map(
@@ -274,7 +283,6 @@ const OrderView = () => {
                                     rel="noopener noreferrer"
                                   >
                                     {customBillName}
-                                    {/* Uploaded Document */}
                                   </a>
                                 </div>
                               )
@@ -283,29 +291,30 @@ const OrderView = () => {
                             <div>-</div>
                           )}
                         </div>
-                      </td>
-                      <td>
-                        <div className={Styles.tablerow}>
-                          {/* <EditIcon
+                      </td> */}
+                        <td>
+                          <div className={Styles.tablerow}>
+                            {/* <EditIcon
                               onClick={() =>
                                 handleEdit(Number(data.purchase_order_id))
                               }
                             /> */}
-                          <ViewIcon
-                            onClick={() =>
-                              navigate(
-                                `/purchase-order-view/${data.purchase_order_id}`
-                              )
-                            }
-                          />
-                          <PdfDownloadIcon
-                            onClick={() => handleReportGenerator(data)}
-                          />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
+                            <ViewIcon
+                              onClick={() =>
+                                navigate(
+                                  `/purchase-order-view/${data.purchase_order_id}`
+                                )
+                              }
+                            />
+                            <PdfDownloadIcon
+                              onClick={() => handleReportGenerator(data)}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
               </tbody>
             </table>
           </div>
