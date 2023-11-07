@@ -6,11 +6,26 @@
 }
 
 
-// bom list screen css
+// 
+// custom popup file upload label
 
+.file_upload_empty_label_container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    padding: 2rem;
+    height: calc(90vh - 253px);
+}
+// bom list screen css
 .task_page_container{
   overflow-x: hidden;
   padding: 2% 2%;
+}
+.danger{
+  color: red !important;
+  h3{
+    color: red !important;
+  }
 }
 
 .headingcontainer {
@@ -516,7 +531,8 @@
     }
 
     .td_desc{
-      min-width: 300px;
+      // min-width: 300px;
+      width: 60%;
     }
 
 }

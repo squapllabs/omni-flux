@@ -153,7 +153,7 @@ const CustomEditInvoicePopup = (props: {
       updatePoBillStatus(Object, {
         onSuccess: (data, variables, context) => {
           if (data?.status === true) {
-            setMessage('Purchase order edited');
+            setMessage('Payment Process is completed');
             setOpenSnack(true);
             setIsFormSubmitted(true);
             handleCloseForm();

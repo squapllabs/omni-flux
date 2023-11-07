@@ -24,7 +24,7 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
   const { data: getAllAbstractStatusDatadrop = [] } =
     useGetMasterAbstractStatusParentType();
   const [initialValues, setInitialValues] = useState<any>({
-    name: '',
+    name: props?.categoryName || '',
     description: '',
     estimated_budget:'',
     project_id: '',
@@ -48,7 +48,7 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
       const fetchOne = async () => {
         const data = await CategoryService.getOneCategoryByID(props.categoryId);
         setInitialValues({
-          name: data?.data?.name,
+          name: data?.data?.name, 
           project_id: data?.data?.project_id,
           estimated_budget : data?.data?.estimated_budget,
           description: data?.data?.description,
@@ -70,8 +70,9 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
     onSubmit: (values, { resetForm }) => {
       if (props.mode === 'EDIT') {
         const Object: any = {
-          name: values.name,
+          name:values.name,
           description: values.description,
+          estimated_budget: values.estimated_budget,
           project_id: props.selectedProject,
           budget: initialValues.budget,
           start_date: values.start_date,
@@ -129,7 +130,7 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
     <div className={Styles.container}>
       <div className={Styles.divOne}>
         <div style={{ width: '70%' }}>
-          <div className={Styles.field}>
+          {/* <div className={Styles.field}>
             <Input
               label="Name"
               placeholder="Enter abstract name"
@@ -139,8 +140,8 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
               onChange={formik.handleChange}
               error={formik.touched.name && formik.errors.name}
             />
-          </div>
-          {props.mode === 'EDIT' ? (
+          </div> */}
+          {/* {props.mode === 'EDIT' ? (
             <div className={Styles.field}>
               <Select
                 label="Status"
@@ -158,7 +159,7 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
                 ))}
               </Select>
             </div>
-          ) : null}
+          ) : null} */}
           <div className={Styles.field}>
             <TextArea
               name="description"
@@ -184,7 +185,7 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
               // error={formik.touched.estimated_budget && formik.errors.estimated_budget}
             />
           </div>
-          <div className={Styles.field}>
+          {/* <div className={Styles.field}>
             <DatePicker
               label="Start Date"
               name="start_date"
@@ -199,8 +200,8 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
               error={formik.touched.start_date && formik.errors.start_date}
               width="200px"
             />
-          </div>
-          <div className={Styles.field}>
+          </div> */}
+          {/* <div className={Styles.field}>
             <DatePicker
               label="End Date"
               name="end_date"
@@ -209,7 +210,7 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
               error={formik.touched.end_date && formik.errors.end_date}
               width="200px"
             />
-          </div>
+          </div> */}
         </div>
         <div className={Styles.icon}>
           <ZIcon width={50} height={50} />

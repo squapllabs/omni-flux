@@ -8,19 +8,19 @@ export const getAbstractValidateyup = (yup: any) => {
   return yup.object().shape({
     name: yup.string().trim().required(abstractErrorMessages.ENTER_NAME),
     description: yup.string().required(abstractErrorMessages.ENTER_DESCRIPTION),
-    start_date: yup.date(),
-    end_date: yup
-      .date()
-      .min(yup.ref('start_date'), 'End date cannot be earlier than start date')
-      .test(
-        'is-greater',
-        'End date must be greater than the start date',
-        function (value: string | number | Date, { parent }: yup.TestContext) {
-          const startDate = parent.start_date;
-          if (!startDate || !value) return true;
-          return new Date(value) > new Date(startDate);
-        }
-      ),
+    // start_date: yup.date(),
+    // end_date: yup
+    //   .date()
+    //   .min(yup.ref('start_date'), 'End date cannot be earlier than start date')
+    //   .test(
+    //     'is-greater',
+    //     'End date must be greater than the start date',
+    //     function (value: string | number | Date, { parent }: yup.TestContext) {
+    //       const startDate = parent.start_date;
+    //       if (!startDate || !value) return true;
+    //       return new Date(value) > new Date(startDate);
+    //     }
+    //   ),
   });
 };
 
@@ -36,9 +36,9 @@ export const getSubCategoryValidateyup = (yup: any) => {
     description: yup
       .string()
       .required(subCategoryErrorMessages.ENTER_DESCRIPTION),
-    quantity: yup.number().positive(subCategoryErrorMessages.NON_NEGATIVE),
-    rate: yup.number().positive(subCategoryErrorMessages.NON_NEGATIVE),
-    estimated_budget: yup.number().positive(subCategoryErrorMessages.NON_NEGATIVE),
+    // quantity: yup.number().positive(subCategoryErrorMessages.NON_NEGATIVE),
+    // rate: yup.number().positive(subCategoryErrorMessages.NON_NEGATIVE),
+    // estimated_budget: yup.number().positive(subCategoryErrorMessages.NON_NEGATIVE),
     // start_date: yup.date(),
     // end_date: yup
     //   .date()

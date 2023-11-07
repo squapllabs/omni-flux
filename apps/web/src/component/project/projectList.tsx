@@ -237,8 +237,7 @@ const ProjectList = () => {
   };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
-  console.log("getAllLoadingPaginated",getAllLoadingPaginated);
-  
+  console.log('getAllLoadingPaginated', getAllLoadingPaginated);
 
   return (
     <div className={Styles.container}>
@@ -250,7 +249,11 @@ const ProjectList = () => {
         />
       </div>
       <div>
-        <CustomLoader loading={!getAllLoadingPaginated} size={48} color="#333C44">
+        <CustomLoader
+          loading={!getAllLoadingPaginated}
+          size={48}
+          color="#333C44"
+        >
           <div className={Styles.header}>
             <div className={Styles.firstHeader}>
               {/* <div className={Styles.text}>
@@ -381,32 +384,33 @@ const ProjectList = () => {
                           <td>
                             {format(new Date(data?.date_ended), 'MMM dd, yyyy')}
                           </td>
-                          {!isFinanceManagerLogin &&<td>
-                            <div className={Styles.tablerow}>
-                              {isProjectEdit && (
-                                <EditIcon
-                                  onClick={() => {
-                                    if (data?.status === 'Draft') {
-                                      navigate(
-                                        `/project-edit-draft/${data?.project_id}`
-                                      );
-                                    } else {
-                                      navigate(
-                                        `/project-edit/${data?.project_id}`
-                                      );
-                                    }
-                                  }}
-                                />
-                              )}
+                          {!isFinanceManagerLogin && (
+                            <td>
+                              <div className={Styles.tablerow}>
+                                {isProjectEdit && (
+                                  <EditIcon
+                                    onClick={() => {
+                                      if (data?.status === 'Draft') {
+                                        navigate(
+                                          `/project-edit-draft/${data?.project_id}`
+                                        );
+                                      } else {
+                                        navigate(
+                                          `/project-edit/${data?.project_id}`
+                                        );
+                                      }
+                                    }}
+                                  />
+                                )}
 
-                              {/* <DeleteIcon
+                                {/* <DeleteIcon
                             onClick={() =>
                               deleteProjectHandler(data.project_id)
                             }
                           /> */}
-                            </div>
-                          </td>
-                    }
+                              </div>
+                            </td>
+                          )}
                           {/* )} */}
                         </tr>
                       );

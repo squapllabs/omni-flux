@@ -32,8 +32,7 @@ const IntialReport = () => {
   const mainItems: any = [
     {
       title: 'Purchase Order Register',
-      description:
-        'Details of all the purchase orders ',
+      description: 'Details of all the purchase orders ',
       menuValue: 'PUR',
       mainValue: 'POR',
       sortOrder: 1,
@@ -47,9 +46,8 @@ const IntialReport = () => {
       sortOrder: 1,
     },
     {
-      title: 'RFQ Register (Item-wise)' ,
-      description:
-        'Item-wise details of all request for quotation',
+      title: 'RFQ Register (Item-wise)',
+      description: 'Item-wise details of all request for quotation',
       menuValue: 'PUR',
       mainValue: 'RFQR',
       sortOrder: 1,
@@ -105,9 +103,7 @@ const IntialReport = () => {
     // },
   ];
 
-  const sortedItems = mainItems.sort(
-    customSort(mainItems, 'sortOrder', 'desc')
-  );
+  const sortedItems = mainItems.sort(customSort(mainItems, 'sortOrder', 'asc'));
 
   const [mainList, setManiList] = useState<any>(sortedItems);
   const [open, setOpen] = useState(false);
@@ -156,7 +152,7 @@ const IntialReport = () => {
               /> */}
             </div>
             <div className={Styles.dividerLine}></div>
-            <div className={Styles.side_sideMenu} >
+            <div className={Styles.side_sideMenu}>
               {menuList?.map((menu: any, index: any) => {
                 return (
                   <ol key={index}>
@@ -187,7 +183,7 @@ const IntialReport = () => {
               <MenuIcon />
             </div>
           )}
-          <div className={Styles.cardBox} style={{width:'200%'}}>
+          <div className={Styles.cardBox} style={{ width: '200%' }}>
             {mainList?.map((mainData: any, index: any) => {
               return (
                 <div>

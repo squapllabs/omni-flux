@@ -178,7 +178,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                 console.log('bill_details', bill_type);
                 if (bill_type === 'VOUCHER' && value > 5000) {
                   setMessage(
-                    'In bill type voucher amount should not be more then 50000'
+                    'In bill type voucher amount should not be more then 5000'
                   );
                   setOpenSnack(true);
                   return false;
@@ -369,7 +369,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                   />
                 </div>
               </div>
-              <div style={{paddingRight: '20px'}}>
+              <div style={{ paddingRight: '20px' }}>
                 <CurrencyIcon width={90} height={90} color="#7f56d9" />
               </div>
             </div>
