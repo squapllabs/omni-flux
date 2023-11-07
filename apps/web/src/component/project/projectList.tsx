@@ -41,8 +41,9 @@ const ProjectList = () => {
     roleName === 'ADMIN' ||
     roleName === 'SITE MANAGER' ||
     roleName === 'PLANNING ENGINEER' ||
-    roleName === 'SITE ENGINEER'||
+    roleName === 'SITE ENGINEER' ||
     roleName === 'PURCHASE MANAGER';
+  const isFinanceManagerLogin = roleName === 'FINANCE MANAGER';
   const { isLoading: getAllLoading } = useGetAllProject();
   const { mutate: getDeleteProjectByID } = useDeleteProjects();
   const [filterValues, setFilterValues] = useState({
@@ -51,14 +52,13 @@ const ProjectList = () => {
   const [buttonLabels, setButtonLabels] = useState([
     ...(roleName === 'PROJECT MANAGER' || roleName === 'ADMIN'
       ? [
-        { label: 'All', value: 'ALL' },
-        { label: 'Draft', value: 'Draft' },
-      ]
+          { label: 'All', value: 'ALL' },
+          { label: 'Draft', value: 'Draft' },
+        ]
       : []),
     { label: 'Inprogress', value: 'Inprogress' },
     { label: 'Completed', value: 'Completed' },
   ]);
-  const [screenSize, setScreenSize] = useState(getCurrentDimension());
   const [activeButton, setActiveButton] = useState<string | null>('ALL');
   const [filter, setFilter] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -109,7 +109,7 @@ const ProjectList = () => {
   };
 
   const {
-    isLoading: getAllLoadingPaginated,
+    isFetched: getAllLoadingPaginated,
     data: getFilterData,
     refetch,
   } = getPaginatedMemberBasedProject(
@@ -237,29 +237,7 @@ const ProjectList = () => {
   };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
-  function getCurrentDimension() {
-    return {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    };
-  }
-
-  useEffect(() => {
-    const updateDimension = () => {
-      setScreenSize(getCurrentDimension());
-      // if (screenSize.width <= 750) {
-      //   setActiveButton('Inprogress')
-      // }
-      // if (screenSize.width > 750) {
-      //   setActiveButton('All')
-      // }
-    };
-    window.addEventListener("resize", updateDimension);
-
-    return () => {
-      window.removeEventListener("resize", updateDimension);
-    };
-  }, [screenSize]);
+  console.log('getAllLoadingPaginated', getAllLoadingPaginated);
 
   return (
     <div className={Styles.container}>
@@ -271,7 +249,11 @@ const ProjectList = () => {
         />
       </div>
       <div>
-        <CustomLoader loading={getAllLoading} size={48} color="#333C44">
+        <CustomLoader
+          loading={!getAllLoadingPaginated}
+          size={48}
+          color="#333C44"
+        >
           <div className={Styles.header}>
             <div className={Styles.firstHeader}>
               {/* <div className={Styles.text}>
@@ -357,8 +339,7 @@ const ProjectList = () => {
                     <th>Status</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-
-                    <th>Actions</th>
+                    {!isFinanceManagerLogin && <th>Actions</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -385,39 +366,27 @@ const ProjectList = () => {
                                 data?.status === 'Inprogress'
                                   ? Styles.inprogressStatus
                                   : data?.status === 'Completed'
-                                    ? Styles.completedStatus
-                                    : data?.status === 'Draft'
-                                      ? Styles.draftStatus
-                                      : ''
-                                  }`}
-                              >
-                                {data?.status}
-                              </span>
-                            </td>
-                            <td>
-                              {format(
-                                new Date(data?.date_started),
-                                'MMM dd, yyyy'
-                              )}
-                            </td>
-                            <td>
-                              {format(new Date(data?.date_ended), 'MMM dd, yyyy')}
-                            </td>
-                            {/* {activeButton === 'AC' && ( */}
+                                  ? Styles.completedStatus
+                                  : data?.status === 'Draft'
+                                  ? Styles.draftStatus
+                                  : ''
+                              }`}
+                            >
+                              {data?.status}
+                            </span>
+                          </td>
+                          <td>
+                            {format(
+                              new Date(data?.date_started),
+                              'MMM dd, yyyy'
+                            )}
+                          </td>
+                          <td>
+                            {format(new Date(data?.date_ended), 'MMM dd, yyyy')}
+                          </td>
+                          {!isFinanceManagerLogin && (
                             <td>
                               <div className={Styles.tablerow}>
-                                {/* <ViewIcon
-                                  onClick={() =>
-                                    navigate(`/project-info/${data?.project_id}`)
-                                  }
-                                /> */}
-                                {/* <StoreIcon
-                                  onClick={() =>
-                                    navigate(
-                                      `/project-inventory/${data?.project_id}`
-                                    )
-                                  }
-                                /> */}
                                 {isProjectEdit && (
                                   <EditIcon
                                     onClick={() => {
@@ -441,151 +410,26 @@ const ProjectList = () => {
                           /> */}
                               </div>
                             </td>
-                            {/* )} */}
-                          </tr>
-                        );
-                      })
-                    )}
-                  </tbody>
-                </table>
-              </div>
-              <div className={Styles.pagination}>
-                <CustomPagination
-                  currentPage={currentPage}
-                  totalPages={getFilterData?.total_page}
-                  totalCount={getFilterData?.total_count}
-                  rowsPerPage={rowsPerPage}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                />
-              </div>
+                          )}
+                          {/* )} */}
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
             </div>
-          {screenSize.width <= 750 && (                              //For Mobile View
-
-            <div className={Styles.tableContainer}>
-              <div>
-                <table className={Styles.scrollable_table}>
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                      <th>Code</th>
-                      <th>Manager</th>
-                      <th>Status</th>
-                      <th>Start Date</th>
-                      <th>End Date</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {getFilterData?.total_count === 0 ? (
-                      <tr>
-                        <td colSpan="7" style={{ textAlign: 'center' }}>
-                          No data found
-                        </td>
-                        {activeButton === 'Inprogress' && <td></td>}
-                      </tr>
-                    ) : (
-                      getFilterData?.content?.map((data: any, index: number) => {
-                        return (
-                          <tr key={data.project_id}>
-                            <td>{startingIndex + index}</td>
-                            <td>{data?.project_name}</td>
-                            <td>{data?.code}</td>
-                            <td>
-                              {data?.user?.first_name} {data?.user?.last_name}
-                            </td>
-                            <td>
-                              <span
-                                className={`${Styles.status} ${data?.status === 'Inprogress'
-                                  ? Styles.inprogressStatus
-                                  : data?.status === 'Completed'
-                                    ? Styles.completedStatus
-                                    : data?.status === 'Draft'
-                                      ? Styles.draftStatus
-                                      : ''
-                                  }`}
-                              >
-                                {data?.status}
-                              </span>
-                            </td>
-                            <td>
-                              {format(
-                                new Date(data?.date_started),
-                                'MMM dd, yyyy'
-                              )}
-                            </td>
-                            <td>
-                              {format(new Date(data?.date_ended), 'MMM dd, yyyy')}
-                            </td>
-                            {/* {activeButton === 'AC' && ( */}
-                            <td>
-                              <div className={Styles.tablerow}>
-                                {/* <ViewIcon
-                                  onClick={() =>
-                                    navigate(`/project-info/${data?.project_id}`)
-                                  }
-                                /> */}
-                                {/* <StoreIcon
-                                  onClick={() =>
-                                    navigate(
-                                      `/project-inventory/${data?.project_id}`
-                                    )
-                                  }
-                                /> */}
-                                {/* {isProjectEdit && (
-                                  <EditIcon
-                                    onClick={() => {
-                                      if (data?.status === 'Draft') {
-                                        navigate(
-                                          `/project-edit-draft/${data?.project_id}`
-                                        );
-                                      } else {
-                                        navigate(
-                                          `/project-edit/${data?.project_id}`
-                                        );
-                                      }
-                                    }}
-                                  />
-                                )} */}
-                                <div
-                                  onClick={() => {
-                                    if (data?.status === 'Draft') {
-                                      navigate(
-                                        `/project-edit-draft/${data?.project_id}`
-                                      );
-                                    } else {
-                                      navigate(
-                                        `/project-edit/${data?.project_id}`
-                                      );
-                                    }
-                                  }}
-                                >
-                                  <b>
-                                    Site Claims
-                                  </b>
-                                </div>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })
-                    )}
-                  </tbody>
-                </table>
-              </div>
-              <div className={Styles.pagination}>
-                <CustomPagination
-                  currentPage={currentPage}
-                  totalPages={getFilterData?.total_page}
-                  totalCount={getFilterData?.total_count}
-                  rowsPerPage={rowsPerPage}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                />
-              </div>
+            <div className={Styles.pagination}>
+              <CustomPagination
+                currentPage={currentPage}
+                totalPages={getFilterData?.total_page}
+                totalCount={getFilterData?.total_count}
+                rowsPerPage={rowsPerPage}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
+              />
             </div>
-          )}
+          </div>
         </CustomLoader>
         <CustomDelete
           open={open}

@@ -29,7 +29,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
     is_delete: false,
     uom_name: '',
     per_item_cost: 0,
-    item_id: ''
+    item_id: '',
   });
 
   useEffect(() => {
@@ -51,6 +51,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
     type: 'RAWMT',
   };
   const { data: getBOMList } = getBOMbyProjectandType(bomPostData);
+  console.log('getBOMList', getBOMList);
 
   const handleCloseDelete = () => {
     setOpenDelete(false);
@@ -278,7 +279,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
                           tempObj = {
                             ...props.indentRequestDetailsList[index],
                             bom_detail_id: value,
-                            item_id:matchingObjects[0]?.temp?.item_id,
+                            item_id: matchingObjects[0]?.temp?.item_id,
                             uom_name: matchingObjects[0]?.temp?.uom_data?.name,
                             indent_requested_quantity:
                               matchingObjects[0]?.bom_quantity,

@@ -30,9 +30,11 @@ const MyOrderView = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [invoiceId, setInvoiceId] = useState(false);
   const [reload, setReload] = useState(false);
+  const [invAmount,setInvAmount] = useState();
+  const[invDoc,setInvDoc]= useState();
   const { isLoading: dataLoading, data: getAllData = [] } =
     getByPurchaseOrderId(purchaseOrderId);
-  console.log('ooooooooopppppppp', getAllData);
+  // console.log('ooooooooopppppppp', getAllData);
 
   const generateCustomInvoice = (data: any) => {
     if (data) {
@@ -60,11 +62,15 @@ const MyOrderView = () => {
     return formattedDate;
   };
 
-  const handleEdit = (value: any, invoice: any, invoiceId: any) => {
+  const handleEdit = (value: any, invoice: any, invoiceId: any,invAmt:any,invDoc:any) => {
     setPurchaseId(value);
     setInvoiceNumber(invoice);
     setInvoiceId(invoiceId);
+    setInvAmount(invAmt)
+    setInvDoc(invDoc[0]?.path)
     setOpen(true);
+    console.log("invDoc",invDoc[0]?.path);
+    
   };
 
   const handleClosePopup = () => {
@@ -368,7 +374,9 @@ const MyOrderView = () => {
                                   handleEdit(
                                     item.purchase_order_id,
                                     item?.grn_data?.invoice_id,
-                                    item?.purchase_order_invoice_id
+                                    item?.purchase_order_invoice_id,
+                                    item?.total_amount,
+                                    item?.invoice_document
                                   )
                                 }
                               />
@@ -410,6 +418,8 @@ const MyOrderView = () => {
               selectedPurchaseOrder={purchaseId}
               selectedInvoive={invoiceNumber}
               selectedInvoiceId={invoiceId}
+              selectedInvAmt={invAmount}
+              selectedInvDoc={invDoc}
             />
           }
         />

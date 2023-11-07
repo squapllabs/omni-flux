@@ -97,8 +97,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
       const getData = await projectService.getOneProjectById(
         Number(routeParams?.id)
       );
-     
-      
+
       setInitialValues({
         project_name: getData?.data?.project_name,
         code: getData?.data?.code,
@@ -158,7 +157,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     code: yup
       .string()
       .required('Project code is required')
-      .matches(/^[A-Z0-9/\\-]*$/, 'Symbols are not allowed')
       .test(
         'code-availability',
         'Code is already present',
@@ -208,34 +206,35 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
       .string()
       .trim()
       .required('Project client/customer is required'),
-      code: yup
+    code: yup
       .string()
       .required('Project code is required')
-      .matches(/^[A-Z0-9/\\-]*$/, 'Symbols are not allowed')
+      // .matches(/^[A-Z0-9/\\-]*$/, 'Symbols are not allowed')
       .test(
         'code-availability',
         'Code is already present',
         async (value: any, { parent }: yup.TestContext) => {
           const ProjectId = parent.project_id;
-          console.log("parent project id",ProjectId);
+          console.log('parent project id', ProjectId);
           if (value) {
-            const response = await projectService.checkProjectCodeDuplicate(value);
+            const response = await projectService.checkProjectCodeDuplicate(
+              value
+            );
             if (
               response?.is_exist === true &&
               response?.data?.project_id === ProjectId
             ) {
-              console.log("if condition inn");
+              console.log('if condition inn');
               return true;
             } else {
-              if(response?.is_exist === false){
-                return true
-              }
-              else {
-                if(response?.is_exist === false){
-                  return true
+              if (response?.is_exist === false) {
+                return true;
+              } else {
+                if (response?.is_exist === false) {
+                  return true;
+                } else {
+                  return false;
                 }
-                else{
-                return false;}
               }
             }
           }
@@ -381,7 +380,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                     placeholder="Enter project code"
                     name="code"
                     mandatory={true}
-                    value={formik.values.code}
+                    value={formik.values.code.toUpperCase()}
                     onChange={formik.handleChange}
                     error={formik.touched.code && formik.errors.code}
                     // disabled={routeParams?.id === undefined ? false : true}

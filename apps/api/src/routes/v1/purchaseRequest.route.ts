@@ -10,6 +10,7 @@ import {
   getAllPurchaseRequestProjectsByStatus,
   getAllPurchaseRequests,
   getByPurchaseRequestId,
+  getPurchaseRequestReportData,
   searchPurchaseRequest,
   updatePurchaseRequest,
 } from '../../controller/purchaseRequest.controller';
@@ -67,5 +68,7 @@ router.get(
   authMiddleware,
   getAllPurchaseRequestProjectsByStatus
 );
+
+router.post('/get-pr-report', authMiddleware, getPurchaseRequestReportData);
 
 export default router;

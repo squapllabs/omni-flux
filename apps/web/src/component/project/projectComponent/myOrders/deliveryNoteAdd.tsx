@@ -27,6 +27,7 @@ import { store, RootState } from '../../../../redux/store';
 import { getToken } from '../../../../redux/reducer';
 import purchaseRequestService from '../../../../service/purchase-request.service';
 import PurchaseOrderReport from '../../../reportGenerator/pdfReport/purchaseOrder';
+import DeliveryNotes from '../../../reportGenerator/pdfReport/deliveryNotes';
 
 const MyOrderView = () => {
   const routeParams = useParams();
@@ -193,11 +194,11 @@ const MyOrderView = () => {
         setOpenSnack(true);
       } else {
         // If none of the above conditions are met, execute this block
-
         postGrnData(obj, {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
               setMessage('Goods delivered added');
+              DeliveryNotes(getListData);
               setOpenSnack(true);
               setTimeout(() => {
                 navigate(`/project-edit/${Number(state?.projectId)}`);

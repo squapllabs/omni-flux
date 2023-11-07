@@ -8,10 +8,12 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import CustomLoader from '../../ui/customLoader';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
+import ReportService from '../../../service/report-service';
+import RFQItemRegisterItemExcelReport from '../../reportGenerator/excelReport/requestForQuotationItem'
 
 const RFQRegisterItemForm: React.FC = (props: any) => {
   const [initialValues, setInitialValues] = useState<any>({
-    project_name: '',
+    project_id: '',
     end_date: '',
     start_date: '',
     vendor_name: '',
@@ -27,12 +29,18 @@ const RFQRegisterItemForm: React.FC = (props: any) => {
     enableReinitialize: true,
     onSubmit: async (values) => {
       setLoader(true);
-      setTimeout(() => {
-        const url =
-          'https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PR299/file-1699170788376-960606536-RFQ-Register(Item) (1).xlsx';
-        const link = document.createElement('a');
-        link.href = url;
-        link.click();
+      setTimeout(async () => {
+        const obj: any = {
+          order_by_column: "updated_date",
+          order_by_direction: "desc",
+          status: "AC",
+          project_id: Number(values?.project_id),
+          from_request_date: values?.start_date,
+          to_request_date: values?.end_date,
+
+        }
+        const reportsData = await ReportService.getPurchaseRequestReport(obj)
+        RFQItemRegisterItemExcelReport(reportsData?.content)
         setLoader(false);
         props.setMessage('Report Generated Successfully');
         props.setOpenSnack(true);
@@ -46,26 +54,26 @@ const RFQRegisterItemForm: React.FC = (props: any) => {
         <div className={Styles?.container}>
           <div>
             <AutoCompleteSelect
-              name="project_name"
+              name="project_id"
               label="Project Name"
               defaultLabel="Select Option"
               placeholder="Select Option"
               onChange={formik.handleChange}
-              value={formik.values.project_name}
+              value={formik.values.project_id}
               optionList={props.getAllProjectForDrop}
               onSelect={(value) => {
-                formik.setFieldValue('project_name', value);
+                formik.setFieldValue('project_id', value);
               }}
             />
           </div>
-          <div>
+          {/* <div>
             <Input
               name="vendor_name"
               label="Vendor Name"
               onChange={formik.handleChange}
               value={formik.values.vendor_name}
             />
-          </div>
+          </div> */}
 
           <div>
             <DatePicker

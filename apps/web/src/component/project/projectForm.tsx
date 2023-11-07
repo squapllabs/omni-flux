@@ -155,7 +155,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     code: yup
       .string()
       .required('Project code is required')
-      .matches(/^[A-Z0-9/\\-]*$/, 'Symbols are not allowed')
+      // .matches(/^[A-Z0-9/\\-]*$/, 'Symbols are not allowed')
       .test(
         'code-availability',
         'Code is already present',
@@ -208,7 +208,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     code: yup
       .string()
       .required('Project code is required')
-      .matches(/^[A-Z0-9/\\-]*$/, 'Symbols are not allowed')
+      // .matches(/^[A-Z0-9/\\-]*$/, 'Symbols are not allowed')
       .test(
         'code-availability',
         'Code is already present',

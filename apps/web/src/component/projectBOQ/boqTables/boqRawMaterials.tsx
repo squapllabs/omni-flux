@@ -52,7 +52,10 @@ const BomRawMaterials: React.FC = (props: any) => {
 
   useEffect(() => {
     if (props.bomList.length === 0 && props.bomId) {
-      props.setBomList([...props.bomList, {...initialValues,bom_configuration_id: Number(props?.bomId)} ]);
+      props.setBomList([
+        ...props.bomList,
+        { ...initialValues, bom_configuration_id: Number(props?.bomId) },
+      ]);
     }
   }, [props.bomId]);
 
@@ -100,10 +103,12 @@ const BomRawMaterials: React.FC = (props: any) => {
         uom_id: Yup.string().trim().required('UOM is required'),
         rate: Yup.number()
           .required('Rate is required')
-          .typeError('Numbers only allowed').min(1),
+          .typeError('Numbers only allowed')
+          .min(1),
         quantity: Yup.number()
           .required('Quantity is required')
-          .typeError('Numbers only allowed').min(1),
+          .typeError('Numbers only allowed')
+          .min(1),
         item_id: Yup.string()
           .trim()
           .nullable()
@@ -205,7 +210,9 @@ const BomRawMaterials: React.FC = (props: any) => {
                         <AutoCompleteSelect
                           width={DropfieldWidth}
                           name="item_id"
-                          optionList={getAllItemDrop != null ? getAllItemDrop : []}
+                          optionList={
+                            getAllItemDrop != null ? getAllItemDrop : []
+                          }
                           value={items?.item_id}
                           onChange={(e) => handleListChange(e, index)}
                           error={
@@ -262,7 +269,11 @@ const BomRawMaterials: React.FC = (props: any) => {
                           }
                           onKeyDown={(e) => {
                             const isNumber = /^[0-9]*$/.test(e.key);
-                            if (!isNumber &&  e.key !== 'Backspace' && e.key !== 'Delete') {
+                            if (
+                              !isNumber &&
+                              e.key !== 'Backspace' &&
+                              e.key !== 'Delete'
+                            ) {
                               e.preventDefault();
                             }
                           }}
@@ -279,7 +290,11 @@ const BomRawMaterials: React.FC = (props: any) => {
                           }
                           onKeyDown={(e) => {
                             const isNumber = /^[0-9]*$/.test(e.key);
-                            if (!isNumber &&  e.key !== 'Backspace' && e.key !== 'Delete') {
+                            if (
+                              !isNumber &&
+                              e.key !== 'Backspace' &&
+                              e.key !== 'Delete'
+                            ) {
                               e.preventDefault();
                             }
                           }}

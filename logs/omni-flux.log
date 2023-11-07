@@ -6356,6 +6356,11 @@ type IntFilter {
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+<<<<<<< HEAD
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+=======
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/searchNotification << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'findMany')
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
@@ -6370,6 +6375,7 @@ type IntFilter {
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
 Invalid `transaction.category.findFirst()` invocation in
 D:\steny_projects\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+>>>>>>> 18b89869e9ef248104843a31e984bd796d41d618
 
   91 const getById = async (categoryId: number, connectionObj = null) => {
   92   try {
@@ -6419,7 +6425,11 @@ type IntFilter {
 
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
 Invalid `transaction.category.findFirst()` invocation in
+<<<<<<< HEAD
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+=======
 D:\steny_projects\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+>>>>>>> 18b89869e9ef248104843a31e984bd796d41d618
 
   91 const getById = async (categoryId: number, connectionObj = null) => {
   92   try {
@@ -6469,6 +6479,9 @@ type IntFilter {
 
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
 Invalid `transaction.category.findFirst()` invocation in
+<<<<<<< HEAD
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+=======
 D:\steny_projects\omni-flux\apps\api\src\dao\category.dao.ts:94:49
 
   91 const getById = async (categoryId: number, connectionObj = null) => {
@@ -6531,6 +6544,7 @@ type IntFilter {
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
 Invalid `transaction.category.findFirst()` invocation in
 D:\steny_projects\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+>>>>>>> 18b89869e9ef248104843a31e984bd796d41d618
 
   91 const getById = async (categoryId: number, connectionObj = null) => {
   92   try {
@@ -6580,7 +6594,11 @@ type IntFilter {
 
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
 Invalid `transaction.category.findFirst()` invocation in
+<<<<<<< HEAD
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+=======
 D:\steny_projects\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+>>>>>>> 18b89869e9ef248104843a31e984bd796d41d618
 
   91 const getById = async (categoryId: number, connectionObj = null) => {
   92   try {
@@ -6630,7 +6648,11 @@ type IntFilter {
 
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
 Invalid `transaction.category.findFirst()` invocation in
+<<<<<<< HEAD
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+=======
 D:\steny_projects\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+>>>>>>> 18b89869e9ef248104843a31e984bd796d41d618
 
   91 const getById = async (categoryId: number, connectionObj = null) => {
   92   try {
@@ -6678,6 +6700,576 @@ type IntFilter {
 }
 
 
+<<<<<<< HEAD
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/addBulk << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.create()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\subCategory.dao.ts:28:56
+
+  25 const formatted_end_date = end_date ? new Date(end_date) : null;
+  26 const transaction = connectionObj !== null ? connectionObj : prisma;
+  27 const is_delete = false;
+→ 28 const subCategory = await transaction.sub_category.create({
+       data: {
+         name: undefined,
+         category_id: 585,
+         actual_budget: 0,
+         created_by: undefined,
+         created_date: new Date('2023-11-07T13:22:19.825Z'),
+         updated_date: new Date('2023-11-07T13:22:19.825Z'),
+         is_delete: false,
+         description: ' Providing and constructing coffer dam in river / nalla basin. Dam storage as per type design including excavation, filling the middle portion with B.C.soil (in gunny bags if required).  Providing impervious / semipervious materials on both sides of B.C. Soil (including gunny bags if required) including ramming, compacting to the satisfaction of Engineer-in-charge till  the completion of work including dismentaling coffer dam after completion of work and disposing off the material as directed by Engineer-in-charge.',
+         project_id: 205,
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: 130,
+         progress_status: undefined,
+         parent_sub_category_id: null,
+         estimated_budget: 14441350,
+         uom_id: '',
+                 ~~
+         quantity: 19250,
+         rate: 750.2
+       }
+     })
+
+Argument uom_id: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Int or Null.
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/addBulk << ERRSTRING >>Error: 
+Invalid `transaction.sub_category.create()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\subCategory.dao.ts:28:56
+
+  25 const formatted_end_date = end_date ? new Date(end_date) : null;
+  26 const transaction = connectionObj !== null ? connectionObj : prisma;
+  27 const is_delete = false;
+→ 28 const subCategory = await transaction.sub_category.create({
+       data: {
+         name: undefined,
+         category_id: 585,
+         actual_budget: 0,
+         created_by: undefined,
+         created_date: new Date('2023-11-07T13:24:54.543Z'),
+         updated_date: new Date('2023-11-07T13:24:54.543Z'),
+         is_delete: false,
+         description: ' Providing and constructing coffer dam in river / nalla basin. Dam storage as per type design including excavation, filling the middle portion with B.C.soil (in gunny bags if required).  Providing impervious / semipervious materials on both sides of B.C. Soil (including gunny bags if required) including ramming, compacting to the satisfaction of Engineer-in-charge till  the completion of work including dismentaling coffer dam after completion of work and disposing off the material as directed by Engineer-in-charge.',
+         project_id: 205,
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: 130,
+         progress_status: undefined,
+         parent_sub_category_id: null,
+         estimated_budget: 14441350,
+         uom_id: '',
+                 ~~
+         quantity: 19250,
+         rate: 750.2
+       }
+     })
+
+Argument uom_id: Got invalid value '' on prisma.createOnesub_category. Provided String, expected Int or Null.
+
+
+=======
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/searchNotification << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'findMany')
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
@@ -6788,3 +7380,1510 @@ Argument name for data.name must not be null. Please use undefined instead.
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+>>>>>>> 18b89869e9ef248104843a31e984bd796d41d618
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByVendorQuotesId << ERRSTRING >>Error: 
+Invalid `transaction.vendor_quotes.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendorQuotes.dao.ts:91:58
+
+  88 const getById = async (vendorQuotesId: number, connectionObj = null) => {
+  89   try {
+  90     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 91     const vendorQuotes = await transaction.vendor_quotes.findFirst({
+           where: {
+             vendor_quotes_id: NaN,
+                               ~~~
+             is_delete: false
+           },
+           include: {
+             vendor_data: true,
+             purchase_request_data: true
+           }
+         })
+
+Argument vendor_quotes_id: Got invalid value NaN on prisma.findFirstvendor_quotes. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateStatus << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order_invoice.update()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\purchaseOrderInvoice.dao.ts:576:48
+
+  573 const transaction = connectionObj !== null ? connectionObj : prisma;
+  574 const formatted_paid_date = paid_date ? new Date(paid_date) : null;
+  575 const purchaseOrderInvoice =
+→ 576   await transaction.purchase_order_invoice.update({
+          where: {
+            purchase_order_invoice_id: 15
+          },
+          data: {
+            purchase_order_id: 196,
+            status: 'Paid',
+            paid_by: 111,
+            payment_mode: 'Bank Transfer',
+            ~~~~~~~~~~~~
+            additional_info: undefined,
+            paid_date: new Date('2023-11-07T16:16:17.944Z'),
+            updated_by: 111,
+            updated_date: new Date('2023-11-07T16:16:18.053Z')
+          }
+        })
+
+Unknown arg `payment_mode` in data.payment_mode for type purchase_order_invoiceUncheckedUpdateInput. Did you mean `paid_date`? Available args:
+type purchase_order_invoiceUncheckedUpdateInput {
+  purchase_order_invoice_id?: Int | IntFieldUpdateOperationsInput
+  purchase_order_id?: Int | IntFieldUpdateOperationsInput
+  grn_id?: Int | IntFieldUpdateOperationsInput
+  invoice_number?: String | NullableStringFieldUpdateOperationsInput | Null
+  invoice_document?: NullableJsonNullValueInput | Json
+  requested_by?: Int | NullableIntFieldUpdateOperationsInput | Null
+  invoice_date?: DateTime | NullableDateTimeFieldUpdateOperationsInput | Null
+  due_date?: DateTime | NullableDateTimeFieldUpdateOperationsInput | Null
+  status?: String | NullableStringFieldUpdateOperationsInput | Null
+  additional_info?: NullableJsonNullValueInput | Json
+  total_amount?: Float | NullableFloatFieldUpdateOperationsInput | Null
+  paid_by?: Int | NullableIntFieldUpdateOperationsInput | Null
+  paid_date?: DateTime | NullableDateTimeFieldUpdateOperationsInput | Null
+  created_date?: DateTime | DateTimeFieldUpdateOperationsInput
+  updated_date?: DateTime | DateTimeFieldUpdateOperationsInput
+  created_by?: Int | NullableIntFieldUpdateOperationsInput | Null
+  updated_by?: Int | NullableIntFieldUpdateOperationsInput | Null
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateStatus << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order_invoice.update()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\purchaseOrderInvoice.dao.ts:576:48
+
+  573 const transaction = connectionObj !== null ? connectionObj : prisma;
+  574 const formatted_paid_date = paid_date ? new Date(paid_date) : null;
+  575 const purchaseOrderInvoice =
+→ 576   await transaction.purchase_order_invoice.update({
+          where: {
+            purchase_order_invoice_id: 15
+          },
+          data: {
+            purchase_order_id: 196,
+            status: 'Paid',
+            paid_by: 111,
+            payment_mode: 'Bank Transfer',
+            ~~~~~~~~~~~~
+            additional_info: undefined,
+            paid_date: new Date('2023-11-07T16:16:25.003Z'),
+            updated_by: 111,
+            updated_date: new Date('2023-11-07T16:16:25.135Z')
+          }
+        })
+
+Unknown arg `payment_mode` in data.payment_mode for type purchase_order_invoiceUncheckedUpdateInput. Did you mean `paid_date`? Available args:
+type purchase_order_invoiceUncheckedUpdateInput {
+  purchase_order_invoice_id?: Int | IntFieldUpdateOperationsInput
+  purchase_order_id?: Int | IntFieldUpdateOperationsInput
+  grn_id?: Int | IntFieldUpdateOperationsInput
+  invoice_number?: String | NullableStringFieldUpdateOperationsInput | Null
+  invoice_document?: NullableJsonNullValueInput | Json
+  requested_by?: Int | NullableIntFieldUpdateOperationsInput | Null
+  invoice_date?: DateTime | NullableDateTimeFieldUpdateOperationsInput | Null
+  due_date?: DateTime | NullableDateTimeFieldUpdateOperationsInput | Null
+  status?: String | NullableStringFieldUpdateOperationsInput | Null
+  additional_info?: NullableJsonNullValueInput | Json
+  total_amount?: Float | NullableFloatFieldUpdateOperationsInput | Null
+  paid_by?: Int | NullableIntFieldUpdateOperationsInput | Null
+  paid_date?: DateTime | NullableDateTimeFieldUpdateOperationsInput | Null
+  created_date?: DateTime | DateTimeFieldUpdateOperationsInput
+  updated_date?: DateTime | DateTimeFieldUpdateOperationsInput
+  created_by?: Int | NullableIntFieldUpdateOperationsInput | Null
+  updated_by?: Int | NullableIntFieldUpdateOperationsInput | Null
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateStatus << ERRSTRING >>Error: 
+Invalid `transaction.purchase_order_invoice.update()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\purchaseOrderInvoice.dao.ts:576:48
+
+  573 const transaction = connectionObj !== null ? connectionObj : prisma;
+  574 const formatted_paid_date = paid_date ? new Date(paid_date) : null;
+  575 const purchaseOrderInvoice =
+→ 576   await transaction.purchase_order_invoice.update({
+          where: {
+            purchase_order_invoice_id: 15
+          },
+          data: {
+            purchase_order_id: 196,
+            status: 'Paid',
+            paid_by: 111,
+            payment_mode: 'Bank Transfer',
+            ~~~~~~~~~~~~
+            additional_info: undefined,
+            paid_date: new Date('2023-11-07T16:17:08.870Z'),
+            updated_by: 111,
+            updated_date: new Date('2023-11-07T16:17:08.973Z')
+          }
+        })
+
+Unknown arg `payment_mode` in data.payment_mode for type purchase_order_invoiceUncheckedUpdateInput. Did you mean `paid_date`? Available args:
+type purchase_order_invoiceUncheckedUpdateInput {
+  purchase_order_invoice_id?: Int | IntFieldUpdateOperationsInput
+  purchase_order_id?: Int | IntFieldUpdateOperationsInput
+  grn_id?: Int | IntFieldUpdateOperationsInput
+  invoice_number?: String | NullableStringFieldUpdateOperationsInput | Null
+  invoice_document?: NullableJsonNullValueInput | Json
+  requested_by?: Int | NullableIntFieldUpdateOperationsInput | Null
+  invoice_date?: DateTime | NullableDateTimeFieldUpdateOperationsInput | Null
+  due_date?: DateTime | NullableDateTimeFieldUpdateOperationsInput | Null
+  status?: String | NullableStringFieldUpdateOperationsInput | Null
+  additional_info?: NullableJsonNullValueInput | Json
+  total_amount?: Float | NullableFloatFieldUpdateOperationsInput | Null
+  paid_by?: Int | NullableIntFieldUpdateOperationsInput | Null
+  paid_date?: DateTime | NullableDateTimeFieldUpdateOperationsInput | Null
+  created_date?: DateTime | DateTimeFieldUpdateOperationsInput
+  updated_date?: DateTime | DateTimeFieldUpdateOperationsInput
+  created_by?: Int | NullableIntFieldUpdateOperationsInput | Null
+  updated_by?: Int | NullableIntFieldUpdateOperationsInput | Null
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
