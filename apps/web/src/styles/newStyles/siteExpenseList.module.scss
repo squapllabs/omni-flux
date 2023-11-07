@@ -7,10 +7,12 @@
 .topHeading {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
   padding: 0px 10px 0px 10px;
   align-self: center;
+  padding-bottom: 10px;
   // background-color: #118153;
 }
 .sub_header {
@@ -34,15 +36,17 @@
 
 .cards {
   background-color: #f9f9f9;
+  padding: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 7px;
 }
 .amountCards {
   display: flex;
   flex-direction: row;
   // justify-content: space-between;
-  gap: 35px;
+  gap: 40px;
   flex-wrap: wrap;
 }
 
@@ -68,7 +72,7 @@
 .grpButtons {
   display: flex;
   justify-content: center;
-  padding: 20px 0px 15px 0px;
+  padding: 15px 0px 25px 0px;
   // background-color: #667085;
 }
 
@@ -118,6 +122,10 @@
   align-items: center;
   gap: 2px;
   // text-align: center;
+}
+
+.tableContainer {
+  padding: 10px 10px 0px 10px;
 }
 
 /* Apply the scrollable_table class to your table element */
@@ -213,3 +221,106 @@
   display: flex;
   justify-content: center;
 }
+
+.mobileTableContainer {
+  background-color: #f9f9f9;
+  height: 500px;
+  overflow-y: scroll;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.cardTable {
+  border: 1px  solid #ddd; 
+  border-bottom: 2px solid rgb(198, 197, 197);
+  border-radius: 2px 2px 0px 0px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  background-color: #fff; 
+  width: 80%; 
+  height: 50px;
+  overflow-y: scroll;
+  text-align: center;
+  margin: 0; 
+}
+
+.cardTable th {
+  padding: 5px; 
+  border: none;
+  font-size: 14px;
+}
+
+
+.cardTable td {
+  padding: 5px; 
+  font-size: 14px;
+  border: none;
+  // border-bottom: 1px solid black;
+}
+
+
+.cardHeader {
+  background-color: #f7f7f7; 
+  font-size: 12px; 
+  border-bottom: 1px solid #ddd; 
+}
+
+
+@media only screen and (max-width: 750px) {
+  
+.topHeading {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  // background-color: green;
+}
+
+.sub_header {
+  display: none;
+}
+
+.amountCards {
+  display: flex;
+  flex-direction: column;
+  // background-color: red;
+  row-gap: 15px;
+  // justify-content: space-between;
+  // flex-wrap: wrap;
+}
+
+
+.tableContainer {
+  overflow-x: auto; 
+  margin: 0px -10px; 
+}
+
+.scrollable_table {
+  width: 100%;
+  max-width: 100%;
+}
+
+.scrollable_table,
+.scrollable_table th,
+.scrollable_table td {
+  padding: 15px;
+}
+
+.pagination {
+  padding: 10px 25px 10px 25px;
+  display: flex;
+  justify-content: center;
+}
+
+.grpButtons {
+  display: flex;
+  justify-content: center;
+  padding: 0px 0px 25px 90px;
+}
+
+} 
