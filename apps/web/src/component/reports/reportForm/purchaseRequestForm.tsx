@@ -8,20 +8,24 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import CustomLoader from '../../ui/customLoader';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
+import ReportService from '../../../service/report-service';
+import PurcahseRegisterExcelReport from '../../reportGenerator/excelReport/purchaseRegister'
 
 const PurchaseRequestForm: React.FC = (props: any) => {
   const purchaseControl: any = [
-    { label: 'Local Purchase', value: 'LP' },
-    { label: 'Head Office', value: 'HO' },
+    { label: 'Local Purchase', value: 'Local Purchase' },
+    { label: 'Head Office', value: 'Head Office' },
   ];
   const orderType: any = [{ label: 'Purchase Order', value: 'PO' }];
   const [initialValues, setInitialValues] = useState<any>({
-    purchase_control: '',
-    project_name: '',
+    purchase_type: '',
+    project_id: '',
     order_type: '',
     start_date: '',
     end_date: '',
   });
+
+
   const [loader, setLoader] = useState(false);
   const validationSchema = yup.object().shape({
     start_date: yup.date().required(),
@@ -33,14 +37,29 @@ const PurchaseRequestForm: React.FC = (props: any) => {
     enableReinitialize: true,
     onSubmit: async (values) => {
       setLoader(true);
-      setTimeout(() => {
-        const url =
-          'https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PR238/file-1699163324335-552782159-PO-Register%20(1).xlsx';
-        const link = document.createElement('a');
-        link.href = url;
-        link.click();
+      setTimeout(async () => {
+        const obj: any = {
+          order_by_column: "updated_date",
+          order_by_direction: "desc",
+          status: "AC",
+          project_id: Number(values?.project_id),
+          purchase_order_type: values?.purchase_type,
+          from_order_date: values?.start_date,
+          to_order_date: values?.end_date,
+        }
+        const reportsData = await ReportService.getPurchaseRegisterReport(obj)
+        if (reportsData?.total_count !== 0) {
+          PurcahseRegisterExcelReport(reportsData?.content)
+          props.setMessage('Report Generated Successfully');
+        }
+        else {
+          props.setMessage('No Records Found');
+        }
+
+        // console.log("reportsData", reportsData?.total_count === 0);
+
+
         setLoader(false);
-        props.setMessage('Report Generated Successfully');
         props.setOpenSnack(true);
         props.setOpen(false);
       }, 1000);
@@ -52,12 +71,12 @@ const PurchaseRequestForm: React.FC = (props: any) => {
         <div className={Styles?.container}>
           <div>
             <Select
-              label="Purchase Control"
-              name="purchase_control"
+              label="Purchase Type"
+              name="purchase_type"
               defaultLabel="Select Option"
               placeholder="Select Option"
               onChange={formik.handleChange}
-              value={formik.values.purchase_control}
+              value={formik.values.purchase_type}
             >
               {purchaseControl?.map((item: any, index: any) => {
                 return (
@@ -70,19 +89,19 @@ const PurchaseRequestForm: React.FC = (props: any) => {
           </div>
           <div>
             <AutoCompleteSelect
-              name="project_name"
+              name="project_id"
               label="Project Name"
               defaultLabel="Select Option"
               placeholder="Select Option"
               onChange={formik.handleChange}
-              value={formik.values.project_name}
+              value={formik.values.project_id}
               optionList={props.getAllProjectForDrop}
               onSelect={(value) => {
-                formik.setFieldValue('project_name', value);
+                formik.setFieldValue('project_id', value);
               }}
             />
           </div>
-          <div>
+          {/* <div>
             <Select
               label="Order Type"
               name="order_type"
@@ -99,10 +118,10 @@ const PurchaseRequestForm: React.FC = (props: any) => {
                 );
               })}
             </Select>
-          </div>
+          </div> */}
           <div>
             <DatePicker
-              label="Order Date"
+              label="From Date"
               name="start_date"
               onChange={formik.handleChange}
               value={formik.values.start_date}
@@ -116,7 +135,7 @@ const PurchaseRequestForm: React.FC = (props: any) => {
           </div>
           <div>
             <DatePicker
-              label="Release Date"
+              label="To Date"
               name="end_date"
               onChange={formik.handleChange}
               value={formik.values.end_date}
