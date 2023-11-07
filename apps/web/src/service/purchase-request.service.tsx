@@ -87,7 +87,7 @@ const getOnePurchaseOrderTableDataByID = async (values: number) => {
 const updatePoBillStatus = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.put(
-      `${environment.apiUrl}/purchase-order/update-status-and-document/`,
+      `${environment.apiUrl}/purchase-order-invoice/update-status/`,
       values
     );
     return response.data;
@@ -106,6 +106,20 @@ const getPoData = async (values: JSON) => {
     return response.data;
   } catch (error) {
     console.log('Error in getPoData filter :', error);
+    throw error;
+  }
+};
+
+const getMyOrdersData = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/purchase-order/my-orders`,
+      values
+    );
+
+    return response.data;
+  } catch (error) {
+    console.log('Error in myorders filter :', error);
     throw error;
   }
 };
@@ -172,5 +186,6 @@ export default {
   documentUpload,
   purchaseDetailData,
   getOnePurchaseOrderTableDataByID,
-  purchseOrderGetAll
+  purchseOrderGetAll,
+  getMyOrdersData
 };

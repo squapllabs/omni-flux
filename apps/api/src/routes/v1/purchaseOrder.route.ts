@@ -13,6 +13,8 @@ import {
   searchPurchaseOrder,
   updatePurchaseOrder,
   updateStatusAndDocument,
+  searchPurchaseOrderWithMultipleStatus,
+  getRFQReportData,
 } from '../../controller/purchaseOrder.controller';
 import { runValidation } from '../../validations/index';
 
@@ -40,6 +42,9 @@ router.delete(
 
 router.post('/search', authMiddleware, searchPurchaseOrder);
 
+
+router.post('/my-orders', authMiddleware, searchPurchaseOrderWithMultipleStatus);
+
 router.post(
   '/purchase-order-with-item',
   authMiddleware,
@@ -63,5 +68,7 @@ router.put(
 router.get('/get-po-statistics', authMiddleware, getPOStatistics);
 
 router.post('/get-po-report', authMiddleware, getPOReportData);
+
+router.post('/get-rfq-report', authMiddleware, getRFQReportData);
 
 export default router;

@@ -75,6 +75,18 @@ const searchPurchaseOrder = catchAsync(async (req, res) => {
   }
 });
 
+const searchPurchaseOrderWithMultipleStatus = catchAsync(async (req, res) => {
+  const methodName = '/searchPurchaseOrderWithMultipleStatus';
+  try {
+    const purchaseOrder = await purchaseOrderService.searchPurchaseOrderWithMultipleStatus(
+      req.body
+    );
+    res.send(purchaseOrder);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 const createPurchaseOrderWithItem = catchAsync(async (req, res) => {
   const methodName = '/createPurchaseOrderWithItem';
   try {
@@ -132,6 +144,16 @@ const getPOReportData = catchAsync(async (req, res) => {
   }
 });
 
+const getRFQReportData = catchAsync(async (req, res) => {
+  const methodName = '/getPOReportData';
+  try {
+    const purchaseOrder = await purchaseOrderService.getRFQReportData(req.body);
+    res.send(purchaseOrder);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createPurchaseOrder,
   updatePurchaseOrder,
@@ -144,4 +166,6 @@ export {
   updateStatusAndDocument,
   getPOStatistics,
   getPOReportData,
+  searchPurchaseOrderWithMultipleStatus,
+  getRFQReportData,
 };

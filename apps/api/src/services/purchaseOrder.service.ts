@@ -443,6 +443,179 @@ const searchPurchaseOrder = async (body) => {
   }
 };
 
+
+
+/**
+ * Method to search searchPurchaseOrderWithMultipleStatus - Pagination API
+ * @returns
+ */
+const searchPurchaseOrderWithMultipleStatus = async (body) => {
+  try {
+    const offset = body.offset;
+    const limit = body.limit;
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const global_search = body.global_search;
+    const status = body.status;
+    const project_id = body.project_id;
+    const bill_status = body.bill_status;
+    const site_id = body.site_id;
+    const purchase_order_type = body.purchase_order_type;
+
+    const filterObj: any = {};
+
+    if (status) {
+      filterObj.filterPurchaseOrder = {
+        is_delete: status === 'AC' ? false : true,
+      };
+    }
+
+    if (purchase_order_type != "Local Purchase") {
+      filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+      filterObj.filterPurchaseOrder.OR = filterObj.filterPurchaseOrder.OR || [];
+ 
+      filterObj.filterPurchaseOrder.OR.push({
+        status: 'Processing',
+      });
+ 
+      filterObj.filterPurchaseOrder.OR.push({
+        status: 'Partially Received',
+      });
+    }
+
+    if (purchase_order_type) {
+      filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+      filterObj.filterPurchaseOrder.AND =
+        filterObj.filterPurchaseOrder.AND || [];
+
+      filterObj.filterPurchaseOrder.AND.push({
+        purchase_order_type: purchase_order_type,
+      });
+    }
+
+    if (project_id) {
+      if (purchase_order_type === 'Head Office') {
+        filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+        filterObj.filterPurchaseOrder.AND =
+          filterObj.filterPurchaseOrder.AND || [];
+
+        filterObj.filterPurchaseOrder.AND.push({
+          purchase_request_data: {
+            project_id: project_id,
+          },
+        });
+      } else if (purchase_order_type === 'Local Purchase') {
+        filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+        filterObj.filterPurchaseOrder.AND =
+          filterObj.filterPurchaseOrder.AND || [];
+
+        filterObj.filterPurchaseOrder.AND.push({
+          indent_request_data: {
+            project_id: project_id,
+          },
+        });
+      }
+    }
+
+    if (site_id) {
+      if (purchase_order_type === 'Head Office') {
+        filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+        filterObj.filterPurchaseOrder.AND =
+          filterObj.filterPurchaseOrder.AND || [];
+
+        filterObj.filterPurchaseOrder.AND.push({
+          purchase_request_data: {
+            site_id: site_id,
+          },
+        });
+      } else if (purchase_order_type === 'Local Purchase') {
+        filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+        filterObj.filterPurchaseOrder.AND =
+          filterObj.filterPurchaseOrder.AND || [];
+
+        filterObj.filterPurchaseOrder.AND.push({
+          indent_request_data: {
+            site_id: site_id,
+          },
+        });
+      }
+    }
+
+    if (global_search) {
+      filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+      filterObj.filterPurchaseOrder.OR = filterObj.filterPurchaseOrder.OR || [];
+
+      filterObj.filterPurchaseOrder.OR.push(
+        {
+          status: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          order_remark: {
+            contains: global_search,
+            mode: 'insensitive',
+          },
+        },
+        {
+          purchase_request_data: {
+            vendor_selection_method: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        },
+        {
+          vendor_data: {
+            vendor_name: {
+              contains: global_search,
+              mode: 'insensitive',
+            },
+          },
+        }
+      );
+    }
+
+    const result = await purchaseOrderDao.searchPurchaseOrder(
+      offset,
+      limit,
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+    const count = result?.count;
+    const data = result?.data;
+    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
+    if (result?.count >= 0) {
+      const tempPurchaseOrderData = {
+        message: 'success',
+        status: true,
+        total_count: count,
+        total_page: total_pages,
+        is_available: true,
+        content: data,
+      };
+      return tempPurchaseOrderData;
+    } else {
+      const tempPurchaseOrderData = {
+        message: 'No data found',
+        status: false,
+        is_available: false,
+      };
+      return tempPurchaseOrderData;
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in searchPurchaseOrder PurchaseOrder service : ',
+      error
+    );
+    throw error;
+  }
+};
 /**
  * Method to Create a New PurchaseOrder With Purchase Order Item Details
  * @param body
@@ -819,6 +992,71 @@ const getPurchaseOrderReport = async (body) => {
   }
 };
 
+const getRFQReportData = async (body) => {
+  try {
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const status = body.status;
+    const project_id = body.project_id;
+    const from_order_date = body.from_order_date;
+    const to_order_date = body.to_order_date;
+    const purchase_order_type = 'purchase_request_data';
+    const filterObj: any = {};
+
+    if (status) {
+      filterObj.filterPurchaseOrder = {
+        is_delete: status === 'AC' ? false : true,
+      };
+    }
+
+    if (project_id) {
+      const filterType = purchase_order_type;
+
+      filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+      filterObj.filterPurchaseOrder.AND =
+        filterObj.filterPurchaseOrder.AND || [];
+
+      filterObj.filterPurchaseOrder.AND.push({
+        [filterType]: {
+          project_id: project_id,
+        },
+      });
+    }
+
+    if (from_order_date && to_order_date) {
+      filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
+      filterObj.filterPurchaseOrder.AND =
+        filterObj.filterPurchaseOrder.AND || [];
+      filterObj.filterPurchaseOrder.AND.push({
+        order_date: {
+          gte: new Date(from_order_date),
+          lte: new Date(to_order_date),
+        },
+      });
+    }
+    const result = await purchaseOrderDao.getRFQReportData(
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+    const count = result?.count;
+    const data = result?.data;
+    const tempPurchaseOrderData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      content: data,
+    };
+    return tempPurchaseOrderData;
+  } catch (error) {
+    console.log('Error occurred in getRFQData PurchaseOrder service : ', error);
+    throw error;
+  }
+};
+
 export {
   createPurchaseOrder,
   updatePurchaseOrder,
@@ -831,4 +1069,6 @@ export {
   updateStatusAndDocument,
   getPOStatistics,
   getPurchaseOrderReport,
+  searchPurchaseOrderWithMultipleStatus,
+  getRFQReportData,
 };
