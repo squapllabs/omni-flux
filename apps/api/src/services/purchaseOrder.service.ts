@@ -819,6 +819,12 @@ const getPurchaseOrderReport = async (body) => {
   }
 };
 
+/**
+ *
+ * @param body Method to get RFQ report Data
+ * @returns
+ */
+
 const getRFQReportData = async (body) => {
   try {
     const order_by_column = body.order_by_column
@@ -884,6 +890,31 @@ const getRFQReportData = async (body) => {
   }
 };
 
+/**
+ * Method to get data for Chart
+ * @returns
+ */
+const getPoChartData = async () => {
+  try {
+    const purchaseOrderData = await purchaseOrderDao.getPoChartData();
+    if (purchaseOrderData) {
+      return { message: 'success', status: true, data: purchaseOrderData };
+    } else {
+      return {
+        message: 'No data found',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getPoChartData purchaseOrder service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createPurchaseOrder,
   updatePurchaseOrder,
@@ -897,4 +928,5 @@ export {
   getPOStatistics,
   getPurchaseOrderReport,
   getRFQReportData,
+  getPoChartData,
 };
