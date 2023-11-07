@@ -634,6 +634,7 @@ const handleFileOnChange = async (e:any) =>{
                                   console.log("categories",categories)
                                 }
                               }
+                              className={Styles.td_desc}
                               
                               >
                                 {data.description || '--'}
@@ -662,37 +663,6 @@ const handleFileOnChange = async (e:any) =>{
                                     }
                                   /></span>
                               </div>
-                              {/* <div className={Styles.actionIcons_container}>
-                              <span style={{cursor: 'pointer'}}><EditIcon
-                                  onClick={() =>{  
-                                  handleEdit(data?.sub_category_id);
-                                  setSelectedSubCategoryId(data?.sub_category_id);}}
-                                  /></span>
-                                
-                                <span
-                                onClick={()=>{    
-                                  handleSubTask(data?.sub_category_id);
-                                    setSelectedSubCategoryId(data?.sub_category_id);}}
-                                >
-                                <AddIcon width={20} height={20} color={primary_color} style={{cursor: 'pointer'}} />
-                                </span>
-                                {
-                                  data?.children?.length===0 ? (
-                                    <span
-                                onClick={()=>{
-                                  setSelectedSubCategoryId(data.sub_category_id);
-                                  setPlanListTitle(data.name);
-                                  setShowPlanForm(true);
-                                }}
-                                >
-                                  <SettingIcon
-                                  style={{cursor: 'pointer'}}
-                                  color={primary_color}
-                                  />
-                                </span>
-                                  ): ('')
-                                }
-                              </div> */}
                               </td>
                             </tr>
                         );

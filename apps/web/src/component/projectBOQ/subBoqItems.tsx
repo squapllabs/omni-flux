@@ -144,10 +144,12 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
           {
           formatBudgetValue(
             rowData?.estimated_budget ? rowData?.estimated_budget : 0
-          )  + '  ' + '('+
-          formatBudgetValue(
+          )  }
+        </td>
+        <td>
+        {formatBudgetValue(
             rowData?.actual_budget ? rowData?.actual_budget : 0
-          ) + ')'}
+          )}
         </td>
         <td>
           {/* <CustomMenu

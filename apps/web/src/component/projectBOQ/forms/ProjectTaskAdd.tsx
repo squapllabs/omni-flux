@@ -20,12 +20,12 @@ import { getUomByType } from '../../../hooks/uom-hooks';
 
 const ProjectTaskAdd: React.FC = (props: any) => {
   console.log('props', props?.isCollapsed);
-
+debugger
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
   const { mutate: createNewSubCategory } = createInstantSubcategory();
   const { mutate: updateSubcategoryData } = updateSubcategory();
   const [initialValues, setInitialValues] = useState({
-    name: null,
+    name: '',
     description: '',
     project_id: '',
     category_id: '',
@@ -84,7 +84,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
     onSubmit: (values, { resetForm }) => {
       if (props.mode === 'EDIT') {
         const Object: any = {
-          name: values.name || null,
+          name: values.name,
           description: values.description,
           project_id: props.selectedProject,
           actual_budget: initialValues.actual_budget,
