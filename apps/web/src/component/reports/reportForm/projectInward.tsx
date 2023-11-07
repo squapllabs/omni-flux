@@ -8,7 +8,8 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import CustomLoader from '../../ui/customLoader';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
-
+import reportService from '../../../service/report-service';
+import ProjectInwardReport from '../../reportGenerator/excelReport/projectInwardReport';
 const ProjectInward: React.FC = (props: any) => {
   const [initialValues, setInitialValues] = useState<any>({
     project_name: '',
@@ -19,18 +20,25 @@ const ProjectInward: React.FC = (props: any) => {
     // validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      setLoader(true);
-      setTimeout(() => {
-        const url =
-          'https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PR300/file-1699179811012-753254282-Inward-Projectwise.xlsx';
-        const link = document.createElement('a');
-        link.href = url;
-        link.click();
-        setLoader(false);
-        props.setMessage('Report Generated Successfully');
-        props.setOpenSnack(true);
-        props.setOpen(false);
-      }, 1000);
+      // setLoader(true);
+      console.log('values', values);
+
+      const getProjectInward = await reportService.projectInwardReport(
+        values?.project_name
+      );
+      console.log('getProjectInward', getProjectInward?.data);
+      await ProjectInwardReport(getProjectInward?.data);
+      // setTimeout(() => {
+      //   const url =
+      //     'https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PR300/file-1699179811012-753254282-Inward-Projectwise.xlsx';
+      //   const link = document.createElement('a');
+      //   link.href = url;
+      //   link.click();
+      //   setLoader(false);
+      //   props.setMessage('Report Generated Successfully');
+      //   props.setOpenSnack(true);
+      //   props.setOpen(false);
+      // }, 1000);
     },
   });
   return (

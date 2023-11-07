@@ -14,13 +14,14 @@ import Button from '../ui/Button';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useGetAllProjectDrop } from '../../hooks/project-hooks';
 import CustomGroupButton from '../ui/CustomGroupButton';
-import ViewIcon from '../menu/icons/viewIcon';
+import ViewIcon from '../menu/icons/newViewIcon';
 import { format } from 'date-fns';
 import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/pdfReport/invoice';
 import CustomPagination from '../menu/CustomPagination';
 import ProjectSubheader from '../project/projectSubheader';
 import { environment } from '../../environment/environment';
+import CustomPopup from '../ui/CustomSidePopup';
 
 const OrderView = () => {
   const navigate = useNavigate();
@@ -31,7 +32,12 @@ const OrderView = () => {
   const [selectedValue, setSelectedValue] = useState('');
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [dataShow, setDataShow] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [openSnack, setOpenSnack] = useState(false);
+  const [reload, setReload] = useState(false);
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
+  const [invoiceNumber, setInvoiceNumber] = useState();
+  const [message, setMessage] = useState('');
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'To be paid', value: 'Invoice' },
     { label: 'Paid', value: 'Completed' },
@@ -49,26 +55,31 @@ const OrderView = () => {
     global_search: '',
     bill_status: activeButton,
     project_id: selectedValue,
+    purchase_order_type: 'Head Office',
   };
   const {
     isLoading: dataLoading,
     data: getAllData,
     refetch,
   } = useGetAllPurchaseOrderData(getPoData);
-
+  // console.log('initial', getAllData);
   const { data: getAllProjectDataForDrop = [], isLoading: dropLoading } =
-  useGetAllProjectDrop();
-    console.log("getAllProjectDataForDrop",getAllProjectDataForDrop);
-    
+    useGetAllProjectDrop();
+  // console.log("getAllProjectDataForDrop",getAllProjectDataForDrop);
+
   const {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: searchLoader,
   } = getBySearchPoData();
+  // console.log('rrrr', getFilterData);
 
-  const handleEdit = (value: any) => {
+  const handleEdit = (value: any, invoice: any) => {
     setPurchaseId(value);
-    setShowEditPopUp(true);
+    setInvoiceNumber(invoice);
+    // setShowEditPopUp(true);
+    setOpen(true);
+    // alert(invoice)
   };
 
   const handleReportGenerator = () => {
@@ -135,6 +146,10 @@ const OrderView = () => {
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
+
+  const handleClosePopup = () => {
+    setOpen(false);
+  };
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
@@ -227,9 +242,6 @@ const OrderView = () => {
                   <th className={Styles.tableHeading}>Vendor Name</th>
                   <th className={Styles.tableHeading}>Project Name </th>
                   <th className={Styles.tableHeading}>Amount</th>
-                  {activeButton === 'Completed' && <th>Payment Date</th>}
-                  {activeButton === 'Completed' && <th>Payment Mode</th>}
-                  <th className={Styles.tableHeading}>Bill</th>
                   <th className={Styles.tableHeading}>Actions</th>
                 </tr>
               </thead>
@@ -249,73 +261,19 @@ const OrderView = () => {
                             }
                           </td>
                           <td>{formatBudgetValue(data?.total_cost)}</td>
-                          {activeButton === 'Completed' && (
-                            <td>
-                              {data?.payment_date
-                                ? `${format(
-                                    new Date(data?.payment_date),
-                                    'MMM dd, yyyy'
-                                  )}`
-                                : nullLableNameFromEnv}
-                            </td>
-                          )}
-                          {activeButton === 'Completed' && (
-                            <td>
-                              {data?.payment_mode !== 'null'
-                                ? data?.payment_mode
-                                : nullLableNameFromEnv}
-                            </td>
-                          )}
                           <td>
-                            <div>
-                              {data?.purchase_order_documents?.length > 0 ? (
-                                data?.purchase_order_documents.map(
-                                  (document: any, index: number) => (
-                                    <div key={document.code}>
-                                      <a
-                                        href={document.path}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        {customBillName}
-                                      </a>
-                                    </div>
-                                  )
-                                )
-                              ) : (
-                                <div>-</div>
-                              )}
-                            </div>
-                          </td>
-                          {activeButton === 'Invoice' ? (
                             <td>
-                              <div className={Styles.tablerow}>
-                                <EditIcon
-                                  onClick={() =>
-                                    handleEdit(data.purchase_order_id)
-                                  }
-                                />
-                                <PdfDownloadIcon
-                                  onClick={() => handleReportGenerator()}
-                                />
-                              </div>
-                            </td>
-                          ) : (
-                            <td>
-                              <div className={Styles.tablerow}>
-                                <ViewIcon
-                                  onClick={() =>
+                              <ViewIcon
+                                onClick={
+                                  () =>
                                     navigate(
-                                      `/invoice-view/${data.purchase_order_id}`
+                                      `/view-invoice/${data.purchase_order_id}`
                                     )
-                                  }
-                                />
-                                <PdfDownloadIcon
-                                  onClick={() => handleReportGenerator()}
-                                />
-                              </div>
+                                  // navigate(`/invoice-view/${data.purchase_order_id}`)
+                                }
+                              />
                             </td>
-                          )}
+                          </td>
                         </tr>
                       );
                     })
@@ -325,77 +283,26 @@ const OrderView = () => {
                         <tr>
                           <td>{startingIndex + index}</td>
                           <td>{data?.order_id}</td>
-                          <td>{data?.vendor_data?.vendor_name}</td>
                           <td>
-                            {
-                              data?.purchase_request_data?.project_data
-                                ?.project_name
-                            }
+                            {data?.vendor_data?.vendor_name ||
+                              nullLableNameFromEnv}
+                          </td>
+                          <td>
+                            {data?.purchase_request_data?.project_data
+                              ?.project_name || nullLableNameFromEnv}
                           </td>
                           <td>{formatBudgetValue(data?.total_cost)}</td>
-                          {activeButton === 'Completed' && (
-                            <td>
-                              {data?.payment_date
-                                ? `${format(
-                                    new Date(data?.payment_date),
-                                    'MMM dd, yyyy'
-                                  )}`
-                                : nullLableNameFromEnv}
-                            </td>
-                          )}
-                          {activeButton === 'Completed' && (
-                            <td>{data?.payment_mode || nullLableNameFromEnv} </td>
-                          )}
                           <td>
-                            <div>
-                              {data?.purchase_order_documents?.length > 0 ? (
-                                data?.purchase_order_documents.map(
-                                  (document: any, index: number) => (
-                                    <div key={document.code}>
-                                      <a
-                                        href={document.path}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                      >
-                                        {customBillName}
-                                      </a>
-                                    </div>
+                            <ViewIcon
+                              onClick={
+                                () =>
+                                  navigate(
+                                    `/view-invoice/${data.purchase_order_id}`
                                   )
-                                )
-                              ) : (
-                                <div>-</div>
-                              )}
-                            </div>
+                                // navigate(`/invoice-view/${data.purchase_order_id}`)
+                              }
+                            />
                           </td>
-                          {activeButton === 'Invoice' ? (
-                            <td>
-                              <div className={Styles.tablerow}>
-                                <EditIcon
-                                  onClick={() =>
-                                    handleEdit(data.purchase_order_id)
-                                  }
-                                />
-                                <PdfDownloadIcon
-                                  onClick={() => handleReportGenerator()}
-                                />
-                              </div>
-                            </td>
-                          ) : (
-                            <td>
-                              <div className={Styles.tablerow}>
-                                <ViewIcon
-                                  onClick={() =>
-                                    navigate(
-                                      `/invoice-view/${data.purchase_order_id}`
-                                    )
-                                  }
-                                />
-                                <PdfDownloadIcon
-                                  onClick={() => handleReportGenerator()}
-                                />
-                              </div>
-                            </td>
-                          )}
                         </tr>
                       );
                     })}
@@ -418,10 +325,26 @@ const OrderView = () => {
           />
         </div>
       </CustomLoader>
-      <CustomEditInvoicePopup
+      {/* <CustomEditInvoicePopup
         isVissible={showEditPopUp}
         onAction={setShowEditPopUp}
         selectedPurchaseOrder={purchaseId}
+      /> */}
+      <CustomPopup
+        title="Edit Payment Details"
+        open={open}
+        handleClose={handleClosePopup}
+        content={
+          <CustomEditInvoicePopup
+            setOpen={setOpen}
+            open={open}
+            setReload={setReload}
+            setOpenSnack={setOpenSnack}
+            setMessage={setMessage}
+            selectedPurchaseOrder={purchaseId}
+            selectedInvoive={invoiceNumber}
+          />
+        }
       />
     </div>
   );

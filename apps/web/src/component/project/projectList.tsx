@@ -41,7 +41,8 @@ const ProjectList = () => {
     roleName === 'ADMIN' ||
     roleName === 'SITE MANAGER' ||
     roleName === 'PLANNING ENGINEER' ||
-    roleName === 'SITE ENGINEER';
+    roleName === 'SITE ENGINEER'||
+    roleName === 'PURCHASE MANAGER';
   const { isLoading: getAllLoading } = useGetAllProject();
   const { mutate: getDeleteProjectByID } = useDeleteProjects();
   const [filterValues, setFilterValues] = useState({
@@ -344,44 +345,44 @@ const ProjectList = () => {
             </div> */}
 
           {/* <div className={Styles.dividerStyle}></div> */}
-          {screenSize.width > 750 && (                              //For Desktop View
+          <div className={Styles.tableContainer}>
+            <div>
+              <table className={Styles.scrollable_table}>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Manager</th>
+                    <th>Status</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
 
-            <div className={Styles.tableContainer}>
-              <div>
-                <table className={Styles.scrollable_table}>
-                  <thead>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {getFilterData?.total_count === 0 ? (
                     <tr>
-                      <th>#</th>
-                      <th>Name</th>
-                      <th>Code</th>
-                      <th>Manager</th>
-                      <th>Status</th>
-                      <th>Start Date</th>
-                      <th>End Date</th>
-                      <th>Actions</th>
+                      <td colSpan="7" style={{ textAlign: 'center' }}>
+                        No data found
+                      </td>
+                      {activeButton === 'Inprogress' && <td></td>}
                     </tr>
-                  </thead>
-                  <tbody>
-                    {getFilterData?.total_count === 0 ? (
-                      <tr>
-                        <td colSpan="7" style={{ textAlign: 'center' }}>
-                          No data found
-                        </td>
-                        {activeButton === 'Inprogress' && <td></td>}
-                      </tr>
-                    ) : (
-                      getFilterData?.content?.map((data: any, index: number) => {
-                        return (
-                          <tr key={data.project_id}>
-                            <td>{startingIndex + index}</td>
-                            <td>{data?.project_name}</td>
-                            <td>{data?.code}</td>
-                            <td>
-                              {data?.user?.first_name} {data?.user?.last_name}
-                            </td>
-                            <td>
-                              <span
-                                className={`${Styles.status} ${data?.status === 'Inprogress'
+                  ) : (
+                    getFilterData?.content?.map((data: any, index: number) => {
+                      return (
+                        <tr key={data.project_id}>
+                          <td>{startingIndex + index}</td>
+                          <td>{data?.project_name}</td>
+                          <td>{data?.code}</td>
+                          <td>
+                            {data?.user?.first_name} {data?.user?.last_name}
+                          </td>
+                          <td>
+                            <span
+                              className={`${Styles.status} ${
+                                data?.status === 'Inprogress'
                                   ? Styles.inprogressStatus
                                   : data?.status === 'Completed'
                                     ? Styles.completedStatus

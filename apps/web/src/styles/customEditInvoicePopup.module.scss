@@ -1,56 +1,55 @@
 .popupContent {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    width: 500px;
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    padding: 16px 24px 16px 25px;
-  }
-  
-  .field {
-    padding: 5px 20px 5px 20px;
-  }
-  
-  .dividerStyle {
-    border-bottom: 1px solid #ccc;
-    // padding: 3px 1px 5px 1px;
-  }
-  .dividerStyleOne {
-    border-bottom: 1px solid #ccc;
-    padding: 0px 0px 15px 0px;
-  }
-  
-  .mainField {
-    display: flex;
-    flex-direction: column;
-    padding-left: 20px;
-    padding-top: 10px;
-  }
-  
-  .selectField {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-  }
-  
-  .formButton {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    gap: 10px;
-    padding: 10px 20px 10px 0px;
-  }
-  
-  .cancelButton:hover {
-    background-color: #c4c4c6;
-    color: #070707;
-  }
-  
-  
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 500px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 24px 16px 25px;
+}
+
+.field {
+  padding: 5px 20px 5px 20px;
+}
+
+.dividerStyle {
+  border-bottom: 1px solid #ccc;
+  // padding: 3px 1px 5px 1px;
+}
+.dividerStyleOne {
+  border-bottom: 1px solid #ccc;
+  padding: 0px 0px 15px 0px;
+}
+
+.mainField {
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+  padding-top: 10px;
+}
+
+.selectField {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.formButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 10px 20px 10px 0px;
+}
+
+.cancelButton:hover {
+  background-color: #c4c4c6;
+  color: #070707;
+}
+
 .documentOuterLayer {
   width: 80%;
   border: 1px dashed #475467;
@@ -67,10 +66,10 @@
   font-size: 0.65rem;
 }
 
-.topDocumnetLayer{
-  padding-left: 20px;
+.topDocumnetLayer {
+  // padding-left: 20px;
 }
-.documentheading{
+.documentheading {
   margin-bottom: 4px;
   font-size: 0.8rem;
   color: #333c44;
@@ -83,4 +82,58 @@
 
 .listStyles {
   font-size: 0.85rem;
+}
+
+.divOne {
+  // padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.image {
+  width: 70%;
+  height: 70%;
+  // margin-left: 20px;
+  // background-color: ;
+}
+
+.footer {
+  // margin-top: 110px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.dividerStyle {
+  border-bottom: 1px solid #ccc;
+  padding: 5px 1px 5px 1px;
+}
+
+.button {
+  padding: 10px;
+  gap: 10px;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+.cancelButton:hover {
+  background-color: #c4c4c6;
+  color: #070707;
+}
+
+.invoiceNumber {
+  font-size: 0.8rem;
+  font-weight: normal;
+  // background-color: #475467;
+}
+
+.invDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3px;
 }

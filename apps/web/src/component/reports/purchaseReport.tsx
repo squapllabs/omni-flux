@@ -36,7 +36,7 @@ const PurchaseReport = () => {
   const [menuList, setMenuList] = useState<any>([
     { value: 'DMPO', label: ' Daily/Monthly Pending Orders' },
     { value: 'PP', label: 'Purchase Performance' },
-    { value: 'AVRP', label: 'Approved vs Rejected POs' },
+    { value: 'AVRP', label: 'POs Status' },
   ]);
   const [selectedMenu, setSelectedMenu] = useState<any>('DMPO');
   const handleMenuClear = () => {
@@ -91,9 +91,7 @@ const PurchaseReport = () => {
         {selectedMenu === 'AVRP' && (
           <div className={Styles?.horizontalChart}>
             <div>
-              <span className={Styles?.chartitle}>
-                Approved vs Rejected POs
-              </span>
+              <span className={Styles?.chartitle}></span>
               <HorizontalBarChart />
             </div>
 
