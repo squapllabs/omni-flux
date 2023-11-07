@@ -50,19 +50,19 @@ const createCategory = async (body: createCategoryBody) => {
       //   return result;
       // }
     }
-
-    if (bom_configuration_id) {
-      const bomConfigurationExist = await bomConfigurationDao.getById(
-        bom_configuration_id
-      );
-      if (!bomConfigurationExist) {
-        return {
-          message: 'bom_configuration_id does not exist',
-          status: false,
-          data: null,
-        };
-      }
-    }
+    
+    // if (bom_configuration_id) {
+    //   const bomConfigurationExist = await bomConfigurationDao.getById(
+    //     bom_configuration_id
+    //   );
+    //   if (!bomConfigurationExist) {
+    //     return {
+    //       message: 'bom_configuration_id does not exist',
+    //       status: false,
+    //       data: null,
+    //     };
+    //   }
+    // }
 
     const categoryDetails = await categoryDao.add(
       name,
