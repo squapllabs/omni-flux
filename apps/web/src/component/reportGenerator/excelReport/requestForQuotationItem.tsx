@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 import { format } from 'date-fns';
 import ExcelJS from 'exceljs';
 
-const RequestForQuotationRegister = async (data: any) => {
+const RequestForQuotationItem = async (data: any) => {
 
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sheet1');
@@ -33,27 +33,29 @@ const RequestForQuotationRegister = async (data: any) => {
         'Project Name',
         'RFQ Number',
         'RFQ Date',
+        'Approved Vendor',
         'Status',
         'Requested By'
     ];
 
+
     const itemHeader = [
         '',
         'S No',
-        'Item Name',
-        'UOM',
-        // 'RFQ Quantity',
-        // 'Rate',
-        // 'Total Amount',
+        'Vendor Name',
+        'Contact Person',
+        'Contact Person MobNo',
+        'Quotation Status',
     ]
+
+
 
     let headerData: any = [];
     let itemsData: any = [];
-
     let headerAdded = false; // Track if the header row has been added
-
     if (data?.length > 1) {
-        data?.forEach((itemData: any, index: number) => {
+        data?.forEach((itemdata: any, index: number) => {
+
             if (!headerAdded) {
                 worksheet.addRow(headers).eachCell((cell) => {
                     cell.style = headerStyle;
@@ -61,28 +63,28 @@ const RequestForQuotationRegister = async (data: any) => {
                 headerAdded = true;
             }
 
-            // if (itemData?.purchase_order_type === "Head Office") {
             headerData = [
-                (index + 1),
-                itemData?.project_data?.code,
-                itemData?.project_data?.project_name,
-                itemData?.purchase_request_code,
-                format(new Date(itemData?.request_date), 'MM/dd/yyyy'),
-                itemData?.status,
-                itemData?.requester_user_data?.first_name + " " + itemData?.requester_user_data?.last_name,
+                (index + 1).toString(),
+                itemdata?.project_data?.code,
+                itemdata?.project_data?.project_name,
+                itemdata?.purchase_request_code,
+                format(new Date(itemdata?.request_date), 'MM/dd/yyyy'),
+                itemdata?.selected_vendor_data?.vendor_name || "N/A",
+                itemdata?.status,
+                itemdata?.requester_user_data?.first_name + " " + itemdata?.requester_user_data?.last_name
+            ]
 
-            ];
 
-            if (itemData?.vendor_quotes && itemData?.vendor_quotes.length > 0) {
-                itemsData = itemData?.vendor_quotes[0]?.vendor_quotation_details?.map((item: any, index: number) => {
-                    return {
-                        '': '',
-                        'S No': (index + 1),
-                        'Item Name': item?.item_data?.item_name,
-                        'UOM': item?.item_data?.uom?.name,
-                    }
-                })
-            }
+            itemsData = itemdata?.vendor_quotes?.map((data: any, index: any) => {
+                return {
+                    '': '',
+                    'S No': (index + 1),
+                    'Vendor Name': data?.vendor_data?.vendor_name,
+                    'Contact Person': data?.vendor_data?.contact_person,
+                    'Contact MobileNumber': data?.vendor_data?.contact_phone_no,
+                    'Quotation Status': data?.quotation_status,
+                }
+            })
 
             worksheet.addRow(headerData).eachCell((cell) => {
                 cell.style = borderStyle;
@@ -105,48 +107,34 @@ const RequestForQuotationRegister = async (data: any) => {
                 });
             });
 
-        });
-
+        })
     }
     else {
-
         worksheet.addRow(headers).eachCell((cell) => {
             cell.style = headerStyle;
         });
 
-        data?.map((headerData: any, index: number) => {
-            const rowData = [
-                (index + 1),
-                headerData?.purchase_request_data?.project_data?.code,
-                headerData?.purchase_request_data?.project_data?.project_name,
-                headerData?.purchase_request_data?.purchase_request_code,
-                format(new Date(headerData?.purchase_request_data?.request_date), 'MM/dd/yyyy'),
-                headerData?.purchase_request_data?.status,
-                headerData?.purchase_request_data?.requester_user_data?.first_name + " " + headerData?.purchase_request_data?.requester_user_data?.last_name,
-            ];
-            headerData.push(rowData);
+        data?.map((itemdata:any,index:number)=>{
+            headerData = [
+                (index + 1).toString(),
+                itemdata?.project_data?.code,
+                itemdata?.project_data?.project_name,
+                itemdata?.purchase_request_code,
+                format(new Date(itemdata?.request_date), 'MM/dd/yyyy'),
+                itemdata?.selected_vendor_data?.vendor_name || "N/A",
+                itemdata?.status,
+                itemdata?.requester_user_data?.first_name + " " + itemdata?.requester_user_data?.last_name
+            ]
         })
 
-        itemsData = data?.vendor_quotes[0]?.vendor_quotation_details?.map((item: any, index: number) => {
-            return {
-                '': '',
-                'S No': (index + 1),
-                'Item Name': item?.item_data?.item_name,
-                'UOM': item?.item_data?.uom?.name,
-            }
-        })
 
-        worksheet.addRow(headerData).eachCell((cell) => {
-            cell.style = borderStyle;
-        });
-
-        worksheet.addRow(itemsData).eachCell((cell, colNumber) => {
-            if (colNumber > 1) { // Skip the first column (A3)
-                cell.style = borderStyle;
+        worksheet.addRow(itemHeader).eachCell((cell, colNumber) => {
+            if (colNumber > 1) {
+                cell.style = headerStyle;
             }
         });
-
     }
+
     worksheet.columns.forEach((column) => {
         let maxLength = 0;
         column.eachCell({ includeEmpty: true }, (cell) => {
@@ -157,6 +145,7 @@ const RequestForQuotationRegister = async (data: any) => {
         });
         column.width = maxLength < 10 ? 10 : maxLength + 2; // Add some padding
     });
+
     // Generate a buffer containing the Excel file
     const buffer = await workbook.xlsx.writeBuffer();
 
@@ -167,11 +156,12 @@ const RequestForQuotationRegister = async (data: any) => {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'RFQ_register.xlsx';
+    a.download = 'RFQ_register_item.xlsx';
     document.body.appendChild(a);
     a.click();
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
+
 }
 
-export default RequestForQuotationRegister;
+export default RequestForQuotationItem

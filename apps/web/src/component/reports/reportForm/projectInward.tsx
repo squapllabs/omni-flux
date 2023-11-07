@@ -23,23 +23,16 @@ const ProjectInward: React.FC = (props: any) => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      // setLoader(true);
-      const getProjectInward = await reportService.projectInwardReport(
-        values?.project_name
-      );
-      console.log('getProjectInward', getProjectInward?.data);
-      await ProjectInwardReport(getProjectInward?.data);
-      // setTimeout(() => {
-      //   const url =
-      //     'https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PR300/file-1699179811012-753254282-Inward-Projectwise.xlsx';
-      //   const link = document.createElement('a');
-      //   link.href = url;
-      //   link.click();
-      //   setLoader(false);
-      //   props.setMessage('Report Generated Successfully');
-      //   props.setOpenSnack(true);
-      //   props.setOpen(false);
-      // }, 1000);
+      setTimeout(async () => {
+        const getProjectInward = await reportService.projectInwardReport(
+          values?.project_name
+        );
+        await ProjectInwardReport(getProjectInward?.data);
+        setLoader(false);
+        props.setMessage('Report Generated Successfully');
+        props.setOpenSnack(true);
+        props.setOpen(false);
+      }, 1000);
     },
   });
   return (

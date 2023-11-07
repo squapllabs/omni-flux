@@ -33,7 +33,7 @@ const IntialReport = () => {
     {
       title: 'Purchase Order Register',
       description:
-        'Details of all the purchase order along with their delivery status',
+        'Details of all the purchase orders ',
       menuValue: 'PUR',
       mainValue: 'POR',
       sortOrder: 1,
@@ -47,27 +47,27 @@ const IntialReport = () => {
       sortOrder: 1,
     },
     {
-      title: 'RFQ Register',
+      title: 'RFQ Register (Item-wise)' ,
       description:
-        'Details of all request for quotations along with bidding status',
+        'Item-wise details of all request for quotation',
       menuValue: 'PUR',
       mainValue: 'RFQR',
-      sortOrder: 1,
-    },
-    {
-      title: 'RFQ Register (Item-wise)',
-      description: 'Item-wise details of all request for quotations',
-      menuValue: 'PUR',
-      mainValue: 'RFQRIW',
       sortOrder: 1,
     },
     {
       title: 'RFQ Register (Supplier-wise)',
       description: 'Supplier-wise details of all request for quotations',
       menuValue: 'PUR',
-      mainValue: 'RFQRSW',
+      mainValue: 'RFQRIW',
       sortOrder: 1,
     },
+    // {
+    //   title: 'RFQ Register (Supplier-wise)',
+    //   description: 'Supplier-wise details of all request for quotations',
+    //   menuValue: 'PUR',
+    //   mainValue: 'RFQRSW',
+    //   sortOrder: 1,
+    // },
     // {
     //   title: 'Indent Register (Item wise)',
     //   description: 'Item-wise details of all indents',
@@ -91,7 +91,7 @@ const IntialReport = () => {
     },
     {
       title: 'Accounts Project Summary',
-      description: 'Details of project-wise recivable and payable',
+      description: 'Details of project-wise Invoice payables           ',
       menuValue: 'FCE',
       mainValue: 'FCEAPS',
       sortOrder: 3,
@@ -156,7 +156,7 @@ const IntialReport = () => {
               /> */}
             </div>
             <div className={Styles.dividerLine}></div>
-            <div className={Styles.side_sideMenu}>
+            <div className={Styles.side_sideMenu} >
               {menuList?.map((menu: any, index: any) => {
                 return (
                   <ol key={index}>
@@ -187,7 +187,7 @@ const IntialReport = () => {
               <MenuIcon />
             </div>
           )}
-          <div className={Styles.cardBox}>
+          <div className={Styles.cardBox} style={{width:'200%'}}>
             {mainList?.map((mainData: any, index: any) => {
               return (
                 <div>
@@ -218,13 +218,13 @@ const IntialReport = () => {
         <NewCustomPopupComponent
           contentLine1={
             selectedMain === 'POR'
-              ? 'Details of all the purchase order along with their delivery status'
+              ? 'Details of all the purchase order'
               : selectedMain === 'PORIW'
               ? 'Item-wise details of all purchase orders along with delivered quantity'
               : selectedMain === 'RFQR'
-              ? 'Details of all request for quotations along with bidding status'
+              ? 'Item-wise details of all request for quotation'
               : selectedMain === 'RFQRIW'
-              ? 'Item-wise details of all request for quotations'
+              ? 'Supplier-wise details of all request for quotations'
               : selectedMain === 'RFQRSW'
               ? 'Supplier-wise details of all request for quotations'
               : selectedMain === 'ITYIR'
@@ -232,7 +232,7 @@ const IntialReport = () => {
               : selectedMain === 'ITYPI'
               ? 'Project wise comparison of stock quantity and value'
               : selectedMain === 'FCEAPS'
-              ? 'Details of project-wise recivable and payable'
+              ? 'Details of project-wise Invoice payables '
               : selectedMain === 'FCEAMS'
               ? 'Details for month-wise recivable and payable'
               : ''
@@ -243,9 +243,9 @@ const IntialReport = () => {
               : selectedMain === 'PORIW'
               ? 'Purchase Order Register (Item-wise)'
               : selectedMain === 'RFQR'
-              ? 'Request For Quotation Register'
+              ? 'Request For Quotation Register (Item-wise)'
               : selectedMain === 'RFQRIW'
-              ? 'Request For Quotation Register(Item-wise)'
+              ? 'Request For Quotation Register (Supplier-wise)'
               : selectedMain === 'RFQRSW'
               ? 'Request For Quotation Register (Supplier-wise)'
               : selectedMain === 'ITYIR'

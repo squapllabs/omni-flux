@@ -93,6 +93,17 @@ const PurchaseRegister = async (data: any) => {
         });
     });
 
+    worksheet.columns.forEach((column) => {
+        let maxLength = 0;
+        column.eachCell({ includeEmpty: true }, (cell) => {
+            const length = cell.value ? cell.value.toString().length : 10;
+            if (length > maxLength) {
+                maxLength = length;
+            }
+        });
+        column.width = maxLength < 10 ? 10 : maxLength + 2; // Add some padding
+    });
+
     // Generate a buffer containing the Excel file
     const buffer = await workbook.xlsx.writeBuffer();
 
