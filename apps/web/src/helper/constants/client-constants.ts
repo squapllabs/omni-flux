@@ -15,7 +15,7 @@ export const getClientValidateyup = (yup: any) => {
     name: yup
       .string()
       .trim()
-      .matches(/^[a-zA-Z]+$/, userErrorMessages.ENTER_ONLY_TEXT)
+      .matches(/^[\w\s]*$/, userErrorMessages.ENTER_ONLY_TEXT)
       .typeError(userErrorMessages.ENTER_NAME)
       .min(3, userErrorMessages.ENTER_MIN_NAME)
       .max(100, userErrorMessages.ENTER_MAX_NAME)
@@ -44,7 +44,7 @@ export const getUpdateClientValidateyup = (yup: any) => {
     name: yup
       .string()
       .trim()
-      .matches(/^[a-zA-Z\s]+$/, userErrorMessages.ENTER_ONLY_TEXT)
+      .matches(/^[\w\s]*$/, userErrorMessages.ENTER_ONLY_TEXT)
       .typeError(userErrorMessages.ENTER_NAME)
       .min(3, userErrorMessages.ENTER_MIN_NAME)
       .max(100, userErrorMessages.ENTER_MAX_NAME)
@@ -52,21 +52,19 @@ export const getUpdateClientValidateyup = (yup: any) => {
       .test(
         'client-availability',
         userErrorMessages.NAME_EXISTS,
-        async (value: any, {parent}: yup.TestContext) => {
+        async (value: any, { parent }: yup.TestContext) => {
           const clientId = parent.client_id;
           if (value) {
             const response = await clientService.getOneClientByName(value);
             if (
-                response?.is_exist === true && 
-                response?.data[0].client_id === clientId
+              response?.is_exist === true &&
+              response?.data[0].client_id === clientId
             ) {
               return true;
-            } 
-            else {
+            } else {
               if (response?.is_exist === false) {
                 return true;
-              }
-              else {
+              } else {
                 return false;
               }
             }
