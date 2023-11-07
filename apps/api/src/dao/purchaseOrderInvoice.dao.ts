@@ -414,8 +414,6 @@ const deletePurchaseOrderInvoice = async (
 };
 
 const searchPurchaseOrderInvoice = async (
-  offset: number,
-  limit: number,
   orderByColumn: string,
   orderByDirection: string,
   filters,
@@ -424,81 +422,76 @@ const searchPurchaseOrderInvoice = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterPurchaseOrderInvoice;
-
-    const checkDataAvailability =
-      await transaction.purchase_order_invoice.findMany({});
-    if (checkDataAvailability.length > 0) {
-      const purchaseOrderInvoice =
-        await transaction.purchase_order_invoice.findMany({
-          where: filter,
-          include: {
-            purchase_order_data: {
-              include: {
-                purchase_request_data: {
-                  include: {
-                    indent_request_data: {
-                      include: {
-                        requester_user_data: {
-                          select: {
-                            first_name: true,
-                            last_name: true,
-                            contact_no: true,
-                            email_id: true,
-                          },
-                        },
-                        approver_user_data: {
-                          select: {
-                            first_name: true,
-                            last_name: true,
-                            contact_no: true,
-                            email_id: true,
-                          },
+    const purchaseOrderInvoice =
+      await transaction.purchase_order_invoice.findMany({
+        where: filter,
+        include: {
+          purchase_order_data: {
+            include: {
+              purchase_request_data: {
+                include: {
+                  indent_request_data: {
+                    include: {
+                      requester_user_data: {
+                        select: {
+                          first_name: true,
+                          last_name: true,
+                          contact_no: true,
+                          email_id: true,
                         },
                       },
-                    },
-                    project_data: true,
-                    site_data: true,
-                    selected_vendor_data: true,
-                    requester_user_data: {
-                      select: {
-                        first_name: true,
-                        last_name: true,
-                        contact_no: true,
-                        email_id: true,
-                      },
-                    },
-                    purchase_request_quotation_details: {
-                      include: {
-                        item_data: {
-                          include: { uom: true },
+                      approver_user_data: {
+                        select: {
+                          first_name: true,
+                          last_name: true,
+                          contact_no: true,
+                          email_id: true,
                         },
                       },
                     },
                   },
-                },
-                vendor_data: true,
-                indent_request_data: {
-                  include: {
-                    project_data: true,
-                    site_data: true,
-                    requester_user_data: {
-                      select: {
-                        first_name: true,
-                        last_name: true,
-                        contact_no: true,
-                        email_id: true,
+                  project_data: true,
+                  site_data: true,
+                  selected_vendor_data: true,
+                  requester_user_data: {
+                    select: {
+                      first_name: true,
+                      last_name: true,
+                      contact_no: true,
+                      email_id: true,
+                    },
+                  },
+                  purchase_request_quotation_details: {
+                    include: {
+                      item_data: {
+                        include: { uom: true },
                       },
                     },
-                    indent_request_details: {
-                      include: {
-                        bom_detail_data: {
-                          include: {
-                            item_data: {
-                              include: {
-                                uom: {
-                                  select: {
-                                    name: true,
-                                  },
+                  },
+                },
+              },
+              vendor_data: true,
+              indent_request_data: {
+                include: {
+                  project_data: true,
+                  site_data: true,
+                  requester_user_data: {
+                    select: {
+                      first_name: true,
+                      last_name: true,
+                      contact_no: true,
+                      email_id: true,
+                    },
+                  },
+                  indent_request_details: {
+                    include: {
+                      bom_detail_data: {
+                        include: {
+                          item_data: {
+                            include: {
+                              uom: {
+                                select: {
+                                  name: true,
                                 },
                               },
                             },
@@ -508,57 +501,53 @@ const searchPurchaseOrderInvoice = async (
                     },
                   },
                 },
-                grn: {
-                  include: {
-                    grn_details: {
-                      include: {
-                        item_data: {
-                          include: { uom: { select: { name: true } } },
-                        },
+              },
+              grn: {
+                include: {
+                  grn_details: {
+                    include: {
+                      item_data: {
+                        include: { uom: { select: { name: true } } },
                       },
                     },
                   },
                 },
               },
             },
-            grn_data: true,
-            requested_by_data: {
-              select: {
-                first_name: true,
-                last_name: true,
-                contact_no: true,
-                email_id: true,
-              },
-            },
-            paid_by_data: {
-              select: {
-                first_name: true,
-                last_name: true,
-                contact_no: true,
-                email_id: true,
-              },
+          },
+          grn_data: true,
+          requested_by_data: {
+            select: {
+              first_name: true,
+              last_name: true,
+              contact_no: true,
+              email_id: true,
             },
           },
-          orderBy: [
-            {
-              [orderByColumn]: orderByDirection,
+          paid_by_data: {
+            select: {
+              first_name: true,
+              last_name: true,
+              contact_no: true,
+              email_id: true,
             },
-          ],
-          skip: offset,
-          take: limit,
-        });
-      const purchaseOrderInvoiceCount =
-        await transaction.purchase_order_invoice.count({
-          where: filter,
-        });
-      const purchaseOrderInvoiceData = {
-        count: purchaseOrderInvoiceCount,
-        data: purchaseOrderInvoice,
-      };
-      return purchaseOrderInvoiceData;
-    } else {
-      return checkDataAvailability;
-    }
+          },
+        },
+        orderBy: [
+          {
+            [orderByColumn]: orderByDirection,
+          },
+        ],
+      });
+    const purchaseOrderInvoiceCount =
+      await transaction.purchase_order_invoice.count({
+        where: filter,
+      });
+    const purchaseOrderInvoiceData = {
+      count: purchaseOrderInvoiceCount,
+      data: purchaseOrderInvoice,
+    };
+    return purchaseOrderInvoiceData;
   } catch (error) {
     console.log(
       'Error occurred in purchaseOrderInvoice dao : searchPurchaseOrderInvoice',

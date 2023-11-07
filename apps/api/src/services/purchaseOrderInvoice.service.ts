@@ -267,8 +267,6 @@ const deletePurchaseOrderInvoice = async (purchaseOrderInvoiceId: number) => {
  */
 const searchPurchaseOrderInvoice = async (body) => {
   try {
-    const offset = body.offset;
-    const limit = body.limit;
     const order_by_column = body.order_by_column
       ? body.order_by_column
       : 'updated_by';
@@ -277,6 +275,13 @@ const searchPurchaseOrderInvoice = async (body) => {
     const purchase_order_id = body.purchase_order_id;
     const global_search = body.global_search;
     const project_id = body.project_id;
+    const payment_mode = body.payment_mode;
+    const status = body.status;
+    const paid_by = body.paid_by;
+    const from_date = body.from_date;
+    const to_date = body.to_date;
+    const requested_by = body.requested_by;
+
     const filterObj: any = {};
 
     if (purchase_order_id) {
@@ -300,6 +305,60 @@ const searchPurchaseOrderInvoice = async (body) => {
         grn_data: {
           project_id: project_id,
         },
+      });
+    }
+
+    if (payment_mode) {
+      filterObj.filterPurchaseOrderInvoice =
+        filterObj.filterPurchaseOrderInvoice || {};
+      filterObj.filterPurchaseOrderInvoice.AND =
+        filterObj.filterPurchaseOrderInvoice.AND || [];
+
+      filterObj.filterPurchaseOrderInvoice.AND.push({
+        payment_mode: payment_mode,
+      });
+    }
+
+    if (status) {
+      filterObj.filterPurchaseOrderInvoice =
+        filterObj.filterPurchaseOrderInvoice || {};
+      filterObj.filterPurchaseOrderInvoice.AND =
+        filterObj.filterPurchaseOrderInvoice.AND || [];
+
+      filterObj.filterPurchaseOrderInvoice.AND.push({
+        status: status,
+      });
+      if (from_date && to_date) {
+        const date_filter = status === 'Paid' ? 'paid_date' : 'invoice_date';
+
+        filterObj.filterPurchaseOrderInvoice.AND.push({
+          [date_filter]: {
+            gte: new Date(from_date),
+            lte: new Date(to_date),
+          },
+        });
+      }
+    }
+
+    if (paid_by) {
+      filterObj.filterPurchaseOrderInvoice =
+        filterObj.filterPurchaseOrderInvoice || {};
+      filterObj.filterPurchaseOrderInvoice.AND =
+        filterObj.filterPurchaseOrderInvoice.AND || [];
+
+      filterObj.filterPurchaseOrderInvoice.AND.push({
+        paid_by: paid_by,
+      });
+    }
+
+    if (requested_by) {
+      filterObj.filterPurchaseOrderInvoice =
+        filterObj.filterPurchaseOrderInvoice || {};
+      filterObj.filterPurchaseOrderInvoice.AND =
+        filterObj.filterPurchaseOrderInvoice.AND || [];
+
+      filterObj.filterPurchaseOrderInvoice.AND.push({
+        requested_by: requested_by,
       });
     }
 
@@ -358,33 +417,21 @@ const searchPurchaseOrderInvoice = async (body) => {
     }
 
     const result = await purchaseOrderInvoiceDao.searchPurchaseOrderInvoice(
-      offset,
-      limit,
       order_by_column,
       order_by_direction,
       filterObj
     );
     const count = result.count;
     const data = result.data;
-    const total_pages = count < limit ? 1 : Math.ceil(count / limit);
-    if (result.count >= 0) {
-      const tempPurchaseOrderInvoiceData = {
-        message: 'success',
-        status: true,
-        total_count: count,
-        total_page: total_pages,
-        is_available: true,
-        content: data,
-      };
-      return tempPurchaseOrderInvoiceData;
-    } else {
-      const tempPurchaseOrderInvoiceData = {
-        message: 'No data found',
-        status: false,
-        is_available: false,
-      };
-      return tempPurchaseOrderInvoiceData;
-    }
+
+    const tempPurchaseOrderInvoiceData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      is_available: true,
+      content: data,
+    };
+    return tempPurchaseOrderInvoiceData;
   } catch (error) {
     console.log(
       'Error occurred in searchPurchaseOrderInvoice PurchaseOrderInvoice service : ',

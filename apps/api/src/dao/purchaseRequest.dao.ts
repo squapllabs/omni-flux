@@ -429,7 +429,7 @@ const getPurchaseRequestReportData = async (
             email_id: true,
           },
         },
-        project_data: { select: { project_name: true } },
+        project_data: { select: { project_name: true, code: true } },
         site_data: { select: { name: true } },
         selected_vendor_data: {
           select: {

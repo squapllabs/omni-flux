@@ -443,8 +443,6 @@ const searchPurchaseOrder = async (body) => {
   }
 };
 
-
-
 /**
  * Method to search searchPurchaseOrderWithMultipleStatus - Pagination API
  * @returns
@@ -461,7 +459,7 @@ const searchPurchaseOrderWithMultipleStatus = async (body) => {
     const global_search = body.global_search;
     const status = body.status;
     const project_id = body.project_id;
-    const bill_status = body.bill_status;
+    // const bill_status = body.bill_status;
     const site_id = body.site_id;
     const purchase_order_type = body.purchase_order_type;
 
@@ -473,14 +471,14 @@ const searchPurchaseOrderWithMultipleStatus = async (body) => {
       };
     }
 
-    if (purchase_order_type != "Local Purchase") {
+    if (purchase_order_type != 'Local Purchase') {
       filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
       filterObj.filterPurchaseOrder.OR = filterObj.filterPurchaseOrder.OR || [];
- 
+
       filterObj.filterPurchaseOrder.OR.push({
         status: 'Processing',
       });
- 
+
       filterObj.filterPurchaseOrder.OR.push({
         status: 'Partially Received',
       });
