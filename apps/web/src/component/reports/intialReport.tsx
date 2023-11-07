@@ -216,7 +216,27 @@ const IntialReport = () => {
           </div>
         </div>
         <NewCustomPopupComponent
-          contentLine1="Report Generation"
+          contentLine1={
+            selectedMain === 'POR'
+              ? 'Details of all the purchase order along with their delivery status'
+              : selectedMain === 'PORIW'
+              ? 'Item-wise details of all purchase orders along with delivered quantity'
+              : selectedMain === 'RFQR'
+              ? 'Details of all request for quotations along with bidding status'
+              : selectedMain === 'RFQRIW'
+              ? 'Item-wise details of all request for quotations'
+              : selectedMain === 'RFQRSW'
+              ? 'Supplier-wise details of all request for quotations'
+              : selectedMain === 'ITYIR'
+              ? 'Item-wise details of all the products received via inward document'
+              : selectedMain === 'ITYPI'
+              ? 'Project wise comparison of stock quantity and value'
+              : selectedMain === 'FCEAPS'
+              ? 'Details of project-wise recivable and payable'
+              : selectedMain === 'FCEAMS'
+              ? 'Details for month-wise recivable and payable'
+              : ''
+          }
           title={
             selectedMain === 'POR'
               ? 'Purchase Order Register'

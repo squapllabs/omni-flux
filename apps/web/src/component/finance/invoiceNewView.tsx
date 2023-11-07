@@ -38,7 +38,16 @@ const MyOrderView = () => {
     if (data) {
       const vendorName = data || '';
       const year = new Date().getFullYear();
-      const customBillName = `ALM-${vendorName.substring(0, 5)}-${year}`;
+      const customBillName = `ALM-INV-${vendorName.substring(0, 5)}-${year}`;
+      return customBillName.toUpperCase();
+    }
+    return '';
+  };
+  const generateCustomQuotation = (data: any) => {
+    if (data) {
+      const vendorName = data || '';
+      const year = new Date().getFullYear();
+      const customBillName = `ALM-QTN-${vendorName.substring(0, 5)}-${year}`;
       return customBillName.toUpperCase();
     }
     return '';
@@ -199,7 +208,7 @@ const MyOrderView = () => {
                       ?.purchase_request_documents?.length > 0 ? (
                       getAllData[0]?.purchase_order_data?.purchase_request_data?.purchase_request_documents.map(
                         (document: any, index: number) => {
-                          const customQuotationName = generateCustomInvoice(
+                          const customQuotationName = generateCustomQuotation(
                             getAllData[0]?.purchase_order_data?.vendor_data
                               ?.vendor_name
                           );
@@ -295,6 +304,7 @@ const MyOrderView = () => {
                   <th>S No</th>
                   <th>Goods Received Date</th>
                   <th>Invoice No</th>
+                  <th>Amount</th>
                   <th>Invoice Document</th>
                   <th>Paid By</th>
                   <th>Payment Date</th>
@@ -316,6 +326,7 @@ const MyOrderView = () => {
                           {dateFormat(item?.grn_data?.goods_received_date)}
                         </td>
                         <td>{item?.invoice_number}</td>
+                        <td>{formatBudgetValue(item?.total_amount ? item?.total_amount : 0)}</td>
                         <td>
                           <div>
                             {item?.invoice_document.map(
