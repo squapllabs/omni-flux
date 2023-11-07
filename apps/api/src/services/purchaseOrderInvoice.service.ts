@@ -444,6 +444,7 @@ const updateStatus = async (body: purchaseOrderInvoiceBody) => {
             const purchase_order_status = data.status;
             if (purchase_order_status !== 'Paid') {
               allPaid = false;
+              break;
             }
           }
           if (allPaid === true) {
