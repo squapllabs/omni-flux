@@ -76,7 +76,8 @@ const BomItems = (props: {
   const [ modelPopupTrigger , setModelPopupTrigger] = useState(false)
   const [isloading , setIsLoading]= useState(false);
   const [colps, setColps] = useState(false);
-  // const [getAllData , setTaskData]=useState<any>(null)
+  const [totalAmount , setTotalAmount]=useState<any>(0)
+  const [selectedSubCategory , setSelectedSubCategory]= useState<any>(null)
   const primary_color = '#7f56d';
   const handleEdit = (value: any) => {
     setMode('EDIT');
@@ -239,16 +240,19 @@ const BomItems = (props: {
       );
       setCategoryData(data?.data);
     };
-
-    
     fetchOne();
     refetch();
-    if(getAllData){
-      console.log('getAllData',getAllData)
+    if(getAllData && getAllData.length){
+      // debugger
+      let totalAmount = 0
+      getAllData.forEach((element:any) => {
+        totalAmount = totalAmount + element.actual_budget
+      });
+      setTotalAmount(totalAmount)
     }
 
     
-  }, [selectedCategory?.category_id, reload]);
+  }, [selectedCategory?.category_id,getAllData, reload]);
 
   // useEffect(()=>{
   //   const fetchTaskData = async()=>{
@@ -258,7 +262,6 @@ const BomItems = (props: {
   //       selectedBomConfig: selectedBomConfig,
   //     };
   //     const taskData = await subCategoryService.getOneSubCatListbyCatID(obj);
-  //     debugger
   //     setTaskData(taskData)
   //     setIsLoading(false)
   //   }
@@ -385,7 +388,6 @@ const BomItems = (props: {
                      Upload Task 
                    </Button>
                     ):(
-
                       <div>
                         <Button
                       color="primary"
@@ -564,7 +566,9 @@ const BomItems = (props: {
                                   </tbody>
                                 </table>
                 </div> 
-                ) :(<h1 style={{textAlign:'center',padding:'2rem'}}> Upload File</h1>)
+                ) :(<h1
+                  className={Styles.file_upload_empty_label_container}
+                  > Upload File</h1>)
                    
               }
             
@@ -585,7 +589,8 @@ const BomItems = (props: {
                   <CheckListIcon 
                   style={{padding:'4px 0 0 0;'}}
                   />
-                  <h3 title={categoryData?.description}>
+                  <h3 title={categoryData?.description} 
+                  style={{width:'30rem'}}>
                     {/* {categoryData?.name
                       ? categoryData?.name?.length > 20
                         ? categoryData?.name?.substring(0, 20) + '...'
@@ -621,13 +626,43 @@ const BomItems = (props: {
                     <span className={Styles.menuFont}>Bulk Upload</span>                      
                 </div>
               </div>
-              <div>
+              <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                gap:'2rem'
+                
+              }}
+              >
+                <div
+                >
                 <h3>
                   {formatBudgetValue(
                     categoryData?.estimated_budget ? categoryData?.estimated_budget : 0
                   )}
                 </h3>
                 <p className={Styles.countContentTitle}>Estimated Budget</p>
+                </div>
+                <div
+                
+                >
+                <h3
+                style={{
+                  color: totalAmount >  categoryData?.estimated_budget ? 'red':''
+                }}
+                >
+                  {formatBudgetValue(
+                    totalAmount ? totalAmount : 0
+                  )}
+                </h3>
+                <p className={Styles.countContentTitle}
+                style={{
+                  color: totalAmount >  categoryData?.estimated_budget ? 'red':''
+                }}
+                >Actual Budget</p>
+                </div>
+                
               </div>
             </div>
             <div className={Styles.tableContainer}>
@@ -641,6 +676,7 @@ const BomItems = (props: {
                     <th className={Styles.tableHeading}>Quantity</th>
                     <th className={Styles.tableHeading}>Rate</th>
                     <th className={Styles.tableHeading}>Estimated Amount</th>
+                    <th className={Styles.tableHeading}>Actual Amount</th>
                     <th className={Styles.tableHeading}>Action</th>
                   </tr>
                 </thead>
@@ -720,6 +756,13 @@ const BomItems = (props: {
                             ):'--'}
                             </span>
                           </td>
+                          <td>
+                            <span style={{ textAlign: 'justify' }}>
+                            {data?.actual_budget ?formatBudgetValue(
+                              data?.actual_budget ? data?.actual_budget : 0
+                            ):'--'}
+                            </span>
+                          </td>
                           <td >
 
                           <div className={Styles.actionIcons_container}>
@@ -729,14 +772,19 @@ const BomItems = (props: {
                               setSelectedSubCategoryId(data?.sub_category_id);}}
                               /></span>
                             
-                            <span
-                            onClick={()=>{    
-                              handleSubTask(data?.sub_category_id);
-                                setSelectedSubCategoryId(data?.sub_category_id);
-                              }}
-                            >
-                            <AddIcon width={20} height={20} color={primary_color} style={{cursor: 'pointer'}} />
+                            <span>
+                            {!data.actual_budget ?(
+                              <span
+                              onClick={()=>{    
+                                handleSubTask(data?.sub_category_id);
+                                  setSelectedSubCategoryId(data?.sub_category_id);
+                                }}
+                              >
+                              <AddIcon width={20} height={20} color={primary_color} style={{cursor: 'pointer'}} />
+                              </span>
+                            ):('')}
                             </span>
+                            
                             {
                               data?.children?.length===0 ? (
                                 <span
@@ -744,6 +792,7 @@ const BomItems = (props: {
                               setSelectedSubCategoryId(data.sub_category_id);
                               setPlanListTitle(data.name);
                               setShowPlanForm(true);
+                              setSelectedSubCategory(data)
                             }}
                             >
                               <SettingIcon
@@ -814,6 +863,7 @@ const BomItems = (props: {
                     open={showPlanForm}
                     setOpen={setShowPlanForm}
                     subCategoryId={selectedSubCategoryId}
+                    subCategory={selectedSubCategory}
                     reload={reload}
                     setReload={setReload}
                     setAbstractReload={setReload}

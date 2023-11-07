@@ -6356,3 +6356,435 @@ type IntFilter {
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
 [31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchNotification << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'findMany')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchNotification << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'findMany')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchNotification << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'findMany')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchNotification << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'findMany')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchNotification << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'findMany')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\steny_projects\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\steny_projects\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\steny_projects\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchNotification << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'findMany')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchNotification << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'findMany')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchNotification << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'findMany')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchNotification << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'findMany')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\steny_projects\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\steny_projects\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getByCategoryId << ERRSTRING >>Error: 
+Invalid `transaction.category.findFirst()` invocation in
+D:\steny_projects\omni-flux\apps\api\src\dao\category.dao.ts:94:49
+
+  91 const getById = async (categoryId: number, connectionObj = null) => {
+  92   try {
+  93     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 94     const category = await transaction.category.findFirst({
+           where: {
+             category_id: NaN,
+                          ~~~
+             is_delete: false
+           },
+           include: {
+             project: true,
+             bom_configuration_data: {
+               include: {
+                 bom_type_data: {
+                   select: {
+                     master_data_name: true
+                   }
+                 }
+               }
+             }
+           }
+         })
+
+Argument category_id: Got invalid value NaN on prisma.findFirstcategory. Provided Float, expected IntFilter or Int:
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+type IntFilter {
+  equals?: Int
+  in?: List<Int> | Int
+  notIn?: List<Int> | Int
+  lt?: Int
+  lte?: Int
+  gt?: Int
+  gte?: Int
+  not?: Int | NestedIntFilter
+}
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchNotification << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'findMany')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateCategory << ERRSTRING >>Error: 
+Invalid `transaction.category.update()` invocation in
+D:\steny_projects\omni-flux\apps\api\src\dao\category.dao.ts:66:49
+
+  63 const formatted_start_date = start_date ? new Date(start_date) : null;
+  64 const formatted_end_date = end_date ? new Date(end_date) : null;
+  65 const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 66 const category = await transaction.category.update({
+       where: {
+         category_id: 592
+       },
+       data: {
+         name: null,
+               ~~~~
+         project_id: 201,
+         actual_budget: undefined,
+         estimated_budget: 1000,
+         updated_by: undefined,
+         updated_date: new Date('2023-11-07T10:03:39.264Z'),
+         description: 'Sample Data - Details',
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: 131,
+         progress_status: 'Inprogress'
+       }
+     })
+
+Argument name for data.name must not be null. Please use undefined instead.
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateCategory << ERRSTRING >>Error: 
+Invalid `transaction.category.update()` invocation in
+D:\steny_projects\omni-flux\apps\api\src\dao\category.dao.ts:66:49
+
+  63 const formatted_start_date = start_date ? new Date(start_date) : null;
+  64 const formatted_end_date = end_date ? new Date(end_date) : null;
+  65 const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 66 const category = await transaction.category.update({
+       where: {
+         category_id: 592
+       },
+       data: {
+         name: null,
+               ~~~~
+         project_id: 201,
+         actual_budget: undefined,
+         estimated_budget: '',
+                           ~~
+         updated_by: undefined,
+         updated_date: new Date('2023-11-07T10:05:23.613Z'),
+         description: 'Sample Data - Details',
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: 131,
+         progress_status: 'Inprogress'
+       }
+     })
+
+Argument name for data.name must not be null. Please use undefined instead.
+Argument estimated_budget: Got invalid value '' on prisma.updateOnecategory. Provided String, expected Float or NullableFloatFieldUpdateOperationsInput or Null.
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateCategory << ERRSTRING >>Error: 
+Invalid `transaction.category.update()` invocation in
+D:\steny_projects\omni-flux\apps\api\src\dao\category.dao.ts:66:49
+
+  63 const formatted_start_date = start_date ? new Date(start_date) : null;
+  64 const formatted_end_date = end_date ? new Date(end_date) : null;
+  65 const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 66 const category = await transaction.category.update({
+       where: {
+         category_id: 592
+       },
+       data: {
+         name: null,
+               ~~~~
+         project_id: 201,
+         actual_budget: undefined,
+         estimated_budget: 1000,
+         updated_by: undefined,
+         updated_date: new Date('2023-11-07T10:07:00.340Z'),
+         description: 'Sample Data - Details',
+         start_date: null,
+         end_date: null,
+         bom_configuration_id: 131,
+         progress_status: 'Inprogress'
+       }
+     })
+
+Argument name for data.name must not be null. Please use undefined instead.
+
+
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>TypeError: Cannot read properties of undefined (reading 'count')

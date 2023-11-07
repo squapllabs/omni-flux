@@ -523,7 +523,9 @@ const handleFileOnChange = async (e:any) =>{
                     </Button>
             </div> */}
             </div>
-            ):(<h1 style={{textAlign:'center',padding:'2rem'}}> Upload File</h1>)}
+            ):(<h1 
+            className={Styles.file_upload_empty_label_container}
+            > Upload File</h1>)}
             
            
           </div>
@@ -634,6 +636,7 @@ const handleFileOnChange = async (e:any) =>{
                                   console.log("categories",categories)
                                 }
                               }
+                              className={Styles.td_desc}
                               
                               >
                                 {data.description || '--'}
@@ -662,37 +665,6 @@ const handleFileOnChange = async (e:any) =>{
                                     }
                                   /></span>
                               </div>
-                              {/* <div className={Styles.actionIcons_container}>
-                              <span style={{cursor: 'pointer'}}><EditIcon
-                                  onClick={() =>{  
-                                  handleEdit(data?.sub_category_id);
-                                  setSelectedSubCategoryId(data?.sub_category_id);}}
-                                  /></span>
-                                
-                                <span
-                                onClick={()=>{    
-                                  handleSubTask(data?.sub_category_id);
-                                    setSelectedSubCategoryId(data?.sub_category_id);}}
-                                >
-                                <AddIcon width={20} height={20} color={primary_color} style={{cursor: 'pointer'}} />
-                                </span>
-                                {
-                                  data?.children?.length===0 ? (
-                                    <span
-                                onClick={()=>{
-                                  setSelectedSubCategoryId(data.sub_category_id);
-                                  setPlanListTitle(data.name);
-                                  setShowPlanForm(true);
-                                }}
-                                >
-                                  <SettingIcon
-                                  style={{cursor: 'pointer'}}
-                                  color={primary_color}
-                                  />
-                                </span>
-                                  ): ('')
-                                }
-                              </div> */}
                               </td>
                             </tr>
                         );
@@ -952,6 +924,7 @@ const handleFileOnChange = async (e:any) =>{
             setMessage={setMessage}
             mode={mode}
             categoryId={categoryId}
+            categoryName={props.bom_details?.bom_description}
           />
         }
       />

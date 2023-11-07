@@ -29,6 +29,7 @@ import InstantMachineryAdd from '../ui/CustomMachineryAdd';
 
 const Bom: React.FC = (props: any) => {
   const subCategoryId = Number(props.subCategoryId);
+  const subCategory = props.subCategory
   const params = useParams();
   const navigate = useNavigate();
   const [bomList, setBomList] = useState<any[]>([]);
@@ -113,17 +114,15 @@ const Bom: React.FC = (props: any) => {
       bomList.forEach((element)=>{
         const rate = Number(element.rate);
         const quantity = Number(element.quantity);
-        if(rate && quantity){
-
+        const is_delete = element.is_delete;
+        if(rate && quantity && !is_delete){
           total_value = total_value + (rate * quantity)
         }
       })
      
     }
     setBomTotal(total_value)
-    console.log('total_value',total_value)
-      console.log('bomList',bomList)
-  },[bomList])
+  },[bomList,activeButton, reload])
 
   const { mutate: bulkBomData, data: responseData } = createBulkBom();
 
@@ -266,6 +265,7 @@ const Bom: React.FC = (props: any) => {
   );
 
   const handleBulkBomAdd = () => {
+    bomList
     validationSchema
       .validate(bomList, { abortEarly: false })
       .then(() => {
@@ -353,21 +353,29 @@ const Bom: React.FC = (props: any) => {
               gap:'2rem'
             }}
             >
-              <div>
+              <div
+              >
               <h3>
                 {formatBudgetValue(
-                  rawMaterialTotal + labourTotal + machineryTotal
+                  subCategory?.estimated_budget
                 )}
               </h3>
               <span className={Styles.countContentTitle}>Estimated Budget</span>
               </div>
-              <div>
-              <h3>
+              <div
+              className={subCategory?.estimated_budget < bomTotal ?'danger':''}
+              
+              >
+              <h3
+              style={{color:subCategory?.estimated_budget < bomTotal ?'red':''}}
+              >
                 {formatBudgetValue(
                   bomTotal
                 )}
               </h3>
-              <span className={Styles.countContentTitle}>Total Amount</span>
+              <span  
+              style={{color:subCategory?.estimated_budget < bomTotal ?'red':''}}
+              className={Styles.countContentTitle}>Total Amount</span>
               </div>
              
             </div>
