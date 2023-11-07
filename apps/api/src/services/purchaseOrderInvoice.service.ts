@@ -428,7 +428,6 @@ const searchPurchaseOrderInvoice = async (body) => {
       message: 'success',
       status: true,
       total_count: count,
-      is_available: true,
       content: data,
     };
     return tempPurchaseOrderInvoiceData;
