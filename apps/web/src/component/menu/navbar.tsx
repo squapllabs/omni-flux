@@ -87,7 +87,6 @@ const Navbar = () => {
   const { data: newNotificationCount } = getNewNotificationByUserID(
     userData?.user_id
   );
-
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -553,8 +552,8 @@ const Navbar = () => {
               <div>
                 <BellIcon
                   color="white"
-                  width={25}
-                  height={25}
+                  width={30}
+                  height={30}
                   value={newNotificationCount}
                 />
               </div>

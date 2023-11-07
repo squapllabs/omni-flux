@@ -108,7 +108,7 @@ const ProjectList = () => {
   };
 
   const {
-    isLoading: getAllLoadingPaginated,
+    isFetched: getAllLoadingPaginated,
     data: getFilterData,
     refetch,
   } = getPaginatedMemberBasedProject(
@@ -236,6 +236,9 @@ const ProjectList = () => {
   };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
+  console.log("getAllLoadingPaginated",getAllLoadingPaginated);
+  
+
   return (
     <div className={Styles.container}>
       <div>
@@ -246,7 +249,7 @@ const ProjectList = () => {
         />
       </div>
       <div>
-        <CustomLoader loading={getAllLoading} size={48} color="#333C44">
+        <CustomLoader loading={!getAllLoadingPaginated} size={48} color="#333C44">
           <div className={Styles.header}>
             <div className={Styles.firstHeader}>
               {/* <div className={Styles.text}>
