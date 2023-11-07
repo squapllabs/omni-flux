@@ -15,14 +15,15 @@ const ProjectInward: React.FC = (props: any) => {
     project_name: '',
   });
   const [loader, setLoader] = useState(false);
+  const validationSchema = yup.object().shape({
+    project_name: yup.number().required(),
+  });
   const formik = useFormik({
     initialValues,
-    // validationSchema,
+    validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
       // setLoader(true);
-      console.log('values', values);
-
       const getProjectInward = await reportService.projectInwardReport(
         values?.project_name
       );
@@ -45,7 +46,7 @@ const ProjectInward: React.FC = (props: any) => {
     <div>
       <CustomLoader loading={loader}>
         <div className={Styles?.container}>
-          <div>
+          <div style={{ paddingBottom: '5px' }}>
             <AutoCompleteSelect
               name="project_name"
               label="Project Name"
@@ -57,6 +58,12 @@ const ProjectInward: React.FC = (props: any) => {
               onSelect={(value) => {
                 formik.setFieldValue('project_name', value);
               }}
+              error={
+                formik.errors.project_name && formik.touched.project_name
+                  ? true
+                  : false
+              }
+              mandatory
             />
           </div>
         </div>

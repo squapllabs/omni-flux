@@ -122,11 +122,11 @@ const Project = () => {
     },
     {
       id: 12,
-      name: 'My Orders'
+      name: 'Stock Movement',
     },
     {
       id: 13,
-      name: 'Store'
+      name: 'Store',
     },
   ];
   const handleMenuItemClick = (id: number) => {
@@ -224,7 +224,7 @@ const Project = () => {
         setLoader={setLoader}
         loader={loader}
       />
-    )
+    ),
   };
   return (
     <CustomLoader loading={loader} size={48}>
