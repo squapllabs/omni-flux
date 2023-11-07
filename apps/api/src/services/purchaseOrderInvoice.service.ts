@@ -276,6 +276,7 @@ const searchPurchaseOrderInvoice = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const purchase_order_id = body.purchase_order_id;
     const global_search = body.global_search;
+    const project_id = body.project_id;
     const filterObj: any = {};
 
     if (purchase_order_id) {
@@ -286,6 +287,19 @@ const searchPurchaseOrderInvoice = async (body) => {
 
       filterObj.filterPurchaseOrderInvoice.AND.push({
         purchase_order_id: purchase_order_id,
+      });
+    }
+
+    if (project_id) {
+      filterObj.filterPurchaseOrderInvoice =
+        filterObj.filterPurchaseOrderInvoice || {};
+      filterObj.filterPurchaseOrderInvoice.AND =
+        filterObj.filterPurchaseOrderInvoice.AND || [];
+
+      filterObj.filterPurchaseOrderInvoice.AND.push({
+        grn_data: {
+          project_id: project_id,
+        },
       });
     }
 
