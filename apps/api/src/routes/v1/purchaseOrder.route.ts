@@ -8,10 +8,13 @@ import {
   getAllPurchaseOrders,
   getByPurchaseOrderId,
   getByPurchaseRequestId,
+  getPOReportData,
   getPOStatistics,
   searchPurchaseOrder,
   updatePurchaseOrder,
   updateStatusAndDocument,
+  getRFQReportData,
+  getPoChartData,
 } from '../../controller/purchaseOrder.controller';
 import { runValidation } from '../../validations/index';
 
@@ -60,5 +63,11 @@ router.put(
 );
 
 router.get('/get-po-statistics', authMiddleware, getPOStatistics);
+
+router.post('/get-po-report', authMiddleware, getPOReportData);
+
+router.post('/get-rfq-report', authMiddleware, getRFQReportData);
+
+router.get('/get-po-chart-data', authMiddleware, getPoChartData);
 
 export default router;
