@@ -283,6 +283,7 @@ import DeliveryAddNote from '../component/project/projectComponent/myOrders/deli
 import ViewReceivedGoods from '../component/project/projectComponent/myOrders/viewReceivedGoods';
 import VendorQuotesUpdate from '../component/purchaseRequest/vendorQuotesUpdate';
 import Reports from '../component/reports/reports';
+import FinanceInvoiceNewView from '../component/finance/invoiceNewView';
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
 
@@ -405,6 +406,7 @@ const AppRoutes = () => {
   const ProtectedVendorQuotesUpdate =
     withLayoutAndProtection(VendorQuotesUpdate);
   const ProtectedReports = withLayoutAndProtection(Reports);
+  const ProtectedNewInvoiceView = withLayoutAndProtection(FinanceInvoiceNewView);
   return (
     <div>
       <Routes>
@@ -661,6 +663,7 @@ const AppRoutes = () => {
           element={<ProtectedVendorQuotesUpdate />}
         />
         <Route path="/reports" element={<ProtectedReports />} />
+        <Route path="/view-invoice/:id" element={<ProtectedNewInvoiceView />} />
       </Routes>
     </div>
   );

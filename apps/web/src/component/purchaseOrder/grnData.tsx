@@ -7,7 +7,7 @@ import ExpandClose from '../menu/icons/expandClose';
 import ExpandIcon from '../menu/icons/expandIcon';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
-import { updatePurchseOrderBillStatus } from '../../hooks/purchase-request-hooks';
+import { updatePurchseOrderStatus } from '../../hooks/purchase-request-hooks';
 import { useNavigate } from 'react-router-dom';
 const GrnData: React.FC = (props: any) => {
   const state: RootState = store.getState();
@@ -17,7 +17,7 @@ const GrnData: React.FC = (props: any) => {
   const [grnData, setGrnData] = useState<any>([]);
   const [colps, setColps] = useState(false);
   const [poID, setPoID] = useState<any>({});
-  const { mutate: updatePoBillStatus } = updatePurchseOrderBillStatus();
+  const { mutate: updatePoBillStatus } = updatePurchseOrderStatus();
 
   useEffect(() => {
     const fetchOne = async () => {
@@ -53,6 +53,13 @@ const GrnData: React.FC = (props: any) => {
         }
       },
     });
+  };
+
+  const downloadFile = (file: any) => {
+    const url = file?.path;
+    const link = document.createElement('a');
+    link.href = url;
+    link.click();
   };
 
   return (
@@ -97,7 +104,35 @@ const GrnData: React.FC = (props: any) => {
                         'MMM dd, yyyy'
                       )}
                     </td>
-                    <td>{data?.invoice_id}</td>
+                    <td>
+                      <div>
+                        {data?.bill_details.length > 0 ? (
+                          data?.bill_details.map(
+                            (document: any, index: number) => (
+                              <div
+                                style={{
+                                  cursor: 'pointer',
+                                  color: 'blue',
+                                  fontWeight: 'bold',
+                                }}
+                              >
+                                <a
+                                  href={document.path}
+                                  download
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {data?.invoice_id}
+                                </a>
+                              </div>
+                            )
+                          )
+                        ) : (
+                          <div>-</div>
+                        )}
+                      </div>
+                      {/* {data?.invoice_id} */}
+                    </td>
                     <td>{data?.notes}</td>
                   </tr>
                   {data?.grn_id === poID?.grn_id && (
@@ -158,7 +193,7 @@ const GrnData: React.FC = (props: any) => {
               handleSubmit();
             }}
           >
-            Movo to Invoice
+            Approve for payment
           </Button>
         </div>
       </div>

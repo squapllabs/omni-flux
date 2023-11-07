@@ -41,7 +41,8 @@ const ProjectList = () => {
     roleName === 'ADMIN' ||
     roleName === 'SITE MANAGER' ||
     roleName === 'PLANNING ENGINEER' ||
-    roleName === 'SITE ENGINEER';
+    roleName === 'SITE ENGINEER'||
+    roleName === 'PURCHASE MANAGER';
   const { isLoading: getAllLoading } = useGetAllProject();
   const { mutate: getDeleteProjectByID } = useDeleteProjects();
   const [filterValues, setFilterValues] = useState({
@@ -331,6 +332,7 @@ const ProjectList = () => {
                     <th>Status</th>
                     <th>Start Date</th>
                     <th>End Date</th>
+
                     <th>Actions</th>
                   </tr>
                 </thead>
