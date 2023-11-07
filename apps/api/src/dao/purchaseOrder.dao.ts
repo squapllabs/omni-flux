@@ -298,14 +298,15 @@ const searchPurchaseOrder = async (
                   },
                 },
               });
-          } else {
-            checkPurchaseOrderDataAvailability =
-              await transaction.purchase_order.findMany({
-                where: {
-                  is_delete: filter.is_delete,
-                },
-              });
           }
+          // else {
+          //   checkPurchaseOrderDataAvailability =
+          //     await transaction.purchase_order.findMany({
+          //       where: {
+          //         is_delete: filter.is_delete,
+          //       },
+          //     });
+          // }
         } else if (item.purchase_request_data) {
           if (item.purchase_request_data.project_id) {
             projectId = item.purchase_request_data.project_id;
@@ -335,22 +336,61 @@ const searchPurchaseOrder = async (
                   },
                 },
               });
-          } else {
-            checkPurchaseOrderDataAvailability =
-              await transaction.purchase_order.findMany({
-                where: {
-                  is_delete: filter.is_delete,
-                },
-              });
           }
-        } else {
-          checkPurchaseOrderDataAvailability =
-            await transaction.purchase_order.findMany({
-              where: {
-                is_delete: filter.is_delete,
-              },
-            });
+          //  else {
+          //   checkPurchaseOrderDataAvailability =
+          //     await transaction.purchase_order.findMany({
+          //       where: {
+          //         is_delete: filter.is_delete,
+          //       },
+          //     });
+          // }
         }
+        // else {
+        //   checkPurchaseOrderDataAvailability =
+        //     await transaction.purchase_order.findMany({
+        //       where: {
+        //         is_delete: filter.is_delete,
+        //       },
+        //     });
+        // }
+      }
+    }
+
+    if (checkPurchaseOrderDataAvailability.length === 0) {
+      if (projectId) {
+        const getIndentRequestDataProjectId =
+          await transaction.purchase_order.findMany({
+            where: {
+              is_delete: false,
+              indent_request_data: {
+                project_id: projectId,
+              },
+            },
+          });
+        const getProjectRequestDataProjectId =
+          await transaction.purchase_order.findMany({
+            where: {
+              is_delete: false,
+              purchase_request_data: {
+                project_id: projectId,
+              },
+            },
+          });
+        if (getIndentRequestDataProjectId.length > 0) {
+          return { count: 0, data: 0 };
+        } else if (getProjectRequestDataProjectId.length > 0) {
+          return { count: 0, data: 0 };
+        } else {
+          return { count: -1, data: 0 };
+        }
+      } else {
+        checkPurchaseOrderDataAvailability =
+          await transaction.purchase_order.findMany({
+            where: {
+              is_delete: filter.is_delete,
+            },
+          });
       }
     }
 
