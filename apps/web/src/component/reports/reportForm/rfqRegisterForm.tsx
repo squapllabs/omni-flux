@@ -8,6 +8,8 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import CustomLoader from '../../ui/customLoader';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
+import ReportService from '../../../service/report-service';
+import RFQRegisterExcelReport from '../../reportGenerator/excelReport/requestForQuotationRegister'
 
 const RFQRegisterForm: React.FC = (props: any) => {
   const [initialValues, setInitialValues] = useState<any>({
@@ -27,12 +29,24 @@ const RFQRegisterForm: React.FC = (props: any) => {
     enableReinitialize: true,
     onSubmit: async (values) => {
       setLoader(true);
-      setTimeout(() => {
-        const url =
-          'https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PR299/file-1699169972314-747363114-RFQ-Register (1).xlsx';
-        const link = document.createElement('a');
-        link.href = url;
-        link.click();
+      setTimeout(async() => {
+        const obj: any = {
+          order_by_column: "updated_date",
+          order_by_direction: "desc",
+          status: "AC",
+          project_id: Number(values?.project_id),
+          purchase_order_type: values?.purchase_type,
+          from_order_date: values?.start_date,
+          to_order_date: values?.end_date,
+        }
+        const reportsData = await ReportService.getPurchaseRequestReport(obj)
+        // if (reportsData?.total_count !== 0) {
+          RFQRegisterExcelReport(reportsData?.content)
+          // props.setMessage('Report Generated Successfully');
+        // }
+        // else {
+          props.setMessage('No Records Found');
+        // }
         setLoader(false);
         props.setMessage('Report Generated Successfully');
         props.setOpenSnack(true);

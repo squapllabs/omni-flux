@@ -443,8 +443,6 @@ const searchPurchaseOrder = async (body) => {
   }
 };
 
-
-
 /**
  * Method to search searchPurchaseOrderWithMultipleStatus - Pagination API
  * @returns
@@ -461,7 +459,7 @@ const searchPurchaseOrderWithMultipleStatus = async (body) => {
     const global_search = body.global_search;
     const status = body.status;
     const project_id = body.project_id;
-    const bill_status = body.bill_status;
+    // const bill_status = body.bill_status;
     const site_id = body.site_id;
     const purchase_order_type = body.purchase_order_type;
 
@@ -473,14 +471,14 @@ const searchPurchaseOrderWithMultipleStatus = async (body) => {
       };
     }
 
-    if (purchase_order_type != "Local Purchase") {
+    if (purchase_order_type != 'Local Purchase') {
       filterObj.filterPurchaseOrder = filterObj.filterPurchaseOrder || {};
       filterObj.filterPurchaseOrder.OR = filterObj.filterPurchaseOrder.OR || [];
- 
+
       filterObj.filterPurchaseOrder.OR.push({
         status: 'Processing',
       });
- 
+
       filterObj.filterPurchaseOrder.OR.push({
         status: 'Partially Received',
       });
@@ -992,6 +990,12 @@ const getPurchaseOrderReport = async (body) => {
   }
 };
 
+/**
+ *
+ * @param body Method to get RFQ report Data
+ * @returns
+ */
+
 const getRFQReportData = async (body) => {
   try {
     const order_by_column = body.order_by_column
@@ -1057,6 +1061,31 @@ const getRFQReportData = async (body) => {
   }
 };
 
+/**
+ * Method to get data for Chart
+ * @returns
+ */
+const getPoChartData = async () => {
+  try {
+    const purchaseOrderData = await purchaseOrderDao.getPoChartData();
+    if (purchaseOrderData) {
+      return { message: 'success', status: true, data: purchaseOrderData };
+    } else {
+      return {
+        message: 'No data found',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in getPoChartData purchaseOrder service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createPurchaseOrder,
   updatePurchaseOrder,
@@ -1071,4 +1100,5 @@ export {
   getPurchaseOrderReport,
   searchPurchaseOrderWithMultipleStatus,
   getRFQReportData,
+  getPoChartData,
 };

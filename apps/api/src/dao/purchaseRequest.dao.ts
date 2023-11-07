@@ -389,6 +389,82 @@ const getAllPurchaseRequestProjectsByStatus = async (
   }
 };
 
+const getPurchaseRequestReportData = async (
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterPurchaseRequest;
+    const purchaseRequest = await transaction.purchase_request.findMany({
+      where: filter,
+      include: {
+        vendor_quotes: {
+          include: {
+            vendor_data: {
+              select: {
+                vendor_name: true,
+                contact_email: true,
+                contact_phone_no: true,
+                contact_person: true,
+              },
+            },
+            vendor_quotation_details: {
+              include: {
+                item_data: {
+                  select: { item_name: true, uom: { select: { name: true } } },
+                },
+              },
+            },
+          },
+        },
+        indent_request_data: true,
+        requester_user_data: {
+          select: {
+            first_name: true,
+            last_name: true,
+            contact_no: true,
+            email_id: true,
+          },
+        },
+        project_data: { select: { project_name: true, code: true } },
+        site_data: { select: { name: true } },
+        selected_vendor_data: {
+          select: {
+            vendor_name: true,
+            contact_email: true,
+            contact_phone_no: true,
+            contact_person: true,
+          },
+        },
+        purchase_order: true,
+        purchase_request_quotation_details: true,
+      },
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+    });
+    const purchaseRequestCount = await transaction.purchase_request.count({
+      where: filter,
+    });
+    const purchaseRequestData = {
+      count: purchaseRequestCount,
+      data: purchaseRequest,
+    };
+    return purchaseRequestData;
+  } catch (error) {
+    console.log(
+      'Error occurred in purchaseRequest dao : getPurchaseRequestReportData',
+      error
+    );
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -398,4 +474,5 @@ export default {
   searchPurchaseRequest,
   updateVendor,
   getAllPurchaseRequestProjectsByStatus,
+  getPurchaseRequestReportData,
 };

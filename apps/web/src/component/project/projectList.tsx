@@ -41,8 +41,9 @@ const ProjectList = () => {
     roleName === 'ADMIN' ||
     roleName === 'SITE MANAGER' ||
     roleName === 'PLANNING ENGINEER' ||
-    roleName === 'SITE ENGINEER'||
+    roleName === 'SITE ENGINEER' ||
     roleName === 'PURCHASE MANAGER';
+  const isFinanceManagerLogin = roleName === 'FINANCE MANAGER';
   const { isLoading: getAllLoading } = useGetAllProject();
   const { mutate: getDeleteProjectByID } = useDeleteProjects();
   const [filterValues, setFilterValues] = useState({
@@ -335,8 +336,7 @@ const ProjectList = () => {
                     <th>Status</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-
-                    <th>Actions</th>
+                    {!isFinanceManagerLogin && <th>Actions</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -381,21 +381,8 @@ const ProjectList = () => {
                           <td>
                             {format(new Date(data?.date_ended), 'MMM dd, yyyy')}
                           </td>
-                          {/* {activeButton === 'AC' && ( */}
-                          <td>
+                          {!isFinanceManagerLogin &&<td>
                             <div className={Styles.tablerow}>
-                              {/* <ViewIcon
-                                onClick={() =>
-                                  navigate(`/project-info/${data?.project_id}`)
-                                }
-                              /> */}
-                              {/* <StoreIcon
-                                onClick={() =>
-                                  navigate(
-                                    `/project-inventory/${data?.project_id}`
-                                  )
-                                }
-                              /> */}
                               {isProjectEdit && (
                                 <EditIcon
                                   onClick={() => {
@@ -419,6 +406,7 @@ const ProjectList = () => {
                           /> */}
                             </div>
                           </td>
+                    }
                           {/* )} */}
                         </tr>
                       );

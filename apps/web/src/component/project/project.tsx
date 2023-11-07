@@ -53,6 +53,7 @@ const Project = () => {
     { label: 'Master Data', value: 'MD' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('PGS');
+  const [screenSize, setScreenSize] = useState(getCurrentDimension());
   const [loader, setLoader] = useState(false);
   const [projectData, setProjectData] = useState<any>({});
   useEffect(() => {
@@ -122,18 +123,25 @@ const Project = () => {
     },
     {
       id: 12,
-      name: 'My Orders'
+      name: 'Stock Movement',
     },
     {
       id: 13,
-      name: 'Store'
+      name: 'Store',
     },
   ];
+  const menuItemsForMobile = [
+    {
+      id: 1,
+      name: 'Site Claims',
+    },
+  ];
+
   const handleMenuItemClick = (id: number) => {
     dispatch(setToken({ key: 'projectMenuID', value: id }));
     setSelectedItem(id);
   };
-  const mainContentComponents: { [key: number]: JSX.Element } = {
+  const mainContentComponents: { [key: number]: JSX.Element } = {   //For Destop View
     1: (
       <ProjectDashboard
         setActiveButton={setActiveButton}
@@ -224,49 +232,119 @@ const Project = () => {
         setLoader={setLoader}
         loader={loader}
       />
-    )
+    ),
   };
+  const mainContentComponentsForMobile: { [key: number]: JSX.Element } = {   //For Mobile View
+    1: (
+      <ProjectSiteExpenseList
+        setActiveButton={setActiveButton}
+        setLoader={setLoader}
+        loader={loader}
+      />
+    ),
+  };
+
+  function getCurrentDimension() {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+  }
+
+  useEffect(() => {
+    const updateDimension = () => {
+      setScreenSize(getCurrentDimension());
+    };
+    window.addEventListener("resize", updateDimension);
+
+    return () => {
+      window.removeEventListener("resize", updateDimension);
+    };
+  }, [screenSize]);
   return (
     <CustomLoader loading={loader} size={48}>
-      <div className={Styles.Container}>
-        <div className={Styles.sub_header}>
-          <div
-            className={Styles.logo}
-            onClick={() => {
-              navigate('/project-list');
-              dispatch(setToken({ key: 'projectMenuID', value: null }));
-            }}
-          >
-            <PreviousPageIcon width={15} height={15} color="#7f56d9" />
-          </div>
-          <div style={{ padding: '8px', display: 'flex' }}>
-            <div className={Styles.vertical}>
-              <div className={Styles.verticalLine}></div>
+      {screenSize.width > 750 && (
+        <div className={Styles.Container}>
+          <div className={Styles.sub_header}>
+            <div
+              className={Styles.logo}
+              onClick={() => {
+                navigate('/project-list');
+                dispatch(setToken({ key: 'projectMenuID', value: null }));
+              }}
+            >
+              <PreviousPageIcon width={15} height={15} color="#7f56d9" />
+            </div>
+            <div style={{ padding: '8px', display: 'flex' }}>
+              <div className={Styles.vertical}>
+                <div className={Styles.verticalLine}></div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div className={Styles.textContent_1}>
+                <h3>{projectData?.data?.project_name}</h3>
+                <span className={Styles.content}>
+                  {projectData?.data?.description}
+                </span>
+              </div>
             </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div className={Styles.textContent_1}>
-              <h3>{projectData?.data?.project_name}</h3>
-              <span className={Styles.content}>
-                {projectData?.data?.description}
-              </span>
+          <div className={Styles.selected}></div>
+          <div className={Styles.mainContainer}>
+            <div className={Styles.sidnav}>
+              <SideNav
+                menuItems={menuItems}
+                selectedItem={selectedItem}
+                handleMenuItemClick={handleMenuItemClick}
+              />
+            </div>
+            <div className={Styles.mainbar}>
+              {mainContentComponents[selectedItem]}
             </div>
           </div>
         </div>
-        <div className={Styles.selected}></div>
-        <div className={Styles.mainContainer}>
-          <div className={Styles.sidnav}>
-            <SideNav
-              menuItems={menuItems}
-              selectedItem={selectedItem}
-              handleMenuItemClick={handleMenuItemClick}
-            />
+      )}
+      {screenSize.width <= 750 && (
+        <div className={Styles.Container}>
+          <div className={Styles.sub_header}>
+            <div
+              className={Styles.logo}
+              onClick={() => {
+                navigate('/project-list');
+                dispatch(setToken({ key: 'projectMenuID', value: null }));
+              }}
+            >
+              <PreviousPageIcon width={15} height={15} color="#7f56d9" />
+            </div>
+            <div style={{ padding: '8px', display: 'flex' }}>
+              <div className={Styles.vertical}>
+                <div className={Styles.verticalLine}></div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div className={Styles.textContent_1}>
+                <h3>{projectData?.data?.project_name}</h3>
+                <span className={Styles.content}>
+                  {projectData?.data?.description}
+                </span>
+              </div>
+            </div>
           </div>
-          <div className={Styles.mainbar}>
-            {mainContentComponents[selectedItem]}
+          <div className={Styles.selected}></div>
+          <div className={Styles.mainContainer}>
+            <div className={Styles.sidnav}>
+              <SideNav
+                menuItems={menuItemsForMobile}
+                selectedItem={selectedItem}
+                handleMenuItemClick={handleMenuItemClick}
+              />
+            </div>
+            <div className={Styles.mainbar}>
+              {mainContentComponentsForMobile[selectedItem]}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </CustomLoader>
   );
 };

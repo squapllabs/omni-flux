@@ -186,6 +186,7 @@
   // background-color: #b42318;
   display: flex;
   justify-content: flex-end;
+  padding-top: 15px;
   padding-right: 30px;
   padding-bottom: 10px;
 }
@@ -251,4 +252,32 @@
 
 .spanContent {
   font-size: 0.8rem;
+}
+
+.formContainerForMobile {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 25px 2px 25px;
+}
+
+.cardDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px;
+}
+
+.tableBody > div {
+  padding: 10px;
+}
+
+.card {
+  display: flex;
+  justify-content: center;
+  padding: 0px 30px ;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  width: 78%;
+  border-radius: 5px;
 }

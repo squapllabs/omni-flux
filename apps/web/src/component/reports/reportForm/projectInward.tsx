@@ -15,37 +15,31 @@ const ProjectInward: React.FC = (props: any) => {
     project_name: '',
   });
   const [loader, setLoader] = useState(false);
+  const validationSchema = yup.object().shape({
+    project_name: yup.number().required(),
+  });
   const formik = useFormik({
     initialValues,
-    // validationSchema,
+    validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      // setLoader(true);
-      console.log('values', values);
-
-      const getProjectInward = await reportService.projectInwardReport(
-        values?.project_name
-      );
-      console.log('getProjectInward', getProjectInward?.data);
-      await ProjectInwardReport(getProjectInward?.data);
-      // setTimeout(() => {
-      //   const url =
-      //     'https://zpaisa-purchase-sale-docs.s3.ap-south-1.amazonaws.com/OmniFlux/PR300/file-1699179811012-753254282-Inward-Projectwise.xlsx';
-      //   const link = document.createElement('a');
-      //   link.href = url;
-      //   link.click();
-      //   setLoader(false);
-      //   props.setMessage('Report Generated Successfully');
-      //   props.setOpenSnack(true);
-      //   props.setOpen(false);
-      // }, 1000);
+      setTimeout(async () => {
+        const getProjectInward = await reportService.projectInwardReport(
+          values?.project_name
+        );
+        await ProjectInwardReport(getProjectInward?.data);
+        setLoader(false);
+        props.setMessage('Report Generated Successfully');
+        props.setOpenSnack(true);
+        props.setOpen(false);
+      }, 1000);
     },
   });
   return (
     <div>
       <CustomLoader loading={loader}>
         <div className={Styles?.container}>
-          <div>
+          <div style={{ paddingBottom: '5px' }}>
             <AutoCompleteSelect
               name="project_name"
               label="Project Name"
@@ -57,6 +51,12 @@ const ProjectInward: React.FC = (props: any) => {
               onSelect={(value) => {
                 formik.setFieldValue('project_name', value);
               }}
+              error={
+                formik.errors.project_name && formik.touched.project_name
+                  ? true
+                  : false
+              }
+              mandatory
             />
           </div>
         </div>

@@ -20,7 +20,7 @@ const ProjectMasterDataEditForm: React.FC = (props: any) => {
   const validationSchema =
     props.mode === 'EDIT'
       ? getUpdateValidateyup(Yup)
-      : getCreateValidateyup(Yup,props.projectId);
+      : getCreateValidateyup(Yup, props.projectId);
 
   const [initialValues, setInitialValues] = useState({
     master_data_id: '',
@@ -116,7 +116,7 @@ const ProjectMasterDataEditForm: React.FC = (props: any) => {
             <div className={Styles.field}>
               <Input
                 name="master_data_type"
-                label="code"
+                label="Code"
                 placeholder="Enter code"
                 value={formik.values.master_data_type}
                 onChange={formik.handleChange}

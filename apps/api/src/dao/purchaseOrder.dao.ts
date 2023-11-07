@@ -1098,6 +1098,52 @@ const getRFQReportData = async (
   }
 };
 
+const getPoChartData = async (connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : db;
+    const purchaseOrderStatisticsQuery = `select
+    sum(case when po.status = 'Completed' then 1 else 0 end)as Status_completed,
+    sum(case when po.status = 'Processing' then 1 else 0 end)as Status_Processing,
+    sum(case when po.status = 'Product Received' then 1 else 0 end)as Status_Product_Received,
+    (
+    select
+      JSON_AGG(
+                JSON_BUILD_OBJECT('purchase_order_data',
+      po2.*))
+    from
+      purchase_order po2
+    where
+      po2.status = 'Completed')as Completed_data,
+    (
+    select
+      JSON_AGG(
+                JSON_BUILD_OBJECT('purchase_order_data',
+      po3.*))
+    from
+      purchase_order po3
+    where
+      po3.status = 'Processing')as Processing_data,
+    (
+    select
+      JSON_AGG(
+                JSON_BUILD_OBJECT('purchase_order_data',
+      po4.*))
+    from
+      purchase_order po4
+    where
+      po4.status = 'Product Received')as Product_Received_data
+  from
+    purchase_order po `;
+    const purchaseOrder = await transaction.oneOrNone(
+      purchaseOrderStatisticsQuery
+    );
+    return purchaseOrder;
+  } catch (error) {
+    console.log('Error occurred in purchaseOrder getPoChartData dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -1112,4 +1158,5 @@ export default {
   updateStatusByPOId,
   getPOReportData,
   getRFQReportData,
+  getPoChartData,
 };
