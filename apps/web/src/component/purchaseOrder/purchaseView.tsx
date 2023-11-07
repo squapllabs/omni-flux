@@ -24,7 +24,7 @@ const PurchaseView = () => {
     isLoading: dataLoading,
     refetch,
   } = useGetOnePurchaseRequest(PurchaseId);
-  console.log('getAllData', getAllData);
+  console.log('getAllDataVVVV', getAllData);
   const { mutate: postDataForFilter } = purchaseOrderRequest();
   const constructPurchaseOrder = () => {
     const purchaseOrderItems: any = [];
@@ -107,6 +107,16 @@ const PurchaseView = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+
+  const generateCustomQuotation = (data: any) => {
+    if (data) {
+      const vendorName = data || '';
+      const year = new Date().getFullYear();
+      const customBillName = `ALM-QTN-${vendorName.substring(0, 5)}-${year}`;
+      return customBillName.toUpperCase();
+    }
+    return '';
+  };
   useEffect(() => {
     refetch();
   }, [routeParams?.id]);
@@ -187,6 +197,31 @@ const PurchaseView = () => {
                 )}
               </div>
               <div>
+              {getAllData?.purchase_request_documents?.length > 0 ? (
+                      getAllData?.purchase_request_documents.map(
+                        (document: any, index: number) => {
+                          const customQuotationName = generateCustomQuotation(
+                            getAllData?.selected_vendor_data?.vendor_name
+                          );
+                          return (
+                            <div key={document.code}>
+                              <a
+                                href={document.path}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {/* Document {index + 1} */}
+                                {customQuotationName}
+                              </a>
+                            </div>
+                          );
+                        }
+                      )
+                    ) : (
+                      <div>-</div>
+                    )}
+              </div>
+              {/* <div>
                 {getAllData?.purchase_request_documents?.length > 0 ? (
                   getAllData.purchase_request_documents.map(
                     (document: any, index: number) => (
@@ -204,7 +239,7 @@ const PurchaseView = () => {
                 ) : (
                   <div>No documents available</div>
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
           <div className={Styles.approveButtons}>

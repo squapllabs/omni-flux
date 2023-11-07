@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
     // const uploadPath = 'uploads/';
     // storage === 'local' ? process.env.FILE_UPLOAD_LOCAL_PATH : 'temp-file/';
     // cb(null, 'tmp/');
-    cb(null, 'apps/');
+    cb(null, process.env.S3_FILE_PATH);
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);

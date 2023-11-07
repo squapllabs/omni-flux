@@ -50,7 +50,7 @@ const Bom: React.FC = (props: any) => {
   const [errors, setErrors] = useState<any>();
   const [openDialog, setOpenDialog] = useState(false);
   const { data: getSubCategoryData } = getBySubcategoryID(subCategoryId);
-
+  const [bomTotal , setBomTotal]=useState<number>(0)
   useEffect(() => {
     const fetchData = async () => {
       const getData = await BomService.getBOMbySubCatID(subCategoryId);
@@ -104,7 +104,30 @@ const Bom: React.FC = (props: any) => {
     };
     fetchData();
   }, [activeButton, reload]);
+
+
+
+  useEffect(()=>{
+    let total_value = 0
+    if(bomList.length){
+      bomList.forEach((element)=>{
+        const rate = Number(element.rate);
+        const quantity = Number(element.quantity);
+        if(rate && quantity){
+
+          total_value = total_value + (rate * quantity)
+        }
+      })
+     
+    }
+    setBomTotal(total_value)
+    console.log('total_value',total_value)
+      console.log('bomList',bomList)
+  },[bomList])
+
   const { mutate: bulkBomData, data: responseData } = createBulkBom();
+
+
 
   const validationSchema = Yup.array().of(
     Yup.object()
@@ -322,13 +345,31 @@ const Bom: React.FC = (props: any) => {
                 activeButton={activeButton}
               />
             </div>
-            <div className={Styles.countContent}>
+            <div className={Styles.countContent}
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              gap:'2rem'
+            }}
+            >
+              <div>
               <h3>
                 {formatBudgetValue(
                   rawMaterialTotal + labourTotal + machineryTotal
                 )}
               </h3>
-              <span className={Styles.countContentTitle}>Aggregated Value</span>
+              <span className={Styles.countContentTitle}>Estimated Budget</span>
+              </div>
+              <div>
+              <h3>
+                {formatBudgetValue(
+                  bomTotal
+                )}
+              </h3>
+              <span className={Styles.countContentTitle}>Total Amount</span>
+              </div>
+             
             </div>
           </div>
           <div className={Styles.mainBody}>

@@ -25,6 +25,8 @@ import CustomSnackBar from '../../../ui/customSnackBar';
 import { createGrn } from '../../../../hooks/grn-hooks';
 import { store, RootState } from '../../../../redux/store';
 import { getToken } from '../../../../redux/reducer';
+import purchaseRequestService from '../../../../service/purchase-request.service';
+import PurchaseOrderReport from '../../../reportGenerator/pdfReport/purchaseOrder';
 
 const MyOrderView = () => {
   const routeParams = useParams();
@@ -61,7 +63,10 @@ const MyOrderView = () => {
     let tempArry = [...tableValue];
     tempArry[index] = tempObj;
     setTableValue(tempArry);
-    if (tempArry[index].inward_remaining_quantity < tempArry[index].currently_received_quantity) {
+    if (
+      tempArry[index].inward_remaining_quantity <
+      tempArry[index].currently_received_quantity
+    ) {
       setErrors((prevErrors) => {
         const newErrors = [...prevErrors];
         newErrors[index] = true;
@@ -76,15 +81,20 @@ const MyOrderView = () => {
     }
   };
 
-  const order_complete = tableValue?.every((tableValue: { currently_received_quantity: number, inward_remaining_quantity: number }) =>
-    tableValue?.currently_received_quantity === tableValue?.inward_remaining_quantity
+  const order_complete = tableValue?.every(
+    (tableValue: {
+      currently_received_quantity: number;
+      inward_remaining_quantity: number;
+    }) =>
+      tableValue?.currently_received_quantity ===
+      tableValue?.inward_remaining_quantity
   );
   const currentDate = new Date();
   const [initialValues, setInitialValues] = useState({
     notes: '',
     invoice_number: '',
     goods_received_date: currentDate.toISOString().slice(0, 10),
-    invoice_amount: ''
+    invoice_amount: '',
   });
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const onButtonClick = () => {
@@ -145,7 +155,7 @@ const MyOrderView = () => {
     goods_received_date: Yup.date()
       .required('Date is Required')
       .max(new Date(), 'Future Date not allowed'),
-    invoice_amount: Yup.number().required("Amount is Required")
+    invoice_amount: Yup.number().required('Amount is Required'),
   });
   const formik = useFormik({
     initialValues,
@@ -166,7 +176,10 @@ const MyOrderView = () => {
         goods_received_by: userID,
         grn_status: 'Pending',
         project_id: projectId,
-        site_id: getListData?.purchase_order_type === 'Head Office' ? getListData?.purchase_request_data?.site_id : getListData?.indent_request_data?.site_id,
+        site_id:
+          getListData?.purchase_order_type === 'Head Office'
+            ? getListData?.purchase_request_data?.site_id
+            : getListData?.indent_request_data?.site_id,
         created_by: userID,
         purchase_order_type: getListData?.purchase_order_type,
         invoice_amount: Number(values?.invoice_amount),
@@ -180,7 +193,7 @@ const MyOrderView = () => {
         setOpenSnack(true);
       } else {
         // If none of the above conditions are met, execute this block
-        
+
         postGrnData(obj, {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
@@ -201,19 +214,26 @@ const MyOrderView = () => {
       const data = await poService.getOnePurchaseOrderTableDataByID(
         Number(routeParams?.id)
       );
-      let arr: any = [];      
-      data?.map((items: any, index: any) => {        
+      let arr: any = [];
+      data?.map((items: any, index: any) => {
         let obj = {
           ...items,
-          currently_received_quantity: 0
-        }        
-        arr.push(obj)
-      })
+          currently_received_quantity: 0,
+        };
+        arr.push(obj);
+      });
       setTableValue(arr);
       setLoaderData(false);
     };
     fetchData();
   }, []);
+
+  const generatePDF = async (id: any) => {
+    const data = await purchaseRequestService.getOnePurchaseOrderDataByID(id);
+    if (data?.data) {
+      await PurchaseOrderReport(data?.data);
+    }
+  };
 
   return (
     <div className={Styles.container}>
@@ -253,9 +273,9 @@ const MyOrderView = () => {
               <span>
                 {getListData?.purchase_order_type === 'Head Office'
                   ? getListData?.purchase_request_data?.project_data
-                    ?.project_name
+                      ?.project_name
                   : getListData?.indent_request_data?.project_data
-                    ?.project_name}
+                      ?.project_name}
               </span>
               <span>
                 {getListData?.purchase_order_type === 'Head Office'
@@ -289,7 +309,7 @@ const MyOrderView = () => {
                 width="120px"
                 mandatory={true}
                 label="Amount"
-                // error={errors[index]} 
+                // error={errors[index]}
                 onChange={formik.handleChange}
                 onKeyDown={(e) => {
                   const isNumber = /^[0-9]*$/.test(e.key);
@@ -305,8 +325,7 @@ const MyOrderView = () => {
                   }
                 }}
                 error={
-                  formik.touched.invoice_amount &&
-                  formik.errors.invoice_amount
+                  formik.touched.invoice_amount && formik.errors.invoice_amount
                 }
               />
             </div>
@@ -338,7 +357,7 @@ const MyOrderView = () => {
             >
               <div className={Styles.uploadLabel}>Upload Invoice</div>
               {invoiceDocument?.length > 0 &&
-                invoiceDocument[0].is_delete === 'N' ? (
+              invoiceDocument[0].is_delete === 'N' ? (
                 <div>
                   {invoiceDocument?.map((document: any, index: any) => {
                     const customQuotationName =
@@ -412,7 +431,12 @@ const MyOrderView = () => {
               </p>
             </div>
             <div className={Styles.righPurchasetOrderDetail}>
-              <span>{getListData?.order_id}</span>
+              <span
+                onClick={() => generatePDF(getListData?.purchase_order_id)}
+                style={{ cursor: 'pointer', color: 'blue', fontWeight: 'bold' }}
+              >
+                {getListData?.order_id}
+              </span>
             </div>
           </div>
           {/* </div> */}
@@ -450,7 +474,7 @@ const MyOrderView = () => {
                           name="currently_received_quantity"
                           value={items?.currently_received_quantity}
                           width="100px"
-                          // error={errors[index]} 
+                          // error={errors[index]}
                           errorDisable={true}
                           borderError={errors[index] ? true : false}
                           error={errors[index] ? true : false}
@@ -476,7 +500,7 @@ const MyOrderView = () => {
               </tbody>
             </table>
           </div>
-          <div className={Styles.inputFieldTextArea} >
+          <div className={Styles.inputFieldTextArea}>
             <TextArea
               name="notes"
               label="Comments"

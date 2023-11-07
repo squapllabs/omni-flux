@@ -12,6 +12,8 @@ import Button from '../ui/Button';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import GrnData from './grnData';
 import CustomSnackbar from '../ui/customSnackBar';
+import purchaseRequestService from '../../service/purchase-request.service';
+import PurchaseOrderReport from '../reportGenerator/pdfReport/purchaseOrder';
 
 const PurchaseOrderView = () => {
   const routeParams = useParams();
@@ -22,6 +24,7 @@ const PurchaseOrderView = () => {
   const [open, setOpen] = useState(false);
   const { data: getOnePurchaseOrderView, isLoading: dataLoading } =
     useGetOnePurchaseOrder(PurchaseOrderId);
+
   const purchase_order_id = getOnePurchaseOrderView?.purchase_order_id;
 
   const title =
@@ -44,9 +47,17 @@ const PurchaseOrderView = () => {
     return '';
   };
 
-  const handleClose =() => {
+  const handleClose = () => {
     setOpenSnack(false);
-  }
+  };
+
+  const generatePDF = async (id: any) => {
+    const data = await purchaseRequestService.getOnePurchaseOrderDataByID(id);
+    if (data?.data) {
+      await PurchaseOrderReport(data?.data);
+    }
+  };
+
   return (
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
@@ -111,7 +122,14 @@ const PurchaseOrderView = () => {
             </p>
           </div>
           <div className={Styles.rightOrderDetail}>
-            <span>{getOnePurchaseOrderView?.order_id}</span>
+            <span
+              onClick={() =>
+                generatePDF(getOnePurchaseOrderView?.purchase_order_id)
+              }
+              style={{ cursor: 'pointer', color: 'blue', fontWeight: 'bold' }}
+            >
+              {getOnePurchaseOrderView?.order_id}
+            </span>
             <span>
               {getOnePurchaseOrderView?.order_date
                 ? format(

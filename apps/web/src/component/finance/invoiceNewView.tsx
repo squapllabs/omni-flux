@@ -30,15 +30,26 @@ const MyOrderView = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [invoiceId, setInvoiceId] = useState(false);
   const [reload, setReload] = useState(false);
+  const [invAmount,setInvAmount] = useState();
+  const[invDoc,setInvDoc]= useState();
   const { isLoading: dataLoading, data: getAllData = [] } =
     getByPurchaseOrderId(purchaseOrderId);
-  console.log('ooooooooopppppppp', getAllData);
+  // console.log('ooooooooopppppppp', getAllData);
 
   const generateCustomInvoice = (data: any) => {
     if (data) {
       const vendorName = data || '';
       const year = new Date().getFullYear();
-      const customBillName = `ALM-${vendorName.substring(0, 5)}-${year}`;
+      const customBillName = `ALM-INV-${vendorName.substring(0, 5)}-${year}`;
+      return customBillName.toUpperCase();
+    }
+    return '';
+  };
+  const generateCustomQuotation = (data: any) => {
+    if (data) {
+      const vendorName = data || '';
+      const year = new Date().getFullYear();
+      const customBillName = `ALM-QTN-${vendorName.substring(0, 5)}-${year}`;
       return customBillName.toUpperCase();
     }
     return '';
@@ -51,11 +62,15 @@ const MyOrderView = () => {
     return formattedDate;
   };
 
-  const handleEdit = (value: any, invoice: any, invoiceId: any) => {
+  const handleEdit = (value: any, invoice: any, invoiceId: any,invAmt:any,invDoc:any) => {
     setPurchaseId(value);
     setInvoiceNumber(invoice);
     setInvoiceId(invoiceId);
+    setInvAmount(invAmt)
+    setInvDoc(invDoc[0]?.path)
     setOpen(true);
+    console.log("invDoc",invDoc[0]?.path);
+    
   };
 
   const handleClosePopup = () => {
@@ -199,7 +214,7 @@ const MyOrderView = () => {
                       ?.purchase_request_documents?.length > 0 ? (
                       getAllData[0]?.purchase_order_data?.purchase_request_data?.purchase_request_documents.map(
                         (document: any, index: number) => {
-                          const customQuotationName = generateCustomInvoice(
+                          const customQuotationName = generateCustomQuotation(
                             getAllData[0]?.purchase_order_data?.vendor_data
                               ?.vendor_name
                           );
@@ -295,6 +310,7 @@ const MyOrderView = () => {
                   <th>S No</th>
                   <th>Goods Received Date</th>
                   <th>Invoice No</th>
+                  <th>Amount</th>
                   <th>Invoice Document</th>
                   <th>Paid By</th>
                   <th>Payment Date</th>
@@ -316,6 +332,7 @@ const MyOrderView = () => {
                           {dateFormat(item?.grn_data?.goods_received_date)}
                         </td>
                         <td>{item?.invoice_number}</td>
+                        <td>{formatBudgetValue(item?.total_amount ? item?.total_amount : 0)}</td>
                         <td>
                           <div>
                             {item?.invoice_document.map(
@@ -357,7 +374,9 @@ const MyOrderView = () => {
                                   handleEdit(
                                     item.purchase_order_id,
                                     item?.grn_data?.invoice_id,
-                                    item?.purchase_order_invoice_id
+                                    item?.purchase_order_invoice_id,
+                                    item?.total_amount,
+                                    item?.invoice_document
                                   )
                                 }
                               />
@@ -399,6 +418,8 @@ const MyOrderView = () => {
               selectedPurchaseOrder={purchaseId}
               selectedInvoive={invoiceNumber}
               selectedInvoiceId={invoiceId}
+              selectedInvAmt={invAmount}
+              selectedInvDoc={invDoc}
             />
           }
         />

@@ -83,7 +83,7 @@ const getBycategoryIdInSub = (values: any) => {
     ['getSubcategoryList', values],
     () => SubcategoryService.getOneSubCatListbyCatID(values),
     {
-      select: (data) => data.data.map((items:any)=>({...items,switch:false}))
+      select: (data)=>data.data
     }
   );
 };

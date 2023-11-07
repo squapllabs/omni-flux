@@ -141,9 +141,13 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
           </span>
         </td>
         <td >
-          {formatBudgetValue(
+          {
+          formatBudgetValue(
+            rowData?.estimated_budget ? rowData?.estimated_budget : 0
+          )  + '  ' + '('+
+          formatBudgetValue(
             rowData?.actual_budget ? rowData?.actual_budget : 0
-          )}
+          ) + ')'}
         </td>
         <td>
           {/* <CustomMenu
@@ -178,11 +182,16 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
               onClick={() => handleEditTask(rowData)}
             /></span>
 
-            <span 
-            onClick={()=>handleSubTask(rowData)}
-            >
-              <AddIcon width={20} height={20} color={primary_color} />
+            <span>
+              {!rowData.actual_budget ?(
+                <span 
+                onClick={()=>handleSubTask(rowData)}
+                >
+                  <AddIcon width={20} height={20} color={primary_color} />
+                </span>
+              ):('')}
             </span>
+            
             {
                 rowData?.children?.length===0 ? (
                   <span
@@ -302,7 +311,7 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
         />
         <CustomSidePopup
           open={showPlanForm}
-          title={planListTitle}
+          title={planListTitle || 'Manage Plans'}
           width="85%"
           handleClose={handleClosePlanList}
           content={

@@ -109,15 +109,21 @@ const GrnData: React.FC = (props: any) => {
                         {data?.bill_details.length > 0 ? (
                           data?.bill_details.map(
                             (document: any, index: number) => (
-                              <div onClick={() => downloadFile(document)}>
-                                {/* <a
-                                  href={document.path} download
+                              <div
+                                style={{
+                                  cursor: 'pointer',
+                                  color: 'blue',
+                                  fontWeight: 'bold',
+                                }}
+                              >
+                                <a
+                                  href={document.path}
+                                  download
                                   target="_blank"
                                   rel="noopener noreferrer"
                                 >
-                                  
-                                </a> */}
-                                {data?.invoice_id}
+                                  {data?.invoice_id}
+                                </a>
                               </div>
                             )
                           )
