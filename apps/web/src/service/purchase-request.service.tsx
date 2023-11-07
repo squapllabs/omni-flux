@@ -96,6 +96,18 @@ const updatePoBillStatus = async (values: JSON) => {
   }
 };
 
+const updatePoStatus = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.put(
+      `${environment.apiUrl}/purchase-order/update-status-and-document/`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in updatePoStatus:', error);
+  }
+};
+
 const getPoData = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
@@ -187,5 +199,6 @@ export default {
   purchaseDetailData,
   getOnePurchaseOrderTableDataByID,
   purchseOrderGetAll,
-  getMyOrdersData
+  getMyOrdersData,
+  updatePoStatus
 };

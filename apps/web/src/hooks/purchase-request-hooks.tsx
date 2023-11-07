@@ -34,8 +34,7 @@ const useGetOnePurchaseOrderTableData = (id: any) => {
           item_name: value.item_data.item_name,
           requested_quantity: value.order_quantity,
           inward_quantity: value.inward_quantity,
-          unit_price:value.unit_price,
-
+          unit_price: value.unit_price,
         })),
       staleTime: Infinity,
     }
@@ -86,6 +85,20 @@ const updatePurchseOrderBillStatus = () => {
   return useMutation(
     (data: any) => {
       return purchaseRequestService.updatePoBillStatus(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['getInvoiceData']);
+      },
+    }
+  );
+};
+
+const updatePurchseOrderStatus = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return purchaseRequestService.updatePoStatus(data);
     },
     {
       onSuccess: () => {
@@ -154,7 +167,7 @@ const getBySearchPR = (data: any) => {
   );
 };
 
-const purchaseOrderGetAll = (data:any) => {
+const purchaseOrderGetAll = (data: any) => {
   return useQuery(
     ['useGetAllpurchaseOrder'],
     () => purchaseRequestService.purchseOrderGetAll(data),
@@ -177,5 +190,6 @@ export {
   getBySearchPR,
   useGetOnePurchaseOrderTableData,
   purchaseOrderGetAll,
-  useGetAllMyOrderData
+  useGetAllMyOrderData,
+  updatePurchseOrderStatus,
 };
