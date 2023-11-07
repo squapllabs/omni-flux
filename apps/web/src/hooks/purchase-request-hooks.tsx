@@ -89,7 +89,7 @@ const updatePurchseOrderBillStatus = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries(['useGetAllPOPaginatedData']);
+        queryClient.invalidateQueries(['getInvoiceData']);
       },
     }
   );

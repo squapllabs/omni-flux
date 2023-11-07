@@ -62,7 +62,7 @@ const OrderView = () => {
     data: getAllData,
     refetch,
   } = useGetAllPurchaseOrderData(getPoData);
-  // console.log('ttttttt', getAllData);
+  console.log('initial', getAllData);
   const { data: getAllProjectDataForDrop = [], isLoading: dropLoading } =
     useGetAllProjectDrop();
   // console.log("getAllProjectDataForDrop",getAllProjectDataForDrop);
@@ -242,9 +242,9 @@ const OrderView = () => {
                   <th className={Styles.tableHeading}>Vendor Name</th>
                   <th className={Styles.tableHeading}>Project Name </th>
                   <th className={Styles.tableHeading}>Amount</th>
-                  {activeButton === 'Completed' && <th>Payment Date</th>}
-                  {activeButton === 'Completed' && <th>Payment Mode</th>}
-                  <th className={Styles.tableHeading}>Invoice</th>
+                  {/* {activeButton === 'Completed' && <th>Payment Date</th>}
+                  {activeButton === 'Completed' && <th>Payment Mode</th>} */}
+                  {/* <th className={Styles.tableHeading}>Invoice</th> */}
                   <th className={Styles.tableHeading}>Actions</th>
                 </tr>
               </thead>
@@ -281,7 +281,7 @@ const OrderView = () => {
                                 : nullLableNameFromEnv}
                             </td>
                           )}
-                          <td>
+                          {/* <td>
                             <div>
                               {data?.purchase_order_documents?.length > 0 ? (
                                 data?.purchase_order_documents.map(
@@ -301,7 +301,7 @@ const OrderView = () => {
                                 <div>-</div>
                               )}
                             </div>
-                          </td>
+                          </td> */}
                           {activeButton === 'Invoice' ? (
                             <td>
                               <div className={Styles.tablerow}>
@@ -349,7 +349,7 @@ const OrderView = () => {
                               ?.project_name || nullLableNameFromEnv}
                           </td>
                           <td>{formatBudgetValue(data?.total_cost)}</td>
-                          {activeButton === 'Completed' && (
+                          {/* {activeButton === 'Completed' && (
                             <td>
                               {data?.payment_date
                                 ? `${format(
@@ -363,8 +363,8 @@ const OrderView = () => {
                             <td>
                               {data?.payment_mode || nullLableNameFromEnv}{' '}
                             </td>
-                          )}
-                          <td>
+                          )} */}
+                          {/* <td>
                             <div>
                               {data?.grn?.length > 0 ? (
                                 data?.grn.map(
@@ -384,48 +384,18 @@ const OrderView = () => {
                                 <div>-</div>
                               )}
                             </div>
+                          </td> */}
+                          <td>
+                            <ViewIcon
+                              onClick={
+                                () =>
+                                  navigate(
+                                    `/view-invoice/${data.purchase_order_id}`
+                                  )
+                                // navigate(`/invoice-view/${data.purchase_order_id}`)
+                              }
+                            />
                           </td>
-                          {activeButton === 'Invoice' ? (
-                            <td>
-                              <div className={Styles.tablerow}>
-                                <ViewIcon
-                                  onClick={
-                                    () =>
-                                      navigate(
-                                        `/view-invoice/${data.purchase_order_id}`
-                                      )
-                                    // navigate(`/invoice-view/${data.purchase_order_id}`)
-                                  }
-                                />
-                                {/* <EditIcon
-                                  onClick={() =>
-                                    handleEdit(
-                                      data.purchase_order_id,
-                                      data?.grn[0]?.invoice_id
-                                    )
-                                  }
-                                /> */}
-                                {/* <PdfDownloadIcon
-                                  onClick={() => handleReportGenerator()}
-                                /> */}
-                              </div>
-                            </td>
-                          ) : (
-                            <td>
-                              <div className={Styles.tablerow}>
-                                {/* <ViewIcon
-                                  onClick={() =>
-                                    navigate(
-                                      `/invoice-view/${data.purchase_order_id}`
-                                    )
-                                  }
-                                /> */}
-                                {/* <PdfDownloadIcon
-                                  onClick={() => handleReportGenerator()}
-                                /> */}
-                              </div>
-                            </td>
-                          )}
                         </tr>
                       );
                     })}

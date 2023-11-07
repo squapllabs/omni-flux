@@ -296,6 +296,9 @@ const MyOrderView = () => {
                   <th>Goods Received Date</th>
                   <th>Invoice No</th>
                   <th>Invoice Document</th>
+                  <th>Paid By</th>
+                  <th>Payment Date</th>
+                  <th>Payment Method</th>
                   <th>Status</th>
                   <th>Options</th>
                 </tr>
@@ -330,18 +333,37 @@ const MyOrderView = () => {
                             )}
                           </div>
                         </td>
+                        <td>
+                          {item?.status === 'Paid'
+                            ? item?.paid_by_data?.first_name +
+                              ' ' +
+                              item?.paid_by_data?.last_name
+                            : '-'}
+                        </td>
+                        <td>
+                          {item?.status === 'Paid'
+                            ? dateFormat(item?.paid_date)
+                            : '-'}
+                        </td>
+                        <td>
+                          {item?.status === 'Paid' ? item?.payment_mode : '-'}
+                        </td>
                         <td>{item?.status}</td>
                         <td>
                           <div style={{ display: 'flex', gap: '10px' }}>
-                            <EditIcon
-                              onClick={() =>
-                                handleEdit(
-                                  item.purchase_order_id,
-                                  item?.grn_data?.invoice_id,
-                                  item?.purchase_order_invoice_id
-                                )
-                              }
-                            />
+                            {item?.status === 'To Be Paid' ? (
+                              <EditIcon
+                                onClick={() =>
+                                  handleEdit(
+                                    item.purchase_order_id,
+                                    item?.grn_data?.invoice_id,
+                                    item?.purchase_order_invoice_id
+                                  )
+                                }
+                              />
+                            ) : (
+                              ' '
+                            )}
                             <div>
                               <PdfDownloadIcon
                                 onClick={() => handleReportGenerator(item)}
