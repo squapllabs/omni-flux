@@ -13,16 +13,31 @@ import { getBymasertDataType } from '../../hooks/masertData-hook';
 import DatePicker from '../ui/CustomDatePicker';
 import { editInvoiceValidateyup } from '../../helper/constants/invoice-constants';
 import * as Yup from 'yup';
+import { formatBudgetValue } from '../../helper/common-function';
+import { store, RootState } from '../../redux/store';
+import { getToken } from '../../redux/reducer';
 
 const CustomEditInvoicePopup = (props: {
   isVissible: any;
   onAction: any;
   selectedPurchaseOrder: any;
   selectedInvoive: any;
-  selectedInvoiceId: any
+  selectedInvoiceId: any;
+  selectedInvAmt: any;
+  selectedInvDoc: any;
 }) => {
-  const { isVissible, onAction, selectedPurchaseOrder, selectedInvoive,selectedInvoiceId } =
-    props;
+  const {
+    isVissible,
+    onAction,
+    selectedPurchaseOrder,
+    selectedInvoive,
+    selectedInvoiceId,
+    selectedInvAmt,
+    selectedInvDoc,
+  } = props;
+  const state: RootState = store.getState();
+  const encryptedData = getToken(state, 'Data');
+  const userID: number = encryptedData.userId;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { data: getAllBillStatusTypeDatadrop = [] } =
     getBymasertDataType('PYS');
@@ -130,9 +145,9 @@ const CustomEditInvoicePopup = (props: {
         additional_info:
           s3UploadUrl && s3UploadUrl.length > 0 ? s3UploadUrl : undefined,
         purchase_order_id: Number(selectedPurchaseOrder),
-        updated_by: 1,
-        paid_by:1,
-        purchase_order_invoice_id:Number(selectedInvoiceId)
+        updated_by: Number(userID),
+        paid_by: Number(userID),
+        purchase_order_invoice_id: Number(selectedInvoiceId),
       };
       // console.log('object', Object);
       updatePoBillStatus(Object, {
@@ -238,7 +253,22 @@ const CustomEditInvoicePopup = (props: {
           <div className={Styles.invDiv}>
             <h5>Invoice</h5>
             <span>:</span>
-            <p className={Styles.invoiceNumber}>{selectedInvoive}</p>
+            <p className={Styles.invoiceNumber}>
+              <a
+                href={selectedInvDoc}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {selectedInvoive}
+              </a>
+            </p>
+          </div>
+          <div className={Styles.invDiv}>
+            <h5>Amount</h5>
+            <span>:</span>
+            <p className={Styles.invoiceNumber}>
+              {formatBudgetValue(selectedInvAmt ? selectedInvAmt : 0)}
+            </p>
           </div>
           <div>
             <div>

@@ -38,7 +38,7 @@ const CustomTabComponent: React.FC<TabComponentProps> = ({
               fontWeight: '500',
               borderBottom:
                 activeTab === value
-                  ? `2px solid ${activeTab === value ? '#7f56d9' : ''}`
+                  ? `4px solid ${activeTab === value ? '#7f56d9' : ''}`
                   : '',
             }}
             justify="center"

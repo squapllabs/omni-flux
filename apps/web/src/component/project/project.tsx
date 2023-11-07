@@ -123,11 +123,11 @@ const Project = () => {
     },
     {
       id: 12,
-      name: 'My Orders'
+      name: 'Stock Movement',
     },
     {
       id: 13,
-      name: 'Store'
+      name: 'Store',
     },
   ];
   const menuItemsForMobile = [
@@ -232,7 +232,7 @@ const Project = () => {
         setLoader={setLoader}
         loader={loader}
       />
-    )
+    ),
   };
   const mainContentComponentsForMobile: { [key: number]: JSX.Element } = {   //For Mobile View
     1: (

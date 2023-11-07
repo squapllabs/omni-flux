@@ -74,14 +74,14 @@ const IntialReport = () => {
     //   menuValue: 'PUR',
     //   mainValue: 'IRIW',
     // },
-    {
-      title: 'Inward Register',
-      description:
-        'Item-wise details of all the products received via inward document',
-      menuValue: 'ITY',
-      mainValue: 'ITYIR',
-      sortOrder: 2,
-    },
+    // {
+    //   title: 'Inward Register',
+    //   description:
+    //     'Item-wise details of all the products received via inward document',
+    //   menuValue: 'ITY',
+    //   mainValue: 'ITYIR',
+    //   sortOrder: 2,
+    // },
     {
       title: 'Project Inward',
       description: 'Project wise comparison of stock quantity and value',
@@ -96,13 +96,13 @@ const IntialReport = () => {
       mainValue: 'FCEAPS',
       sortOrder: 3,
     },
-    {
-      title: 'Accounts Monthly Summary',
-      description: 'Details for month-wise recivable and payable',
-      menuValue: 'FCE',
-      mainValue: 'FCEAMS',
-      sortOrder: 3,
-    },
+    // {
+    //   title: 'Accounts Monthly Summary',
+    //   description: 'Details for month-wise recivable and payable',
+    //   menuValue: 'FCE',
+    //   mainValue: 'FCEAMS',
+    //   sortOrder: 3,
+    // },
   ];
 
   const sortedItems = mainItems.sort(
