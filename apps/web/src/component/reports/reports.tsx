@@ -8,9 +8,9 @@ const Reports = () => {
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Report', value: '' },
     { value: 'RSP', label: 'Sales & Purchase BI' },
-    { value: 'RIB', label: 'Inventory BI' },
-    { value: 'RPB', label: 'Production BI' },
-    { value: 'RAS', label: 'Accounts BI' },
+    // { value: 'RIB', label: 'Inventory BI' },
+    // { value: 'RPB', label: 'Production BI' },
+    // { value: 'RAS', label: 'Accounts BI' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('');
   const handleGroupButtonClick = (value: string) => {
