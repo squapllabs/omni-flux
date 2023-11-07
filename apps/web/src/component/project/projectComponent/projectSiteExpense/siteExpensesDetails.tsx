@@ -48,9 +48,29 @@ const SiteExpensesDetails: React.FC = (props: any) => {
   const [fileMandatoryError, setFileMandatoryError] = useState('');
   const { data: getSiteExpense } = getBymasertDataTypeDrop('SIEP');
   const [expenseIndex, setExpenseIndex] = useState<any>();
+  const [screenSize, setScreenSize] = useState(getCurrentDimension());
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
+
+  function getCurrentDimension() {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+  }
+
+  useEffect(() => {
+    const updateDimension = () => {
+      setScreenSize(getCurrentDimension());
+    };
+    window.addEventListener("resize", updateDimension);
+
+    return () => {
+      window.removeEventListener("resize", updateDimension);
+    };
+  }, [screenSize]);
+
 
   useEffect(() => {
     if (props?.mode != 'Edit' && props.expenseList.length === 0) {
@@ -388,227 +408,440 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       <form>
         <div className={Styles.fields_container}></div>
       </form>
-      <div className={Styles.table_container}>
-        <table className={Styles.scrollable_table}>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Description</th>
-              <th>Site Expense</th>
-              <th>Bill Type</th>
-              <th>Bill/Voucher No</th>
-              <th>Amount</th>
-              <th>Document</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {props.expenseList?.map((item: any, index: any) => {
-              if (item.is_delete === false) {
-                rowIndex = rowIndex + 1;
-                const customQuotationName = generateCustomQuotationName(item);
-                return (
-                  <tr>
-                    <td>{rowIndex}</td>
-                    <td>
-                      <Input
-                        // name={`item.description`}
-                        name="description"
-                        onChange={(e) => handleListChange(e, index)}
-                        value={item.description}
-                        width="300px"
-                        error={
-                          props.errors?.[`[${index}].description`]
-                            ? true
-                            : props.errors?.[`[${index}].bill_details`]
-                            ? true
-                            : false
-                        }
-                      />
-                    </td>
-                    <td>
-                      <Select
-                        width="180px"
-                        name="expense_data_id"
-                        mandatory={true}
-                        defaultLabel="Select the option"
-                        placeholder="Select the option"
-                        value={item.expense_data_id}
-                        onChange={(e) => handleListChange(e, index)}
-                        error={
-                          props.errors?.[`[${index}].expense_data_id`]
-                            ? true
-                            : props.errors?.[`[${index}].bill_details`]
-                            ? true
-                            : false
-                        }
-                      >
-                        {getSiteExpense?.map((item: any, index: any) => {
-                          return (
-                            <option value={item.value}>{item.label}</option>
-                          );
-                        })}
-                      </Select>
-                    </td>
-                    <td>
-                      <Select
-                        name="bill_type"
-                        value={item.bill_type}
-                        width="180px"
-                        onChange={(e) => handleListChange(e, index)}
-                        defaultLabel="Select the option"
-                        placeholder="Select the option"
-                        error={
-                          props.errors?.[`[${index}].bill_type`]
-                            ? true
-                            : props.errors?.[`[${index}].bill_details`]
-                            ? true
-                            : false
-                        }
-                      >
-                        {options?.map((item, index) => {
-                          return (
-                            <option value={item.value}>{item.label}</option>
-                          );
-                        })}
-                      </Select>
-                    </td>
-                    <td>
-                      <Input
-                        name="bill_number"
-                        value={item.bill_number}
-                        onChange={(e) => handleListChange(e, index)}
-                        width="160px"
-                        error={
-                          props.errors?.[`[${index}].bill_details`]
-                            ? true
-                            : false
-                        }
-                      />
-                    </td>
-                    <td style={{ overflow: 'hidden' }}>
-                      <Input
-                        name="total"
-                        value={item.total}
-                        onChange={(e) => handleListChange(e, index)}
-                        width="120px"
-                        error={
-                          props.errors?.[`[${index}].total`]
-                            ? true
-                            : props.errors?.[`[${index}].bill_details`]
-                            ? true
-                            : false
-                        }
-                      />
-                    </td>
-                    <td>
-                      {item.bill_details?.length > 0 &&
-                      item.bill_details[0].is_delete === 'N' ? (
-                        item.bill_details.map(
-                          (document: any, billIndex: number) => {
-                            if (document.is_delete === 'N')
+      {screenSize.width > 750 && (
+        <div>
+          <div className={Styles.table_container}>
+            <table className={Styles.scrollable_table}>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Description</th>
+                  <th>Site Expense</th>
+                  <th>Bill Type</th>
+                  <th>Bill/Voucher No</th>
+                  <th>Amount</th>
+                  <th>Document</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {props.expenseList?.map((item: any, index: any) => {
+                  if (item.is_delete === false) {
+                    rowIndex = rowIndex + 1;
+                    const customQuotationName = generateCustomQuotationName(item);
+                    console.log('props.expenseList==>', props.expenseList);
+                    return (
+                      <tr>
+                        <td>{rowIndex}</td>
+                        <td>
+                          <Input
+                            name="description"
+                            onChange={(e) => handleListChange(e, index)}
+                            value={item.description}
+                            width="300px"
+                            error={
+                              props.errors?.[`[${index}].description`]
+                                ? true
+                                : props.errors?.[`[${index}].bill_details`]
+                                  ? true
+                                  : false
+                            }
+                          />
+                        </td>
+                        <td>
+                          <Select
+                            width="180px"
+                            name="expense_data_id"
+                            mandatory={true}
+                            defaultLabel="Select the option"
+                            placeholder="Select the option"
+                            value={item.expense_data_id}
+                            onChange={(e) => handleListChange(e, index)}
+                            error={
+                              props.errors?.[`[${index}].expense_data_id`]
+                                ? true
+                                : props.errors?.[`[${index}].bill_details`]
+                                  ? true
+                                  : false
+                            }
+                          >
+                            {getSiteExpense?.map((item: any, index: any) => {
                               return (
+                                <option value={item.value}>{item.label}</option>
+                              );
+                            })}
+                          </Select>
+                        </td>
+                        <td>
+                          <Select
+                            name="bill_type"
+                            value={item.bill_type}
+                            width="180px"
+                            onChange={(e) => handleListChange(e, index)}
+                            defaultLabel="Select the option"
+                            placeholder="Select the option"
+                            error={
+                              props.errors?.[`[${index}].bill_type`]
+                                ? true
+                                : props.errors?.[`[${index}].bill_details`]
+                                  ? true
+                                  : false
+                            }
+                          >
+                            {options?.map((item, index) => {
+                              return (
+                                  <option value={item.value} >{item.label}</option>
+                              );
+                            })}
+                          </Select>
+                        </td>
+                        <td>
+                          <Input
+                            name="bill_number"
+                            value={item.bill_number}
+                            onChange={(e) => handleListChange(e, index)}
+                            width="160px"
+                            error={
+                              props.errors?.[`[${index}].bill_details`]
+                                ? true
+                                : false
+                            }
+                          />
+                        </td>
+                        <td style={{ overflow: 'hidden' }}>
+                          <Input
+                            name="total"
+                            value={item.total}
+                            onChange={(e) => handleListChange(e, index)}
+                            width="120px"
+                            error={
+                              props.errors?.[`[${index}].total`]
+                                ? true
+                                : props.errors?.[`[${index}].bill_details`]
+                                  ? true
+                                  : false
+                            }
+                          />
+                        </td>
+                        <td>
+                          {item.bill_details?.length > 0 &&
+                            item.bill_details[0].is_delete === 'N' ? (
+                            item.bill_details.map(
+                              (document: any, billIndex: number) => {
+                                if (document.is_delete === 'N')
+                                  return (
+                                    <div
+                                      key={document.code}
+                                      style={{
+                                        width: '150px',
+                                        cursor: 'pointer',
+                                        fontWeight: 'bolder',
+                                        color: 'blue',
+                                        display: 'flex',
+                                      }}
+                                    >
+                                      <div
+                                        onClick={() => {
+                                          viewDocumnet(item);
+                                        }}
+                                      >
+                                        {customQuotationName}
+                                      </div>
+                                      <CloseIcon
+                                        width={5}
+                                        height={10}
+                                        onClick={() => deleteFileinList(index)}
+                                      />
+                                    </div>
+                                  );
+                              }
+                            )
+                          ) : (
+                            <div>
+                              <div title="Attach document">
+                                <input
+                                  ref={fileInputRef_2}
+                                  id="upload-photo"
+                                  name="upload_photo"
+                                  type="file"
+                                  style={{ display: 'none' }}
+                                  onChange={(e) => handleFileSelectRow(e, index)}
+                                  error={
+                                    formik.touched.bill_number &&
+                                    formik.errors.bill_number
+                                  }
+                                />
                                 <div
-                                  key={document.code}
                                   style={{
-                                    width: '150px',
                                     cursor: 'pointer',
-                                    fontWeight: 'bolder',
-                                    color: 'blue',
-                                    display: 'flex',
+                                    paddingBottom: '5px',
+                                  }}
+                                  onClick={() => {
+                                    setExpenseIndex(index);
+                                    onButtonClickRow();
                                   }}
                                 >
-                                  <div
-                                    onClick={() => {
-                                      viewDocumnet(item);
-                                    }}
-                                  >
-                                    {customQuotationName}
-                                  </div>
-                                  <CloseIcon
-                                    width={5}
-                                    height={10}
-                                    onClick={() => deleteFileinList(index)}
-                                  />
+                                  <FileUploadIcon color="#7f56d9" />
                                 </div>
-                              );
-                          }
-                        )
-                      ) : (
-                        <div>
-                          <div title="Attach document">
-                            <input
-                              ref={fileInputRef_2}
-                              id="upload-photo"
-                              name="upload_photo"
-                              type="file"
-                              style={{ display: 'none' }}
-                              onChange={(e) => handleFileSelectRow(e, index)}
-                              error={
-                                formik.touched.bill_number &&
-                                formik.errors.bill_number
-                              }
-                            />
+                                {fileMandatoryError && (
+                                  <div className={Styles.documentErr}>
+                                    {fileMandatoryError}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                        </td>
+                        <td>
+                          <div className={Styles.buttons}>
                             <div
-                              style={{
-                                cursor: 'pointer',
-                                paddingBottom: '5px',
-                              }}
+                              style={{ cursor: 'pointer' }}
                               onClick={() => {
+                                setExpenseValue(item);
+                                setOpenDelete(true);
                                 setExpenseIndex(index);
-                                onButtonClickRow();
                               }}
                             >
-                              <FileUploadIcon color="#7f56d9" />
+                              <DeleteIcon />
                             </div>
-                            {fileMandatoryError && (
-                              <div className={Styles.documentErr}>
-                                {fileMandatoryError}
-                              </div>
-                            )}
                           </div>
-                        </div>
-                      )}
-                    </td>
-                    <td>
-                      <div className={Styles.buttons}>
-                        <div
-                          style={{ cursor: 'pointer' }}
-                          onClick={() => {
-                            setExpenseValue(item);
-                            setOpenDelete(true);
-                            setExpenseIndex(index);
-                          }}
-                        >
-                          <DeleteIcon />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              }
-            })}
-          </tbody>
-        </table>
-      </div>
-      <div className={Styles.addDataIcon}>
-        {/* <div onClick={formik.handleSubmit} className={Styles.iconContent}>
+                        </td>
+                      </tr>
+                    );
+                  }
+                })}
+              </tbody>
+            </table>
+          </div>
+          <div className={Styles.addDataIcon}>
+            {/* <div onClick={formik.handleSubmit} className={Styles.iconContent}>
             <NewAddCircleIcon />
             <span>Add Claim</span>
           </div> */}
 
-        <div
-          onClick={() => {
-            handleAddObject();
-          }}
-          className={Styles.iconContent}
-        >
-          <NewAddCircleIcon />
-          <span>
-            {props.expenseList.length > 0 ? 'Add More Claim' : 'Add Claim'}
-          </span>
+            <div
+              onClick={() => {
+                handleAddObject();
+              }}
+              className={Styles.iconContent}
+            >
+              <NewAddCircleIcon />
+              <span>
+                {props.expenseList.length > 0 ? 'Add More Claim' : 'Add Claim'}
+              </span>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
+      {screenSize.width <= 750 && (
+        <div className={Styles.formContainerForMobile}>
+          <div className={Styles.card}>
+            <div className={Styles.cardDiv}>
+              <table className={Styles.scrollable_table}>
+                <tbody>
+                  {props.expenseList?.map((item: any, index: any) => {
+                    if (item.is_delete === false) {
+                      rowIndex = rowIndex + 1;
+                      const customQuotationName = generateCustomQuotationName(item);
+                      return (
+                        <tr style={{ display: 'flex', flexDirection: 'column' }}>
+                          <div className={Styles.tableBody}>
+                            <div>
+                              <Input
+                                name="description"
+                                onChange={(e) => handleListChange(e, index)}
+                                value={item.description}
+                                label={'Description'}
+                                mandatory={true}
+                                width="250px"
+                                error={
+                                  props.errors?.[`[${index}].description`]
+                                    ? true
+                                    : props.errors?.[`[${index}].bill_details`]
+                                      ? true
+                                      : false
+                                }
+                              />
+                            </div>
+                            <div>
+                              <Select
+                                width="250px"
+                                name="expense_data_id"
+                                mandatory={true}
+                                label={'Site Expense'}
+                                defaultLabel="Select the option"
+                                placeholder="Select the option"
+                                value={item.expense_data_id}
+                                onChange={(e) => handleListChange(e, index)}
+                                error={
+                                  props.errors?.[`[${index}].expense_data_id`]
+                                    ? true
+                                    : props.errors?.[`[${index}].bill_details`]
+                                      ? true
+                                      : false
+                                }
+                              >
+                                {getSiteExpense?.map((item: any, index: any) => {
+                                  return (
+                                    <option value={item.value}>{item.label}</option>
+                                  );
+                                })}
+                              </Select>
+                            </div>
+                            <div>
+                              <Select
+                                name="bill_type"
+                                value={item.bill_type}
+                                width="250px"
+                                label={'Bill Type'}
+                                mandatory={true}
+                                onChange={(e) => handleListChange(e, index)}
+                                defaultLabel="Select the option"
+                                placeholder="Select the option"
+                                error={
+                                  props.errors?.[`[${index}].bill_type`]
+                                    ? true
+                                    : props.errors?.[`[${index}].bill_details`]
+                                      ? true
+                                      : false
+                                }
+                              >
+                                {options?.map((item, index) => {
+                                  return (
+                                    <option value={item.value}>{item.label}</option>
+                                  );
+                                })}
+                              </Select>
+                            </div>
+                            <div>
+                              <Input
+                                name="bill_number"
+                                mandatory={true}
+                                width="250px"
+                                label={'Bill Number'}
+                                value={item.bill_number}
+                                onChange={(e) => handleListChange(e, index)}
+                                error={
+                                  props.errors?.[`[${index}].bill_details`]
+                                    ? true
+                                    : false
+                                }
+                              />
+                            </div>
+                            <div style={{ overflow: 'hidden' }}>
+                              <Input
+                                name="total"
+                                value={item.total}
+                                onChange={(e) => handleListChange(e, index)}
+                                width="250px"
+                                label={'Amount'}
+                                mandatory={true}
+                                error={
+                                  props.errors?.[`[${index}].total`]
+                                    ? true
+                                    : props.errors?.[`[${index}].bill_details`]
+                                      ? true
+                                      : false
+                                }
+                              />
+                            </div>
+                            <div>
+                              {item.bill_details?.length > 0 &&
+                                item.bill_details[0].is_delete === 'N' ? (
+                                item.bill_details.map(
+                                  (document: any, billIndex: number) => {
+                                    if (document.is_delete === 'N')
+                                      return (
+                                        <div
+                                          key={document.code}
+                                          style={{
+                                            width: '150px',
+                                            cursor: 'pointer',
+                                            fontWeight: 'bolder',
+                                            color: 'blue',
+                                            display: 'flex',
+                                          }}
+                                        >
+                                          <div
+                                            onClick={() => {
+                                              viewDocumnet(item);
+                                            }}
+                                          >
+                                            {customQuotationName}
+                                          </div>
+                                          <CloseIcon
+                                            width={5}
+                                            height={10}
+                                            onClick={() => deleteFileinList(index)}
+                                          />
+                                        </div>
+                                      );
+                                  }
+                                )
+                              ) : (
+                                <div>
+                                  <div title="Attach document">
+                                    <div style={{ paddingBottom: '10px' }}>
+                                      <label>Document</label> <span style={{ color: 'red' }}>*</span>
+                                    </div>
+                                    <input
+                                      ref={fileInputRef_2}
+                                      id="upload-photo"
+                                      name="upload_photo"
+                                      type="file"
+                                      style={{ display: 'none' }}
+                                      onChange={(e) => handleFileSelectRow(e, index)}
+                                      error={
+                                        formik.touched.bill_number &&
+                                        formik.errors.bill_number
+                                      }
+                                    />
+                                    <div
+                                      style={{
+                                        cursor: 'pointer',
+                                        paddingBottom: '5px',
+                                      }}
+                                      onClick={() => {
+                                        setExpenseIndex(index);
+                                        onButtonClickRow();
+                                      }}
+                                    >
+                                      <FileUploadIcon color="#7f56d9" />
+                                    </div>
+                                    {fileMandatoryError && (
+                                      <div className={Styles.documentErr}>
+                                        {fileMandatoryError}
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                            {/* <td>
+                            <div className={Styles.buttons}>
+                              <div
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => {
+                                  setExpenseValue(item);
+                                  setOpenDelete(true);
+                                  setExpenseIndex(index);
+                                }}
+                              >
+                                <DeleteIcon />
+                              </div>
+                            </div>
+                          </td> */}
+                          </div>
+                        </tr>
+                      );
+                    }
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
       <CustomDelete
         open={openDelete}
         title="Delete Site Expense"

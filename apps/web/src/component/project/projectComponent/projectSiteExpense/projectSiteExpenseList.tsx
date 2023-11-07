@@ -23,13 +23,14 @@ const ProjectSiteExpenseList = () => {
   let rowIndex = 0;
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [expenseOpen,setExpenseOpen] = useState(false);
+  const [expenseOpen, setExpenseOpen] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>('All');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [expenseID, setExpenseID] = useState();
   const [mode, setMode] = useState('');
   const [reload, setReload] = useState(false);
+  const [screenSize, setScreenSize] = useState(getCurrentDimension());
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
     { label: 'Draft', value: 'Draft' },
@@ -94,6 +95,24 @@ const ProjectSiteExpenseList = () => {
     setExpenseOpen(true);
   };
 
+  function getCurrentDimension() {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+  }
+
+  useEffect(() => {
+    const updateDimension = () => {
+      setScreenSize(getCurrentDimension());
+    };
+    window.addEventListener("resize", updateDimension);
+
+    return () => {
+      window.removeEventListener("resize", updateDimension);
+    };
+  }, [screenSize]);
+
   useEffect(() => {
     handleSearch();
   }, [
@@ -104,16 +123,34 @@ const ProjectSiteExpenseList = () => {
     reload,
     getSiteList,
   ]);
+
   return (
     <div className={Styles.container}>
+      {/* <div className={Styles.cardContainer}>
+        <table className={Styles.cardTable}>
+          <tr>
+            <th className={Styles.cardHeader}>EXPENSE CODE</th>
+          </tr>
+          <tr>
+            <td>tb</td>
+          </tr>
+          <tr>
+            <th className={Styles.cardHeader} style={{ borderTop: '1px solid rgb(198, 197, 197)' }}>ADDED BY</th>
+          </tr>
+          <tr>
+            <td>tb</td>
+          </tr>
+        </table>
+      </div> */}
+
       <CustomLoader loading={fetchLoader} size={48}>
         {getSiteList ? (
           <div>
             <div className={Styles.topHeading}>
-            <div className={Styles.subHeading}>
-              <MoneyIcon width={30} height={30} color="black" />
-              <h3>SITE Claim</h3>
-            </div>
+              <div className={Styles.subHeading}>
+                <MoneyIcon width={30} height={30} color="black" />
+                <h3>SITE Claim</h3>
+              </div>
               <div>
                 {getSiteList && (
                   <AutoCompleteSelect
@@ -164,7 +201,7 @@ const ProjectSiteExpenseList = () => {
             </div>
             <div>
               {getExpenseList?.total_count !== 0 ||
-              getExpenseList?.expense_statistics?.total_expenses !== 0 ? (
+                getExpenseList?.expense_statistics?.total_expenses !== 0 ? (
                 <div>
                   <div className={Styles.cards}>
                     <div className={Styles.amountCards}>
@@ -174,7 +211,7 @@ const ProjectSiteExpenseList = () => {
                           <p>
                             {getExpenseList?.expense_statistics?.total_expenses
                               ? getExpenseList?.expense_statistics
-                                  ?.total_expenses
+                                ?.total_expenses
                               : 0}
                           </p>
                         </div>
@@ -189,7 +226,7 @@ const ProjectSiteExpenseList = () => {
                               getExpenseList?.expense_statistics
                                 ?.completed_expenses
                                 ? getExpenseList?.expense_statistics
-                                    ?.completed_expenses
+                                  ?.completed_expenses
                                 : 0
                             )}
                           </p>
@@ -205,7 +242,7 @@ const ProjectSiteExpenseList = () => {
                               getExpenseList?.expense_statistics
                                 ?.inprogress_expenses
                                 ? getExpenseList?.expense_statistics
-                                    ?.inprogress_expenses
+                                  ?.inprogress_expenses
                                 : 0
                             )}
                           </p>
@@ -221,7 +258,7 @@ const ProjectSiteExpenseList = () => {
                               getExpenseList?.expense_statistics
                                 ?.pending_expenses
                                 ? getExpenseList?.expense_statistics
-                                    ?.pending_expenses
+                                  ?.pending_expenses
                                 : 0
                             )}
                           </p>
@@ -229,114 +266,218 @@ const ProjectSiteExpenseList = () => {
                       </div>
                     </div>
                   </div>
-                  <div className={Styles.grpButtons}>
-                    <CustomGroupButton
-                      labels={buttonLabels}
-                      onClick={handleGroupButtonClick}
-                      activeButton={activeButton}
-                    />
-                  </div>
-                  <div>
-                    <table className={Styles.scrollable_table}>
-                      <thead>
-                        <tr>
-                          <th className={Styles.tableHeading}>#</th>
-                          <th className={Styles.tableHeading}>Expense Code</th>
-                          <th className={Styles.tableHeading}>Added By</th>
-                          <th className={Styles.tableHeading}>Site</th>
-                          <th className={Styles.tableHeading}>Status</th>
-                          <th className={Styles.tableHeading}>Amount</th>
-                          <th className={Styles.tableHeading}>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {getExpenseList?.content?.length === 0 ? (
-                          <tr>
-                            <td colSpan="7" style={{ textAlign: 'center' }}>
-                              No data found
-                            </td>
-                          </tr>
-                        ) : (
-                          ''
-                        )}
+                  {screenSize.width > 750 && (                      //For Desktop View
+                    <div>
+                      <div className={Styles.tableContainer}>
+                        <div className={Styles.grpButtons}>
+                          <CustomGroupButton
+                            labels={buttonLabels}
+                            onClick={handleGroupButtonClick}
+                            activeButton={activeButton}
+                          />
+                        </div>
+                        <div>
+                          <table className={Styles.scrollable_table}>
+                            <thead>
+                              <tr>
+                                <th className={Styles.tableHeading}>#</th>
+                                <th className={Styles.tableHeading}>Expense Code</th>
+                                <th className={Styles.tableHeading}>Added By</th>
+                                <th className={Styles.tableHeading}>Site</th>
+                                <th className={Styles.tableHeading}>Status</th>
+                                <th className={Styles.tableHeading}>Amount</th>
+                                <th className={Styles.tableHeading}>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {getExpenseList?.content?.length === 0 ? (
+                                <tr>
+                                  <td colSpan="7" style={{ textAlign: 'center' }}>
+                                    No data found
+                                  </td>
+                                </tr>
+                              ) : (
+                                ''
+                              )}
+                              {getExpenseList?.content?.map(
+                                (items: any, index: any) => {
+                                  if (items.is_delete != true) {
+                                    rowIndex = rowIndex + 1;
+                                    return (
+                                      <tr>
+                                        <td>{rowIndex}</td>
+                                        <td>{items?.expense_code}</td>
+                                        <td>{items?.employee_name}</td>
+                                        <td>{items?.site_data?.name}</td>
+                                        <td>
+                                          <span
+                                            className={`${Styles.status} ${items?.status === 'Pending'
+                                              ? Styles.pendingStatus
+                                              : items?.status === 'InProgress'
+                                                ? Styles.rejectedStatus
+                                                : items?.status === 'Approved'
+                                                  ? Styles.approvedStatus
+                                                  : items?.status === 'Draft'
+                                                    ? Styles.draftStatus
+                                                    : items?.status === 'Completed'
+                                                      ? Styles.approvedStatus
+                                                      : ''
+                                              }`}
+                                          >
+                                            {items?.status === 'Pending' ? "Waiting for Approval" : (items?.status)}
+                                          </span>
+                                        </td>
+                                        <td>
+                                          {formatBudgetValue(
+                                            items?.total_amount
+                                              ? items?.total_amount
+                                              : 0
+                                          )}
+                                        </td>
+                                        <td>
+                                          {items?.status === 'Draft' ? (
+                                            <div
+                                              style={{ cursor: 'pointer' }}
+                                              onClick={(e) => {
+                                                handleEditExpense(
+                                                  e,
+                                                  items.expense_id
+                                                );
+                                              }}
+                                            >
+                                              <EditIcon />
+                                            </div>
+                                          ) : (
+                                            <div
+                                              style={{ cursor: 'pointer' }}
+                                              onClick={(e) => {
+                                                handleViewExpense(items.expense_id);
+                                              }}
+                                            >
+                                              <ViewIcon />
+                                            </div>
+                                          )}
+                                        </td>
+                                      </tr>
+                                    );
+                                  }
+                                }
+                              )}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div>
+                        <CustomPagination
+                          currentPage={currentPage}
+                          totalPages={getExpenseList?.total_page}
+                          totalCount={getExpenseList?.total_count}
+                          rowsPerPage={rowsPerPage}
+                          onPageChange={handlePageChange}
+                          onRowsPerPageChange={handleRowsPerPageChange}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  {screenSize.width <= 750 && (                             //For Mobile Table View
+                    <div className={Styles.mobileTableContainer} >               
+                      <div className={Styles.cardContainer}>
                         {getExpenseList?.content?.map(
                           (items: any, index: any) => {
                             if (items.is_delete != true) {
                               rowIndex = rowIndex + 1;
                               return (
-                                <tr>
-                                  <td>{rowIndex}</td>
-                                  <td>{items?.expense_code}</td>
-                                  <td>{items?.employee_name}</td>
-                                  <td>{items?.site_data?.name}</td>
-                                  <td>
-                                    <span
-                                      className={`${Styles.status} ${
-                                        items?.status === 'Pending'
+                                <table className={Styles.cardTable}>
+                                  <tr>
+                                    <th className={Styles.cardHeader} >EXPENSE CODE</th>
+                                  </tr>
+                                  <tr>
+                                    <td>{items?.expense_code}</td>
+                                  </tr>
+                                  <tr>
+                                    <th className={Styles.cardHeader} >ADDED BY</th>
+                                  </tr>
+                                  <tr>
+                                    <td>{items?.employee_name}</td>
+                                  </tr>
+                                  <tr>
+                                    <th className={Styles.cardHeader} >SITE</th>
+                                  </tr>
+                                  <tr>
+                                    <td>{items?.site_data?.name}</td>
+                                  </tr>
+                                  <tr>
+                                    <th className={Styles.cardHeader} >STATUS</th>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <span
+                                        className={`${Styles.status} ${items?.status === 'Pending'
                                           ? Styles.pendingStatus
                                           : items?.status === 'InProgress'
-                                          ? Styles.rejectedStatus
-                                          : items?.status === 'Approved'
-                                          ? Styles.approvedStatus
-                                          : items?.status === 'Draft'
-                                          ? Styles.draftStatus
-                                          : items?.status === 'Completed'
-                                          ? Styles.approvedStatus
-                                          : ''
-                                      }`}
-                                    >
-                                      {items?.status === 'Pending' ? "Waiting for Approval" : (items?.status)}
-                                    </span>
-                                  </td>
-                                  <td>
-                                    {formatBudgetValue(
-                                      items?.total_amount
-                                        ? items?.total_amount
-                                        : 0
-                                    )}
-                                  </td>
-                                  <td>
-                                    {items?.status === 'Draft' ? (
-                                      <div
-                                        style={{ cursor: 'pointer' }}
-                                        onClick={(e) => {
-                                          handleEditExpense(
-                                            e,
-                                            items.expense_id
-                                          );
-                                        }}
+                                            ? Styles.rejectedStatus
+                                            : items?.status === 'Approved'
+                                              ? Styles.approvedStatus
+                                              : items?.status === 'Draft'
+                                                ? Styles.draftStatus
+                                                : items?.status === 'Completed'
+                                                  ? Styles.approvedStatus
+                                                  : ''
+                                          }`}
                                       >
-                                        <EditIcon />
-                                      </div>
-                                    ) : (
-                                      <div
-                                        style={{ cursor: 'pointer' }}
-                                        onClick={(e) => {
-                                          handleViewExpense(items.expense_id);
-                                        }}
-                                      >
-                                        <ViewIcon />
-                                      </div>
-                                    )}
-                                  </td>
-                                </tr>
-                              );
+                                        {items?.status === 'Pending' ? "Waiting for Approval" : (items?.status)}
+                                      </span>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th className={Styles.cardHeader} >AMOUNT</th>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      {formatBudgetValue(
+                                        items?.total_amount
+                                          ? items?.total_amount
+                                          : 0
+                                      )}
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <th className={Styles.cardHeader} >ACTION</th>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      {items?.status === 'Draft' ? (
+                                        <div
+                                          style={{ cursor: 'pointer' }}
+                                          onClick={(e) => {
+                                            handleEditExpense(
+                                              e,
+                                              items.expense_id
+                                            );
+                                          }}
+                                        >
+                                          <EditIcon />
+                                        </div>
+                                      ) : (
+                                        <div
+                                          style={{ cursor: 'pointer' }}
+                                          onClick={(e) => {
+                                            handleViewExpense(items.expense_id);
+                                          }}
+                                        >
+                                          <ViewIcon />
+                                        </div>
+                                      )}
+                                    </td>
+                                  </tr>
+                                </table>
+                              )
                             }
                           }
                         )}
-                      </tbody>
-                    </table>
-                  </div>
-                  <div>
-                    <CustomPagination
-                      currentPage={currentPage}
-                      totalPages={getExpenseList?.total_page}
-                      totalCount={getExpenseList?.total_count}
-                      rowsPerPage={rowsPerPage}
-                      onPageChange={handlePageChange}
-                      onRowsPerPageChange={handleRowsPerPageChange}
-                    />
-                  </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className={Styles.emptyData}>
@@ -384,19 +525,19 @@ const ProjectSiteExpenseList = () => {
               }
               width={'90%'}
             />
-              <CustomSidePopup
-                open={expenseOpen}
-                handleClose={handleExpenseClose}
-                title={'Claim Details'}
-                content={
-                  <ExpenseDetailApprove
-                    expenseID={expenseID}
-                    setOpen={setExpenseOpen}
-                    open={expenseOpen}
-                  />
-                }
-                width={'90%'}
-              />
+            <CustomSidePopup
+              open={expenseOpen}
+              handleClose={handleExpenseClose}
+              title={'Claim Details'}
+              content={
+                <ExpenseDetailApprove
+                  expenseID={expenseID}
+                  setOpen={setExpenseOpen}
+                  open={expenseOpen}
+                />
+              }
+              width={'90%'}
+            />
           </div>
         ) : (
           <div>

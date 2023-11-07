@@ -142,6 +142,16 @@ const getRFQReportData = catchAsync(async (req, res) => {
   }
 });
 
+const getPoChartData = catchAsync(async (req, res) => {
+  const methodName = '/getPoChartData';
+  try {
+    const purchaseOrder = await purchaseOrderService.getPoChartData();
+    res.send(purchaseOrder);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createPurchaseOrder,
   updatePurchaseOrder,
@@ -155,4 +165,5 @@ export {
   getPOStatistics,
   getPOReportData,
   getRFQReportData,
+  getPoChartData,
 };
