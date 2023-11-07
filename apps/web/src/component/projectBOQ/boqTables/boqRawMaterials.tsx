@@ -52,7 +52,7 @@ const BomRawMaterials: React.FC = (props: any) => {
 
   useEffect(() => {
     if (props.bomList.length === 0 && props.bomId) {
-      props.setBomList([...props.bomList, initialValues]);
+      props.setBomList([...props.bomList, {...initialValues,bom_configuration_id: Number(props?.bomId)} ]);
     }
   }, [props.bomId]);
 

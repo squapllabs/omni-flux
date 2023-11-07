@@ -24,7 +24,7 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
   const { data: getAllAbstractStatusDatadrop = [] } =
     useGetMasterAbstractStatusParentType();
   const [initialValues, setInitialValues] = useState<any>({
-    name: null,
+    name: props?.categoryName || '',
     description: '',
     estimated_budget:'',
     project_id: '',
@@ -48,7 +48,7 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
       const fetchOne = async () => {
         const data = await CategoryService.getOneCategoryByID(props.categoryId);
         setInitialValues({
-          name: data?.data?.name || null, 
+          name: data?.data?.name, 
           project_id: data?.data?.project_id,
           estimated_budget : data?.data?.estimated_budget,
           description: data?.data?.description,
@@ -70,7 +70,7 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
     onSubmit: (values, { resetForm }) => {
       if (props.mode === 'EDIT') {
         const Object: any = {
-          name:null,
+          name:values.name,
           description: values.description,
           estimated_budget: values.estimated_budget,
           project_id: props.selectedProject,
@@ -96,9 +96,8 @@ const ProjectAbstractAdd: React.FC = (props: any) => {
           },
         });
       } else {
-        debugger
         const Object: any = {
-          name: null,
+          name: values.name,
           description: values.description,
           estimated_budget: values.estimated_budget,
           project_id: props.selectedProject,

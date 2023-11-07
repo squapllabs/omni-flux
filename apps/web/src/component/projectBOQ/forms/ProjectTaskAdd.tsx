@@ -20,7 +20,6 @@ import { getUomByType } from '../../../hooks/uom-hooks';
 
 const ProjectTaskAdd: React.FC = (props: any) => {
   console.log('props', props?.isCollapsed);
-debugger
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
   const { mutate: createNewSubCategory } = createInstantSubcategory();
   const { mutate: updateSubcategoryData } = updateSubcategory();

@@ -523,7 +523,9 @@ const handleFileOnChange = async (e:any) =>{
                     </Button>
             </div> */}
             </div>
-            ):(<h1 style={{textAlign:'center',padding:'2rem'}}> Upload File</h1>)}
+            ):(<h1 
+            className={Styles.file_upload_empty_label_container}
+            > Upload File</h1>)}
             
            
           </div>
@@ -922,6 +924,7 @@ const handleFileOnChange = async (e:any) =>{
             setMessage={setMessage}
             mode={mode}
             categoryId={categoryId}
+            categoryName={props.bom_details?.bom_description}
           />
         }
       />

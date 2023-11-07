@@ -77,6 +77,7 @@ const BomItems = (props: {
   const [isloading , setIsLoading]= useState(false);
   const [colps, setColps] = useState(false);
   const [totalAmount , setTotalAmount]=useState<any>(0)
+  const [selectedSubCategory , setSelectedSubCategory]= useState<any>(null)
   const primary_color = '#7f56d';
   const handleEdit = (value: any) => {
     setMode('EDIT');
@@ -242,7 +243,7 @@ const BomItems = (props: {
     fetchOne();
     refetch();
     if(getAllData && getAllData.length){
-
+      // debugger
       let totalAmount = 0
       getAllData.forEach((element:any) => {
         totalAmount = totalAmount + element.actual_budget
@@ -251,7 +252,7 @@ const BomItems = (props: {
     }
 
     
-  }, [selectedCategory?.category_id, reload]);
+  }, [selectedCategory?.category_id,getAllData, reload]);
 
   // useEffect(()=>{
   //   const fetchTaskData = async()=>{
@@ -387,7 +388,6 @@ const BomItems = (props: {
                      Upload Task 
                    </Button>
                     ):(
-
                       <div>
                         <Button
                       color="primary"
@@ -566,7 +566,9 @@ const BomItems = (props: {
                                   </tbody>
                                 </table>
                 </div> 
-                ) :(<h1 style={{textAlign:'center',padding:'2rem'}}> Upload File</h1>)
+                ) :(<h1
+                  className={Styles.file_upload_empty_label_container}
+                  > Upload File</h1>)
                    
               }
             
@@ -643,16 +645,21 @@ const BomItems = (props: {
                 <p className={Styles.countContentTitle}>Estimated Budget</p>
                 </div>
                 <div
+                
+                >
+                <h3
                 style={{
-                  color: totalAmount >  categoryData?.estimated_budget ? 'red !important':''
+                  color: totalAmount >  categoryData?.estimated_budget ? 'red':''
                 }}
                 >
-                <h3>
                   {formatBudgetValue(
                     totalAmount ? totalAmount : 0
                   )}
                 </h3>
                 <p className={Styles.countContentTitle}
+                style={{
+                  color: totalAmount >  categoryData?.estimated_budget ? 'red':''
+                }}
                 >Actual Budget</p>
                 </div>
                 
@@ -785,6 +792,7 @@ const BomItems = (props: {
                               setSelectedSubCategoryId(data.sub_category_id);
                               setPlanListTitle(data.name);
                               setShowPlanForm(true);
+                              setSelectedSubCategory(data)
                             }}
                             >
                               <SettingIcon
@@ -855,6 +863,7 @@ const BomItems = (props: {
                     open={showPlanForm}
                     setOpen={setShowPlanForm}
                     subCategoryId={selectedSubCategoryId}
+                    subCategory={selectedSubCategory}
                     reload={reload}
                     setReload={setReload}
                     setAbstractReload={setReload}

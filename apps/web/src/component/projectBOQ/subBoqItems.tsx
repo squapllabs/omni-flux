@@ -37,6 +37,7 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [subChildData, setSubChildData] = useState<any>([]);
   const [selectedSubCategoryId, setSelectedSubCategoryId] = useState<any>();
+  const [selectedSubCategory, setSelectedSubCategory] = useState<any>(null);
   const [selectedCategory, setSelectedCategory] = useState();
   const [selectedBomConfig, setSelectedBomConfig] = useState();
   const [projectId, setProjectId] = useState();
@@ -199,6 +200,7 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
                   <span
               onClick={()=>{
                 handleMangePlan(rowData)
+                setSelectedSubCategory(rowData)
               }}
               >
                 <SettingIcon
@@ -295,8 +297,8 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
               setOpen={setShowSubCategoryForm}
               selectedProject={projectId}
               selectedBomConfig={selectedBomConfig}
-              selectedCategoryId={selectedCategory}
-              selectedSubCategory={selectedSubCategoryId}
+              selectedCategoryId={selectedSubCategoryId}
+              selectedSubCategory={selectedCategory}
               reload={reload}
               setReload={setReload}
               openSnack={openSnack}
@@ -321,6 +323,7 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
               open={showPlanForm}
               setOpen={setShowPlanForm}
               subCategoryId={selectedSubCategoryId}
+              subCategory={selectedSubCategory}
               reload={reload}
               setReload={setReload}
               subTaskView={subTaskView}

@@ -37,18 +37,18 @@ const createCategory = async (body: createCategoryBody) => {
         };
       }
 
-      const categoryData = await categoryDao.getByCategoryNameAndProjectId(
-        name,
-        Number(project_id)
-      );
-      if (categoryData) {
-        result = {
-          message: 'category_name already exist for this project',
-          status: false,
-          data: null,
-        };
-        return result;
-      }
+      // const categoryData = await categoryDao.getByCategoryNameAndProjectId(
+      //   name,
+      //   Number(project_id)
+      // );
+      // if (categoryData) {
+      //   result = {
+      //     message: 'category_name already exist for this project',
+      //     status: false,
+      //     data: null,
+      //   };
+      //   return result;
+      // }
     }
 
     if (bom_configuration_id) {
