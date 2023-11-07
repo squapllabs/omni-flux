@@ -460,7 +460,6 @@ const ProjectList = () => {
                 />
               </div>
             </div>
-          )}
           {screenSize.width <= 750 && (                              //For Mobile View
 
             <div className={Styles.tableContainer}>
