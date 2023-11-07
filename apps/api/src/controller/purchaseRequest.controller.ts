@@ -87,6 +87,17 @@ const getAllPurchaseRequestProjectsByStatus = catchAsync(async (req, res) => {
   }
 });
 
+const getPurchaseRequestReportData = catchAsync(async (req, res) => {
+  const methodName = '/getPurchaseRequestReportData';
+  try {
+    const purchaseRequest =
+      await purchaseRequestService.getPurchaseRequestReportData(req.body);
+    res.send(purchaseRequest);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createPurchaseRequest,
   updatePurchaseRequest,
@@ -95,4 +106,5 @@ export {
   deleteByPurchaseRequestId,
   searchPurchaseRequest,
   getAllPurchaseRequestProjectsByStatus,
+  getPurchaseRequestReportData,
 };

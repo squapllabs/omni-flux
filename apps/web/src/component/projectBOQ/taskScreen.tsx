@@ -22,10 +22,10 @@ const BoqTaskListScreen : React.FC= ()=>{
     const  projectId = Number(routeParams?.projectId);
     const  bomConfigId = Number(routeParams.bomconfigId);
     const [selectedCategory, setSelectedCategory] = useState();
-    const [categories, setCategories] = useState();
-    const [isloading, setIsloading] = useState(true);
+    // const [categories, setCategories] = useState();
+    // const [isloading, setIsloading] = useState(true);
     const [categoryData, setCategoryData] = useState();
-    const [categoryId, setCategoryId] = useState();
+    // const [categoryId, setCategoryId] = useState();
     const [selectedSubCategory, setSelectedSubCategory] = useState();
     const [reload, setReload] = useState(false);
 
@@ -38,12 +38,13 @@ const BoqTaskListScreen : React.FC= ()=>{
           projectId: projectId,
           bomconfigId: bomConfigId,
         };
-        const datas = await CategoryService.getAllCategoryByProjectId(obj);
-        setCategories(datas.data);
-        setIsloading(false);
-        setCategoryData(datas.data[0]);
-        setSelectedCategory(datas.data[0].category_id);
-        setCategoryId(datas.data[0].category_id);
+
+        const categoryData = await CategoryService.getOneCategoryByID(routeParamsObj.categoryId);
+        // setCategories(datas.data);
+        // setIsloading(false);
+        setCategoryData(categoryData.data);
+        // setSelectedCategory(datas.data[0].category_id);
+        // setCategoryId(datas.data[0].category_id);
         
       };
   
@@ -79,9 +80,9 @@ const BoqTaskListScreen : React.FC= ()=>{
                       ?.project_name
                   }
                 </span>
-                <span className={Styles.content}>
+                {/* <span className={Styles.content}>
                   {getBomData?.bom_configuration_data?.bom_name}
-                </span>
+                </span> */}
               </div>
             </div>
             <div className={Styles.lineStyles}>
@@ -89,10 +90,10 @@ const BoqTaskListScreen : React.FC= ()=>{
                 <div className={Styles.verticalLine}></div>
               </div>
             </div>
-            {/* <div className={Styles.countContent}>
-              <h3>{getBomData?.tasks_count}</h3>
-              <span className={Styles.countContentTitle}>Overall Task</span>
-            </div> */}
+            <div className={Styles.countContent}>
+              <h3>{getBomData?.bom_configuration_data?.bom_description}</h3>
+              
+            </div>
           </div>
 
           <div className={Styles.boqAmount}>
@@ -116,7 +117,7 @@ const BoqTaskListScreen : React.FC= ()=>{
         <div className={Styles.selected}></div>
         <div>
           <BomItems
-            selectedCategory={routeParamsObj.categoryId}
+            selectedCategory={categoryData?categoryData:''}
             setSelectedSubCategory={setSelectedSubCategory}
             selectedSubCategory={selectedSubCategory}
             projectsId={projectId}

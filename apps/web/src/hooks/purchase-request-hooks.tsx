@@ -34,8 +34,7 @@ const useGetOnePurchaseOrderTableData = (id: any) => {
           item_name: value.item_data.item_name,
           requested_quantity: value.order_quantity,
           inward_quantity: value.inward_quantity,
-          unit_price:value.unit_price,
-
+          unit_price: value.unit_price,
         })),
       staleTime: Infinity,
     }
@@ -89,6 +88,20 @@ const updatePurchseOrderBillStatus = () => {
     },
     {
       onSuccess: () => {
+        queryClient.invalidateQueries(['getInvoiceData']);
+      },
+    }
+  );
+};
+
+const updatePurchseOrderStatus = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return purchaseRequestService.updatePoStatus(data);
+    },
+    {
+      onSuccess: () => {
         queryClient.invalidateQueries(['useGetAllPOPaginatedData']);
       },
     }
@@ -99,6 +112,17 @@ const useGetAllPurchaseOrderData = (data: any) => {
   return useQuery(
     ['useGetAllPOPaginatedData'],
     () => purchaseRequestService.getPoData(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
+    }
+  );
+};
+
+const useGetAllMyOrderData = (data: any) => {
+  return useQuery(
+    ['useGetAllMyOrderData'],
+    () => purchaseRequestService.getMyOrdersData(data),
     {
       select: (data) => data,
       staleTime: Infinity,
@@ -143,7 +167,7 @@ const getBySearchPR = (data: any) => {
   );
 };
 
-const purchaseOrderGetAll = (data:any) => {
+const purchaseOrderGetAll = (data: any) => {
   return useQuery(
     ['useGetAllpurchaseOrder'],
     () => purchaseRequestService.purchseOrderGetAll(data),
@@ -165,5 +189,7 @@ export {
   useGetOnePurchaseOrder,
   getBySearchPR,
   useGetOnePurchaseOrderTableData,
-  purchaseOrderGetAll
+  purchaseOrderGetAll,
+  useGetAllMyOrderData,
+  updatePurchseOrderStatus,
 };

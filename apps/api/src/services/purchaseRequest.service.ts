@@ -581,6 +581,89 @@ const getAllPurchaseRequestProjectsByStatus = async (status: string) => {
   }
 };
 
+/**
+ * Method to Get Purchase Request Report Data - Pagination API
+ * @returns
+ */
+const getPurchaseRequestReportData = async (body) => {
+  try {
+    const order_by_column = body.order_by_column
+      ? body.order_by_column
+      : 'updated_by';
+    const order_by_direction =
+      body.order_by_direction === 'asc' ? 'asc' : 'desc';
+    const status = body.status;
+    const project_id = body.project_id;
+    const from_request_date = body.from_request_date;
+    const to_request_date = body.to_request_date;
+    const vendor_id = body.vendor_id;
+
+    const filterObj: any = {};
+
+    if (status) {
+      filterObj.filterPurchaseRequest = {
+        is_delete: status === 'AC' ? false : true,
+      };
+    }
+
+    if (project_id) {
+      filterObj.filterPurchaseRequest = filterObj.filterPurchaseRequest || {};
+      filterObj.filterPurchaseRequest.AND =
+        filterObj.filterPurchaseRequest.AND || [];
+      filterObj.filterPurchaseRequest.AND.push({
+        project_id: project_id,
+      });
+    }
+
+    if (from_request_date && to_request_date) {
+      filterObj.filterPurchaseRequest = filterObj.filterPurchaseRequest || {};
+      filterObj.filterPurchaseRequest.AND =
+        filterObj.filterPurchaseRequest.AND || [];
+      filterObj.filterPurchaseRequest.AND.push({
+        request_date: {
+          gte: new Date(from_request_date),
+          lte: new Date(to_request_date),
+        },
+      });
+    }
+
+    if (vendor_id) {
+      filterObj.filterPurchaseRequest = filterObj.filterPurchaseRequest || {};
+      filterObj.filterPurchaseRequest.AND =
+        filterObj.filterPurchaseRequest.AND || [];
+      filterObj.filterPurchaseRequest.AND.push({
+        vendor_quotes: {
+          some: {
+            vendor_id: vendor_id,
+          },
+        },
+      });
+    }
+
+    const result = await purchaseRequestDao.getPurchaseRequestReportData(
+      order_by_column,
+      order_by_direction,
+      filterObj
+    );
+
+    const count = result.count;
+    const data = result.data;
+    const tempPurchaseRequestData = {
+      message: 'success',
+      status: true,
+      total_count: count,
+      content: data,
+    };
+    return tempPurchaseRequestData;
+  } catch (error) {
+    console.log(
+      'Error occurred in getPurchaseRequestReportData PurchaseRequest service : ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createPurchaseRequest,
   updatePurchaseRequest,
@@ -589,4 +672,5 @@ export {
   deletePurchaseRequest,
   searchPurchaseRequest,
   getAllPurchaseRequestProjectsByStatus,
+  getPurchaseRequestReportData,
 };

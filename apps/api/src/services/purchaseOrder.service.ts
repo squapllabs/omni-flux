@@ -612,7 +612,6 @@ const searchPurchaseOrderWithMultipleStatus = async (body) => {
     throw error;
   }
 };
-
 /**
  * Method to Create a New PurchaseOrder With Purchase Order Item Details
  * @param body
