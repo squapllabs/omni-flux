@@ -276,6 +276,7 @@ const searchPurchaseOrderInvoice = async (body) => {
       body.order_by_direction === 'asc' ? 'asc' : 'desc';
     const purchase_order_id = body.purchase_order_id;
     const global_search = body.global_search;
+    const project_id = body.project_id;
     const filterObj: any = {};
 
     if (purchase_order_id) {
@@ -286,6 +287,19 @@ const searchPurchaseOrderInvoice = async (body) => {
 
       filterObj.filterPurchaseOrderInvoice.AND.push({
         purchase_order_id: purchase_order_id,
+      });
+    }
+
+    if (project_id) {
+      filterObj.filterPurchaseOrderInvoice =
+        filterObj.filterPurchaseOrderInvoice || {};
+      filterObj.filterPurchaseOrderInvoice.AND =
+        filterObj.filterPurchaseOrderInvoice.AND || [];
+
+      filterObj.filterPurchaseOrderInvoice.AND.push({
+        grn_data: {
+          project_id: project_id,
+        },
       });
     }
 
@@ -423,13 +437,14 @@ const updateStatus = async (body: purchaseOrderInvoiceBody) => {
               tx
             );
 
-          let allPaid = false;
+          let allPaid = true;
           const purchaseOrderInvoiceDetailsByPOId =
             await purchaseOrderInvoiceDao.getByPOId(purchase_order_id, tx);
           for await (const data of purchaseOrderInvoiceDetailsByPOId) {
             const purchase_order_status = data.status;
-            if (purchase_order_status === 'Paid') {
-              allPaid = true;
+            if (purchase_order_status !== 'Paid') {
+              allPaid = false;
+              break;
             }
           }
           if (allPaid === true) {

@@ -424,6 +424,7 @@ const searchPurchaseOrderInvoice = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterPurchaseOrderInvoice;
+
     const checkDataAvailability =
       await transaction.purchase_order_invoice.findMany({});
     if (checkDataAvailability.length > 0) {
