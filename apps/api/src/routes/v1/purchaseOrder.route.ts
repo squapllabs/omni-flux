@@ -13,6 +13,7 @@ import {
   searchPurchaseOrder,
   updatePurchaseOrder,
   updateStatusAndDocument,
+  searchPurchaseOrderWithMultipleStatus,
   getRFQReportData,
   getPoChartData,
 } from '../../controller/purchaseOrder.controller';
@@ -41,6 +42,9 @@ router.delete(
 );
 
 router.post('/search', authMiddleware, searchPurchaseOrder);
+
+
+router.post('/my-orders', authMiddleware, searchPurchaseOrderWithMultipleStatus);
 
 router.post(
   '/purchase-order-with-item',

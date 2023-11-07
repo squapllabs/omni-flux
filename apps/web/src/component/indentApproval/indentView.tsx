@@ -16,6 +16,7 @@ import CustomRejectPopup from '../ui/CustomRejectCommentPopup';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import ApproveDialogBox from '../ui/CustomApprovePopup';
+import ProjectSubheader from '../project/projectSubheader';
 
 const IndentView = () => {
   const routeParams = useParams();
@@ -91,26 +92,11 @@ const IndentView = () => {
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
         <div className={Styles.box}>
-          <div className={Styles.headingTop}>
-            <div className={Styles.textContent}>
-              <h3>Indent Request Detail List</h3>
-              <span className={Styles.content}>
-                Manage your Indent raise detail across your project
-              </span>
-            </div>
-            <div className={Styles.backButton}>
-              <Button
-                shape="rectangle"
-                justify="center"
-                size="small"
-                color="primary"
-                icon={<BackArrowIcon />}
-                onClick={() => navigate('/indent-view')}
-              >
-                Back
-              </Button>
-            </div>
-          </div>
+        <ProjectSubheader
+            description="Manage your Indent raise detail across your project"
+            navigation={`/indent-view`}
+            title={'Indent Request Detail List'}
+          />
           <div className={Styles.tableContainer}>
             <div>
               <table className={Styles.scrollable_table}>

@@ -46,7 +46,7 @@ const BomItems = (props: {
   const { mutate: getDeleteSubCategoryByID } = useDeleteSubcategory();
   const { mutate: createNewMultipleSubcategory } = createMultipleSubcategory();
   const obj = {
-    selectedCategory: selectedCategory,
+    selectedCategory: selectedCategory?.category_id,
     selectedBomConfig: selectedBomConfig,
   };
   const { data: getAllData, refetch } = getBycategoryIdInSub(obj);
@@ -235,7 +235,7 @@ const BomItems = (props: {
   useEffect(() => {
     const fetchOne = async () => {
       const data = await CategoryService.getOneCategoryByID(
-        Number(selectedCategory)
+        Number(selectedCategory?.category_id)
       );
       setCategoryData(data?.data);
     };
@@ -248,7 +248,7 @@ const BomItems = (props: {
     }
 
     
-  }, [selectedCategory, reload]);
+  }, [selectedCategory?.category_id, reload]);
 
   // useEffect(()=>{
   //   const fetchTaskData = async()=>{
@@ -362,7 +362,7 @@ const BomItems = (props: {
       <div>
          <CustomPopupModel 
           open={modelPopupTrigger}
-          title={categoryData?.name}
+          title={'Upload Task' ||categoryData?.name}
           handleClose={handleCloseModelPopup}
           content={
             <div>
@@ -571,7 +571,7 @@ const BomItems = (props: {
             </div>
  
           }
-          width={'90%'} description={''}/>
+          width={'90%'} description={'Import csv file to upload bulk data'}/>
       </div>
       {isloading ? (
          <CustomLoader loading={isloading} size={48} />
@@ -585,14 +585,14 @@ const BomItems = (props: {
                   <CheckListIcon 
                   style={{padding:'4px 0 0 0;'}}
                   />
-                  <h3 title={categoryData?.name}>
+                  <h3 title={categoryData?.description}>
                     {/* {categoryData?.name
                       ? categoryData?.name?.length > 20
                         ? categoryData?.name?.substring(0, 20) + '...'
                         : categoryData?.name
                       : '-'} */}
-                      {categoryData?.name}
-                    ({getAllData?.length})
+                      {categoryData?.description }
+                     ({getAllData?.length})
                   </h3>
                 </div>
                 <div
@@ -624,10 +624,10 @@ const BomItems = (props: {
               <div>
                 <h3>
                   {formatBudgetValue(
-                    categoryData?.budget ? categoryData?.budget : 1000000
+                    categoryData?.estimated_budget ? categoryData?.estimated_budget : 0
                   )}
                 </h3>
-                <p className={Styles.countContentTitle}>Aggregated Value</p>
+                <p className={Styles.countContentTitle}>Estimated Budget</p>
               </div>
             </div>
             <div className={Styles.tableContainer}>
@@ -640,7 +640,7 @@ const BomItems = (props: {
                     <th className={Styles.tableHeading}>Unit</th>
                     <th className={Styles.tableHeading}>Quantity</th>
                     <th className={Styles.tableHeading}>Rate</th>
-                    <th className={Styles.tableHeading}>Amount</th>
+                    <th className={Styles.tableHeading}>Estimated Amount</th>
                     <th className={Styles.tableHeading}>Action</th>
                   </tr>
                 </thead>
@@ -806,22 +806,19 @@ const BomItems = (props: {
             </div>
 
             <CustomSidePopup
-              open={showPlanForm}
-              title={"Add Plans"}
-              width="85%"
-              handleClose={handleClosePlanList}
-              content={
-                <PlanList
                   open={showPlanForm}
-                  setOpen={setShowPlanForm}
-                  subCategoryId={selectedSubCategoryId}
-                  reload={reload}
-                  setReload={setReload}
-                  setAbstractReload={props.setReload}
-                  abstractReload={props.reload}
-                />
-              }
-            />
+                  title={"Manage Plans"}
+                  width="85%"
+                  handleClose={handleClosePlanList}
+                  content={<PlanList
+                    open={showPlanForm}
+                    setOpen={setShowPlanForm}
+                    subCategoryId={selectedSubCategoryId}
+                    reload={reload}
+                    setReload={setReload}
+                    setAbstractReload={setReload}
+                    abstractReload={reload} />} 
+                    description={''}            />
             <CustomDelete
               open={openDelete}
               title="Delete Task"
@@ -908,10 +905,10 @@ const BomItems = (props: {
             message={message}
             setMessage={setMessage}
             mode={mode}
-            selectedCategoryId={selectedCategory}
+            selectedCategoryId={selectedCategory?.category_id}
             selectedSubCategory={selectedSubCategoryId}
-            setAbstractReload={props.setReload}
-            abstractReload={props.reload}
+            setAbstractReload={setReload}
+            abstractReload={reload}
           />
         }
       />

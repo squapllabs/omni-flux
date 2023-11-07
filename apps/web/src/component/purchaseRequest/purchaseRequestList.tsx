@@ -19,7 +19,6 @@ import CustomGroupButton from '../ui/CustomGroupButton';
 const PurchaseRequestList = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
-  console.log('routeParams', routeParams?.id);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: '' },
     { value: 'Approved', label: 'Quotation Recieved' },
@@ -49,7 +48,6 @@ const PurchaseRequestList = () => {
     refetch,
     isFetched,
   } = getBySearchPR(purchaseData);
-  console.log('getPRbasedOnIndent', getPRbasedOnIndent);
 
   const { data: getAllmasterDataForDrop = [] } = useGetAllProjectDrop();
 
@@ -63,7 +61,6 @@ const PurchaseRequestList = () => {
   };
   const handleChange = () => {};
   const handleQuotation = (value: any) => {
-    console.log('handleQuotation', value);
     navigate(`/vendor-select/${Number(value?.purchase_request_id)}`, {
       state: {
         project_id: value.project_data.project_id,
@@ -72,7 +69,6 @@ const PurchaseRequestList = () => {
     });
   };
   const handleVendor = (value: any, vendor: any) => {
-    console.log('vendor', vendor);
     navigate(`/vendor-quotes-update/${Number(value?.purchase_request_id)}`, {
       state: {
         project_id: value.project_data.project_id,
@@ -279,7 +275,6 @@ const PurchaseRequestList = () => {
                         <ol>
                           {items?.vendor_quotes?.map(
                             (vendors: any, vendorIndex: number) => {
-                              console.log('vendors', vendors);
                               return (
                                 <li
                                   className={`${Styles.vendorLinks} ${
@@ -439,11 +434,11 @@ const PurchaseRequestList = () => {
                           items?.purchase_order?.length === 0 ? '' : 'none',
                       }}
                     >
-                      <a
-                        href={`/purchase-request/${items?.purchase_request_id}`}
+                      <Link
+                        to={`/purchase-request/${items?.purchase_request_id}`}
                       >
                         Convert to PO
-                      </a>
+                      </Link>
                     </div>
                   </div>
                   <div style={{ paddingTop: '8px' }}>
