@@ -530,9 +530,9 @@ const handleFileOnChange = async (e:any) =>{
 
           
          } 
-         title={'Abstract List'} 
+         title={'Upload Abstract'} 
          handleClose={handleClosePopup } 
-         width={'90%'} description={'description'}         />
+         width={'90%'} description={'Import csv file to upload bulk data'}         />
       </div>
 
       {isloading ? (
@@ -586,7 +586,7 @@ const handleFileOnChange = async (e:any) =>{
                 )} */}
                 { overallBudget || '0.00'}
               </h3>
-              <p className={Styles.countContentTitle}>Aggregated Value</p>
+              <p className={Styles.countContentTitle}>Overall Estimated Value</p>
             </div>
 
             </div>
@@ -598,8 +598,8 @@ const handleFileOnChange = async (e:any) =>{
                         <th>#</th>
                         {/* <th>Task Name</th> */}
                         <th>Description</th>
-                        {/* <th>Status</th> */}
-                        <th>Amount</th>
+                        
+                        <th>Estimated Amount</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -644,7 +644,6 @@ const handleFileOnChange = async (e:any) =>{
                               <td>
                                 {data.estimated_budget.toLocaleString('en-IN',currencyObject) || '--'}
                               </td>
-                     
                               <td >
                               <div className={Styles.actionIcons_container}>
                               <span style={{cursor: 'pointer'}}><EditIcon

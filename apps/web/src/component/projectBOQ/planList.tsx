@@ -322,13 +322,31 @@ const Bom: React.FC = (props: any) => {
                 activeButton={activeButton}
               />
             </div>
-            <div className={Styles.countContent}>
+            <div className={Styles.countContent}
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              gap:'2rem'
+            }}
+            >
+              <div>
               <h3>
                 {formatBudgetValue(
                   rawMaterialTotal + labourTotal + machineryTotal
                 )}
               </h3>
-              <span className={Styles.countContentTitle}>Aggregated Value</span>
+              <span className={Styles.countContentTitle}>Estimated Budget</span>
+              </div>
+              <div>
+              <h3>
+                {formatBudgetValue(
+                  rawMaterialTotal + labourTotal + machineryTotal
+                )}
+              </h3>
+              <span className={Styles.countContentTitle}>Total Amount</span>
+              </div>
+             
             </div>
           </div>
           <div className={Styles.mainBody}>

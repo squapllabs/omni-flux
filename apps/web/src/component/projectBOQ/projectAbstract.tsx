@@ -52,9 +52,9 @@ const getOverallAbsctractValue = (data)=>{
                       ?.project_name
                   }
                 </span>
-                <span className={Styles.content}>
+                {/* <span className={Styles.content}>
                   {getBomData?.bom_configuration_data?.bom_name}
-                </span>
+                </span> */}
               </div>
             </div>
             <div className={Styles.lineStyles}>
