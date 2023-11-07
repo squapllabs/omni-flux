@@ -437,13 +437,13 @@ const updateStatus = async (body: purchaseOrderInvoiceBody) => {
               tx
             );
 
-          let allPaid = false;
+          let allPaid = true;
           const purchaseOrderInvoiceDetailsByPOId =
             await purchaseOrderInvoiceDao.getByPOId(purchase_order_id, tx);
           for await (const data of purchaseOrderInvoiceDetailsByPOId) {
             const purchase_order_status = data.status;
-            if (purchase_order_status === 'Paid') {
-              allPaid = true;
+            if (purchase_order_status !== 'Paid') {
+              allPaid = false;
             }
           }
           if (allPaid === true) {
