@@ -1,0 +1,56 @@
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.notifications.count()` invocation in
+D:\ERP\project\new\omni-flux\apps\api\src\dao\notification.dao.ts:139:58
+
+  136 ) => {
+  137   try {
+  138     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 139     const notification = await transaction.notifications.count(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllProject << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\ERP\project\new\omni-flux\apps\api\src\dao\project.dao.ts:388:47
+
+  385 const getAll = async (connectionObj = null) => {
+  386   try {
+  387     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 388     const project = await transaction.project.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/searchNotification << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.notifications.findMany()` invocation in
+D:\ERP\project\new\omni-flux\apps\api\src\dao\notification.dao.ts:80:58
+
+  77 try {
+  78   const transaction = connectionObj !== null ? connectionObj : prisma;
+  79   const filter = filters.filterNotification;
+→ 80   const notification = await transaction.notifications.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getAllProject << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.project.findMany()` invocation in
+D:\ERP\project\new\omni-flux\apps\api\src\dao\project.dao.ts:388:47
+
+  385 const getAll = async (connectionObj = null) => {
+  386   try {
+  387     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 388     const project = await transaction.project.findMany(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getUnreadCountByToUserId << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.notifications.count()` invocation in
+D:\ERP\project\new\omni-flux\apps\api\src\dao\notification.dao.ts:139:58
+
+  136 ) => {
+  137   try {
+  138     const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 139     const notification = await transaction.notifications.count(
+Timed out fetching a new connection from the connection pool. More info: http://pris.ly/d/connection-pool (Current connection pool timeout: 10, connection limit: 9)
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/getPOReportData << ERRSTRING >>PrismaClientKnownRequestError: 
+Invalid `transaction.purchase_order.findMany()` invocation in
+D:\ERP\project\new\omni-flux\apps\api\src\dao\purchaseOrder.dao.ts:913:60
+
+  910 const transaction = connectionObj !== null ? connectionObj : prisma;
+  911 const filter = filters.filterPurchaseOrder;
+  912 
+→ 913 const purchaseOrder = await transaction.purchase_order.findMany(
+Can't reach database server at `3.108.30.2`:`5432`
+
+Please make sure your database server is running at `3.108.30.2`:`5432`.
