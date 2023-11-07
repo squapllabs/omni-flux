@@ -127,6 +127,7 @@ const getById = async (purchaseOrderId: number, connectionObj = null) => {
             indent_request_data: true,
             project_data: true,
             site_data: true,
+            selected_vendor_data: true,
             purchase_request_quotation_details: {
               include: {
                 item_data: {
@@ -262,23 +263,95 @@ const searchPurchaseOrder = async (
   try {
     const transaction = connectionObj !== null ? connectionObj : prisma;
     const filter = filters.filterPurchaseOrder;
+
     let checkPurchaseOrderDataAvailability = [];
-    if (filter.AND && filter.AND[0]?.purchase_request_data?.project_id) {
-      checkPurchaseOrderDataAvailability =
-        await transaction.purchase_order.findMany({
-          where: {
-            purchase_request_data: {
-              project_id: filter.AND[0].purchase_request_data.project_id,
-            },
-          },
-        });
-    } else {
-      checkPurchaseOrderDataAvailability =
-        await transaction.purchase_order.findMany({
-          where: {
-            is_delete: filter.is_delete,
-          },
-        });
+    let projectId: number, siteId: number;
+
+    if (filter.AND) {
+      for (const item of filter.AND) {
+        if (item.indent_request_data) {
+          if (item.indent_request_data.project_id) {
+            projectId = item.indent_request_data.project_id;
+          }
+          if (item.indent_request_data.site_id) {
+            siteId = item.indent_request_data.site_id;
+          }
+
+          if (projectId && siteId) {
+            checkPurchaseOrderDataAvailability =
+              await transaction.purchase_order.findMany({
+                where: {
+                  is_delete: filter.is_delete,
+                  indent_request_data: {
+                    project_id: projectId,
+                    site_id: siteId,
+                  },
+                },
+              });
+          } else if (projectId) {
+            checkPurchaseOrderDataAvailability =
+              await transaction.purchase_order.findMany({
+                where: {
+                  is_delete: filter.is_delete,
+                  indent_request_data: {
+                    project_id: projectId,
+                  },
+                },
+              });
+          } else {
+            checkPurchaseOrderDataAvailability =
+              await transaction.purchase_order.findMany({
+                where: {
+                  is_delete: filter.is_delete,
+                },
+              });
+          }
+        } else if (item.purchase_request_data) {
+          if (item.purchase_request_data.project_id) {
+            projectId = item.purchase_request_data.project_id;
+          }
+          if (item.purchase_request_data.site_id) {
+            siteId = item.purchase_request_data.site_id;
+          }
+
+          if (projectId && siteId) {
+            checkPurchaseOrderDataAvailability =
+              await transaction.purchase_order.findMany({
+                where: {
+                  is_delete: filter.is_delete,
+                  purchase_request_data: {
+                    project_id: projectId,
+                    site_id: siteId,
+                  },
+                },
+              });
+          } else if (projectId) {
+            checkPurchaseOrderDataAvailability =
+              await transaction.purchase_order.findMany({
+                where: {
+                  is_delete: filter.is_delete,
+                  purchase_request_data: {
+                    project_id: projectId,
+                  },
+                },
+              });
+          } else {
+            checkPurchaseOrderDataAvailability =
+              await transaction.purchase_order.findMany({
+                where: {
+                  is_delete: filter.is_delete,
+                },
+              });
+          }
+        } else {
+          checkPurchaseOrderDataAvailability =
+            await transaction.purchase_order.findMany({
+              where: {
+                is_delete: filter.is_delete,
+              },
+            });
+        }
+      }
     }
 
     if (checkPurchaseOrderDataAvailability.length > 0) {
@@ -836,6 +909,241 @@ const updateStatusByPOId = async (
   }
 };
 
+const getPOReportData = async (
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterPurchaseOrder;
+
+    const purchaseOrder = await transaction.purchase_order.findMany({
+      where: filter,
+      include: {
+        purchase_request_data: {
+          include: {
+            indent_request_data: {
+              include: {
+                requester_user_data: {
+                  select: {
+                    first_name: true,
+                    last_name: true,
+                    contact_no: true,
+                    email_id: true,
+                  },
+                },
+                approver_user_data: {
+                  select: {
+                    first_name: true,
+                    last_name: true,
+                    contact_no: true,
+                    email_id: true,
+                  },
+                },
+              },
+            },
+            project_data: true,
+            site_data: true,
+            selected_vendor_data: true,
+            requester_user_data: {
+              select: {
+                first_name: true,
+                last_name: true,
+                contact_no: true,
+                email_id: true,
+              },
+            },
+            purchase_request_quotation_details: {
+              include: {
+                item_data: {
+                  include: { uom: true },
+                },
+              },
+            },
+          },
+        },
+        vendor_data: true,
+        indent_request_data: {
+          include: {
+            project_data: true,
+            site_data: true,
+            requester_user_data: {
+              select: {
+                first_name: true,
+                last_name: true,
+                contact_no: true,
+                email_id: true,
+              },
+            },
+            indent_request_details: {
+              include: {
+                bom_detail_data: {
+                  include: {
+                    item_data: {
+                      include: {
+                        uom: {
+                          select: {
+                            name: true,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        grn: {
+          include: {
+            grn_details: {
+              include: {
+                item_data: { include: { uom: { select: { name: true } } } },
+              },
+            },
+          },
+        },
+      },
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+    });
+    const purchaseOrderCount = await transaction.purchase_order.count({
+      where: filter,
+    });
+    const purchaseOrderData = {
+      count: purchaseOrderCount,
+      data: purchaseOrder,
+    };
+    return purchaseOrderData;
+  } catch (error) {
+    console.log('Error occurred in purchaseOrder dao : getPOReportData', error);
+    throw error;
+  }
+};
+
+const getRFQReportData = async (
+  orderByColumn: string,
+  orderByDirection: string,
+  filters,
+  connectionObj = null
+) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : prisma;
+    const filter = filters.filterPurchaseOrder;
+
+    const purchaseOrder = await transaction.purchase_order.findMany({
+      where: filter,
+      include: {
+        purchase_request_data: {
+          include: {
+            project_data: true,
+            site_data: true,
+            selected_vendor_data: true,
+            purchase_request_quotation_details: {
+              include: {
+                item_data: {
+                  include: { uom: true },
+                },
+              },
+            },
+          },
+        },
+        vendor_data: true,
+        indent_request_data: {
+          include: {
+            project_data: true,
+            site_data: true,
+            indent_request_details: {
+              include: {
+                bom_detail_data: {
+                  include: {
+                    item_data: {
+                      include: {
+                        uom: {
+                          select: {
+                            name: true,
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      orderBy: [
+        {
+          [orderByColumn]: orderByDirection,
+        },
+      ],
+    });
+    const purchaseOrderCount = await transaction.purchase_order.count({
+      where: filter,
+    });
+    const purchaseOrderData = {
+      count: purchaseOrderCount,
+      data: purchaseOrder,
+    };
+    return purchaseOrderData;
+  } catch (error) {
+    console.log('Error occurred in purchaseOrder dao : getRFQData', error);
+    throw error;
+  }
+};
+
+const getPoChartData = async (connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : db;
+    const purchaseOrderStatisticsQuery = `select
+    sum(case when po.status = 'Completed' then 1 else 0 end)as Status_completed,
+    sum(case when po.status = 'Processing' then 1 else 0 end)as Status_Processing,
+    sum(case when po.status = 'Product Received' then 1 else 0 end)as Status_Product_Received,
+    (
+    select
+      JSON_AGG(
+                JSON_BUILD_OBJECT('purchase_order_data',
+      po2.*))
+    from
+      purchase_order po2
+    where
+      po2.status = 'Completed')as Completed_data,
+    (
+    select
+      JSON_AGG(
+                JSON_BUILD_OBJECT('purchase_order_data',
+      po3.*))
+    from
+      purchase_order po3
+    where
+      po3.status = 'Processing')as Processing_data,
+    (
+    select
+      JSON_AGG(
+                JSON_BUILD_OBJECT('purchase_order_data',
+      po4.*))
+    from
+      purchase_order po4
+    where
+      po4.status = 'Product Received')as Product_Received_data
+  from
+    purchase_order po `;
+    const purchaseOrder = await transaction.oneOrNone(
+      purchaseOrderStatisticsQuery
+    );
+    return purchaseOrder;
+  } catch (error) {
+    console.log('Error occurred in purchaseOrder getPoChartData dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -848,4 +1156,7 @@ export default {
   updateStatusAndDocument,
   getPOStatistics,
   updateStatusByPOId,
+  getPOReportData,
+  getRFQReportData,
+  getPoChartData,
 };

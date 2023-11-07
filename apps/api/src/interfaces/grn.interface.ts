@@ -5,6 +5,7 @@ interface grnBody {
   goods_received_by: number;
   goods_received_date: Date;
   invoice_id: string;
+  invoice_amount: number;
   notes: string;
   bill_details: JSON;
   grn_status: string;
@@ -12,6 +13,7 @@ interface grnBody {
   grn_details: Array<grnDetailsBody>;
   site_id: number;
   purchase_order_type: string;
+  is_product_received: boolean;
 }
 
 interface grnDetailsBody {

@@ -369,7 +369,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                   />
                 </div>
               </div>
-              <div>
+              <div style={{paddingRight: '20px'}}>
                 <CurrencyIcon width={90} height={90} color="#7f56d9" />
               </div>
             </div>

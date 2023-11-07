@@ -120,6 +120,38 @@ const getPOStatistics = catchAsync(async (req, res) => {
   }
 });
 
+const getPOReportData = catchAsync(async (req, res) => {
+  const methodName = '/getPOReportData';
+  try {
+    const purchaseOrder = await purchaseOrderService.getPurchaseOrderReport(
+      req.body
+    );
+    res.send(purchaseOrder);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const getRFQReportData = catchAsync(async (req, res) => {
+  const methodName = '/getPOReportData';
+  try {
+    const purchaseOrder = await purchaseOrderService.getRFQReportData(req.body);
+    res.send(purchaseOrder);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const getPoChartData = catchAsync(async (req, res) => {
+  const methodName = '/getPoChartData';
+  try {
+    const purchaseOrder = await purchaseOrderService.getPoChartData();
+    res.send(purchaseOrder);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createPurchaseOrder,
   updatePurchaseOrder,
@@ -131,4 +163,7 @@ export {
   getByPurchaseRequestId,
   updateStatusAndDocument,
   getPOStatistics,
+  getPOReportData,
+  getRFQReportData,
+  getPoChartData,
 };

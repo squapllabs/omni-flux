@@ -643,7 +643,7 @@ const handleFileOnChange = async (e:any) =>{
                                 {data.progress_status || '--'}
                               </td> */}
                               <td>
-                                {data.estimated_budget.toLocaleString('en-IN',currencyObject) || '--'}
+                                {data.estimated_budget?.toLocaleString('en-IN',currencyObject) || '--'}
                               </td>
                               <td >
                               <div className={Styles.actionIcons_container}>
