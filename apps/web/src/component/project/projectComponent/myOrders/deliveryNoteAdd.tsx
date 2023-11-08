@@ -197,8 +197,15 @@ const MyOrderView = () => {
         postGrnData(obj, {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
+              const invoiceData: any = {
+                tableData: tableValue,
+                invoiceNumber:
+                  data?.data?.grn_with_grn_details?.grn?.invoice_id,
+                notes: data?.data?.grn_with_grn_details?.grn?.notes,
+              };
+
               setMessage('Goods delivered added');
-              DeliveryNotes(getListData);
+              DeliveryNotes(getListData, invoiceData);
               setOpenSnack(true);
               setTimeout(() => {
                 navigate(`/project-edit/${Number(state?.projectId)}`);
