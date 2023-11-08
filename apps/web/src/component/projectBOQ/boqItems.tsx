@@ -243,7 +243,6 @@ const BomItems = (props: {
     fetchOne();
     refetch();
     if(getAllData && getAllData.length){
-      // debugger
       let totalAmount = 0
       getAllData.forEach((element:any) => {
         totalAmount = totalAmount + element.actual_budget
@@ -773,7 +772,7 @@ const BomItems = (props: {
                               /></span>
                             
                             <span>
-                            {!data.actual_budget ?(
+                            {!data.bom_detail.length?(
                               <span
                               onClick={()=>{    
                                 handleSubTask(data?.sub_category_id);

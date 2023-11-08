@@ -50,12 +50,13 @@ const BomRawMaterials: React.FC = (props: any) => {
   const { data: getAllItemDrop } = useGetAllItemsDrops();
   const { data: getAllUomDrop } = getUomByType('RAWMT');
 
+
+  useEffect(()=>{console.log('initialValues',initialValues),console.log('props',props)},[props])
   useEffect(() => {
     if (props.bomList.length === 0 && props.bomId) {
+      setInitialValues({...intialBom,bom_configuration_id: Number(props?.bomId)})
       props.setBomList([
-        ...props.bomList,
-        { ...initialValues, bom_configuration_id: Number(props?.bomId) },
-      ]);
+        ...props.bomList,{...initialValues,bom_configuration_id: Number(props?.bomId)},]);
     }
   }, [props.bomId]);
 
