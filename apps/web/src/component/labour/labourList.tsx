@@ -4,13 +4,10 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import AddIcon from '../menu/icons/addIcon';
 import EditIcon from '../menu/icons/newEditIcon';
-import DeleteIcon from '../menu/icons/newDeleteIcon';
 import SearchIcon from '../menu/icons/search';
 import { useNavigate } from 'react-router-dom';
-import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import {
-  getBySearchLabour,
   useDeleteLabour,
   useGetAllLabour,
 } from '../../hooks/labour-hooks';
@@ -18,19 +15,13 @@ import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/CustomPagination';
 import { formatBudgetValue } from '../../helper/common-function';
 import CustomPopup from '../ui/CustomSidePopup';
-import CustomLabourAddPopup from './labourAdd'
+import CustomLabourAddPopup from './labourAdd';
+import FilterOrderIcon from '../menu/icons/filterOrderIcon';
+import { handleSortByColumn } from './../../helper/common-function'
 
 const LabourList = () => {
-  const [initialValues, setInitialValues] = useState({
-    labour_id: '',
-    labour_type: '',
-    uom_id: '',
-    rate: '',
-  });
   const navigate = useNavigate();
   const [activeButton, setActiveButton] = useState<string | null>('AC');
-  const [filter, setFilter] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [dataShow, setDataShow] = useState(false);
   const [filterValues, setFilterValues] = useState({
     global_search: '',
@@ -38,7 +29,6 @@ const LabourList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [reload, setReload] = useState(false);
-  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
@@ -46,21 +36,14 @@ const LabourList = () => {
   const [value, setValue] = useState();
   const [labourId, setLabourId] = useState('');
   const [message, setMessage] = useState('');
-  const [buttonLabels, setButtonLabels] = useState([
-    { label: 'Active', value: 'AC' },
-    { label: 'Inactive', value: 'IN' },
-  ]);
-  // const {
-  //   mutate: postDataForFilter,
-  //   data: getFilterData,
-  //   isLoading: FilterLoading,
-  // } = getBySearchLabour();
+  const [sortColumn, setSortColumn] = useState('');
+  const [sortOrder, setSortOrder] = useState('desc');
 
   const object: any = {
     offset: (currentPage - 1) * rowsPerPage,
     limit: rowsPerPage,
-    order_by_column: 'updated_date',
-    order_by_direction: 'desc',
+    order_by_column: sortColumn === '' ? 'created_date' : sortColumn,
+    order_by_direction: sortOrder,
     status: activeButton,
     global_search: filterValues.global_search,
   };
@@ -69,23 +52,8 @@ const LabourList = () => {
     data: initialData,
     refetch,
   } = useGetAllLabour(object);
-  const { mutate: getDeleteLabourByID } = useDeleteLabour();
 
-  /* Function for search */
-  // const handleSearch = async () => {
-  //   const demo: any = {
-  //     offset: (currentPage - 1) * rowsPerPage,
-  //     limit: rowsPerPage,
-  //     order_by_column: 'updated_date',
-  //     order_by_direction: 'desc',
-  //     status: activeButton,
-  //     ...filterValues,
-  //   };
-  //   postDataForFilter(demo);
-  //   setDataShow(true);
-  //   setIsLoading(false);
-  //   setFilter(true);
-  // };
+  const { mutate: getDeleteLabourByID } = useDeleteLabour();
 
   const handleAddLabourData = () => {
     setOpen(true);
@@ -97,44 +65,9 @@ const LabourList = () => {
     setMode('EDIT');
   }
 
-  /* Function for resting the search field and data to normal state */
-  // const handleReset = async () => {
-  //   const demo: any = {
-  //     offset: (currentPage - 1) * rowsPerPage,
-  //     limit: rowsPerPage,
-  //     order_by_column: 'updated_date',
-  //     order_by_direction: 'desc',
-  //     status: 'AC',
-  //     global_search: '',
-  //   };
-  //   postDataForFilter(demo);
-  //   setIsLoading(false);
-  //   setFilter(false);
-  //   setFilterValues({
-  //     global_search: '',
-  //   });
-  //   setIsLoading(false);
-  //   setDataShow(false);
-  //   setIsResetDisabled(true);
-  // };
-
-  /* Function for Filter Change */
-  // const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const searchValue = event.target.value;
-
-  //   setFilterValues({
-  //     ...filterValues,
-  //     ['global_search']: event.target.value,
-  //   });
-  //   setIsResetDisabled(searchValue === '');
-  //   if (searchValue === '') {
-  //     handleReset();
-  //   }
-  // };
-
   useEffect(() => {
     refetch();
-  }, [currentPage, rowsPerPage, activeButton]);
+  }, [currentPage, rowsPerPage, activeButton, sortColumn, sortOrder]);
 
   useEffect(() => {
     const handleSearch = setTimeout(() => {
@@ -142,13 +75,6 @@ const LabourList = () => {
     }, 1000);
     return () => clearTimeout(handleSearch);
   }, [filterValues]);
-
-  /* Function for group button (Active and Inactive status) */
-  const handleGroupButtonClick = (value: string) => {
-    setActiveButton(value);
-  };
-
-
 
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -165,11 +91,6 @@ const LabourList = () => {
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
-  };
-
-  const deleteLabourHandler = (id: any) => {
-    setValue(id);
-    setOpenDelete(true);
   };
 
   /* Function for closing the delete popup */
@@ -231,87 +152,30 @@ const LabourList = () => {
                     }}
                   />
                 </div>
-                {/* <div>
-                  <CustomGroupButton
-                    labels={buttonLabels}
-                    onClick={handleGroupButtonClick}
-                    activeButton={activeButton}
-                  />
-                </div> */}
               </div>
             </div>
-            {/* <div className={Styles.top}>
-              <div className={Styles.textContent}>
-                <h3>Add New Labour</h3>
-              </div>
-              <div>
-                <Button
-                  color="primary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  icon={<AddIcon color="white" />}
-                  onClick={() => {
-                    navigate('/labour-add');
-                  }}
-                >
-                  Add Labour
-                </Button>
-              </div>
-            </div> */}
-            {/* <div className={Styles.dividerStyle}></div> */}
             <div className={Styles.box}>
-              {/* <div className={Styles.textContent1}>
-                <h3>List of Labour Data</h3>
-              </div>
-              <div className={Styles.searchField}>
-                <div className={Styles.inputFilter}>
-                  <Input
-                    width="260px"
-                    prefixIcon={<SearchIcon />}
-                    name="global_search"
-                    value={filterValues.global_search}
-                    onChange={(e) => handleFilterChange(e)}
-                    placeholder="Search by labour type"
-                  />
-
-                  <Button
-                    className={Styles.searchButton}
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    onClick={handleSearch}
-                  >
-                    Search
-                  </Button>
-                  <Button
-                    className={Styles.resetButton}
-                    shape="rectangle"
-                    justify="center"
-                    size="small"
-                    disabled={isResetDisabled}
-                    onClick={handleReset}
-                  >
-                    Reset
-                  </Button>
-                </div>
-                <div>
-                  <CustomGroupButton
-                    labels={buttonLabels}
-                    onClick={handleGroupButtonClick}
-                    activeButton={activeButton}
-                  />
-                </div>
-              </div> */}
               <div className={Styles.tableContainer}>
                 <div>
                   <table className={Styles.scrollable_table}>
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Labour Type</th>
+                        <th onClick={() => handleSortByColumn('labour_type', sortOrder, setSortOrder, setSortColumn)}>
+                          <div className={Styles.headingRow}>
+                            <div>Labour Type</div><div>
+                              <FilterOrderIcon />
+                            </div>
+                          </div>
+                        </th>
                         <th>UOM Type</th>
-                        <th>Rate</th>
+                        <th onClick={() => handleSortByColumn('rate', sortOrder, setSortOrder, setSortColumn)}>
+                          <div className={Styles.headingRow}>
+                            <div>Rate</div><div>
+                              <FilterOrderIcon />
+                            </div>
+                          </div>
+                        </th>
                         {activeButton === 'AC' && <th>Actions</th>}
                       </tr>
                     </thead>
@@ -338,11 +202,6 @@ const LabourList = () => {
                                       <EditIcon
                                         onClick={() => handleEdit(data?.labour_id)}
                                       />
-                                      {/* <DeleteIcon
-                                        onClick={() =>
-                                          deleteLabourHandler(data?.labour_id)
-                                        }
-                                      /> */}
                                     </div>
                                   </td>
                                 )}
@@ -373,13 +232,6 @@ const LabourList = () => {
                                       onClick={() => handleEdit(item?.labour_id)}
                                     />
                                   </div>
-                                  {/* <div>
-                                    <DeleteIcon
-                                      onClick={() =>
-                                        deleteLabourHandler(item.labour_id)
-                                      }
-                                    />
-                                  </div> */}
                                 </div>
                               </td>
                             )}
@@ -394,16 +246,6 @@ const LabourList = () => {
                     currentPage={currentPage}
                     totalPages={initialData?.total_page}
                     totalCount={initialData?.total_page}
-                    // totalPages={
-                    //   dataShow
-                    //     ? getFilterData?.total_page
-                    //     : initialData?.total_page
-                    // }
-                    // totalCount={
-                    //   dataShow
-                    //     ? getFilterData?.total_count
-                    //     : initialData?.total_count
-                    // }
                     rowsPerPage={rowsPerPage}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
@@ -411,42 +253,40 @@ const LabourList = () => {
                 </div>
               </div>
             </div>
-
           </div>
         ) : (
-        <div>
-          <div className={Styles.subHeading}>
-            {/* <span>MASTER DATA</span> */}
+          <div>
+            <div className={Styles.subHeading}>
+            </div>
+            <div className={Styles.emptyDataHandling}>
+              <div>
+                <img
+                  src="/labours_img.jpg"
+                  alt="aa"
+                  width="100%"
+                  height="200px"
+                />
+              </div>
+              <div>
+                <h5>The Labours list is empty</h5>
+              </div>
+              <div className={Styles.contentGap}>
+                <span className={Styles.spanContent}>Go ahead, add new labour list</span>
+              </div>
+              <div>
+                <Button
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon color="white" />}
+                  onClick={() => handleAddLabourData()}
+                >
+                  Add Labour
+                </Button>
+              </div>
+            </div>
           </div>
-          <div className={Styles.emptyDataHandling}>
-            <div>
-              <img
-                src="/labours_img.jpg"
-                alt="aa"
-                width="100%"
-                height="200px"
-              />
-            </div>
-            <div>
-              <h5>The Labours list is empty</h5>
-            </div>
-            <div className={Styles.contentGap}>
-              <span className={Styles.spanContent}>Go ahead, add new labour list</span>
-            </div>
-            <div>
-              <Button
-                color="primary"
-                shape="rectangle"
-                justify="center"
-                size="small"
-                icon={<AddIcon color="white" />}
-                onClick={() => handleAddLabourData()}
-              >
-                Add Labour
-              </Button>
-            </div>
-          </div>
-        </div>
         )}
       </CustomLoader>
       <CustomDelete
