@@ -17,6 +17,7 @@ import CustomSidePopup from '../ui/CustomSidePopup';
 import MasterDataForm from './masterDataForm';
 import MasterDataIcon from '../menu/icons/masterDataIcon';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
+import {handleSortByColumn} from './../../helper/common-function'
 
 const MaterData = () => {
   const [openSnack, setOpenSnack] = useState(false);
@@ -33,7 +34,7 @@ const MaterData = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [reload, setReload] = useState(false);
   const [masterDataFormOpen, setMasterDataFormOpen] = useState(false);
-  const [sortColumn, setSortColumn] = useState('master_data_name');
+  const [sortColumn, setSortColumn] = useState('');
   const [sortOrder, setSortOrder] = useState('desc');
 
   const { mutate: getDeleteMasterDataID } = useDeletemasertData();
@@ -41,7 +42,7 @@ const MaterData = () => {
   const masterData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
-    order_by_column: sortColumn === '' ? 'updated_date' : sortColumn,
+    order_by_column: sortColumn === '' ? 'created_date' : sortColumn,
     order_by_direction: sortOrder,
     status: activeButton,
     global_search: filterValues?.search_by_name,
@@ -95,15 +96,6 @@ const MaterData = () => {
     setMasterDataFormOpen(false);
   };
 
-  const handleSortByColumn = (columnName: any) => {
-    if (columnName === sortColumn) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortColumn(columnName);
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-    }
-  };
-
   return (
     <div>
       <CustomLoader loading={getAllLoadingPaginated} size={48} color="#333C44">
@@ -155,7 +147,7 @@ const MaterData = () => {
                       <tr>
                         <th>#</th>
                         <th
-                          onClick={() => handleSortByColumn('master_data_name')}
+                          onClick={() =>  handleSortByColumn('master_data_name',sortOrder,setSortOrder,setSortColumn)}
                         >
                           <div className={Styles.headingRow}>
                             <div>Name</div>
@@ -165,7 +157,7 @@ const MaterData = () => {
                           </div>
                         </th>
                         <th
-                          onClick={() => handleSortByColumn('master_data_type')}
+                          onClick={() =>  handleSortByColumn('master_data_type',sortOrder,setSortOrder,setSortColumn)}
                         >
                           <div className={Styles.headingRow}>
                             <div>Code</div>

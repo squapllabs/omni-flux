@@ -32,6 +32,12 @@ export function customSort(order: any, sortBy: any, sortOrder: any) {
   };
 }
 
-// export const nullValue = (value:any) => {
-
-// }
+export const handleSortByColumn = (
+  columnName: any,
+  sortOrder: any,
+  setSortOrder: any,
+  setSortColumn: any
+) => {
+  setSortColumn(columnName);
+  setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+};

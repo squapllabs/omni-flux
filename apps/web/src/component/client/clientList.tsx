@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/clientList.module.scss';
 import EditIcon from '../menu/icons/newEditIcon';
-import DeleteIcon from '../menu/icons/newDeleteIcon';
 import {
   useDeleteClient,
   getByClient,
   useGetAllPaginatedClient,
 } from '../../hooks/client-hooks';
 import ClientForm from './clientForm';
-import CustomEditDialog from '../ui/customEditDialogBox';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
-import { useFormik } from 'formik';
 import { createClient } from '../../hooks/client-hooks';
 import * as Yup from 'yup';
 import { getClientValidateyup } from '../../helper/constants/client-constants';
-import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/CustomPagination';
 import SearchIcon from '../menu/icons/search';
@@ -23,6 +19,8 @@ import CustomSnackbar from '../ui/customSnackBar';
 import AddIcon from '../menu/icons/addIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSidePopup from '../ui/CustomSidePopup';
+import FilterOrderIcon from '../menu/icons/filterOrderIcon';
+import {handleSortByColumn} from './../../helper/common-function'
 
 /* Function for Client List */
 const ClientList = () => {
@@ -33,14 +31,12 @@ const ClientList = () => {
   } = getByClient();
 
   const { mutate: getDeleteClientByID } = useDeleteClient();
-  const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [clientId, setClientID] = useState();
   const [reload, setReload] = useState(false);
   const [mode, setMode] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-  const validationSchema = getClientValidateyup(Yup);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isLoading, setIsLoading] = useState(true);
@@ -49,26 +45,18 @@ const ClientList = () => {
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [dataShow, setDataShow] = useState(false);
   const [openClientForm, setOpenClientForm] = useState(false);
-  const [buttonLabels, setButtonLabels] = useState([
-    { label: 'Active', value: 'AC' },
-    { label: 'Inactive', value: 'IN' },
-  ]);
-  const { mutate: createNewClient } = createClient();
-  const [initialValues, setInitialValues] = useState({
-    name: '',
-    contact_details: '',
-    client_id: '',
-  });
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
   const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const [sortColumn, setSortColumn] = useState('');
+  const [sortOrder, setSortOrder] = useState('desc');
 
   const clientData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
-    order_by_column: 'updated_date',
-    order_by_direction: 'desc',
+    order_by_column: sortColumn === '' ? 'created_date' : sortColumn,
+    order_by_direction: sortOrder,
     status: activeButton,
     global_search: filterValues.search_by_name,
   };
@@ -80,7 +68,7 @@ const ClientList = () => {
 
   useEffect(() => {
     refetch();
-  }, [currentPage, rowsPerPage, activeButton]);
+  }, [currentPage, rowsPerPage, activeButton,  sortColumn, sortOrder]);
 
   useEffect(() => {
     const handleSearch = setTimeout(() => {
@@ -103,55 +91,13 @@ const ClientList = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-  const deleteCategoryHandler = (id: any) => {
-    setValue(id);
-    setOpenDelete(true);
-  };
+
   /* Function for deleting a Client from the list */
   const deleteClient = () => {
     getDeleteClientByID(value);
     handleCloseDelete();
     setMessage('Successfully deleted');
     setOpenSnack(true);
-  };
-
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
-    setFilterValues({
-      ...filterValues,
-      ['search_by_name']: event.target.value,
-    });
-    setIsResetDisabled(searchValue === '');
-    if (searchValue === '') {
-      handleReset();
-    }
-  };
-
-  /* Function for Searching a client data from the list */
-  const handleSearch = async () => {
-    const clientData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      status: activeButton,
-      global_search: filterValues.search_by_name,
-    };
-    postDataForFilter(clientData);
-    setDataShow(true);
-    setIsLoading(false);
-    setFilter(true);
-  };
-  /*Function for reseting the list to actual state after search*/
-  const handleReset = async () => {
-    setDataShow(false);
-    setIsLoading(false);
-    setFilter(false);
-    setFilterValues({
-      search_by_name: '',
-    });
-    setIsLoading(false);
-    setIsResetDisabled(true);
   };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -163,10 +109,6 @@ const ClientList = () => {
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
-  };
-
-  const handleGroupButtonClick = (value: string) => {
-    setActiveButton(value);
   };
 
   const handleClientFormClose = () => {
@@ -225,57 +167,19 @@ const ClientList = () => {
                 </div>
               </div>
               <div className={Styles.box}>
-                {/* <div className={Styles.textContent}>
-                  <h3>List of Clients</h3>
-                  <span className={Styles.content}>
-                    Manage your Client Details here.
-                  </span>
-                </div>
-                <div className={Styles.searchField}>
-                  <div className={Styles.inputFilter}>
-                    <Input
-                      width="260px"
-                      prefixIcon={<SearchIcon />}
-                      name="search_by_name"
-                      value={filterValues.search_by_name}
-                      onChange={(e) => handleFilterChange(e)}
-                      placeholder="Search"
-                    />
-                    <Button
-                      className={Styles.searchButton}
-                      shape="rectangle"
-                      justify="center"
-                      size="small"
-                      onClick={handleSearch}
-                    >
-                      Search
-                    </Button>
-                    <Button
-                      className={Styles.resetButton}
-                      shape="rectangle"
-                      justify="center"
-                      size="small"
-                      onClick={handleReset}
-                      disabled={isResetDisabled}
-                    >
-                      Reset
-                    </Button>
-                  </div>
-                  <div>
-                    <CustomGroupButton
-                      labels={buttonLabels}
-                      onClick={handleGroupButtonClick}
-                      activeButton={activeButton}
-                    />
-                  </div>
-                </div> */}
                 <div className={Styles.tableContainer}>
                   <div>
                     <table className={Styles.scrollable_table}>
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>Client Name</th>
+                          <th onClick={() => handleSortByColumn('name',sortOrder,setSortOrder,setSortColumn)}>
+                        <div className={Styles.headingRow}>
+                            <div>Client Name</div><div>
+                              <FilterOrderIcon />
+                            </div>
+                          </div>
+                        </th>
                           <th>Contact Details</th>
                           {activeButton === 'AC' && <th>Actions</th>}
                         </tr>
@@ -302,11 +206,6 @@ const ClientList = () => {
                                         <EditIcon
                                           onClick={() => handleEdit(data.client_id)}
                                         />
-                                        {/* <DeleteIcon
-                                          onClick={() =>
-                                            deleteCategoryHandler(data.client_id)
-                                          }
-                                        /> */}
                                       </div>
                                     </td>
                                   )}
@@ -324,7 +223,6 @@ const ClientList = () => {
                         ) : (
                           initialData?.content?.map((data: any, index: number) => (
                             <tr key={data.client_id}>
-                              {/* <td>{index + 1}</td> */}
                               <td>{startingIndex + index}</td>
                               <td>{data.name}</td>
                               <td>{data.contact_details}</td>
@@ -334,11 +232,6 @@ const ClientList = () => {
                                     <EditIcon
                                       onClick={() => handleEdit(data.client_id)}
                                     />
-                                    {/* <DeleteIcon
-                                      onClick={() =>
-                                        deleteCategoryHandler(data.client_id)
-                                      }
-                                    /> */}
                                   </div>
                                 </td>
                               )}
@@ -371,7 +264,6 @@ const ClientList = () => {
           ) : (
             <div>
             <div className={Styles.subHeading}>
-              {/* <span>Client</span> */}
             </div>
             <div className={Styles.emptyDataHandling}>
               <div>
