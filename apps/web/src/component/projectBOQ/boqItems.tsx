@@ -49,7 +49,7 @@ const BomItems = (props: {
     selectedCategory: selectedCategory?.category_id,
     selectedBomConfig: selectedBomConfig,
   };
-  const { data: getAllData, refetch } = getBycategoryIdInSub(obj);
+  const { data: getAllData, refetch} = getBycategoryIdInSub(obj);
   const { data: uomObject } = getUomByType('RAWMT');
    const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
   const [planListTitle, setPlanListTitle] = useState('');
@@ -149,9 +149,28 @@ const BomItems = (props: {
         if(parsedJson.length > 1){
 
           const taskData: { id: string | undefined; description: any; uom_id: number; quantity: any; rate: any; estimated_budget: any; actual_budget: number; children: any[]; }[] = []
+        
           parsedJson.forEach((element:any) =>{
           const uom =  uomObject.filter((uomObj:any)=>uomObj.label?.toLowerCase() === element?.Unit?.toLowerCase()).shift()
           const  s_no_array = String(element['SI.NO']).split('.');
+
+           const obj = {
+              id : s_no_array[s_no_array.length - 1],
+              description : (element?.Description || ''),
+              uom_id: (uom?.value || ''),
+              uom_label: (uom?.label || ''),
+              quantity:(element?.Quantity || ''),
+              rate: (element?.Rate|| ''),
+              estimated_budget: (element?.Amount|| ''),
+              actual_budget: 0,
+              children : [],
+              project_id: categoryData?.project_id,
+              bom_configuration_id:categoryData?.bom_configuration_id,
+              category_id:categoryData?.category_id,
+            }
+
+           console.log('result',result)
+
           if(s_no_array.length === 1){
             const obj = {
               id : s_no_array.pop(),
@@ -187,9 +206,7 @@ const BomItems = (props: {
             }
             taskData[parenIndex].children.push(obj)
           }
-        });
-        
-        
+        });        
         if(taskData.length){
           setUploadedTaskData(taskData)
           // setTaskPopupTrigger(true)
@@ -207,6 +224,8 @@ const BomItems = (props: {
       reader.readAsArrayBuffer(file);
     }
     }
+
+
     const handleFileUploadBtnClick = () =>{
       setModelPopupTrigger(true)
     }
