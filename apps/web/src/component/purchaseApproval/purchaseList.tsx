@@ -19,6 +19,7 @@ import ProjectSubheader from '../project/projectSubheader';
 import Input from '../ui/Input';
 import SearchIcon from '../menu/icons/search';
 import Select from '../ui/selectNew';
+import CustomMenu from '../ui/NewCustomMenu';
 
 const PurchaseList = () => {
   const state: RootState = store.getState();
@@ -46,7 +47,7 @@ const PurchaseList = () => {
     data: getIndentData,
     isLoading: FilterLoading,
   } = getByUserRoleIndent();
-console.log("yyyy",getIndentData);
+  console.log('yyyy', getIndentData);
 
   const handleReset = async () => {
     const userData: any = {
@@ -105,7 +106,7 @@ console.log("yyyy",getIndentData);
   };
 
   const handleView = (indentId: any, projectId: any) => {
-    navigate(`/purchase-detail/${indentId}`, {
+    navigate(`/indent-request-detail/${indentId}`, {
       state: { project_id: projectId },
     });
   };
@@ -264,7 +265,7 @@ console.log("yyyy",getIndentData);
                     Expected Delivery Date
                   </th>
                   <th className={Styles.tableHeading}>Priority</th>
-                  <th className={Styles.tableHeading}>Cost</th>
+                  {/* <th className={Styles.tableHeading}>Cost</th> */}
                   <th className={Styles.tableHeading}>Approved By</th>
                   <th className={Styles.tableHeading}>Approved Date</th>
                   <th className={Styles.tableHeading}>Actions</th>
@@ -282,6 +283,22 @@ console.log("yyyy",getIndentData);
                   ''
                 )}
                 {getIndentData?.content?.map((data: any, index: number) => {
+                  const actions = [
+                    {
+                      label: 'Vendor Selection',
+                      onClick: () => {
+                        handleView(data?.indent_request_id, data?.project_id);
+                      },
+                    },
+                    {
+                      label: 'Purhcase Request',
+                      onClick: () => {
+                        navigate(
+                          `/purchase-request-list/${data.indent_request_id}`
+                        );
+                      },
+                    },
+                  ];
                   return (
                     <tr key={data.indent_request_id}>
                       <td>{startingIndex + index}</td>
@@ -291,7 +308,7 @@ console.log("yyyy",getIndentData);
                         {data?.requester_user_data?.first_name +
                           ' ' +
                           data?.requester_user_data?.last_name}
-                      </td> 
+                      </td>
                       <td>
                         {format(
                           new Date(data?.expected_delivery_date),
@@ -306,11 +323,11 @@ console.log("yyyy",getIndentData);
                       >
                         {data?.priority}
                       </td>
-                      <td>
+                      {/* <td>
                         {formatBudgetValue(
                           data?.total_cost ? data?.total_cost : 0
                         )}
-                      </td>
+                      </td> */}
                       <td>
                         {data?.approver_user_data?.first_name +
                           ' ' +
@@ -320,7 +337,7 @@ console.log("yyyy",getIndentData);
                         {' '}
                         {format(new Date(data?.approved_date), 'MMM dd, yyyy')}
                       </td>
-                      <td>
+                      {/* <td>
                         <div
                           style={{
                             display: 'flex',
@@ -337,7 +354,6 @@ console.log("yyyy",getIndentData);
                                 )
                               }
                             />
-                            {/* <PdfDownloadIcon onClick={() => handleReportGenerator()} /> */}
                           </div>
                           <div
                             className={Styles.tablerow}
@@ -352,9 +368,11 @@ console.log("yyyy",getIndentData);
                             >
                               PR
                             </span>
-                            {/* <PdfDownloadIcon onClick={() => handleReportGenerator()} /> */}
                           </div>
                         </div>
+                      </td> */}
+                      <td>
+                        <CustomMenu actions={actions} name={"ApproveIndentList"}/>
                       </td>
                     </tr>
                   );

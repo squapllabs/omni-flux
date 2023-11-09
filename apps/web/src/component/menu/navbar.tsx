@@ -135,7 +135,7 @@ const Navbar = () => {
     navigate('/purchase-order');
   };
   const handlePurchaseRequest = () => {
-    navigate('/purchase-view');
+    navigate('/approved-indent-list');
   };
   const handleVendorList = () => {
     navigate('/vendor-list');
@@ -315,9 +315,9 @@ const Navbar = () => {
                           >
                             <div className={Styles.itemsTitle}>
                               {/* <CheckIcon /> */}
-                              <h2>Purchase Request</h2>
+                              <h2>Approved Indent</h2>
                             </div>
-                            <p>Manage your purchase request</p>
+                            <p>Manage your indent request</p>
                           </div>
                         ) : null}
                       </div>
