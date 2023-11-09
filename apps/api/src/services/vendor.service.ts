@@ -291,7 +291,7 @@ const getByVendorName = async (vendor_name: string) => {
   try {
     let result = null;
     const vendorData = await vendorDao.getByVendorName(vendor_name);
-    if (vendorData) {
+    if (vendorData.length > 0) {
       result = {
         message: 'vendor_name is already exist',
         status: true,
