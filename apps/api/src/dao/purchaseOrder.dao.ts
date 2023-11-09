@@ -299,14 +299,6 @@ const searchPurchaseOrder = async (
                 },
               });
           }
-          // else {
-          //   checkPurchaseOrderDataAvailability =
-          //     await transaction.purchase_order.findMany({
-          //       where: {
-          //         is_delete: filter.is_delete,
-          //       },
-          //     });
-          // }
         } else if (item.purchase_request_data) {
           if (item.purchase_request_data.project_id) {
             projectId = item.purchase_request_data.project_id;
@@ -337,23 +329,7 @@ const searchPurchaseOrder = async (
                 },
               });
           }
-          //  else {
-          //   checkPurchaseOrderDataAvailability =
-          //     await transaction.purchase_order.findMany({
-          //       where: {
-          //         is_delete: filter.is_delete,
-          //       },
-          //     });
-          // }
         }
-        // else {
-        //   checkPurchaseOrderDataAvailability =
-        //     await transaction.purchase_order.findMany({
-        //       where: {
-        //         is_delete: filter.is_delete,
-        //       },
-        //     });
-        // }
       }
     }
 

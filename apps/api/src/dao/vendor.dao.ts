@@ -1,3 +1,4 @@
+import db from '../utils/db';
 import prisma from '../utils/prisma';
 // import { CaseInsensitiveFilter } from '../utils/caseSensitiveFilter';
 import customQueryExecutor from './common/utils.dao';
@@ -277,6 +278,18 @@ const getByEmailId = async (contact_email: string, connectionObj = null) => {
   }
 };
 
+const getByVendorName = async (vendor_name: string, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : db;
+    const vendorQuery = `select * from vendor v where lower(v.vendor_name)=lower($1) and is_delete = false`;
+    const vendor = transaction.oneOrNone(vendorQuery, [vendor_name]);
+    return vendor;
+  } catch (error) {
+    console.log('Error occurred in vendor getByEmailId dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -285,4 +298,5 @@ export default {
   deleteVendor,
   searchVendor,
   getByEmailId,
+  getByVendorName,
 };
