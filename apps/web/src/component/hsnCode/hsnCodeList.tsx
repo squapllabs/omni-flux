@@ -326,7 +326,7 @@ const HsnCodeList = () => {
           size={48}
           color="#333C44"
         >
-          {(initialData?.is_available )? (
+          {initialData?.is_available ? (
             <div>
               <div className={Styles.topHeading}>
                 <div className={Styles.heading}>
@@ -361,7 +361,7 @@ const HsnCodeList = () => {
                           ...filterValues,
                           ['search_by_name']: e.target.value,
                         });
-                        setCurrentPage(1)
+                        setCurrentPage(1);
                       }}
                     />
                   </div>
@@ -387,12 +387,15 @@ const HsnCodeList = () => {
                       </button>
                     </div>
                   ) : (
-                    <button
-                      className={Styles.fileSelect}
+                    <Button
+                      color="outlined"
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
                       onClick={() => fileInputRef.current.click()}
                     >
                       Select File
-                    </button>
+                    </Button>
                   )}
                   <input
                     type="file"
@@ -488,7 +491,7 @@ const HsnCodeList = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {dataShow  ? (
+                        {dataShow ? (
                           getFilterData?.total_count === 0 ? (
                             <tr>
                               <td></td>
@@ -510,7 +513,7 @@ const HsnCodeList = () => {
                                       {data.description
                                         ? data.description.length > 30
                                           ? data.description.substring(0, 30) +
-                                          '...'
+                                            '...'
                                           : data.description
                                         : '-'}
                                     </span>
@@ -543,40 +546,43 @@ const HsnCodeList = () => {
                             {activeButton === 'AC' && <td></td>}
                           </tr>
                         ) : (
-                          initialData?.content?.map((data: any, index: number) => (
-                            <tr key={data.hsn_code_id}>
-                              <td>{startingIndex + index}</td>
-                              <td>{data.code}</td>
-                              <td>
-                                <span
-                                  className={Styles.truncatedStyle}
-                                  title={data.description}
-                                >
-                                  {data.description
-                                    ? data.description.length > 30
-                                      ? data.description.substring(0, 30) + '...'
-                                      : data.description
-                                    : '-'}
-                                </span>
-                              </td>
-                              {activeButton === 'AC' && (
+                          initialData?.content?.map(
+                            (data: any, index: number) => (
+                              <tr key={data.hsn_code_id}>
+                                <td>{startingIndex + index}</td>
+                                <td>{data.code}</td>
                                 <td>
-                                  <div className={Styles.tablerow}>
-                                    <EditIcon
-                                      onClick={() =>
-                                        editHscCodeHandler(data.hsn_code_id)
-                                      }
-                                    />
-                                    {/* <DeleteIcon
+                                  <span
+                                    className={Styles.truncatedStyle}
+                                    title={data.description}
+                                  >
+                                    {data.description
+                                      ? data.description.length > 30
+                                        ? data.description.substring(0, 30) +
+                                          '...'
+                                        : data.description
+                                      : '-'}
+                                  </span>
+                                </td>
+                                {activeButton === 'AC' && (
+                                  <td>
+                                    <div className={Styles.tablerow}>
+                                      <EditIcon
+                                        onClick={() =>
+                                          editHscCodeHandler(data.hsn_code_id)
+                                        }
+                                      />
+                                      {/* <DeleteIcon
                                       onClick={() =>
                                         deleteCategoryHandler(data.hsn_code_id)
                                       }
                                     /> */}
-                                  </div>
-                                </td>
-                              )}
-                            </tr>
-                          ))
+                                    </div>
+                                  </td>
+                                )}
+                              </tr>
+                            )
+                          )
                         )}
                       </tbody>
                     </table>
@@ -586,7 +592,9 @@ const HsnCodeList = () => {
                   <Pagination
                     currentPage={currentPage}
                     totalPages={
-                      dataShow ? getFilterData?.total_page : initialData?.total_page
+                      dataShow
+                        ? getFilterData?.total_page
+                        : initialData?.total_page
                     }
                     totalCount={
                       dataShow
@@ -599,12 +607,10 @@ const HsnCodeList = () => {
                   />
                 </div>
               </div>
-
             </div>
           ) : (
             <div>
-              <div className={Styles.subHeading}>
-              </div>
+              <div className={Styles.subHeading}></div>
               <div className={Styles.emptyDataHandling}>
                 <div>
                   <img
@@ -612,14 +618,16 @@ const HsnCodeList = () => {
                     alt="aa"
                     width="100%"
                     height="200px"
-                    style={{paddingBottom: '15px'}}
+                    style={{ paddingBottom: '15px' }}
                   />
                 </div>
                 <div>
                   <h5>HSN code is Empty</h5>
                 </div>
                 <div className={Styles.contentGap}>
-                  <span className={Styles.spanContent}>Go ahead, add new HsnCode</span>
+                  <span className={Styles.spanContent}>
+                    Go ahead, add new HsnCode
+                  </span>
                 </div>
                 <div>
                   <Button

@@ -43,6 +43,7 @@ const ProjectList = () => {
     roleName === 'PLANNING ENGINEER' ||
     roleName === 'SITE ENGINEER' ||
     roleName === 'PURCHASE MANAGER';
+  const isFinanceManagerLogin = roleName === 'FINANCE MANAGER';
   const { isLoading: getAllLoading } = useGetAllProject();
   const { mutate: getDeleteProjectByID } = useDeleteProjects();
   const [filterValues, setFilterValues] = useState({
@@ -108,7 +109,7 @@ const ProjectList = () => {
   };
 
   const {
-    isLoading: getAllLoadingPaginated,
+    isFetched: getAllLoadingPaginated,
     data: getFilterData,
     refetch,
   } = getPaginatedMemberBasedProject(
@@ -236,6 +237,8 @@ const ProjectList = () => {
   };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
+  console.log('getAllLoadingPaginated', getAllLoadingPaginated);
+
   return (
     <div className={Styles.container}>
       <div>
@@ -246,7 +249,11 @@ const ProjectList = () => {
         />
       </div>
       <div>
-        <CustomLoader loading={getAllLoading} size={48} color="#333C44">
+        <CustomLoader
+          loading={!getAllLoadingPaginated}
+          size={48}
+          color="#333C44"
+        >
           <div className={Styles.header}>
             <div className={Styles.firstHeader}>
               {/* <div className={Styles.text}>
@@ -332,8 +339,7 @@ const ProjectList = () => {
                     <th>Status</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-
-                    <th>Actions</th>
+                    {!isFinanceManagerLogin && <th>Actions</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -378,44 +384,33 @@ const ProjectList = () => {
                           <td>
                             {format(new Date(data?.date_ended), 'MMM dd, yyyy')}
                           </td>
-                          {/* {activeButton === 'AC' && ( */}
-                          <td>
-                            <div className={Styles.tablerow}>
-                              {/* <ViewIcon
-                                onClick={() =>
-                                  navigate(`/project-info/${data?.project_id}`)
-                                }
-                              /> */}
-                              {/* <StoreIcon
-                                onClick={() =>
-                                  navigate(
-                                    `/project-inventory/${data?.project_id}`
-                                  )
-                                }
-                              /> */}
-                              {isProjectEdit && (
-                                <EditIcon
-                                  onClick={() => {
-                                    if (data?.status === 'Draft') {
-                                      navigate(
-                                        `/project-edit-draft/${data?.project_id}`
-                                      );
-                                    } else {
-                                      navigate(
-                                        `/project-edit/${data?.project_id}`
-                                      );
-                                    }
-                                  }}
-                                />
-                              )}
+                          {!isFinanceManagerLogin && (
+                            <td>
+                              <div className={Styles.tablerow}>
+                                {isProjectEdit && (
+                                  <EditIcon
+                                    onClick={() => {
+                                      if (data?.status === 'Draft') {
+                                        navigate(
+                                          `/project-edit-draft/${data?.project_id}`
+                                        );
+                                      } else {
+                                        navigate(
+                                          `/project-edit/${data?.project_id}`
+                                        );
+                                      }
+                                    }}
+                                  />
+                                )}
 
-                              {/* <DeleteIcon
+                                {/* <DeleteIcon
                             onClick={() =>
                               deleteProjectHandler(data.project_id)
                             }
                           /> */}
-                            </div>
-                          </td>
+                              </div>
+                            </td>
+                          )}
                           {/* )} */}
                         </tr>
                       );

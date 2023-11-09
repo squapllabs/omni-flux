@@ -48,17 +48,10 @@ const PurchaseRequestForm: React.FC = (props: any) => {
           to_order_date: values?.end_date,
         }
         const reportsData = await ReportService.getPurchaseRegisterReport(obj)
-        if (reportsData?.total_count !== 0) {
+        // if (reportsData?.total_count !== 0) {
           PurcahseRegisterExcelReport(reportsData?.content)
           props.setMessage('Report Generated Successfully');
-        }
-        else {
-          props.setMessage('No Records Found');
-        }
-
-        // console.log("reportsData", reportsData?.total_count === 0);
-
-
+        // }
         setLoader(false);
         props.setOpenSnack(true);
         props.setOpen(false);
