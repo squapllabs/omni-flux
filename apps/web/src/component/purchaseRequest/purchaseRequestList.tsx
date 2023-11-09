@@ -99,7 +99,7 @@ const PurchaseRequestList = () => {
         <div>
           <ProjectSubheader
             title="Purchase Request List"
-            navigation="/purchase-view"
+            navigation="/approved-indent-list"
             description="List of purchase request on every project"
           />
         </div>

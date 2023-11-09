@@ -534,13 +534,13 @@ const AppRoutes = () => {
         />
         <Route path="/indent/:id" element={<ProtectedIndent />} />
         <Route path="/indent-view" element={<ProtectedIndentList />} />
-        <Route path="/purchase-view" element={<ProtectedPurchaseList />} />
+        <Route path="/approved-indent-list" element={<ProtectedPurchaseList />} />
         <Route
           path="/indent-detail/:id"
           element={<ProtectedIndentDetailView />}
         />
         <Route
-          path="/purchase-detail/:id"
+          path="/indent-request-detail/:id"
           element={<ProtectedPurchaseDetailView />}
         />
         <Route path="/indent/:id/:indentid" element={<ProtectedIndent />} />
