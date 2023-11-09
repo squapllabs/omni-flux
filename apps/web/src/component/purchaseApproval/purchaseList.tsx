@@ -276,7 +276,12 @@ const PurchaseList = () => {
                   <tr>
                     <td></td>
                     <td></td>
+                    <td></td>
+                    <td></td>
                     <td>No data found</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                   </tr>
                 ) : (
