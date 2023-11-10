@@ -152,6 +152,9 @@ const Navbar = () => {
   const handlePurchaseRequest = () => {
     navigate('/approved-indent-list');
   };
+  const handlePurchaseRequestList = () => {
+    navigate('/purchase-request-list-all');
+  };
   const handleVendorList = () => {
     navigate('/vendor-list');
   };
@@ -317,6 +320,7 @@ const Navbar = () => {
                           roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
+                            onClick={handlePurchaseRequestList}
                           >
                             <div className={Styles.itemsTitle}>
                               <h2>Purchase Request</h2>
