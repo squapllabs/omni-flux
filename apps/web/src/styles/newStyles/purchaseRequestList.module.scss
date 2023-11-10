@@ -1,0 +1,262 @@
+.container {
+    width: 100hv;
+}
+
+.searchField {
+    padding: 10px 10px 0px 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.inputFilter {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+}
+
+.tableContainer {
+    padding: 10px 10px 0px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.scrollable_table {
+    width: 100%;
+    height: 100%;
+    padding: 10px 10px;
+    gap: 12px;
+    border-collapse: collapse;
+
+    th,
+    td {
+        padding: 5px 10px 5px 24px;
+        text-align: left;
+        font-weight: var(--tableData-fontWeight);
+        font-size: var(--tableData-fontSize);
+        border: none;
+        border-bottom: 0.1px solid #f0f0f0;
+    }
+
+    td {
+        border-bottom: 0.1px solid #f0f0f0;
+    }
+
+    thead {
+        tr {
+            th {
+                padding: 10px 10px 10px 24px;
+                color: var(--tableHeader-fontColor);
+                background-color: var(--tableHeader-backgroundColor);
+                border: none;
+                font-size: var(--tableHeader-fontSize);
+                font-weight: var(--tableHeader-fontWeight);
+                text-transform: var(--tableHeader-textTransform);
+            }
+        }
+    }
+
+    tbody {
+        tr:nth-child(even) {
+            background-color: var(--tableRow-backgroundColor);
+        }
+    }
+
+    .td_desc {
+        min-width: 55.5rem;
+    }
+}
+
+.cardBox {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+}
+
+.cardContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 20%;
+    border-radius: 8px;
+    padding: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    background-color: #ffffff;
+}
+
+.cardpanelOne {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.cardpanelTwo {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.cardpanelThree {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    text-decoration: underline var(--secondary-color);
+    color: var(--secondary-color);
+}
+
+.panelContent {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.cardHeadpanelOne {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dividerStyle {
+    border-bottom: 1px solid #ccc;
+}
+
+.status {
+    display: flex;
+    gap: 10px;
+}
+
+.completedStatus {
+    padding-left: 0;
+    padding-top: 0;
+    border-radius: 50px;
+    color: #027a48;
+    text-decoration: underline;
+    font-size: smaller;
+}
+
+.inprogressStatus {
+    padding-left: 0;
+    padding-top: 0;
+    border-radius: 50px;
+    color: #c11574;
+    text-decoration: underline;
+    font-size: smaller;
+}
+
+.rejectedStatus {
+    padding-left: 0;
+    padding-top: 0;
+    border-radius: 50px;
+    color: #b01111;
+    text-decoration: underline;
+}
+
+.vendorPanel {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.Colps {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.ColpsChilds {
+    display: flex;
+    width: 500px;
+    gap: 20px;
+}
+
+.ColpsheadingpanelOne {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.ColpsDatapanelOne {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.panelContentTitle {
+    font-size: small;
+}
+
+.hyperLinks {
+    color: var(--primary-color);
+    font-size: smaller;
+}
+
+.vendorLinks {
+    display: flex;
+    gap: 10px;
+    text-decoration: underline;
+    color: var(--primary-color);
+    font-size: smaller;
+}
+
+.dataItems {
+    font-size: smaller;
+}
+
+.sub_header {
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.lineStyles {
+    padding: 8px;
+    display: flex;
+}
+
+.vertical {
+    position: relative;
+}
+
+.verticalLine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1.5px;
+    background-color: #7a7676;
+    height: 100%;
+}
+
+.textContent_1 {
+    display: flex;
+    flex-direction: column;
+}
+
+.projectTitle {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-right: -70px;
+}
+
+.selected {
+    position: relative;
+}
+
+.selected::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #d0d5dd;
+}

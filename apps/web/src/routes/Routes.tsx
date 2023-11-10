@@ -284,6 +284,7 @@ import ViewReceivedGoods from '../component/project/projectComponent/myOrders/vi
 import VendorQuotesUpdate from '../component/purchaseRequest/vendorQuotesUpdate';
 import Reports from '../component/reports/reports';
 import FinanceInvoiceNewView from '../component/finance/invoiceNewView';
+import AllPurchaseRequest from '../component/purchaseRequest/allPurchaseRequest/purchaseRequestAllList';
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
 
@@ -406,7 +407,11 @@ const AppRoutes = () => {
   const ProtectedVendorQuotesUpdate =
     withLayoutAndProtection(VendorQuotesUpdate);
   const ProtectedReports = withLayoutAndProtection(Reports);
-  const ProtectedNewInvoiceView = withLayoutAndProtection(FinanceInvoiceNewView);
+  const ProtectedNewInvoiceView = withLayoutAndProtection(
+    FinanceInvoiceNewView
+  );
+  const ProtectedAllPurchaseRequestList =
+    withLayoutAndProtection(AllPurchaseRequest);
   return (
     <div>
       <Routes>
@@ -664,6 +669,10 @@ const AppRoutes = () => {
         />
         <Route path="/reports" element={<ProtectedReports />} />
         <Route path="/view-invoice/:id" element={<ProtectedNewInvoiceView />} />
+        <Route
+          path="/purchase-request-list-all"
+          element={<ProtectedAllPurchaseRequestList />}
+        />
       </Routes>
     </div>
   );
