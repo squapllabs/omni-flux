@@ -172,7 +172,7 @@ const VendorChooseModule = () => {
             <div
               className={Styles.logo}
               onClick={() => {
-                navigate(`/purchase-detail/${indentId}`, {
+                navigate(`/indent-request-detail/${indentId}`, {
                   state: { project_id: projectId },
                 });
               }}
@@ -279,11 +279,11 @@ const VendorChooseModule = () => {
                         <th className={Styles.tableHeading}>
                           Requested Quantity
                         </th>
-                        <th className={Styles.tableHeading}>Unit Price</th>
+                        {/* <th className={Styles.tableHeading}>Unit Price</th> */}
                         <th className={Styles.tableHeading}>
                           Allocated Quantity
                         </th>
-                        <th className={Styles.tableHeading}>Total Price</th>
+                        {/* <th className={Styles.tableHeading}>Total Price</th> */}
                         <th className={Styles.tableHeading}>Action</th>
                       </tr>
                     </thead>
@@ -302,9 +302,9 @@ const VendorChooseModule = () => {
                               <td>{item?.item_name}</td>
                               <td>{item?.uom_name}</td>
                               <td>{item?.indent_requested_quantity}</td>
-                              <td>
+                              {/* <td>
                                 {item?.rate ? formatBudgetValue(item?.rate) : 0}
-                              </td>
+                              </td> */}
                               <td>
                                 <div
                                   style={{ paddingTop: '7px', height: '40px' }}
@@ -333,14 +333,14 @@ const VendorChooseModule = () => {
                                   />
                                 </div>
                               </td>
-                              <td>
+                              {/* <td>
                                 {item?.rate
                                   ? formatBudgetValue(
                                       item?.rate *
                                         item?.purchase_requested_quantity
                                     )
                                   : 0}
-                              </td>
+                              </td> */}
                               <td>
                                 <div className={Styles.tablerow}>
                                   <DeleteIcon

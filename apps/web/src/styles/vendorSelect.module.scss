@@ -483,3 +483,38 @@
   align-items: center;
   gap: 10px;
 }
+
+
+
+.menuApproveIndentList {
+  position: absolute;
+  top: 0;
+  left: -3300%;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  z-index: 1;
+
+  div {
+    padding: 8px 12px;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &.disabled {
+      cursor: not-allowed;
+      color: #999;
+
+      &:hover {
+        background-color: inherit;
+        color: #999;
+      }
+    }
+
+    &:not(.disabled):hover {
+      background-color: #f0f0f0;
+      color: black;
+    }
+  }
+}

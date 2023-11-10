@@ -196,3 +196,12 @@ display: flex;
   padding-left: 10px;
   transform: translateY(18%);
 }
+
+.headingRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  cursor: pointer;
+  width: 100px;
+}

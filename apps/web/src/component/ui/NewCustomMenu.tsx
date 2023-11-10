@@ -42,6 +42,8 @@ const NewCustomMenu = ({ actions, name }: any) => {
               ? Styles.menuDropdownAbstract
               : name === 'BoQItems'
               ? Styles.menuDropdownItems
+              : name === 'ApproveIndentList'
+              ? Styles.menuApproveIndentList
               : Styles.menuDropdownOne
           }
         >

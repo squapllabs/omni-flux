@@ -29,8 +29,9 @@ import userService from '../../service/user-service';
 import CloseIcon from '../menu/icons/closeIcon';
 import AddIcon from '../menu/icons/addIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
-import TextArea from '../ui/CustomTextArea';
 import CustomSidePopup from '../ui/CustomSidePopup';
+import FilterOrderIcon from '../menu/icons/filterOrderIcon';
+import { handleSortByColumn } from './../../helper/common-function'
 
 const FileUploadValidationSchema = Yup.object().shape({
   file: Yup.mixed().required('Please upload a file'),
@@ -49,7 +50,6 @@ const HsnCodeList = () => {
   const { mutate: createNewHsnCode } = createHsnCode();
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
-  const [open, setOpen] = useState(false);
   const [reload, setReload] = useState(false);
   const [mode, setMode] = useState('');
   const [hsnCodeId, setHsnCodeId] = useState();
@@ -59,10 +59,6 @@ const HsnCodeList = () => {
   const [filter, setFilter] = useState(false);
   const [dataShow, setDataShow] = useState(false);
   const [openHsnForm, setOpenHsnForm] = useState(false);
-  const [buttonLabels, setButtonLabels] = useState([
-    { label: 'Active', value: 'AC' },
-    { label: 'Inactive', value: 'IN' },
-  ]);
   const [initialValues, setInitialValues] = useState({
     hsn_code_id: '',
     code: '',
@@ -82,11 +78,14 @@ const HsnCodeList = () => {
   const [value, setValue] = useState();
   const [openDelete, setOpenDelete] = useState(false);
   const [isResetDisabled, setIsResetDisabled] = useState(true);
+  const [sortColumn, setSortColumn] = useState('');
+  const [sortOrder, setSortOrder] = useState('desc');
+
   const hsnCodeData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
-    order_by_column: 'updated_date',
-    order_by_direction: 'desc',
+    order_by_column: sortColumn === '' ? 'created_date' : sortColumn,
+    order_by_direction: sortOrder,
     status: activeButton,
     global_search: filterValues.search_by_name,
   };
@@ -122,21 +121,9 @@ const HsnCodeList = () => {
     setOpenHsnForm(true);
   };
 
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
-    setFilterValues({
-      ...filterValues,
-      ['search_by_name']: event.target.value,
-    });
-    setIsResetDisabled(searchValue === '');
-    if (searchValue === '') {
-      handleReset();
-    }
-  };
-
   useEffect(() => {
     refetch();
-  }, [currentPage, rowsPerPage, activeButton]);
+  }, [currentPage, rowsPerPage, activeButton, sortColumn, sortOrder]);
 
   useEffect(() => {
     const handleSearch = setTimeout(() => {
@@ -144,33 +131,6 @@ const HsnCodeList = () => {
     }, 1000);
     return () => clearTimeout(handleSearch);
   }, [filterValues]);
-
-  /* Function for searching a HSN Code from the list */
-  const handleSearch = async () => {
-    const hsnData: any = {
-      limit: rowsPerPage,
-      offset: (currentPage - 1) * rowsPerPage,
-      order_by_column: 'updated_date',
-      order_by_direction: 'desc',
-      status: activeButton,
-      global_search: filterValues.search_by_name,
-    };
-    postDataForFilter(hsnData);
-    setDataShow(true);
-    setIsLoading(false);
-    setFilter(true);
-  };
-  /* Function for resting the table to its actual state after search */
-  const handleReset = async () => {
-    setDataShow(false);
-    setIsLoading(false);
-    setFilter(false);
-    setFilterValues({
-      search_by_name: '',
-    });
-    setIsLoading(false);
-    setIsResetDisabled(true);
-  };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -181,10 +141,6 @@ const HsnCodeList = () => {
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
-  };
-
-  const handleGroupButtonClick = (value: string) => {
-    setActiveButton(value);
   };
 
   const formik = useFormik({
@@ -485,7 +441,15 @@ const HsnCodeList = () => {
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>HSN Code</th>
+                          <th
+                            onClick={() => handleSortByColumn('code', sortOrder, setSortOrder, setSortColumn)}
+                          >
+                            <div className={Styles.headingRow}>
+                              <div>HSN code</div><div>
+                                <FilterOrderIcon />
+                              </div>
+                            </div>
+                          </th>
                           <th>Description</th>
                           {activeButton === 'AC' && <th>Actions</th>}
                         </tr>
@@ -513,7 +477,7 @@ const HsnCodeList = () => {
                                       {data.description
                                         ? data.description.length > 30
                                           ? data.description.substring(0, 30) +
-                                            '...'
+                                          '...'
                                           : data.description
                                         : '-'}
                                     </span>
@@ -559,7 +523,7 @@ const HsnCodeList = () => {
                                     {data.description
                                       ? data.description.length > 30
                                         ? data.description.substring(0, 30) +
-                                          '...'
+                                        '...'
                                         : data.description
                                       : '-'}
                                   </span>

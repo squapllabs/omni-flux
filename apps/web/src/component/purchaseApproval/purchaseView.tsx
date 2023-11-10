@@ -137,7 +137,7 @@ const PurchaseView = () => {
         <div className={Styles.box}>
           <ProjectSubheader
             description="Manage your Indent raise detail across your project"
-            navigation={'/purchase-view'}
+            navigation={'/approved-indent-list'}
             title="Indent Request Detail List"
           />
           <div className={Styles.dividerStyle}></div>
