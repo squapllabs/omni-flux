@@ -24,6 +24,7 @@ const createVendor = async (body: vendorBody) => {
       minimum_order_quantity,
       notes,
       created_by,
+      code,
     } = body;
     const vendorDetails = await vendorDao.add(
       vendor_name,
@@ -40,7 +41,8 @@ const createVendor = async (body: vendorBody) => {
       lead_time,
       minimum_order_quantity,
       notes,
-      created_by
+      created_by,
+      code
     );
     const result = { message: 'success', status: true, data: vendorDetails };
     return result;
@@ -74,6 +76,7 @@ const updateVendor = async (body: vendorBody) => {
       notes,
       updated_by,
       ratings,
+      code,
       vendor_id,
     } = body;
     let result = null;
@@ -96,6 +99,7 @@ const updateVendor = async (body: vendorBody) => {
         notes,
         updated_by,
         ratings,
+        code,
         vendor_id
       );
       result = { message: 'success', status: true, data: vendorDetails };
@@ -316,6 +320,38 @@ const getByVendorName = async (vendor_name: string) => {
   }
 };
 
+/**
+ * Method to get Vendor By Vendor Code
+ * @param code
+ * @returns
+ */
+const getByCode = async (code: string) => {
+  try {
+    let result = null;
+    const vendorData = await vendorDao.getByCode(code);
+    if (vendorData) {
+      result = {
+        message: 'code is already exist',
+        status: true,
+        is_exist: true,
+        data: vendorData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'code does not exist',
+        status: false,
+        is_exist: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log('Error occurred in getByCode vendor service : ', error);
+    throw error;
+  }
+};
+
 export {
   createVendor,
   updateVendor,
@@ -325,4 +361,5 @@ export {
   searchVendor,
   getByEmailId,
   getByVendorName,
+  getByCode,
 };

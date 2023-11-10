@@ -402,6 +402,7 @@ model item {
   item_type_id                       Int?
   brand_id                           Int?
   rate                               Float?
+  code                               String?
   is_delete                          Boolean                              @default(false)
   hsn_code                           hsn_code?                            @relation(fields: [hsn_code_id], references: [hsn_code_id])
   gst                                gst?                                 @relation(fields: [gst_id], references: [gst_id])
@@ -700,6 +701,7 @@ model vendor {
   minimum_order_quantity        Int?
   notes                         String?
   ratings                       String?
+  code                          String?
   is_delete                     Boolean            @default(false)
   created_date                  DateTime           @default(now())
   updated_date                  DateTime

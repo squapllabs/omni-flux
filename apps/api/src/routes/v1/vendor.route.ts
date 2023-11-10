@@ -9,6 +9,7 @@ import {
   createVendor,
   deleteByVendorId,
   getAllVendor,
+  getByCode,
   getByEmailId,
   getByVendorId,
   getByVendorName,
@@ -49,5 +50,7 @@ router.get(
   authMiddleware,
   getByVendorName
 );
+
+router.get('/check-duplicate-code/:code', authMiddleware, getByCode);
 
 export default router;

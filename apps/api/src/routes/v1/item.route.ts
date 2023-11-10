@@ -12,6 +12,7 @@ import {
   search,
   checkDuplicateName,
   getByIndentRequestId,
+  getByCode,
 } from '../../controller/item.controller';
 import { itemUpdateValidator } from '../../validations/item';
 import { runValidation } from '../../validations/index';
@@ -53,5 +54,7 @@ router.get(
   authMiddleware,
   getByIndentRequestId
 );
+
+router.get('/check-duplicate-code/:code', authMiddleware, getByCode);
 
 export default router;
