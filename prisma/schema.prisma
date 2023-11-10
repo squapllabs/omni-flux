@@ -699,6 +699,7 @@ model vendor {
   lead_time                     String?            @db.VarChar(20)
   minimum_order_quantity        Int?
   notes                         String?
+  ratings                       String?
   is_delete                     Boolean            @default(false)
   created_date                  DateTime           @default(now())
   updated_date                  DateTime

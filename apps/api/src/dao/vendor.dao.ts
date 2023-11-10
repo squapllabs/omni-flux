@@ -70,6 +70,7 @@ const edit = async (
   minimum_order_quantity: number,
   notes: string,
   updated_by: number,
+  ratings: string,
   vendor_id: number,
   connectionObj = null
 ) => {
@@ -96,6 +97,7 @@ const edit = async (
         minimum_order_quantity,
         notes,
         updated_by,
+        ratings,
         updated_date: currentDate,
       },
     });

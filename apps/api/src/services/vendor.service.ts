@@ -73,6 +73,7 @@ const updateVendor = async (body: vendorBody) => {
       minimum_order_quantity,
       notes,
       updated_by,
+      ratings,
       vendor_id,
     } = body;
     let result = null;
@@ -94,6 +95,7 @@ const updateVendor = async (body: vendorBody) => {
         minimum_order_quantity,
         notes,
         updated_by,
+        ratings,
         vendor_id
       );
       result = { message: 'success', status: true, data: vendorDetails };
