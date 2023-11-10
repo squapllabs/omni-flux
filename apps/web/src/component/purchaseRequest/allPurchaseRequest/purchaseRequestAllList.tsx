@@ -1,23 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import Styles from '../../styles/newStyles/purchaseRequest.module.scss';
-import ProjectSubheader from '../project/projectSubheader';
-import { useGetAllProjectDrop } from '../../hooks/project-hooks';
-import AutoCompleteSelect from '../ui/AutoCompleteSelect';
-import Input from '../ui/Input';
-import SearchIcon from '../menu/icons/search';
+import React, { useState, useEffect } from 'react';
+import Styles from '../../../styles/newStyles/purchaseRequestList.module.scss';
+import ProjectSubheader from '../../project/projectSubheader';
+import Input from '../../ui/Input';
+import SearchIcon from '../../menu/icons/search';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getBySearchPR } from '../../hooks/purchase-request-hooks';
+import { getBySearchPR } from '../../../hooks/purchase-request-hooks';
 import { format } from 'date-fns';
-import Button from '../ui/Button';
-import DownloadIcon from '../menu/icons/pdfDownloadIcon';
-import ReportGenerator from '../reportGenerator/pdfReport/requestForQuotation';
-import PrintIcon from '../menu/icons/printIcon';
-import SiteNavigateIcon from '../menu/icons/siteNavigateIcon';
-import CustomLoader from '../ui/customLoader';
-import CustomGroupButton from '../ui/CustomGroupButton';
+import ReportGenerator from '../../reportGenerator/pdfReport/requestForQuotation';
+import PrintIcon from '../../menu/icons/printIcon';
+import SiteNavigateIcon from '../../menu/icons/siteNavigateIcon';
+import CustomLoader from '../../ui/customLoader';
+import CustomGroupButton from '../../ui/CustomGroupButton';
 
-const PurchaseRequestList = () => {
-  const routeParams = useParams();
+const AllPurchaseRequest = () => {
   const navigate = useNavigate();
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: '' },
@@ -38,7 +33,7 @@ const PurchaseRequestList = () => {
     order_by_direction: 'asc',
     status: 'AC',
     global_search: '',
-    indent_request_id: Number(routeParams?.id),
+    // indent_request_id: Number(routeParams?.id),
     purchase_request_status: activeButton,
     purchase_request_code: filterValue?.search_by_code,
   };
@@ -48,9 +43,6 @@ const PurchaseRequestList = () => {
     refetch,
     isFetched,
   } = getBySearchPR(purchaseData);
-
-  const { data: getAllmasterDataForDrop = [] } = useGetAllProjectDrop();
-
   const handleReportGenerator = async (data: any) => {
     await ReportGenerator(data);
   };
@@ -59,7 +51,6 @@ const PurchaseRequestList = () => {
     const formattedDate = format(currentDate, 'dd MMM yyyy');
     return formattedDate;
   };
-  const handleChange = () => {};
   const handleQuotation = (value: any) => {
     navigate(`/vendor-select/${Number(value?.purchase_request_id)}`, {
       state: {
@@ -95,11 +86,10 @@ const PurchaseRequestList = () => {
   return (
     <div className={Styles.container}>
       <CustomLoader loading={loading || !isFetched} size={30}>
-        {' '}
         <div>
           <ProjectSubheader
             title="Purchase Request List"
-            navigation="/approved-indent-list"
+            navigation="/purchase-view"
             description="List of purchase request on every project"
           />
         </div>
@@ -115,7 +105,7 @@ const PurchaseRequestList = () => {
           </div>
         ) : (
           <div>
-            <div className={Styles.sub_header}>
+            {/* <div className={Styles.sub_header}>
               <div style={{ display: 'flex' }}>
                 <div
                   style={{
@@ -186,7 +176,7 @@ const PurchaseRequestList = () => {
                 </div>
                 <div></div>
               </div>
-            </div>
+            </div> */}
             <div className={Styles.selected}></div>
             <div className={Styles.searchField}>
               <div className={Styles.inputFilter}>
@@ -201,7 +191,6 @@ const PurchaseRequestList = () => {
                   <Input
                     width="260px"
                     prefixIcon={<SearchIcon />}
-                    // label="PR Code"
                     name="search_by_code"
                     value={filterValue.search_by_code}
                     onChange={(e) => {
@@ -209,8 +198,6 @@ const PurchaseRequestList = () => {
                         ...filterValue,
                         ['search_by_code']: e.target.value,
                       });
-                      //   setCurrentPage(1);
-                      //   setIsResetDisabled(false);
                     }}
                     placeholder="Search by PR Code"
                   />
@@ -220,7 +207,6 @@ const PurchaseRequestList = () => {
           </div>
         )}
         <div></div>
-        {/* <div> */}
         <div className={Styles.cardBox}>
           {getPRbasedOnIndent?.content?.map((items: any, index: number) => {
             return (
@@ -234,12 +220,9 @@ const PurchaseRequestList = () => {
                   <div className={Styles.ColpsChilds}>
                     <div className={Styles.ColpsheadingpanelOne}>
                       <span className={Styles.panelContentTitle}>PR Code:</span>
-                      {/* <span className={Styles.panelContentTitle}>
-                        Indent Code :
-                      </span> */}
-                      {/* <span className={Styles.panelContentTitle}>
-                        PO Code :
-                      </span> */}
+                      <span className={Styles.panelContentTitle}>
+                        No of Items :
+                      </span>
                       <span className={Styles.panelContentTitle}>
                         Vendors :
                       </span>
@@ -256,6 +239,12 @@ const PurchaseRequestList = () => {
                         ) : (
                           items?.purchase_request_code
                         )}
+                      </span>
+                      <span>
+                        {
+                          items?.vendor_quotes[0]?.vendor_quotation_details
+                            ?.length
+                        }
                       </span>
                       {/* <span>
                         {items?.indent_request_data?.indent_request_code}
@@ -330,26 +319,32 @@ const PurchaseRequestList = () => {
                   <div className={Styles.ColpsChilds}>
                     <div className={Styles.ColpsheadingpanelOne}>
                       <span className={Styles.panelContentTitle}>
-                        PR raised Date :
+                        Indent Code :
                       </span>
                       <span className={Styles.panelContentTitle}>
-                        No of Items :
+                        PR raised Date :
                       </span>
+                      {/* <span className={Styles.panelContentTitle}>
+                        No of Items :
+                      </span> */}
                       <span className={Styles.panelContentTitle}></span>
                     </div>
                     <div className={Styles.ColpsDatapanelOne}>
-                      <span>
+                      <span className={Styles.dataItems}>
+                        {items?.indent_request_data?.indent_request_code}
+                      </span>
+                      <span className={Styles.dataItems}>
                         {' '}
                         {dateFormat(
                           items?.request_date ? items?.request_date : new Date()
                         )}
                       </span>
-                      <span>
+                      {/* <span>
                         {
                           items?.vendor_quotes[0]?.vendor_quotation_details
                             ?.length
                         }
-                      </span>
+                      </span> */}
                       <span></span>
                     </div>
                   </div>
@@ -385,7 +380,7 @@ const PurchaseRequestList = () => {
                           ? 'Moved to PO'
                           : ''}
                       </span>
-                      <span>
+                      <span className={Styles.dataItems}>
                         {dateFormat(
                           items?.indent_request_data?.expected_delivery_date
                             ? items?.indent_request_data?.expected_delivery_date
@@ -454,8 +449,7 @@ const PurchaseRequestList = () => {
         </div>
       </CustomLoader>
     </div>
-    // </div>
   );
 };
 
-export default PurchaseRequestList;
+export default AllPurchaseRequest;

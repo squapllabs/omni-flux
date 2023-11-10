@@ -2,6 +2,7 @@ import vendorService from '../../service/vendor-service';
 
 export const vendorErrorMessages = {
   ENTER_VENDORNAME: 'Vendor name is required',
+  VENDOR_EXISTS: 'Vendor already exists',
   ENTER_CONTACTPERSONNAME: 'Contact person name is required',
   ENTER_EMAIL: 'Contact email is required',
   ENTER_VALID_EMAIL: 'Please enter a valid email',
@@ -25,7 +26,23 @@ export const getVendorCreationYupschema = (yup: any) => {
     vendor_name: yup
       .string()
       .max(100, vendorErrorMessages.ENTER_MAX_NAME)
-      .required(vendorErrorMessages.ENTER_VENDORNAME),
+      .required(vendorErrorMessages.ENTER_VENDORNAME)
+      .test(
+        'vendor-name dublicate',
+        vendorErrorMessages.VENDOR_EXISTS,
+        async (value: any) => {
+          if (value) {
+            const response = await vendorService.getByVendorName(value);
+            console.log("response 000", response);
+
+            if (response?.is_exist === true) {
+              return false;
+            } else {
+              return true;
+            }
+          }
+        }
+      ),
     contact_person: yup
       .string()
       .max(50, vendorErrorMessages.ENTER_MAX_NAME)
@@ -40,7 +57,6 @@ export const getVendorCreationYupschema = (yup: any) => {
         async (value: any) => {
           if (value) {
             const response = await vendorService.getOneVendorEmail(value);
-            console.log('email id check==>', response);
             if (response?.is_exist === true) {
               return false;
             } else {
@@ -108,6 +124,22 @@ export const getVendorEditYupschema = (yup: any) => {
       .string()
       .max(100, vendorErrorMessages.ENTER_MAX_NAME)
       .required(vendorErrorMessages.ENTER_VENDORNAME),
+      // .test(
+      //   'vendor-name dublicate',
+      //   vendorErrorMessages.VENDOR_EXISTS,
+      //   async (value: any) => {
+      //     if (value) {
+      //       const response = await vendorService.getByVendorName(value);
+      //       console.log("response 000", response);
+
+      //       if (response?.is_exist === true) {
+      //         return false;
+      //       } else {
+      //         return true;
+      //       }
+      //     }
+      //   }
+      // ),
     contact_person: yup
       .string()
       .max(50, vendorErrorMessages.ENTER_MAX_NAME)
