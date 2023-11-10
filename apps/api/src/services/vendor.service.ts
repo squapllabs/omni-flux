@@ -282,6 +282,38 @@ const getByEmailId = async (contact_email: string) => {
   }
 };
 
+/**
+ * Method to get Vendor By Vendor Name
+ * @param vendor_name
+ * @returns
+ */
+const getByVendorName = async (vendor_name: string) => {
+  try {
+    let result = null;
+    const vendorData = await vendorDao.getByVendorName(vendor_name);
+    if (vendorData.length > 0) {
+      result = {
+        message: 'vendor_name is already exist',
+        status: true,
+        is_exist: true,
+        data: vendorData,
+      };
+      return result;
+    } else {
+      result = {
+        message: 'vendor_name does not exist',
+        status: false,
+        is_exist: false,
+        data: null,
+      };
+      return result;
+    }
+  } catch (error) {
+    console.log('Error occurred in getByVendorName vendor service : ', error);
+    throw error;
+  }
+};
+
 export {
   createVendor,
   updateVendor,
@@ -290,4 +322,5 @@ export {
   deleteVendor,
   searchVendor,
   getByEmailId,
+  getByVendorName,
 };

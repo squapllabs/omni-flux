@@ -87,6 +87,18 @@ const getAllVendors = async () => {
   }
 };
 
+const getByVendorName = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/vendor/check-duplicate-name/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getting all Vendors:', error);
+    throw error;
+  }
+};
+
 export default {
   filterVendor,
   deleteVendor,
@@ -94,5 +106,6 @@ export default {
   getOneVendorById,
   updateVendors,
   getOneVendorEmail,
-  getAllVendors
+  getAllVendors,
+  getByVendorName
 }

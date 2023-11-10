@@ -618,6 +618,7 @@ const searchIndentRequest = async (body) => {
       return tempIndentRequestData;
     } else {
       const tempIndentRequestData = {
+        total_count: 0,
         message: 'No data found',
         status: false,
         is_available: false,
