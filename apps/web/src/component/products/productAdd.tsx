@@ -46,6 +46,7 @@ const ProductAdd = () => {
   const [initialValues, setInitialValues] = useState({
     item_id: '',
     item_name: '',
+    code: '',
     description: '',
     hsn_code_id: '',
     gst_id: '',
@@ -62,6 +63,7 @@ const ProductAdd = () => {
         setInitialValues({
           item_id: data?.data?.item_id,
           item_name: data?.data?.item_name,
+          code: data?.data?.code,
           description: data?.data?.description,
           hsn_code_id: data?.data?.hsn_code_id,
           gst_id: data?.data?.gst_id,
@@ -84,6 +86,7 @@ const ProductAdd = () => {
         const Object: any = {
           item_id: values.item_id,
           item_name: values.item_name,
+          code: values.code,
           description: values.description,
           item_type_id: Number(values.item_type_id),
           gst_id: Number(values.gst_id),
@@ -106,6 +109,7 @@ const ProductAdd = () => {
       } else {
         const Object: any = {
           item_name: values.item_name,
+          code:values.code,
           description: values.description,
           item_type_id: Number(values.item_type_id),
           gst_id: Number(values.gst_id),
@@ -161,6 +165,20 @@ const ProductAdd = () => {
                 />
               </div>
               <div style={{ width: '30%' }}>
+                <Input
+                  label="Item Code"
+                  placeholder="Enter item code"
+                  name="code"
+                  mandatory={true}
+                  value={formik.values.code}
+                  onChange={formik.handleChange}
+                  disabled={disable}
+                  error={formik.touched.code && formik.errors.code}
+                />
+              </div>
+            </div>
+            <div className={Styles.itemField1}>
+              <div style={{ width: '30%' }}>
                 <Select
                   name="item_type_id"
                   label="Item Type"
@@ -184,8 +202,6 @@ const ProductAdd = () => {
                   ))}
                 </Select>
               </div>
-            </div>
-            <div className={Styles.itemField1}>
               <div style={{ width: '30%' }}>
                 <TextArea
                   name="description"
@@ -201,6 +217,10 @@ const ProductAdd = () => {
                   }
                 />
               </div>
+
+            </div>
+
+            <div className={Styles.itemField1}>
               <div style={{ width: '30%' }}>
                 <Input
                   label="Rate"
@@ -212,9 +232,6 @@ const ProductAdd = () => {
                   error={formik.touched.rate && formik.errors.rate}
                 />
               </div>
-            </div>
-
-            <div className={Styles.itemField1}>
               <div style={{ width: '30%' }}>
                 <AutoCompleteSelect
                   name="gst_id"
@@ -231,6 +248,8 @@ const ProductAdd = () => {
                   mandatory={true}
                 />
               </div>
+            </div>
+            <div className={Styles.itemField1}>
               <div style={{ width: '30%' }}>
                 <AutoCompleteSelect
                   name="uom_id"
@@ -248,8 +267,6 @@ const ProductAdd = () => {
                   disabled={disable}
                 />
               </div>
-            </div>
-            <div className={Styles.itemField1}>
               <div style={{ width: '30%' }}>
                 <AutoCompleteSelect
                   name="hsn_code_id"
@@ -269,22 +286,24 @@ const ProductAdd = () => {
                   disabled={disable}
                 />
               </div>
-              <div style={{ width: '30%' }}>
-                <AutoCompleteSelect
-                  name="brand_id"
-                  label="Brand"
-                  defaultLabel="Select from options"
-                  placeholder="Select from options"
-                  value={formik.values.brand_id}
-                  onChange={formik.handleChange}
-                  mandatory={true}
-                  error={formik.touched.brand_id && formik.errors.brand_id}
-                  onSelect={(value) => {
-                    formik.setFieldValue('brand_id', value);
-                  }}
-                  optionList={getAllBrandList}
-                />
-              </div>
+            </div>
+            <div className={Styles.itemFields2}>
+            <div style={{ width: '33%' }}>
+              <AutoCompleteSelect
+                name="brand_id"
+                label="Brand"
+                defaultLabel="Select from options"
+                placeholder="Select from options"
+                value={formik.values.brand_id}
+                onChange={formik.handleChange}
+                mandatory={true}
+                error={formik.touched.brand_id && formik.errors.brand_id}
+                onSelect={(value) => {
+                  formik.setFieldValue('brand_id', value);
+                }}
+                optionList={getAllBrandList}
+              />
+            </div>
             </div>
           </div>
           <div className={Styles.buttonFields}>
