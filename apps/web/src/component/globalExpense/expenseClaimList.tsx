@@ -2,16 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Button from '../ui/Button';
 import AddIcon from '../menu/icons/addIcon';
 import CustomSidePopup from '../ui/CustomSidePopup';
-import ProjectSiteExpenseForm from '../project/projectComponent/projectSiteExpense/projectSiteExpenseForm';
 import GlobalExpenseForm from './expenseForm';
-import { useNavigate, useParams } from 'react-router-dom';
 import Styles from '../../styles/newStyles/siteExpenseList.module.scss';
 import MoneyIcon from '../menu/icons/moneyIcon';
-import { getProjectSite } from '../../hooks/project-hooks';
-import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import { getBySearchsiteExpense } from '../../hooks/expense-hook';
-import { format } from 'date-fns';
 import EditIcon from '../menu/icons/newEditIcon';
 import CustomLoader from '../ui/customLoader';
 import CustomPagination from '../menu/CustomPagination';
@@ -20,14 +15,13 @@ import ViewIcon from '../menu/icons/newViewIcon';
 import ExpenseDetailApprove from '../project/projectComponent/projectSiteExpense/approval/siteExpenseDetailApprove';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
+import ProjectSubheader from '../project/projectSubheader';
 
 const ExpenseList = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userID = encryptedData.userId;
-  const routeParams = useParams();
   let rowIndex = 0;
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [expenseOpen, setExpenseOpen] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>('All');
@@ -45,13 +39,6 @@ const ExpenseList = () => {
     { label: 'Completed', value: 'Completed' },
   ]);
 
-  // const { data: getSiteList, isLoading: siteLoading } = getProjectSite(
-  //   Number(routeParams?.id)
-  // );
-  // const initialSiteId =
-  //   !siteLoading && getSiteList ? getSiteList[0]?.value : null;
-  // const [filterValue, setFilterValue] = useState(initialSiteId);
-
   const {
     mutate: postDataForFilter,
     data: getExpenseList,
@@ -66,7 +53,7 @@ const ExpenseList = () => {
       order_by_direction: 'desc',
       status: 'AC',
       expense_status: activeButton,
-      // user_id: userID
+      user_id: userID,
     };
     postDataForFilter(demo);
   };
@@ -120,70 +107,43 @@ const ExpenseList = () => {
 
   useEffect(() => {
     handleSearch();
-  }, [
-    currentPage,
-    rowsPerPage,
-    // filterValue,
-    activeButton,
-    reload,
-    // getSiteList,
-  ]);
+  }, [currentPage, rowsPerPage, activeButton, reload]);
 
   return (
     <div className={Styles.container}>
+      <ProjectSubheader
+        title="Expense List"
+        // description="Create your Project with mandatory Details"
+        navigation="/Settings"
+      />
       <CustomLoader loading={fetchLoader} size={48}>
         {/* {getSiteList ? ( */}
         <div>
           <div className={Styles.topHeading}>
-            <div className={Styles.subHeading}>
+            {/* <div className={Styles.subHeading}>
               <MoneyIcon width={30} height={30} color="black" />
-              <h3>SITE Claim</h3>
-            </div>
-            <div>
-              {/* {getSiteList && (
-                  <AutoCompleteSelect
-                    name="site_id"
-                    label="Site"
-                    mandatory={true}
-                    optionList={getSiteList}
-                    value={
-                      filterValue === null ? Number(initialSiteId) : filterValue
-                    }
-                    onSelect={(value: any) => {
-                      setFilterValue(value);
-                    }}
-                  />
-                )} */}
-            </div>
-            <div className={Styles.sub_header}>
-              {getExpenseList?.expense_statistics?.total_expenses === 0 ? (
-                ''
-              ) : (
-                <div style={{ padding: '8px', display: 'flex' }}>
-                  <div className={Styles.vertical}>
-                    <div className={Styles.verticalLine}></div>
-                  </div>
-                </div>
-              )}
-            </div>
+              <h3>Expense Claim</h3>
+            </div> */}
             <div>
               {getExpenseList?.expense_statistics?.total_expenses === 0 ? (
                 ' '
               ) : (
-                <Button
-                  type="button"
-                  color="primary"
-                  shape="rectangle"
-                  size="small"
-                  justify="center"
-                  icon={<AddIcon width={20} color="white" />}
-                  onClick={(e) => {
-                    setOpen(true);
-                    setMode('Add');
-                  }}
-                >
-                  Add Claim
-                </Button>
+                <div style={{ padding: '8px', display: 'flex' }}>
+                  <Button
+                    type="button"
+                    color="primary"
+                    shape="rectangle"
+                    size="small"
+                    justify="center"
+                    icon={<AddIcon width={20} color="white" />}
+                    onClick={(e) => {
+                      setOpen(true);
+                      setMode('Add');
+                    }}
+                  >
+                    Add Claim
+                  </Button>
+                </div>
               )}
             </div>
           </div>
@@ -360,7 +320,7 @@ const ExpenseList = () => {
                         </table>
                       </div>
                     </div>
-                    <div>
+                    <div className={Styles.pagination}>
                       <CustomPagination
                         currentPage={currentPage}
                         totalPages={getExpenseList?.total_page}
@@ -535,29 +495,6 @@ const ExpenseList = () => {
             width={'90%'}
           />
         </div>
-        {/* // ) : (
-        //   <div>
-        //     <div className={Styles.subHeading}>
-        //       <MoneyIcon width={30} height={30} color="black" />
-        //       <h3>SITE Claim</h3>
-        //     </div>
-        //     <div className={Styles.emptyDataHandling}>
-        //       <div className={Styles.image}>
-        //         <img src="/siteAdd.png" width="70%" height="20%" />
-        //       </div>
-        //       <div>
-        //         <h5 className={Styles.textmax}>
-        //           No sites added to this Project
-        //         </h5>
-        //       </div>
-        //       <div>
-        //         <p className={Styles.textmin}>
-        //           Create a site for this project by going to the previous menu.
-        //         </p>
-        //       </div>
-        //     </div>
-        //   </div>
-        // )} */}
       </CustomLoader>
     </div>
   );

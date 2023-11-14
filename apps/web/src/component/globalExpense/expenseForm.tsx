@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import SiteExpensesForm from '../expanses/siteExpensesForm';
 import Styles from '../../styles/newStyles/projectSiteExpense.module.scss';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useFormik } from 'formik';
-import { createsiteExpense, updatesiteExpense } from '../../hooks/expense-hook';
+import {
+  createGlobalExpense,
+  updateGlobalExpense,
+} from '../../hooks/expense-hook';
 import { format } from 'date-fns';
 import * as Yup from 'yup';
-import { getCreateValidateyup } from '../../helper/constants/siteExpanse-constants';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import {
@@ -15,12 +16,7 @@ import {
 } from '../../hooks/project-hooks';
 import DatePicker from '../ui/CustomDatePicker';
 import SiteExpensesDetails from '../project/projectComponent/projectSiteExpense/siteExpensesDetails';
-import Input from '../ui/Input';
-import TickIcon from '../menu/icons/tickIcon';
-import EnrichIcon from '../menu/icons/enrichIcon';
-import FlagIcon from '../menu/icons/flagIcon';
 import Button from '../ui/Button';
-import Checkbox from '../ui/Checkbox';
 import CustomConfirmDialogBox from '../ui/CustomConfirmDialogBox';
 import CustomDialogBox from '../ui/CustomDialog';
 import siteExpenseService from '../../service/expense-service';
@@ -68,9 +64,10 @@ const GlobalExpenseForm: React.FC = (props: any) => {
     expense_code: '',
     bill_date: currentDate.toISOString().slice(0, 10),
     expenseList: [],
+    type: '',
   });
   const [errors, setErrors] = useState<any>();
-  const validationSchema = Yup.object().shape({});
+  //   const validationSchema = Yup.object().shape({});
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [openConfirm, setOpenConfirm] = useState(false);
@@ -78,8 +75,7 @@ const GlobalExpenseForm: React.FC = (props: any) => {
   const [loader, setLoader] = useState(false);
   const [expenseBill, setExpenseBill] = useState<any>([]);
   const [totalAmount, setTotalAmount] = useState<any>();
-  const [filterValue, setFilterValue] = useState<any>({});
-  const [siteValue, setSiteValue] = useState<any>({});
+  //   const [filterValue, setFilterValue] = useState<any>({});
   const [siteData, setSiteData] = useState();
   // const [checked, setChecked] = useState(false);
   const [tableView, setTableView] = useState(false);
@@ -90,10 +86,10 @@ const GlobalExpenseForm: React.FC = (props: any) => {
   const { data: getSiteList } = getProjectSite(Number(projectId));
 
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
-    createsiteExpense();
+    createGlobalExpense();
 
   const { mutate: updateSiteExpenseData, isLoading: updateLoader } =
-    updatesiteExpense();
+    updateGlobalExpense();
   const drafthandler = () => {
     formik.setFieldValue('submitType', 'Draft');
     formik.submitForm();
@@ -124,7 +120,7 @@ const GlobalExpenseForm: React.FC = (props: any) => {
   };
 
   const fetchProjectSiteData = async (value: any) => {
-    if (value) {
+    if (value !== undefined) {
       const getData = await projectService.getOneProjectSite(value);
       const arr: any = [];
       const siteList = getData?.data.map((site: any, index: any) => {
@@ -168,6 +164,7 @@ const GlobalExpenseForm: React.FC = (props: any) => {
         total_amount: datas?.data?.total_amount,
         expense_code: datas?.data?.expense_code,
         expenseList: datas?.data?.expense_details,
+        type: '',
       });
     };
 
@@ -183,11 +180,33 @@ const GlobalExpenseForm: React.FC = (props: any) => {
     }, 0);
     setTotalAmount(Number(totalSelectedPrice));
   }, [expenseList]);
+
   const formik = useFormik({
     initialValues,
     validationSchema: Yup.object().shape({
-      project_id: Yup.number().required(" "),
-      site_id: Yup.number().required(" "),
+      type: Yup.string().trim().required(' '),
+      project_id: Yup.string().test(
+        'description-availability',
+        'Project is required',
+        async function (value, { parent }: Yup.TestContext) {
+          const modetype = parent.type;
+          if (modetype === 'Project Based' && value === undefined) {
+            return false;
+          }
+          return true;
+        }
+      ),
+      site_id: Yup.string().test(
+        'description-availability',
+        'Site is required',
+        async function (value, { parent }: Yup.TestContext) {
+          const modeProject = parent.project_id;
+          if (modeProject > 0 && value === undefined) {
+            return false;
+          }
+          return true;
+        }
+      ),
     }),
     enableReinitialize: true,
     onSubmit: async (values) => {
@@ -209,7 +228,6 @@ const GlobalExpenseForm: React.FC = (props: any) => {
               '',
               async function (value, { parent }: Yup.TestContext) {
                 let bill_type = parent.bill_type;
-                console.log('bill_details', bill_type);
                 if (bill_type === 'VOUCHER' && value > 5000) {
                   setMessage(
                     'In bill type voucher amount should not be more then 5000'
@@ -230,8 +248,6 @@ const GlobalExpenseForm: React.FC = (props: any) => {
               'Site Expense is already present',
               async function (value, { parent }: Yup.TestContext) {
                 let bill_details = parent.bill_details;
-                console.log('bill_details', bill_details);
-                console.log('bill_detailslenght', bill_details.length);
                 if (
                   bill_details?.length < 0 &&
                   bill_details[0]?.is_delete === 'Y'
@@ -243,7 +259,6 @@ const GlobalExpenseForm: React.FC = (props: any) => {
                 ) {
                   return true;
                 } else {
-                  console.log('open');
                   setMessage('Bill is Missing');
                   setOpenSnack(true);
                   return false;
@@ -273,7 +288,7 @@ const GlobalExpenseForm: React.FC = (props: any) => {
               },
               0
             );
-            if (values.expense_id === '') {
+            if (values.expense_id === '' && values.type === 'Project Based') {
               const object: any = {
                 site_id: values?.site_id,
                 project_id: values?.project_id,
@@ -299,20 +314,56 @@ const GlobalExpenseForm: React.FC = (props: any) => {
                 status: statusData,
                 total_amount: Number(totalSelectedPrice),
               };
-              console.log("object:::",object);
-              
-            //   postSiteExpenseData(object, {
-            //     onSuccess(data, variables, context) {
-            //       if (data?.status === true) {
-            //         setMessage('Site Expense has been added successfully !');
-            //         setOpenSnack(true);
-            //         setTimeout(() => {
-            //           props.setOpen(!props.open);
-            //           props.setReload(!props.reload);
-            //         }, 1000);
-            //       }
-            //     },
-            //   });
+              postSiteExpenseData(object, {
+                onSuccess(data, variables, context) {
+                  if (data?.status === true) {
+                    setMessage('Site Expense has been added successfully !');
+                    setOpenSnack(true);
+                    setTimeout(() => {
+                      props.setOpen(!props.open);
+                      props.setReload(!props.reload);
+                    }, 1000);
+                  }
+                },
+              });
+            } else if (values.expense_id === '' && values.type === 'General') {
+              const object: any = {
+                // site_id: values?.site_id,
+                // project_id: values?.project_id,
+                employee_name:
+                  encryptedData?.userData?.first_name +
+                  ' ' +
+                  encryptedData?.userData?.last_name,
+                employee_id: '',
+                employee_phone:
+                  encryptedData?.userData?.contact_no != null
+                    ? encryptedData?.userData?.contact_no
+                    : '',
+                bill_date: values.bill_date,
+                // end_date: values.end_date,
+                // start_date: values.start_date,
+                purpose: values.purpose,
+                department: values.department,
+                designation: values.designation,
+                expense_details: expenseList,
+                created_by: encryptedData?.userId,
+                user_id: userID,
+                bill_details: expenseBill,
+                status: statusData,
+                total_amount: Number(totalSelectedPrice),
+              };
+              postSiteExpenseData(object, {
+                onSuccess(data, variables, context) {
+                  if (data?.status === true) {
+                    setMessage('Expense has been added successfully !');
+                    setOpenSnack(true);
+                    setTimeout(() => {
+                      props.setOpen(!props.open);
+                      props.setReload(!props.reload);
+                    }, 1000);
+                  }
+                },
+              });
             } else {
               const object: any = {
                 site_id: values.site_id,
@@ -327,8 +378,6 @@ const GlobalExpenseForm: React.FC = (props: any) => {
                     ? encryptedData?.userData?.contact_no
                     : '',
                 bill_date: values.bill_date,
-                // end_date: values.end_date,
-                // start_date: values.start_date,
                 purpose: values.purpose,
                 department: values.department,
                 designation: values.designation,
@@ -369,11 +418,9 @@ const GlobalExpenseForm: React.FC = (props: any) => {
   });
 
   const options: any = [
-    { value: 'Project Based', label: 'Project Based' },
     { value: 'General', label: 'General' },
+    { value: 'Project Based', label: 'Project Based' },
   ];
-
-  console.log('value:::', filterValue.priority);
 
   return (
     <div>
@@ -410,13 +457,10 @@ const GlobalExpenseForm: React.FC = (props: any) => {
                       label="Type"
                       defaultLabel="Select from options"
                       placeholder="Select from options"
-                      value={filterValue?.type}
-                      onChange={(e) =>
-                        setFilterValue({
-                          ...filterValue,
-                          type: e.target.value,
-                        })
-                      }
+                      mandatory={true}
+                      onChange={formik.handleChange}
+                      value={formik.values.type}
+                      error={formik.touched.type && formik.errors.type}
                     >
                       {options?.map((item: any, index: any) => {
                         return <option value={item.value}>{item.label}</option>;
@@ -430,16 +474,22 @@ const GlobalExpenseForm: React.FC = (props: any) => {
                         label="Project"
                         placeholder="Select Project"
                         optionList={dropLoading === true ? [] : getProjectList}
-                        value={filterValue.project_id}
+                        value={formik.values.project_id}
                         error={
-                          formik.touched.project_id && formik.errors.project_id
+                          formik.values.type === 'Project Based'
+                            ? formik.touched.project_id &&
+                              formik.errors.project_id
+                            : ''
                         }
                         onSelect={(value) => {
                           formik.setFieldValue('project_id', value);
                           fetchProjectSiteData(value);
                         }}
                         mandatory={
-                          filterValue.type === 'Project Based' ? true : false
+                          formik.values.type === 'Project Based' ? true : false
+                        }
+                        disabled={
+                          formik.values.type === 'General' ? true : false
                         }
                         width="200px"
                       />
@@ -449,13 +499,21 @@ const GlobalExpenseForm: React.FC = (props: any) => {
                         name="site_id"
                         label="Site"
                         placeholder="Select Site"
+                        value={formik.values.site_id}
                         optionList={siteData}
                         onSelect={(value) => {
                           formik.setFieldValue('site_id', value);
                         }}
-                        error={formik.touched.site_id && formik.errors.site_id}
+                        error={
+                          formik.values.type === 'Project Based'
+                            ? formik.touched.site_id && formik.errors.site_id
+                            : ''
+                        }
                         mandatory={
-                          filterValue.type === 'Project Based' ? true : false
+                          formik.values.type === 'Project Based' ? true : false
+                        }
+                        disabled={
+                          formik.values.type === 'General' ? true : false
                         }
                         width="200px"
                       />
@@ -545,7 +603,7 @@ const GlobalExpenseForm: React.FC = (props: any) => {
             <div>
               <div className={Styles.addNewRowView}>
                 <MoneyIcon height={50} width={50} color="#475467" />
-                <h5>No Site Claims added for this site </h5>
+                <h5>No Claims added</h5>
                 <span className={Styles.spanContent}>
                   Let's add an claim now
                 </span>

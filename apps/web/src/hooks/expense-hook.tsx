@@ -60,6 +60,34 @@ const updatesiteExpense = () => {
   );
 };
 
+const createGlobalExpense = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return siteExpenseService.createGlobalExpense(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['getBySearchsiteExpense']);
+      },
+    }
+  );
+};
+
+const updateGlobalExpense = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return siteExpenseService.updateGlobalExpense(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['getBySearchsiteExpense']);
+      },
+    }
+  );
+};
+
 const updatesiteExpenseStatus = () => {
   const queryClient = useQueryClient();
   return useMutation(
@@ -117,10 +145,14 @@ const getBySearchsiteExpense = () => {
 };
 
 const useGetAllPaginatedExpense = (data: any) => {
-  return useQuery(['useGetAllPaginatedExpense'], () => siteExpenseService.filtersiteExpense(data), {
-    select: (data) => data,
-    staleTime: Infinity,
-  });
+  return useQuery(
+    ['useGetAllPaginatedExpense'],
+    () => siteExpenseService.filtersiteExpense(data),
+    {
+      select: (data) => data,
+      staleTime: Infinity,
+    }
+  );
 };
 
 const useBulkuploadSiteExpanse = () => {
@@ -147,5 +179,7 @@ export {
   updatesiteExpenseDetail,
   useGetAllPaginatedExpense,
   updatesiteExpenseStatus,
-  getBysiteExpenseCode
+  getBysiteExpenseCode,
+  createGlobalExpense,
+  updateGlobalExpense,
 };
