@@ -9,7 +9,9 @@ interface createItemBody {
   item_type_id: number;
   brand_id: number;
   rate: number;
+  code: string;
 }
+
 interface updateItemBody {
   item_id: number;
   item_name: string;
@@ -21,6 +23,7 @@ interface updateItemBody {
   item_type_id: number;
   brand_id: number;
   rate: number;
+  code: string;
 }
 
 export { createItemBody, updateItemBody };

@@ -12,6 +12,7 @@ const add = async (
   item_type_id: number,
   brand_id: number,
   rate: number,
+  code: string,
   connectionObj = null
 ) => {
   try {
@@ -33,6 +34,7 @@ const add = async (
         brand_id,
         is_delete: is_delete,
         rate,
+        code,
       },
     });
     return item;
@@ -217,6 +219,7 @@ const edit = async (
   item_type_id: number,
   brand_id: number,
   rate: number,
+  code: string,
   connectionObj = null
 ) => {
   try {
@@ -237,6 +240,7 @@ const edit = async (
         item_type_id,
         brand_id,
         rate,
+        code,
       },
     });
     return item;
@@ -446,6 +450,24 @@ const getByIndentRequestId = async (
   }
 };
 
+const getByCode = async (code: string, connectionObj = null) => {
+  try {
+    const transaction = connectionObj ? connectionObj : prisma;
+    const item = await transaction.item.findFirst({
+      where: {
+        code: {
+          equals: code,
+          mode: 'insensitive',
+        },
+      },
+    });
+    return item;
+  } catch (error) {
+    console.log('Error occurred in Item Dao : getByCode ', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   getAll,
@@ -461,4 +483,5 @@ export default {
   searchItem,
   getByItemName,
   getByIndentRequestId,
+  getByCode,
 };
