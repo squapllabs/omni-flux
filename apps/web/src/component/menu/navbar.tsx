@@ -171,6 +171,11 @@ const Navbar = () => {
     resetMenustore();
     navigate('/expense-recall');
   };
+
+  const handleExpenseList = () => {
+    resetMenustore();
+    navigate('/expense-list');
+  };
   const handleFinanceView = () => {
     resetMenustore();
     navigate('/finance-view');
@@ -387,13 +392,19 @@ const Navbar = () => {
                 }
               >
                 <Dropdown
+                  // label={
+                  //   roleName === 'PROJECT MANAGER' || roleName === 'ADMIN' ? (
+                  //     <div className={Styles.menuContainer}>
+                  //       <BoxIcon color="white" />
+                  //       Expenses <DropdownIcon color="white" />
+                  //     </div>
+                  //   ) : null
+                  // }
                   label={
-                    roleName === 'PROJECT MANAGER' || roleName === 'ADMIN' ? (
-                      <div className={Styles.menuContainer}>
-                        <BoxIcon color="white" />
-                        Expenses <DropdownIcon color="white" />
-                      </div>
-                    ) : null
+                    <div className={Styles.menuContainer}>
+                      <BoxIcon color="white" />
+                      Expenses <DropdownIcon color="white" />
+                    </div>
                   }
                 >
                   <div className={Styles.container}>
@@ -425,6 +436,14 @@ const Navbar = () => {
                               </div>
                             </div>
                           ) : null}
+                          <div
+                            className={Styles.dropDownItems}
+                            onClick={handleExpenseList}
+                          >
+                            <div className={Styles.itemsTitle}>
+                              <h2>Expense-Claim</h2>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
