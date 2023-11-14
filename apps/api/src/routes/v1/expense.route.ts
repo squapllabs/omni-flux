@@ -12,12 +12,20 @@ import {
   getExpenseDetailsByExpenseId,
   updateStatus,
   getByExpenseCode,
+  addIndependentExpense,
 } from '../../controller/expense.controller';
 import { runValidation } from '../../validations/index';
 
 const router = express.Router();
 
 router.post('/', authMiddleware, runValidation, createExpense);
+
+router.post(
+  '/addIndependentExpense',
+  authMiddleware,
+  runValidation,
+  addIndependentExpense
+);
 
 router.put(
   '/',

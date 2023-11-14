@@ -774,6 +774,121 @@ const getByExpenseCode = async (expenseCode: string) => {
   }
 };
 
+/**
+ * Method to Create expense without site id and project id
+ * @param body
+ * @returns
+ */
+const addIndependentExpense = async (body: expenseBody) => {
+  try {
+    const {
+      site_id,
+      project_id,
+      employee_name,
+      employee_id,
+      employee_phone,
+      purpose,
+      department,
+      designation,
+      start_date,
+      end_date,
+      created_by,
+      expense_details,
+      bill_details,
+      status,
+      total_amount,
+      bill_date,
+      user_id,
+      expense_type,
+    } = body;
+    let result = null;
+    if (site_id) {
+      const siteExist = await siteDao.getBySiteId(site_id);
+      if (!siteExist) {
+        result = {
+          message: 'site_id does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (project_id) {
+      const projectExist = await projectDao.getById(project_id);
+      if (!projectExist) {
+        result = {
+          message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (user_id) {
+      const userExist = await userDao.getById(user_id);
+      if (!userExist) {
+        return {
+          message: 'user_id id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+    if (user_id) {
+      result = await prisma
+        .$transaction(async (prisma) => {
+          let expenseDetails = null;
+          expenseDetails = await expenseDao.addExpense(
+            site_id,
+            project_id,
+            employee_name,
+            employee_id,
+            employee_phone,
+            purpose,
+            department,
+            designation,
+            start_date,
+            end_date,
+            bill_date,
+            bill_details,
+            created_by,
+            status,
+            total_amount,
+            expense_details,
+            user_id,
+            expense_type,
+            prisma
+          );
+          result = { message: 'success', status: true, data: expenseDetails };
+          return result;
+        })
+        .then((data) => {
+          console.log('Successfully Expense Data Returned ', data);
+          return data;
+        })
+        .catch((error: string) => {
+          console.log('Failure, ROLLBACK was executed', error);
+          throw error;
+        });
+      return result;
+    } else {
+      return {
+        message: 'user_id id is mandatory',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in expense service addIndependentExpense: ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createExpense,
   updateExpense,
@@ -785,4 +900,5 @@ export {
   getExpenseDetailsByExpenseId,
   updateStatus,
   getByExpenseCode,
+  addIndependentExpense,
 };
