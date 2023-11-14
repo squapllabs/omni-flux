@@ -10,6 +10,7 @@ interface CancelFilterIconProps {
   navigation: string;
   title: string;
   description: string;
+  resetStore?: (e: string) => void;
 }
 
 const ProjectSubheader: React.FC<CancelFilterIconProps> = ({
@@ -20,6 +21,7 @@ const ProjectSubheader: React.FC<CancelFilterIconProps> = ({
   title,
   navigation,
   description,
+  resetStore,
 }) => {
   const navigate = useNavigate();
   return (
@@ -29,6 +31,7 @@ const ProjectSubheader: React.FC<CancelFilterIconProps> = ({
           className={Styles.logo}
           onClick={() => {
             navigate(`${navigation}`);
+            resetStore('a');
           }}
         >
           <PreviousPageIcon width={15} height={15} color="#7f56d9" />
