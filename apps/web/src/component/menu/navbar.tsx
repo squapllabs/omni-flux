@@ -10,7 +10,7 @@ import BellIcon from './icons/bellIcon';
 import CheckIcon from './icons/checkIcon';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { resetAuth } from '../../redux/reducer';
+import { resetAuth, setToken } from '../../redux/reducer';
 import authService from '../../service/auth-service';
 import LogoutIcon from './icons/logoutIcon';
 import Avatar from './AvatarComponent';
@@ -30,7 +30,7 @@ import { format } from 'date-fns';
 import StarIcon from './icons/starIcon';
 import notificationService from '../../service/notification-service';
 import InvoiceIcon from './icons/invoiceIcon';
-
+import { resetMenustore } from '../../helper/common-function';
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -96,7 +96,7 @@ const Navbar = () => {
     setShowAssets(false);
     setShowReport(false);
     setShowInvoice(!showInvoice);
-  }
+  };
   const { mutate: updateNotification } = updateNotificationStatus();
 
   const { data: newNotificationCount } = getNewNotificationByUserID(
@@ -144,27 +144,35 @@ const Navbar = () => {
     navigate('/home');
   };
   const handleIndentapproval = () => {
+    resetMenustore();
     navigate('/indent-view');
   };
   const handlePurchaseOrder = () => {
+    resetMenustore();
     navigate('/purchase-order');
   };
   const handlePurchaseRequest = () => {
+    resetMenustore();
     navigate('/approved-indent-list');
   };
   const handlePurchaseRequestList = () => {
+    resetMenustore();
     navigate('/purchase-request-list-all');
   };
   const handleVendorList = () => {
+    resetMenustore();
     navigate('/vendor-list');
   };
   const handleExpenseApproval = () => {
+    resetMenustore();
     navigate('/site-expense-approve');
   };
   const handleExpenseRecall = () => {
+    resetMenustore();
     navigate('/expense-recall');
   };
   const handleFinanceView = () => {
+    resetMenustore();
     navigate('/finance-view');
   };
   const handleSearch = (searchTerm: string) => {
@@ -207,6 +215,7 @@ const Navbar = () => {
   };
 
   const handleNavigate = () => {
+    resetMenustore();
     navigate('/settings');
   };
 
@@ -216,7 +225,10 @@ const Navbar = () => {
       upadteReadStatus();
     }, 2000);
   };
-
+  const resetMenustore = () => {
+    dispatch(setToken({ key: 'settingsMenuID', value: null }));
+    dispatch(setToken({ key: 'projectMenuID', value: null }));
+  };
   const upadteReadStatus = () => {
     const Object: any = {
       notification_to_user_id: userData?.user_id,
@@ -246,6 +258,7 @@ const Navbar = () => {
             <div
               className={Styles.logo}
               onClick={() => {
+                resetMenustore();
                 navigate('/home');
               }}
             >
@@ -274,12 +287,13 @@ const Navbar = () => {
                     />
                     <div>
                       {
-                        // roleName === 'FINANCE MANAGER' 
+                        // roleName === 'FINANCE MANAGER'
                         //   ? 'Invoice '
-                        //   : 
+                        //   :
                         roleName === 'PLANNING ENGINEER'
                           ? 'Indent'
-                          : 'Procurement'}
+                          : 'Procurement'
+                      }
                     </div>
 
                     <DropdownIcon color="white" className={Styles.navIcon} />
@@ -291,7 +305,7 @@ const Navbar = () => {
                     <div>
                       <div className={Styles.dropDownContent}>
                         {roleName === 'PLANNING ENGINEER' ||
-                          roleName === 'PROJECT MANAGER' ? (
+                        roleName === 'PROJECT MANAGER' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handleIndentapproval}
@@ -303,8 +317,8 @@ const Navbar = () => {
                         ) : null}
 
                         {roleName === 'PURCHASE MANAGER' ||
-                          roleName === 'PROJECT MANAGER' ||
-                          roleName === 'ADMIN' ? (
+                        roleName === 'PROJECT MANAGER' ||
+                        roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handlePurchaseRequest}
@@ -316,8 +330,8 @@ const Navbar = () => {
                         ) : null}
                         {/* <div className={Styles.dashedLine}></div> */}
                         {roleName === 'PURCHASE MANAGER' ||
-                          roleName === 'PROJECT MANAGER' ||
-                          roleName === 'ADMIN' ? (
+                        roleName === 'PROJECT MANAGER' ||
+                        roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handlePurchaseRequestList}
@@ -329,8 +343,8 @@ const Navbar = () => {
                         ) : null}
                         {/* <div className={Styles.dashedLine}></div> */}
                         {roleName === 'PURCHASE MANAGER' ||
-                          roleName === 'PROJECT MANAGER' ||
-                          roleName === 'ADMIN' ? (
+                        roleName === 'PROJECT MANAGER' ||
+                        roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handlePurchaseOrder}
@@ -342,7 +356,7 @@ const Navbar = () => {
                         ) : null}
                         {/* <div className={Styles.dashedLine}></div> */}
                         {roleName === 'PURCHASE MANAGER' ||
-                          roleName === 'ADMIN' ? (
+                        roleName === 'ADMIN' ? (
                           <div
                             className={Styles.dropDownItems}
                             onClick={handleVendorList}
@@ -358,8 +372,7 @@ const Navbar = () => {
                     </div>
                   </div>
                   <div className={Styles.dropDownContainer}>
-                    <div>
-                    </div>
+                    <div></div>
                   </div>
                 </div>
               </Dropdown>
@@ -388,7 +401,7 @@ const Navbar = () => {
                       <div>
                         <div className={Styles.dropDownContent}>
                           {roleName === 'PROJECT MANAGER' ||
-                            roleName === 'ADMIN' ? (
+                          roleName === 'ADMIN' ? (
                             <div
                               className={Styles.dropDownItems}
                               onClick={handleExpenseApproval}
@@ -402,7 +415,7 @@ const Navbar = () => {
                           ) : null}
 
                           {roleName === 'PROJECT MANAGER' ||
-                            roleName === 'ADMIN' ? (
+                          roleName === 'ADMIN' ? (
                             <div
                               className={Styles.dropDownItems}
                               onClick={handleExpenseRecall}
@@ -428,18 +441,18 @@ const Navbar = () => {
                     : `${Styles.menu_item}`
                 }
               >
-                {roleName === "ADMIN" || roleName === "FINANCE MANAGER" ? (
+                {roleName === 'ADMIN' || roleName === 'FINANCE MANAGER' ? (
                   <div
                     className={Styles.menuContainer}
                     onClick={() => {
+                      resetMenustore();
                       navigate('/finance-view');
                     }}
                   >
-                    <InvoiceIcon className={Styles.navIcon} color='white' />
+                    <InvoiceIcon className={Styles.navIcon} color="white" />
                     Invoice
                   </div>
-                ) : null
-                }
+                ) : null}
               </div>
             </div>
             <div>
@@ -454,6 +467,7 @@ const Navbar = () => {
                 <div
                   className={Styles.menuContainer}
                   onClick={() => {
+                    resetMenustore();
                     navigate('/reports');
                   }}
                 >
@@ -472,6 +486,7 @@ const Navbar = () => {
             >
               <div
                 onClick={() => {
+                  resetMenustore();
                   navigate('/project-list');
                 }}
                 className={Styles.menuContainer}

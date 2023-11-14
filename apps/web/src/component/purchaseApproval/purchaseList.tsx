@@ -288,6 +288,7 @@ const PurchaseList = () => {
                   ''
                 )}
                 {getIndentData?.content?.map((data: any, index: number) => {
+                  const isAvailable = data?.purchase_request?.length;
                   const actions = [
                     {
                       label: 'Vendor Selection',
@@ -302,6 +303,7 @@ const PurchaseList = () => {
                           `/purchase-request-list/${data.indent_request_id}`
                         );
                       },
+                      disabled: isAvailable === 0,
                     },
                   ];
                   return (

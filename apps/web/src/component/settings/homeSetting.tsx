@@ -17,10 +17,14 @@ import CustomLoader from '../ui/customLoader';
 import SideNav from '../ui/sideNav';
 import MachineryList from '../machinery/machineryList';
 import ContractorList from '../contractor/contractorList';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../../redux/reducer';
 
 const Settings = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
+  const settingsMenuID = getToken(state, 'settingsMenuID');
+  const dispatch = useDispatch();
   const roleName =
     encryptedData?.userData?.user_roles[0]?.role_data?.role_name.toUpperCase();
   const [loader, setLoader] = useState(false);
@@ -47,12 +51,14 @@ const Settings = () => {
       { name: 'HSN Code', id: 8 },
       { name: 'Items', id: 9 },
       { name: 'Machineries', id: 10 },
-      { name: 'Contractors', id: 11 },
+      { name: 'Contractors', id: 11 }
     );
   }
 
   const [buttonLabels, setButtonLabels] = useState(menuItems);
-  const [selectedItem, setSelectedItem] = useState<number>(1);
+  const [selectedItem, setSelectedItem] = useState<number>(
+    settingsMenuID != null ? settingsMenuID : 1
+  );
 
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
@@ -139,6 +145,7 @@ const Settings = () => {
   };
 
   const handleMenuItemClick = (id: number) => {
+    dispatch(setToken({ key: 'settingsMenuID', value: id }));
     setSelectedItem(id);
   };
 
@@ -148,8 +155,11 @@ const Settings = () => {
         <div>
           <ProjectSubheader
             title="Settings"
-            navigation="/home"
+            navigation={'/home'}
             description="Manage your master datas across your application"
+            resetStore={() => {
+              dispatch(setToken({ key: 'settingsMenuID', value: null }));
+            }}
           />
         </div>
         <div className={Styles.selected}></div>
@@ -186,8 +196,8 @@ const Settings = () => {
         {activeButton === 'HC' && <HsnCodeList />}
         {activeButton === 'IL' && <ItemList />}
       </div> */}
-      </div >
-    </CustomLoader >
+      </div>
+    </CustomLoader>
   );
 };
 export default Settings;
