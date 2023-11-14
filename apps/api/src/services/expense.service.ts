@@ -441,14 +441,23 @@ const searchExpense = async (body) => {
       });
     }
 
+    // if (user_id) {
+    //   filterObj.filterExpense = filterObj.filterExpense || {};
+    //   filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
+
+    //   filterObj.filterExpense.AND.push({
+    //     project_data: {
+    //       user_id: user_id,
+    //     },
+    //   });
+    // }
+
     if (user_id) {
       filterObj.filterExpense = filterObj.filterExpense || {};
       filterObj.filterExpense.AND = filterObj.filterExpense.AND || [];
 
       filterObj.filterExpense.AND.push({
-        project_data: {
-          user_id: user_id,
-        },
+        user_id: user_id,
       });
     }
 
@@ -561,7 +570,8 @@ const searchExpense = async (body) => {
       order_by_direction,
       filterObj,
       project_id,
-      site_id
+      site_id,
+      user_id
     );
 
     const count = result.data?.count;
