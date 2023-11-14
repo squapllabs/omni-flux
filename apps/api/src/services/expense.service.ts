@@ -850,7 +850,7 @@ const addIndependentExpense = async (body: expenseBody) => {
       result = await prisma
         .$transaction(async (prisma) => {
           let expenseDetails = null;
-          expenseDetails = await expenseDao.addExpense(
+          expenseDetails = await expenseDao.add(
             site_id,
             project_id,
             employee_name,
@@ -899,6 +899,148 @@ const addIndependentExpense = async (body: expenseBody) => {
   }
 };
 
+/**
+ * Method to Update Expense based on user_id
+ * @param body
+ * @returns
+ */
+const updateIndependentExpense = async (body: expenseBody) => {
+  try {
+    const {
+      site_id,
+      project_id,
+      employee_name,
+      employee_id,
+      employee_phone,
+      purpose,
+      department,
+      designation,
+      start_date,
+      end_date,
+      bill_date,
+      updated_by,
+      status,
+      expense_id,
+      expense_details,
+      total_amount,
+      bill_details,
+      user_id,
+    } = body;
+    let result = null;
+
+    if (site_id) {
+      const siteExist = await siteDao.getBySiteId(site_id);
+      if (!siteExist) {
+        result = {
+          message: 'site_id does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (project_id) {
+      const projectExist = await projectDao.getById(project_id);
+      if (!projectExist) {
+        result = {
+          message: 'project_id does not exist',
+          status: false,
+          data: null,
+        };
+        return result;
+      }
+    }
+
+    if (user_id) {
+      const userExist = await userDao.getById(user_id);
+      if (!userExist) {
+        return {
+          message: 'user_id id does not exist',
+          status: false,
+          data: null,
+        };
+      }
+    }
+
+    const expenseExist = await expenseDao.getById(expense_id);
+    if (!expenseExist) {
+      return {
+        message: 'expense_id does not exist',
+        status: false,
+        data: null,
+      };
+    }
+
+    const updatedBillDetails = [] as any;
+    let billDetails = [] as any;
+    if (bill_details) {
+      billDetails = bill_details;
+      for (const doc of billDetails) {
+        const { is_delete, path } = doc;
+
+        if (is_delete === 'Y') {
+          const deleteDocInS3Body = {
+            path,
+          };
+          await processFileDeleteInS3(deleteDocInS3Body);
+        } else {
+          updatedBillDetails.push(doc);
+        }
+      }
+    }
+    if (user_id) {
+      result = await prisma
+        .$transaction(async (prisma) => {
+          const expenseDetails = await expenseDao.edit(
+            site_id,
+            project_id,
+            employee_name,
+            employee_id,
+            employee_phone,
+            purpose,
+            department,
+            designation,
+            start_date,
+            end_date,
+            bill_date,
+            updatedBillDetails,
+            updated_by,
+            status,
+            expense_id,
+            total_amount,
+            expense_details,
+            user_id,
+            prisma
+          );
+          result = { message: 'success', status: true, data: expenseDetails };
+          return result;
+        })
+        .then((data) => {
+          console.log('Successfully Expense Data Returned ', data);
+          return data;
+        })
+        .catch((error: string) => {
+          console.log('Failure, ROLLBACK was executed', error);
+          throw error;
+        });
+      return result;
+    } else {
+      return {
+        message: 'user_id id is mandatory',
+        status: false,
+        data: null,
+      };
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred in expense service updateIndependentExpense: ',
+      error
+    );
+    throw error;
+  }
+};
+
 export {
   createExpense,
   updateExpense,
@@ -911,4 +1053,5 @@ export {
   updateStatus,
   getByExpenseCode,
   addIndependentExpense,
+  updateIndependentExpense,
 };
