@@ -430,7 +430,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
                     const customQuotationName =
                       generateCustomQuotationName(item);
                     return (
-                      <tr>
+                      <tr key={index}>
                         <td>{rowIndex}</td>
                         <td>
                           <Input
@@ -647,6 +647,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
                         generateCustomQuotationName(item);
                       return (
                         <tr
+                          key={index}
                           style={{ display: 'flex', flexDirection: 'column' }}
                         >
                           <div className={Styles.tableBody}>
