@@ -26,11 +26,11 @@ interface InputWrapperProps {
 
 interface StyledInputProps {
   error?: boolean;
-  hasPrefixIcon?: boolean;
-  hasSuffixIcon?: boolean;
+  hasprefixicon?: boolean;
+  hassuffixicon?: boolean;
   transparent?: boolean;
   disabled?: boolean;
-  showClearIcon?: boolean;
+  showclearicon?: boolean;
 }
 
 interface Option {
@@ -105,8 +105,8 @@ const InputContainer = styled.div<StyledInputProps>`
   display: flex;
   align-items: center;
   padding: ${(props) =>
-    `0 ${props.hasSuffixIcon ? '32px' : '12px'} 0 ${
-      props.hasPrefixIcon ? '32px' : '12px'
+    `0 ${props.hassuffixicon ? '32px' : '12px'} 0 ${
+      props.hasprefixicon ? '32px' : '12px'
     }`};
   border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
@@ -126,7 +126,7 @@ const InputContainer = styled.div<StyledInputProps>`
 
 const StyledInput = styled.input<StyledInputProps>`
   height: 34px;
-  padding: ${(props) => `6px ${props.hasSuffixIcon ? '32px' : '0'} 6px 0`};
+  padding: ${(props) => `6px ${props.hassuffixicon ? '32px' : '0'} 6px 0`};
   border: none;
   background-color: ${(props) => (props.disabled ? '#f9f9f9' : 'transparent')};
   pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
@@ -168,7 +168,7 @@ const SelectedValue = styled.span`
   backgroundcolor: blue;
 `;
 const AutoCompleteSelect: React.FC<
-  InputProps & { mandatory?: boolean; showClearIcon?: boolean }
+  InputProps & { mandatory?: boolean; showclearicon?: boolean }
 > = ({
   label,
   placeholder,
@@ -184,7 +184,7 @@ const AutoCompleteSelect: React.FC<
   optionList,
   defaultLabel,
   addLabel,
-  showClearIcon = true,
+  showclearicon = true,
   onAddClick,
   ...props
 }) => {
@@ -241,7 +241,6 @@ const AutoCompleteSelect: React.FC<
     setValues('');
     onSelect('');
   };
-
   return (
     <InputWrapper width={width}>
       {label && (
@@ -251,18 +250,18 @@ const AutoCompleteSelect: React.FC<
       )}
       <InputContainer
         error={!!error}
-        hasPrefixIcon={!!prefixIcon}
-        hasSuffixIcon={!!suffixIcon}
+        hasprefixicon={!!prefixIcon}
+        hassuffixicon={!!suffixIcon}
         transparent={transparent}
         disabled={disabled}
       >
         {prefixIcon && <PrefixIconWrapper>{prefixIcon}</PrefixIconWrapper>}
         <StyledInput
           ref={inputRef}
-          hasSuffixIcon={!!suffixIcon}
+          hassuffixicon={!!suffixIcon}
           placeholder={placeholder}
           disabled={disabled}
-          showClearIcon={showClearIcon}
+          showclearicon={showclearicon}
           value={values}
           {...props}
           onChange={(e) => handleChange(e)}
@@ -279,7 +278,7 @@ const AutoCompleteSelect: React.FC<
               gap: '10px',
             }}
           >
-            {!disabled && values != '' && showClearIcon ? (
+            {!disabled && values != '' && showclearicon ? (
               <CloseIcon width={10} onClick={(e) => handleClear(e)} />
             ) : (
               ''

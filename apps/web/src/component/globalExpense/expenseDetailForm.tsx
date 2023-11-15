@@ -30,7 +30,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
     bill_type: '',
     status: '',
   });
-  const options = [
+  const options: any = [
     { value: 'CASH', label: 'Cash' },
     { value: 'BILL', label: 'Bill' },
     { value: 'VOUCHER', label: 'Voucher' },
@@ -430,7 +430,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
                     const customQuotationName =
                       generateCustomQuotationName(item);
                     return (
-                      <tr>
+                      <tr key={index}>
                         <td>{rowIndex}</td>
                         <td>
                           <Input
@@ -466,7 +466,9 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
                           >
                             {getSiteExpense?.map((item: any, index: any) => {
                               return (
-                                <option value={item.value}>{item.label}</option>
+                                <option value={item.value} key={item.value}>
+                                  {item.label}
+                                </option>
                               );
                             })}
                           </Select>
@@ -487,9 +489,11 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
                                 : false
                             }
                           >
-                            {options?.map((item, index) => {
+                            {options?.map((item: any, index: any) => {
                               return (
-                                <option value={item.value}>{item.label}</option>
+                                <option value={item.value} key={item.value}>
+                                  {item.label}
+                                </option>
                               );
                             })}
                           </Select>
@@ -647,6 +651,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
                         generateCustomQuotationName(item);
                       return (
                         <tr
+                          key={index}
                           style={{ display: 'flex', flexDirection: 'column' }}
                         >
                           <div className={Styles.tableBody}>

@@ -100,8 +100,6 @@ const getOneUomByType = async () => {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/uom/get-by-uom-type/LABOR`
     );
-    console.log(response.data);
-    
     return response.data;
   } catch (error) {
     console.log('Error in getOneUomaByType master-data :', error);

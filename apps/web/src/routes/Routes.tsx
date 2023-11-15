@@ -183,9 +183,9 @@
 
 // export default AppRoutes;
 
-import React, { useState } from 'react';
+import React from 'react';
 // import { Route, Routes } from 'react-router-dom';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Login from '../component/login';
 import Home from '../component/home';
 import ForgetPassword from '../component/forgetPassword';
@@ -220,10 +220,10 @@ import projectForm from '../component/project/projectForm';
 import Lead from '../component/leadEnquires/leadList';
 import leadEnquires from '../component/leadEnquires/leadEnquires';
 import Settings from '../component/settings/homeSetting';
-import ExpansesForm from '../component/expanses/expansesForm';
+// import ExpansesForm from '../component/expanses/expansesForm';
 import PopupExpanse from '../component/expanses/popupExpanse';
 import projectList from '../component/project/projectList';
-import projectEdit from '../component/project/projectEdit';
+// import projectEdit from '../component/project/projectEdit';
 import CategotyAdd from '../component/category/categoryAdd';
 import SubCategoryAdd from '../component/subCategory/subCategoryAdd';
 import SubsubCategoryAdd from '../component/subSubCategory/subsubcategoryAdd';
@@ -231,7 +231,7 @@ import SubsubCategoryAdd from '../component/subSubCategory/subsubcategoryAdd';
 import ProjectView from '../component/project/projectInfo';
 import LeadInfoProduct from '../component/leadEnquires/leadInfoProduct';
 import LeadInfoTender from '../component/leadEnquires/leadInfoTender';
-import BomList from '../component/bom/bomList';
+// import BomList from '../component/bom/bomList';
 // import Bom from '../component/bom/bom';
 import Bom from '../component/projectBOQ/planList';
 import ProductAdd from '../component/products/productAdd';
@@ -267,7 +267,7 @@ import ExpenseDetailApprove from '../component/project/projectComponent/projectS
 import BillView from '../component/finance/invoiceBillView';
 import EcoProduction from '../component/ecoProduction/ecoProduction';
 import projectAbstract from '../component/projectBOQ/projectAbstract';
-import NewBoqList from '../component/projectBOQ/projectBoqList';
+// import NewBoqList from '../component/projectBOQ/projectBoqList';
 import GenerateOtp from '../component/generateOtp';
 import ExpenseRecall from '../component/expenseRecall/expenseRecall';
 import PurchaseRequestItemView from '../component/purchaseApproval/purchaseRequestItemView';
@@ -287,8 +287,6 @@ import FinanceInvoiceNewView from '../component/finance/invoiceNewView';
 import AllPurchaseRequest from '../component/purchaseRequest/allPurchaseRequest/purchaseRequestAllList';
 import ExpenseList from '../component/globalExpense/expenseClaimList';
 const AppRoutes = () => {
-  const [isAuth, setIsAuth] = useState<boolean>(false);
-
   const ProtectedHome = withLayoutAndProtection(Home);
   const ProtectedUserList = withLayoutAndProtection(UserList);
   const ProtectedUserInformation = withLayoutAndProtection(UserInformation);
@@ -322,7 +320,7 @@ const AppRoutes = () => {
   const ProtectedProjectFormPage = withLayoutAndProtection(projectForm);
   const ProtectedSettings = withLayoutAndProtection(Settings);
   const ProtectedProjectListPage = withLayoutAndProtection(projectList);
-  const ProtectedProjectEdit = withLayoutAndProtection(projectEdit);
+  // const ProtectedProjectEdit = withLayoutAndProtection(projectEdit);
   const ProtectedLeadPage = withLayoutAndProtection(Lead);
   const ProtectedLeadEnquiresPage = withLayoutAndProtection(leadEnquires);
   const ProtectedProjectWorkBreakDownPage =
@@ -330,7 +328,7 @@ const AppRoutes = () => {
   const ProtectedCategoryAdd = withLayoutAndProtection(CategotyAdd);
   const ProtectedSubCategoryAdd = withLayoutAndProtection(SubCategoryAdd);
   const ProtectedSubSubCategoryAdd = withLayoutAndProtection(SubsubCategoryAdd);
-  const ProtectedExpanses = withLayoutAndProtection(ExpansesForm);
+  // const ProtectedExpanses = withLayoutAndProtection(ExpansesForm);
   const ProtectedPopupExpanse = withLayoutAndProtection(PopupExpanse);
   const ProtectedProjectView = withLayoutAndProtection(ProjectView);
   const ProtectedLeadProductView = withLayoutAndProtection(LeadInfoProduct);
@@ -384,7 +382,7 @@ const AppRoutes = () => {
     withLayoutAndProtection(ExpenseDetailApprove);
   const ProtectedBillView = withLayoutAndProtection(BillView);
   const ProtectedListVendor = withLayoutAndProtection(ListVendor);
-  const ProtectedNewBoqList = withLayoutAndProtection(NewBoqList);
+  // const ProtectedNewBoqList = withLayoutAndProtection(NewBoqList);
   const ProtectedExpenseRecall = withLayoutAndProtection(ExpenseRecall);
   const ProtectedPurchaseRequestItemView = withLayoutAndProtection(
     PurchaseRequestItemView
@@ -417,7 +415,7 @@ const AppRoutes = () => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Login setIsAuth={setIsAuth} />} />
+        <Route path="/" element={<Login />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
         <Route path="/reset-password/:id/:token" element={<ResetPassword />} />
         <Route path="/add-products" element={<ProtectedAddProductPage />} />

@@ -250,7 +250,7 @@ const ExpenseList = () => {
                                 if (items.is_delete != true) {
                                   rowIndex = rowIndex + 1;
                                   return (
-                                    <tr>
+                                    <tr key={index}>
                                       <td>{rowIndex}</td>
                                       <td>{items?.expense_code}</td>
                                       <td>{items?.site_data?.name || '-'}</td>
@@ -350,7 +350,7 @@ const ExpenseList = () => {
                             rowIndex = rowIndex + 1;
                             return (
                               <table className={Styles.cardTable}>
-                                <tr>
+                                <tr key={rowIndex}>
                                   <th className={Styles.cardHeader}>
                                     EXPENSE CODE
                                   </th>

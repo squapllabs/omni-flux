@@ -231,7 +231,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                     </thead>
                     <tbody>
                       {initialData?.total_count === 0 ? (
-                        <tr>
+                        <tr key={initialData?.total_count}>
                           <td colSpan="8" style={{ textAlign: 'center' }}>
                             No data found
                           </td>
@@ -258,13 +258,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                             return (
                               <tr key={data?.bom_configuration_id}>
                                 <td>{startingIndex + index}</td>
-                                <td
-                                  onClick={() => {
-                                    console.log('initialData', initialData)
-                                    console.log('data', data)
-                                  }}
-                                >{data?.bom_description}
-
+                                <td>{data?.bom_description}
                                 </td>
                                 <td>
                                   {data?.bom_type_data?.master_data_name}
