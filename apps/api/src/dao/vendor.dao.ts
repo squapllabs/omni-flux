@@ -1,5 +1,5 @@
+import db from '../utils/db';
 import prisma from '../utils/prisma';
-// import { CaseInsensitiveFilter } from '../utils/caseSensitiveFilter';
 import customQueryExecutor from './common/utils.dao';
 
 const add = async (
@@ -18,6 +18,7 @@ const add = async (
   minimum_order_quantity: number,
   notes: string,
   created_by: number,
+  code: string,
   connectionObj = null
 ) => {
   try {
@@ -41,6 +42,7 @@ const add = async (
         minimum_order_quantity,
         notes,
         created_by,
+        code,
         is_delete: is_delete,
         created_date: currentDate,
         updated_date: currentDate,
@@ -69,6 +71,8 @@ const edit = async (
   minimum_order_quantity: number,
   notes: string,
   updated_by: number,
+  ratings: string,
+  code: string,
   vendor_id: number,
   connectionObj = null
 ) => {
@@ -95,6 +99,8 @@ const edit = async (
         minimum_order_quantity,
         notes,
         updated_by,
+        ratings,
+        code,
         updated_date: currentDate,
       },
     });
@@ -277,6 +283,30 @@ const getByEmailId = async (contact_email: string, connectionObj = null) => {
   }
 };
 
+const getByVendorName = async (vendor_name: string, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : db;
+    const vendorQuery = `select * from vendor v where lower(v.vendor_name)=lower($1)`;
+    const vendor = transaction.manyOrNone(vendorQuery, [vendor_name]);
+    return vendor;
+  } catch (error) {
+    console.log('Error occurred in vendor getByEmailId dao', error);
+    throw error;
+  }
+};
+
+const getByCode = async (code: string, connectionObj = null) => {
+  try {
+    const transaction = connectionObj !== null ? connectionObj : db;
+    const vendorQuery = `select * from vendor v where lower(v.code)=lower($1)`;
+    const vendor = transaction.oneOrNone(vendorQuery, [code]);
+    return vendor;
+  } catch (error) {
+    console.log('Error occurred in vendor getByCode dao', error);
+    throw error;
+  }
+};
+
 export default {
   add,
   edit,
@@ -285,4 +315,6 @@ export default {
   deleteVendor,
   searchVendor,
   getByEmailId,
+  getByVendorName,
+  getByCode,
 };

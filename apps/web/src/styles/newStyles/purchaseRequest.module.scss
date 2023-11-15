@@ -176,6 +176,12 @@
   display: flex;
   gap: 20px;
 }
+.ColpsChilds1 {
+  display: flex;
+  justify-content: space-evenly;
+  width: 500px;
+  gap: 20px;
+}
 .ColpsheadingpanelOne {
   display: flex;
   flex-direction: column;
@@ -251,4 +257,29 @@
   width: 100%;
   height: 1px;
   background-color: #d0d5dd;
+}
+
+.emptyDataHandling {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  padding-top: 29px;
+}
+
+.textmin {
+  padding: 10px;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.textmax {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.image {
+  display: flex;
+  justify-content: center;
 }

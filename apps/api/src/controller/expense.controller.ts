@@ -110,6 +110,26 @@ const getByExpenseCode = catchAsync(async (req, res) => {
   }
 });
 
+const addIndependentExpense = catchAsync(async (req, res) => {
+  const methodName = '/addIndependentExpense';
+  try {
+    const expense = await expenseService.addIndependentExpense(req.body);
+    res.send(expense);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
+const updateIndependentExpense = catchAsync(async (req, res) => {
+  const methodName = '/updateIndependentExpense';
+  try {
+    const expense = await expenseService.updateIndependentExpense(req.body);
+    res.send(expense);
+  } catch (err) {
+    handleError(new ErrorHandler(errorText, methodName, err), res);
+  }
+});
+
 export {
   createExpense,
   updateExpense,
@@ -121,4 +141,6 @@ export {
   getExpenseDetailsByExpenseId,
   updateStatus,
   getByExpenseCode,
+  addIndependentExpense,
+  updateIndependentExpense,
 };

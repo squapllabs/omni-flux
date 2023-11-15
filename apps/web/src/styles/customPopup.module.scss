@@ -14,28 +14,10 @@
   padding: 16px;
 }
 
-// .popup-enter {
-//   transform: translateX(100%);
-//   transition: transform 1.5s ease-in-out;
-// }
-
-// .popup-enter-active {
-//   transform: translateX(0);
-// }
-
-// .popup-exit {
-//   transform: translateX(0);
-//   transition: transform 0.8s ease-in-out;
-// }
-
-// .popup-exit-active {
-//   transform: translateX(100%);
-// }
-
 //customSide popup
 
 .popupContainer {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   width: 100%;
@@ -47,7 +29,6 @@
   position: fixed;
   top: 0;
   right: 0;
-
   height: 100%;
   background-color: rgba(118, 118, 118, 0.6);
   display: flex;

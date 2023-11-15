@@ -49,6 +49,7 @@ const ProjectSettings: React.FC = (props: any) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [open, setOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
   const [value, setValue] = useState();
@@ -106,7 +107,8 @@ const ProjectSettings: React.FC = (props: any) => {
 
   const handleClosePopup = () => {
     setOpen(false);
-  }
+    setModalOpen(false);
+  };
 
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -172,24 +174,22 @@ const ProjectSettings: React.FC = (props: any) => {
   };
 
   /* Function for Filter Change */
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
+  // const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const searchValue = event.target.value;
 
-    setFilterValues({
-      ...filterValues,
-      ['global_search']: event.target.value,
-    });
-    setIsResetDisabled(searchValue === '');
-    if (searchValue === '') {
-      handleReset();
-    }
-  };
+  //   setFilterValues({
+  //     ...filterValues,
+  //     ['global_search']: event.target.value,
+  //   });
+  //   setIsResetDisabled(searchValue === '');
+  //   if (searchValue === '') {
+  //     handleReset();
+  //   }
+  // };
 
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
-
-
 
   const deleteProjectMember = (id: any) => {
     setValue(id);
@@ -210,6 +210,15 @@ const ProjectSettings: React.FC = (props: any) => {
     refetch();
     setActiveButton(activeButton);
   };
+
+  useEffect(() => {
+    if (modalOpen === true) {
+      document.body.style.overflow = 'hidden'
+    }
+    else {
+      document.body.style.overflow = 'auto'
+    }
+  }, [modalOpen]);
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
@@ -235,7 +244,10 @@ const ProjectSettings: React.FC = (props: any) => {
                     justify="center"
                     size="small"
                     icon={<AddIcon color="white" />}
-                    onClick={() => setOpen(true)}
+                    onClick={() => {
+                      setOpen(true);
+                      setModalOpen(true);
+                    }}
                   >
                     Add Member
                   </Button>
@@ -301,9 +313,9 @@ const ProjectSettings: React.FC = (props: any) => {
                                   {data?.access_end_date == null
                                     ? '-'
                                     : format(
-                                      new Date(data?.access_end_date),
-                                      'MMM dd, yyyy'
-                                    )}
+                                        new Date(data?.access_end_date),
+                                        'MMM dd, yyyy'
+                                      )}
                                 </td>
                                 {activeButton === 'AC' && (
                                   <td>
@@ -330,53 +342,55 @@ const ProjectSettings: React.FC = (props: any) => {
                           {activeButton === 'AC' && <td></td>}
                         </tr>
                       ) : (
-                        initialData?.content?.map((data: any, index: number) => (
-                          <tr key={data.project_member_association_id}>
-                            <td>{startingIndex + index}</td>
-                            <td>
-                              <div className={Styles.profileDetail}>
-                                <div>
-                                  <Avatar
-                                    firstName={data?.user_data?.first_name}
-                                    lastName={data?.user_data?.last_name}
-                                    size={40}
-                                  />
-                                </div>
-                                <div className={Styles.profileContents}>
-                                  <span className={Styles.profileName}>
-                                    {data?.user_data?.first_name}{' '}
-                                    {data?.user_data?.last_name}
-                                  </span>
-                                  <span className={Styles.emailContent}>
-                                    {data?.user_data?.email_id}
-                                  </span>
-                                </div>
-                              </div>
-                            </td>
-                            <td>{data?.project_role_data?.role_name}</td>
-                            <td>
-                              {data?.access_end_date == null
-                                ? '-'
-                                : format(
-                                  new Date(data?.access_end_date),
-                                  'MMM dd, yyyy'
-                                )}
-                            </td>
-                            {activeButton === 'AC' && (
+                        initialData?.content?.map(
+                          (data: any, index: number) => (
+                            <tr key={data.project_member_association_id}>
+                              <td>{startingIndex + index}</td>
                               <td>
-                                <div className={Styles.tablerow}>
-                                  <DeleteIcon
-                                    onClick={() =>
-                                      deleteProjectMember(
-                                        data?.project_member_association_id
-                                      )
-                                    }
-                                  />
+                                <div className={Styles.profileDetail}>
+                                  <div>
+                                    <Avatar
+                                      firstName={data?.user_data?.first_name}
+                                      lastName={data?.user_data?.last_name}
+                                      size={40}
+                                    />
+                                  </div>
+                                  <div className={Styles.profileContents}>
+                                    <span className={Styles.profileName}>
+                                      {data?.user_data?.first_name}{' '}
+                                      {data?.user_data?.last_name}
+                                    </span>
+                                    <span className={Styles.emailContent}>
+                                      {data?.user_data?.email_id}
+                                    </span>
+                                  </div>
                                 </div>
                               </td>
-                            )}
-                          </tr>
-                        ))
+                              <td>{data?.project_role_data?.role_name}</td>
+                              <td>
+                                {data?.access_end_date == null
+                                  ? '-'
+                                  : format(
+                                      new Date(data?.access_end_date),
+                                      'MMM dd, yyyy'
+                                    )}
+                              </td>
+                              {activeButton === 'AC' && (
+                                <td>
+                                  <div className={Styles.tablerow}>
+                                    <DeleteIcon
+                                      onClick={() =>
+                                        deleteProjectMember(
+                                          data?.project_member_association_id
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                              )}
+                            </tr>
+                          )
+                        )
                       )}
                     </tbody>
                   </table>
@@ -410,18 +424,15 @@ const ProjectSettings: React.FC = (props: any) => {
             </div>
             <div className={Styles.emptyDataHandling}>
               <div className={Styles.imageAdd}>
-                <img
-                  src="/add-member.png"
-                  alt="aa"
-                  width="80%"
-                  height="20%"
-                />
+                <img src="/add-member.png" alt="aa" width="80%" height="20%" />
               </div>
               <div>
                 <h5 className={Styles.textmax}>This project has no members.</h5>
               </div>
               <div>
-                <p className={Styles.textmin}>Go ahead, add a member to this project now</p>
+                <p className={Styles.textmin}>
+                  Go ahead, add a member to this project now
+                </p>
               </div>
               <div className={Styles.emptyButton}>
                 <Button
@@ -437,7 +448,6 @@ const ProjectSettings: React.FC = (props: any) => {
               </div>
             </div>
           </div>
-
         )}
       </CustomLoader>
       <CustomDelete
@@ -475,4 +485,3 @@ const ProjectSettings: React.FC = (props: any) => {
 };
 
 export default ProjectSettings;
-

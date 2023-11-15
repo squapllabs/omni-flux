@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
 import {
-  useGetAllUsers,
   useDeleteUsers,
-  getByUser,
   useGetAllPaginatedUser,
 } from '../../hooks/user-hooks';
 import { useNavigate } from 'react-router';
@@ -19,16 +17,12 @@ import EditIcon from '../menu/icons/newEditIcon';
 import DeleteIcon from '../menu/icons/newDeleteIcon';
 import AddIcon from '../menu/icons/addIcon';
 import MemberIcon from '../menu/icons/memberIcon';
+import FilterOrderIcon from '../menu/icons/filterOrderIcon';
+import { handleSortByColumn } from './../../helper/common-function'
 
 /* Function for User List */
 const UserList = () => {
-  // const { isLoading: getAllLoading } = useGetAllUsers();
   const { mutate: getDeleteUserByID } = useDeleteUsers();
-  // const {
-  //   mutate: postDataForFilter,
-  //   data: getFilterData,
-  //   isLoading: FilterLoading,
-  // } = getByUser();
   const [open, setOpen] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState(0);
@@ -45,14 +39,16 @@ const UserList = () => {
   const [filter, setFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [sortColumn, setSortColumn] = useState('');
+  const [sortOrder, setSortOrder] = useState('desc');
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [dataShow, setDataShow] = useState(false);
   const navigate = useNavigate();
   const userData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
-    order_by_column: 'updated_by',
-    order_by_direction: 'desc',
+    order_by_column: sortColumn === '' ? 'created_date' : sortColumn,
+    order_by_direction: sortOrder,
     global_search: filterValues?.search_by_name,
     status: activeButton,
   };
@@ -84,45 +80,16 @@ const UserList = () => {
     setActiveButton(value);
   };
 
-  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value;
-    setFilterValues({
-      ...filterValues,
-      ['search_by_name']: event.target.value,
-    });
-    setIsResetDisabled(searchValue === '');
-    if (searchValue === '') {
-      handleReset();
-    }
-  };
 
   useEffect(() => {
     refetch();
-  }, [currentPage, rowsPerPage, activeButton]);
+  }, [currentPage, rowsPerPage, activeButton, sortColumn, sortOrder]);
   useEffect(() => {
     const handleSearch = setTimeout(() => {
       refetch();
     }, 2000);
     return () => clearTimeout(handleSearch);
   }, [filterValues]);
-
-  /* Function for searching a user in the table */
-  // const handleSearch = async () => {
-  //   const userData: any = {
-  //     limit: rowsPerPage,
-  //     offset: (currentPage - 1) * rowsPerPage,
-  //     order_by_column: 'updated_date',
-  //     order_by_direction: 'desc',
-  //     global_search: filterValues.search_by_name,
-  //     status: activeButton,
-  //   };
-  //   setTimeout(() => {
-  //     postDataForFilter(userData);
-  //   }, 2000);
-  //   // setDataShow(true);
-  //   // setIsLoading(false);
-  //   // setFilter(true);
-  // };
 
   /* Function for reseting the table to its actual state after search */
   const handleReset = async () => {
@@ -146,15 +113,7 @@ const UserList = () => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-  // const handleChange = (e: any) => {
-  //   console.log(e.target.value);
-  //   const searchValue = e.target.value;
-  //   setFilterValues({
-  //     ...filterValues,
-  //     ['search_by_name']: e.target.value,
-  //   });
-  //   handleSearch();
-  // };  
+
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div className={Styles.container}>
@@ -214,9 +173,28 @@ const UserList = () => {
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Email</th>
+                        <th onClick={() => handleSortByColumn('first_name', sortOrder, setSortOrder, setSortColumn)}>
+                          <div className={Styles.headingRow}>
+                            <div>First Name</div><div>
+                              <FilterOrderIcon />
+                            </div>
+                          </div>
+                        </th>
+
+                        <th onClick={() => handleSortByColumn('last_name', sortOrder, setSortOrder, setSortColumn)}>
+                          <div className={Styles.headingRow}>
+                            <div>Last Name</div><div>
+                              <FilterOrderIcon />
+                            </div>
+                          </div>
+                        </th>
+                        <th onClick={() => handleSortByColumn('email_id', sortOrder, setSortOrder, setSortColumn)}>
+                          <div className={Styles.headingRow}>
+                            <div>Email</div><div>
+                              <FilterOrderIcon />
+                            </div>
+                          </div>
+                        </th>
                         <th>Contact Number</th>
                         {activeButton === 'AC' && <th>Actions</th>}
                       </tr>

@@ -87,6 +87,30 @@ const getAllVendors = async () => {
   }
 };
 
+const getByVendorName = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/vendor/check-duplicate-name/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getByVendorName:', error);
+    throw error;
+  }
+};
+
+const getByVendorCode = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/vendor/check-duplicate-code/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getByVendorCode:', error);
+    throw error;
+  }
+};
+
 export default {
   filterVendor,
   deleteVendor,
@@ -94,5 +118,7 @@ export default {
   getOneVendorById,
   updateVendors,
   getOneVendorEmail,
-  getAllVendors
+  getAllVendors,
+  getByVendorName,
+  getByVendorCode
 }

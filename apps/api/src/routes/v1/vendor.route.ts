@@ -9,8 +9,10 @@ import {
   createVendor,
   deleteByVendorId,
   getAllVendor,
+  getByCode,
   getByEmailId,
   getByVendorId,
+  getByVendorName,
   searchVendor,
   updateVendor,
 } from '../../controller/vendor.controller';
@@ -42,5 +44,13 @@ router.delete('/delete/:vendor_id', authMiddleware, deleteByVendorId);
 router.post('/search', authMiddleware, searchVendor);
 
 router.get('/get-by-email-id/:contact_email', authMiddleware, getByEmailId);
+
+router.get(
+  '/check-duplicate-name/:vendor_name',
+  authMiddleware,
+  getByVendorName
+);
+
+router.get('/check-duplicate-code/:code', authMiddleware, getByCode);
 
 export default router;

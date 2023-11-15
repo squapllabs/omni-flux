@@ -221,7 +221,7 @@
 .dropDownContent {
   display: flex;
   flex-direction: column;
-  padding: 8px;
+  padding: 0px 0px 0px 0px;
   gap: 1rem;
 }
 
@@ -288,7 +288,7 @@
 }
 
 .lineContent {
-  font-size: 12px ;
+  font-size: 12px;
   font-weight: 600;
 }
 
@@ -329,7 +329,7 @@
   border-bottom: 1px solid #ccc;
   padding: 0px 1px 5px 1px;
 }
-.messages{
+.messages {
   padding: 0px 0px 0px 10px;
   display: flex;
   flex-direction: row;
@@ -346,7 +346,7 @@
 }
 
 .box {
-  position: relative; 
+  position: relative;
 }
 
 .box::after {
@@ -474,6 +474,7 @@
   display: flex;
   gap: 5px;
   color: white;
+  align-items: center;
 }
 
 .menuIcon {
@@ -481,7 +482,8 @@
   color: white;
 }
 
-body, html {
+body,
+html {
   width: 100%;
   margin: 0;
   padding: 0px;
@@ -499,7 +501,6 @@ body, html {
   bottom: 0;
   background-color: rgba(63, 63, 63, 0.6);
   z-index: 998; /* Ensure this is below the popup z-index */
-
 }
 
 .popupContent {
@@ -507,7 +508,6 @@ body, html {
   max-height: 100%; /* Height set to 100% of the parent */
   overflow-y: auto; /* Scrollbar appears if content exceeds the max-height */
   // position: fixed;
-
 }
 
 .dialogStyle {
@@ -516,7 +516,9 @@ body, html {
   right: 0; /* Align to the right side of the viewport */
   width: 70%;
   height: 100%;
-  transform: translateY(-50%); /* Vertically center the dialog with respect to its height */
+  transform: translateY(
+    -50%
+  ); /* Vertically center the dialog with respect to its height */
   background-color: #fff; /* For visibility */
   display: flex;
   justify-content: center;
@@ -525,7 +527,6 @@ body, html {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth (optional) */
   z-index: 999; /* Above the overlay */
   overflow-y: auto; /* Scrollbar if content overflows */
-
 }
 
 .boxStyle {
@@ -642,7 +643,8 @@ body, html {
   }
 
   tbody {
-    tr:nth-child(odd) {}
+    tr:nth-child(odd) {
+    }
 
     tr:nth-child(even) {
       background-color: var(--tableRow-backgroundColor);
@@ -658,9 +660,8 @@ body, html {
   display: flex;
   align-items: center;
   gap: 1rem;
-}ed
-
-.center {
+}
+ed .center {
   justify-content: center;
 }
 
@@ -676,8 +677,7 @@ body, html {
   gap: 3rem;
 }
 
-//Vertical Nav Bar Content 
-
+//Vertical Nav Bar Content
 
 .verticalMenuContainer {
   display: flex;
@@ -698,7 +698,7 @@ body, html {
 .acountContainerForVerticalNav {
   // width: 40%;
   padding: 10px 10px 10px 0px;
-  background-color: rgb(236, 235, 235);  //Settingsbg
+  background-color: rgb(236, 235, 235); //Settingsbg
   // overflow: hidden;
   // background-color: #106cf5;
   // position: absolute;
@@ -706,7 +706,7 @@ body, html {
 
 .profileDetailHeadForVerticalNav {
   display: flex;
-  padding-left:  30px;
+  padding-left: 30px;
   align-items: center;
   gap: 10px;
   // cursor: pointer;
@@ -731,10 +731,9 @@ body, html {
   max-height: 250px;
   padding: 5px 12px;
   color: black;
-  margin-left:  12px;
+  margin-left: 12px;
   // cursor: pointer;
 }
-
 
 .dropDownContentForVerticalNav {
   display: flex;
@@ -743,15 +742,13 @@ body, html {
   gap: 1rem;
 }
 
-.navigationLinks > div{
+.navigationLinks > div {
   padding: 5px;
 }
 
-
 // ************************************************************************************************************
-        // Media Query
+// Media Query
 // ********************************************************************************************************
-
 
 @media (max-width: 850px) {
   // .navbar {
@@ -777,12 +774,17 @@ body, html {
     display: block;
     cursor: pointer;
   }
-  body, html {
+  body,
+  html {
     width: 100%;
     margin: 0;
     padding: 0px;
     top: 0;
-    overflow-x: auto;  /* hides horizontal overflow */
+    overflow-x: auto; /* hides horizontal overflow */
   }
 }
 
+.dashedLine {
+  border-bottom: 0.1px dashed #000;
+  /* Adjust the color and thickness as needed */
+}
