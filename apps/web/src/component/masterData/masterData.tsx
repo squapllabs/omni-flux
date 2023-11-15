@@ -182,7 +182,7 @@ const MaterData = () => {
                       ) : (
                         initialData?.content?.map(
                           (data: any, index: number) => (
-                            <tr key={data.uom_id}>
+                            <tr key={data.master_data_id}>
                               <td>{startingIndex + index}</td>
                               <td>{data.master_data_name}</td>
                               <td>{data.master_data_type}</td>
