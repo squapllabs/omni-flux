@@ -36,10 +36,7 @@ const UomList = () => {
   const [message, setMessage] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [isLoading, setIsLoading] = useState(true);
-  const [filter, setFilter] = useState(false);
   const [value, setValue] = useState();
-  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [dataShow, setDataShow] = useState(false);
   const [openUomForm, setOpenUomForm] = useState(false);
   const [sortColumn, setSortColumn] = useState('');
