@@ -8,18 +8,18 @@ const ProtectedRoute: React.FC = (props: any) => {
   let loginToken: string | null;
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const checkUserToken = () => {
-    const state: RootState = store.getState();
-    encryptedData = getToken(state, 'Data');
-    loginToken = encryptedData !== null ? encryptedData['token'] : null;
-    if (!loginToken || loginToken === 'undefined') {
-      setIsLoggedIn(false);
-      return navigate('/');
-    }
-    setIsLoggedIn(true);
-  };
 
   useEffect(() => {
+    const checkUserToken = () => {
+      const state: RootState = store.getState();
+      encryptedData = getToken(state, 'Data');
+      loginToken = encryptedData !== null ? encryptedData['token'] : null;
+      if (!loginToken || loginToken === 'undefined') {
+        setIsLoggedIn(false);
+        return navigate('/');
+      }
+      setIsLoggedIn(true);
+    };
     checkUserToken();
   }, [isLoggedIn]);
 

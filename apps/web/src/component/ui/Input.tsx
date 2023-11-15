@@ -7,12 +7,12 @@ interface InputWrapperProps {
 
 interface StyledInputProps {
   error?: boolean;
-  hasPrefixIcon?: boolean;
-  hasSuffixIcon?: boolean;
+  hasprefixicon?: boolean;
+  hassuffixicon?: boolean;
   transparent?: boolean;
   disabled?: boolean;
   errorDisable?: boolean;
-  borderError?:boolean;
+  borderError?: boolean;
 }
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -43,11 +43,11 @@ const InputContainer = styled.div<StyledInputProps>`
   position: relative;
   display: flex;
   align-items: center;
-  padding: ${(props) =>
-    `0 ${props.hasSuffixIcon ? '32px' : '12px'} 0 ${
-      props.hasPrefixIcon ? '32px' : '12px'
+  padding: ${(props: any) =>
+    `0 ${props.hassuffixicon ? '32px' : '12px'} 0 ${
+      props.hasprefixicon ? '32px' : '12px'
     }`};
-  border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
+  border: 1px solid ${(props: any) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
   background-color: ${(props) =>
     props.transparent ? 'transaparent' : '#FFFFFF'};
@@ -65,7 +65,7 @@ const InputContainer = styled.div<StyledInputProps>`
 
 const StyledInput = styled.input<StyledInputProps>`
   height: 34px;
-  padding: ${(props) => `6px ${props.hasSuffixIcon ? '32px' : '0'} 6px 0`};
+  padding: ${(props) => `6px ${props.hassuffixicon ? '32px' : '0'} 6px 0`};
   border: none;
   background-color: ${(props) => (props.disabled ? '#FFFFFF' : 'transparent')};
   pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};
@@ -129,9 +129,9 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
         </StyledLabel>
       )}
       <InputContainer
-        error={!!error}
-        hasPrefixIcon={!!prefixIcon}
-        hasSuffixIcon={!!suffixIcon}
+        error={error === undefined ? 'false' : error}
+        hasprefixicon={prefixIcon === undefined ? 'false' : 'true'}
+        hassuffixicon={!!suffixIcon}
         transparent={transparent}
         disabled={disabled}
         style={{
@@ -140,7 +140,7 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
       >
         {prefixIcon && <PrefixIconWrapper>{prefixIcon}</PrefixIconWrapper>}
         <StyledInput
-          hasSuffixIcon={!!suffixIcon}
+          hassuffixicon={!!suffixIcon}
           placeholder={placeholder}
           disabled={disabled}
           autoComplete="off"
@@ -148,19 +148,20 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
         />
         {suffixIcon && <SuffixIconWrapper>{suffixIcon}</SuffixIconWrapper>}
       </InputContainer>
-      {error === false  ? (
+      {error === false ? (
         <></>
-      ) : (!errorDisable &&
-        <ErrorMessageWrapper>
-          {error && <InputError>{error}</InputError>}
-        </ErrorMessageWrapper>
+      ) : (
+        !errorDisable && (
+          <ErrorMessageWrapper>
+            {error && <InputError>{error}</InputError>}
+          </ErrorMessageWrapper>
+        )
       )}
       {/* {!errorDisable && error && (
         <ErrorMessageWrapper>
           <InputError>{error}</InputError>
         </ErrorMessageWrapper>
       )} */}
-
     </InputWrapper>
   );
 };
