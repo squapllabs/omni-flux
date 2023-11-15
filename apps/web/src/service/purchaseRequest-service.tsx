@@ -32,8 +32,6 @@ const purchaseDetailData = async (values: JSON) => {
         `${environment.apiUrl}/purchase-request/`,
         values
       );
-      console.log("response.data",response.data);
-      
       return response.data;
     } catch (error) {
       console.log('Error in purchase-request edit:', error);

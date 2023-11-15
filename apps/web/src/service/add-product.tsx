@@ -91,7 +91,7 @@ const getOneItemByCode = async (values: any) => {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/item/check-duplicate-code/${values}`
     );
-    console.log("service",response.data);
+    // console.log("service",response.data);
     return response.data;
   } catch (error) {
     console.log('Error in getOneItemByCode:', error);

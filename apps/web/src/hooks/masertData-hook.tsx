@@ -96,8 +96,6 @@ const createmasertData = () => {
     },
     {
       onSuccess: (data) => {
-        console.log('queryClientdata', data);
-
         queryClient.invalidateQueries(['useGetAllMasterPaginatedData']);
         queryClient.invalidateQueries([
           'getByMasterDataProjectIdDrop',

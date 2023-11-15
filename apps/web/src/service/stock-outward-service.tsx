@@ -45,7 +45,6 @@ const getOneStockOutWardId = async (id: number) => {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/stock-outward/get/${id}`
     );
-    console.log("res",response.data);
     return response.data;    
   } catch (error) {
     console.log('Error in occur in getOneStockOutWardId :', error);

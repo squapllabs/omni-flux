@@ -9,7 +9,6 @@ import HsnCodeService from '../../service/hsnCode-service';
 import * as Yup from 'yup';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
-import CancelIcon from '../menu/icons/closeIcon';
 import Styles from '../../styles/newStyles/uomForm.module.scss';
 import TextArea from '../ui/CustomTextArea';
 

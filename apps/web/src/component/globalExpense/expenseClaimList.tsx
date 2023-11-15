@@ -350,7 +350,7 @@ const ExpenseList = () => {
                             rowIndex = rowIndex + 1;
                             return (
                               <table className={Styles.cardTable}>
-                                <tr>
+                                <tr key={rowIndex}>
                                   <th className={Styles.cardHeader}>
                                     EXPENSE CODE
                                   </th>

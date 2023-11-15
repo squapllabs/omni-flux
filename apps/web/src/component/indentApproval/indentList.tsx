@@ -52,8 +52,6 @@ const IndentList = () => {
     isLoading: FilterLoading,
     refetch,
   } = getAllIndentbyUserRole(userData);
-  // console.log('userData', userData);
-  // console.log('getIndentData', getIndentData);
 
   const { data: getPriorityType = [], isLoading: dropLoading } =
     getBymasertDataTypeDrop('PRTYPE');
