@@ -35,8 +35,6 @@ const MyOrderList = () => {
   };
   const [colps, setColps] = useState(false);
 
-  // let rowIndex = 0;
-
   const { data: getSiteList, isLoading: siteLoading } = getProjectSite(
     Number(projectId)
   );
@@ -59,7 +57,6 @@ const MyOrderList = () => {
     order_by_direction: 'asc',
     status: 'AC',
     global_search: '',
-    // bill_status: 'Partially Received',
     project_id: projectId,
     site_id: selectedValue,
     purchase_order_type: activeButton,
@@ -92,20 +89,6 @@ const MyOrderList = () => {
     const formattedDate = format(currentDate, 'dd-MM-yyyy');
     return formattedDate;
   };
-
-  // let separateArray: any = [];
-  // getAllData?.content?.forEach((item: any) => {
-  //     // Check if item.grn exists and is an array
-  //     if (Array.isArray(item?.grn)) {
-  //         // Use forEach or map to process each data element in item.grn
-  //         item.grn.forEach((data: any) => {
-  //             separateArray.push(data);
-  //         });
-  //         return separateArray;
-  //     }
-  // });
-
-  // console.log("getAll>>", getAllData);
 
   return (
     <div>
@@ -158,7 +141,6 @@ const MyOrderList = () => {
                     ) : (
                       ''
                     )}
-                    {/* <th className={Styles.tableHeading}>Selected Vendor</th> */}
 
                     <th className={Styles.tableHeading}>Actions</th>
                   </tr>
@@ -180,7 +162,7 @@ const MyOrderList = () => {
                                 }}
                               >
                                 {colps === false &&
-                                data?.purchase_order_id ===
+                                  data?.purchase_order_id ===
                                   poID?.purchase_order_id ? (
                                   <ExpandClose />
                                 ) : (
@@ -211,12 +193,6 @@ const MyOrderList = () => {
                               ''
                             )}
                             <td>
-                              {/* <ViewIcon onClick={() => {
-                                                  navigate(
-                                                      `/my-orders-view/${data.purchase_order_id}`,
-                                                      { state: { projectId } }
-                                                  );
-                                              }} />  */}
                               <AddIcon
                                 color="#7f56d9"
                                 onClick={() => {
@@ -230,54 +206,52 @@ const MyOrderList = () => {
                           </tr>
                           {data.purchase_order_id ===
                             poID.purchase_order_id && (
-                            <tr>
-                              <td colSpan="8" style={{ paddingRight: 28 }}>
-                                <div className={Styles.subTableContainer}>
-                                  <table
-                                    className={Styles.scrollable_sub_table}
-                                  >
-                                    <thead>
-                                      <tr>
-                                        <th>S No</th>
-                                        <th>Goods Received Date</th>
-                                        <th>Invoice No</th>
-                                        <th>Options</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      {data?.grn?.map(
-                                        (grn_data: any, index: any) => {
-                                          return (
-                                            <tr key={grn_data?.grn_id}>
-                                              <td>{index + 1}</td>{' '}
-                                              {/* Use 'index' from the outer map */}
-                                              <td>
-                                                {dateFormat(
-                                                  grn_data?.goods_received_date
-                                                )}
-                                              </td>
-                                              <td>{grn_data?.invoice_id}</td>
-                                              {/* {getAllData?.} */}
-                                              <td>
-                                                <ViewIcon
-                                                  onClick={() => {
-                                                    navigate(
-                                                      `/view-received-goods/${data?.purchase_order_id}/${grn_data?.grn_id}`,
-                                                      { state: { projectId } }
-                                                    );
-                                                  }}
-                                                />
-                                              </td>
-                                            </tr>
-                                          );
-                                        }
-                                      )}
-                                    </tbody>
-                                  </table>
-                                </div>
-                              </td>
-                            </tr>
-                          )}
+                              <tr>
+                                <td colSpan="8" style={{ paddingRight: 28 }}>
+                                  <div className={Styles.subTableContainer}>
+                                    <table
+                                      className={Styles.scrollable_sub_table}
+                                    >
+                                      <thead>
+                                        <tr>
+                                          <th>S No</th>
+                                          <th>Goods Received Date</th>
+                                          <th>Invoice No</th>
+                                          <th>Options</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {data?.grn?.map(
+                                          (grn_data: any, index: any) => {
+                                            return (
+                                              <tr key={grn_data?.grn_id}>
+                                                <td>{index + 1}</td>{' '}
+                                                <td>
+                                                  {dateFormat(
+                                                    grn_data?.goods_received_date
+                                                  )}
+                                                </td>
+                                                <td>{grn_data?.invoice_id}</td>
+                                                <td>
+                                                  <ViewIcon
+                                                    onClick={() => {
+                                                      navigate(
+                                                        `/view-received-goods/${data?.purchase_order_id}/${grn_data?.grn_id}`,
+                                                        { state: { projectId } }
+                                                      );
+                                                    }}
+                                                  />
+                                                </td>
+                                              </tr>
+                                            );
+                                          }
+                                        )}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </td>
+                              </tr>
+                            )}
                         </>
                       );
                     })
@@ -289,8 +263,6 @@ const MyOrderList = () => {
                     </tr>
                   )}
 
-                  {/* );
-                                        )} */}
                 </tbody>
               </table>
             </div>
@@ -306,31 +278,6 @@ const MyOrderList = () => {
             </div>
           </div>
         </div>
-        {/* <div>
-            <div className={Styles.subHeadingForInitialPage}>
-              <OrderIcon />
-              <h3>My Orders</h3>
-            </div>
-            <div className={Styles.emptyDataHandling}>
-              <div>
-                <img
-                  src="/vendor.jpg"
-                  alt="aa"
-                  width="100%"
-                  height="150px"
-                  style={{ paddingBottom: '15px' }}
-                />
-              </div>
-              <div>
-                <h5 className={Styles.textmax}>Orders List is Empty</h5>
-              </div>
-              <div className={Styles.contentGap}>
-                <p className={Styles.textmin}>
-                  This project has no orders to display
-                </p>
-              </div>
-            </div>
-          </div> */}
       </CustomLoader>
     </div>
   );

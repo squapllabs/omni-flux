@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Styles from '../../../styles/newStyles/projectStockManagement.module.scss';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
 import Input from '../../ui/Input';
 import { getProjectSite, getByProjectId } from '../../../hooks/project-hooks';
-import { useNavigate, useParams } from 'react-router-dom';
-import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import DatePicker from '../../ui/CustomDatePicker';
 import { format } from 'date-fns';
 import Checkbox from '../../ui/Checkbox';
 import Button from '../../ui/Button';
 import { createStockAudit } from '../../../hooks/stockAudit-hooks';
 import CustomSnackBar from '../../ui/customSnackBar';
-// import { getProjectStockAuditValidate } from '../../../helper/constants/project-constants';
 import StockAuditService from '../../../service/stockaudit-service';
 
 const ProjectStockAdd: React.FC = (props: any) => {
-  // const validationSchema = getProjectStockAuditValidate(yup);
+
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
@@ -35,8 +31,7 @@ const ProjectStockAdd: React.FC = (props: any) => {
   const [check, setChecked] = useState(false);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
-  const { data: getSiteList } = getProjectSite(projectId);
-  const { data: getProjectData } = getByProjectId(projectId);
+
 
   const { mutate: postStockData, isLoading: stockpostLoading } =
     createStockAudit();
@@ -83,12 +78,12 @@ const ProjectStockAdd: React.FC = (props: any) => {
       };
       postStockData(obj, {
         onSuccess(data, variables, context) {
-          if(data?.message === 'success'){
-          resetForm();
-          props.setMessage('Stock audited successfully');
-          props.setOpenSnack(true);
-          props.setOpen(false);
-          props.setReload(true);
+          if (data?.message === 'success') {
+            resetForm();
+            props.setMessage('Stock audited successfully');
+            props.setOpenSnack(true);
+            props.setOpen(false);
+            props.setReload(true);
           }
         },
       });
@@ -107,23 +102,6 @@ const ProjectStockAdd: React.FC = (props: any) => {
     <div className={Styles.stock_Container}>
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.divOne}>
-          {/* <div>
-            <AutoCompleteSelect
-              name="site_id"
-              label="Site"
-              mandatory={true}
-              optionList={getSiteList}
-              value={formik.values.site_id}
-              onChange={formik.handleChange}
-              onSelect={(value) => {
-                formik.setFieldValue('site_id', value);
-                if(value !== '')
-                searchCategory(value); 
-              }}
-              width='185px'
-              error={formik.touched.site_id && formik.errors.site_id}
-            />
-          </div> */}
           <div style={{ width: '30%' }}>
             <DatePicker
               name="stock_audit_date"
@@ -152,11 +130,6 @@ const ProjectStockAdd: React.FC = (props: any) => {
           </div>
         </div>
         <div >
-          {/* <ItemsTable
-            setItemsList={setItemsList}
-            itemsList={itemsList}
-            itemData={itemData}
-          /> */}
           <div className={Styles.tableContainer}>
             <table className={Styles.scrollable_table}>
               <thead>

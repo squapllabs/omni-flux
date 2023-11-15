@@ -5,8 +5,6 @@ import * as Yup from 'yup';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import TextArea from '../ui/CustomTextArea';
-import CustomPopup from '../ui/CustomPopupDialog';
-import CloseIcon from '../menu/icons/closeIcon';
 import { getCreateValidateyup as siteValidate } from '../../helper/constants/site-constants';
 import { instantCreateSite } from '../../hooks/site-hooks';
 import CustomSnackbar from '../ui/customSnackBar';
@@ -77,18 +75,8 @@ const CustomSiteAdd = (props: { setOpen: any; open: any }) => {
   return (
     <div>
       <div>
-        {/* {isVissiblesite && (
-          <CustomPopup className=""> */}
         <div>
           <form onSubmit={formikTwo.handleSubmit}>
-            {/* <div className={Styles.header}>
-              <div className={Styles.popupHeader}>
-                <h4>Create Site</h4>
-                <button className={Styles.closeButton}>
-                  <CloseIcon onClick={handleCloseSiteForm} />
-                </button>
-              </div>
-            </div> */}
             <div className={Styles.overflow}>
               <div className={Styles.site}>
                 <div className={Styles.siteRow}>
@@ -266,8 +254,6 @@ const CustomSiteAdd = (props: { setOpen: any; open: any }) => {
             </div>
           </form>
         </div>
-        {/* </CustomPopup>
-        )} */}
       </div>
       <CustomSnackbar
         open={openSnack}

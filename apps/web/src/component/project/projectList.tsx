@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/projectlist.module.scss';
 import {
-  getByProject,
   useDeleteProjects,
-  getMemberBasedProject,
-  useGetAllProject,
   getPaginatedMemberBasedProject,
 } from '../../hooks/project-hooks';
 import Input from '../ui/Input';
@@ -13,18 +10,13 @@ import SearchIcon from '../menu/icons/search';
 import AddIcon from '../menu/icons/addIcon';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import { format } from 'date-fns';
-import Pagination from '../menu/pagination';
 import EditIcon from '../menu/icons/newEditIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useNavigate } from 'react-router-dom';
 import CustomLoader from '../ui/customLoader';
-import ViewIcon from '../menu/icons/newViewIcon';
-import CustomCard from '../ui/CustomCard';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
-import StoreIcon from '../menu/icons/newStoreIcon';
-import { Chart } from 'react-google-charts';
 import CustomPagination from '../menu/CustomPagination';
 import ProjectSubheader from './projectSubheader';
 
@@ -44,7 +36,6 @@ const ProjectList = () => {
     roleName === 'SITE ENGINEER' ||
     roleName === 'PURCHASE MANAGER';
   const isFinanceManagerLogin = roleName === 'FINANCE MANAGER';
-  const { isLoading: getAllLoading } = useGetAllProject();
   const { mutate: getDeleteProjectByID } = useDeleteProjects();
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
@@ -52,60 +43,25 @@ const ProjectList = () => {
   const [buttonLabels, setButtonLabels] = useState([
     ...(roleName === 'PROJECT MANAGER' || roleName === 'ADMIN'
       ? [
-          { label: 'All', value: 'ALL' },
-          { label: 'Draft', value: 'Draft' },
-        ]
+        { label: 'All', value: 'ALL' },
+        { label: 'Draft', value: 'Draft' },
+      ]
       : []),
     { label: 'Inprogress', value: 'Inprogress' },
     { label: 'Completed', value: 'Completed' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('ALL');
-  const [filter, setFilter] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [open, setOpen] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState(0);
   const [message, setMessage] = useState('');
-  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const navigate = useNavigate();
 
-  // const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const searchValue = event.target.value;
-  //   setFilterValues({
-  //     ...filterValues,
-  //     ['search_by_name']: event.target.value,
-  //   });
-  //   setIsResetDisabled(searchValue === '');
-  //   if (searchValue === '') {
-  //     handleReset();
-  //   }
-  // };
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
     setCurrentPage(1);
-  };
-
-  const allData: any = {
-    limit: rowsPerPage,
-    offset: (currentPage - 1) * rowsPerPage,
-    order_by_column: 'updated_date',
-    order_by_direction: 'desc',
-    global_search: '',
-    status: activeButton,
-  };
-
-  const userData: any = {
-    limit: rowsPerPage,
-    offset: (currentPage - 1) * rowsPerPage,
-    order_by_column: 'updated_date',
-    order_by_direction: 'desc',
-    global_search: '',
-    status: 'AC',
-    user_id: roleName === 'ADMIN' ? null : userID,
-    project_status: activeButton,
-    project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
   };
 
   const {
@@ -115,95 +71,36 @@ const ProjectList = () => {
   } = getPaginatedMemberBasedProject(
     activeButton === 'ALL'
       ? {
-          limit: rowsPerPage,
-          offset: (currentPage - 1) * rowsPerPage,
-          order_by_column: 'updated_date',
-          order_by_direction: 'desc',
-          global_search: filterValues?.search_by_name,
-          status: activeButton,
-        }
+        limit: rowsPerPage,
+        offset: (currentPage - 1) * rowsPerPage,
+        order_by_column: 'updated_date',
+        order_by_direction: 'desc',
+        global_search: filterValues?.search_by_name,
+        status: activeButton,
+      }
       : {
-          limit: rowsPerPage,
-          offset: (currentPage - 1) * rowsPerPage,
-          order_by_column: 'updated_date',
-          order_by_direction: 'desc',
-          global_search: filterValues?.search_by_name,
-          status: 'AC',
-          user_id: roleName === 'ADMIN' ? null : userID,
-          project_status: activeButton,
-          project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
-        }
+        limit: rowsPerPage,
+        offset: (currentPage - 1) * rowsPerPage,
+        order_by_column: 'updated_date',
+        order_by_direction: 'desc',
+        global_search: filterValues?.search_by_name,
+        status: 'AC',
+        user_id: roleName === 'ADMIN' ? null : userID,
+        project_status: activeButton,
+        project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
+      }
   );
 
   useEffect(() => {
-    // handleSearch();
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
 
   useEffect(() => {
-    // if (filterValues.search_by_name !== '') {
     const handleSearch = setTimeout(() => {
       refetch();
     }, 1000);
     return () => clearTimeout(handleSearch);
-    // }
   }, [filterValues]);
-
-  /* Function for searching a user in the table */
-  // const handleSearch = async () => {
-  //   const allData: any = {
-  //     limit: rowsPerPage,
-  //     offset: (currentPage - 1) * rowsPerPage,
-  //     order_by_column: 'updated_date',
-  //     order_by_direction: 'desc',
-  //     global_search: filterValues.search_by_name,
-  //     status: activeButton,
-  //   };
-  //   const userData: any = {
-  //     limit: rowsPerPage,
-  //     offset: (currentPage - 1) * rowsPerPage,
-  //     order_by_column: 'updated_date',
-  //     order_by_direction: 'desc',
-  //     global_search: filterValues.search_by_name,
-  //     status: 'AC',
-  //     user_id: roleName === 'ADMIN' ? null : userID,
-  //     project_status: activeButton,
-  //     project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
-  //   };
-  //   postDataForFilter(activeButton === 'ALL' ? allData : userData);
-  //   setIsLoading(false);
-  //   setFilter(true);
-  // };
-
-  /* Function for reseting the table to its actual state after search */
-  // const handleReset = async () => {
-  //   const allData: any = {
-  //     limit: rowsPerPage,
-  //     offset: (currentPage - 1) * rowsPerPage,
-  //     order_by_column: 'updated_date',
-  //     order_by_direction: 'desc',
-  //     global_search: filterValues.search_by_name,
-  //     status: activeButton,
-  //   };
-  //   const userData: any = {
-  //     limit: rowsPerPage,
-  //     offset: (currentPage - 1) * rowsPerPage,
-  //     order_by_column: 'updated_date',
-  //     order_by_direction: 'desc',
-  //     global_search: filterValues.search_by_name,
-  //     status: 'AC',
-  //     user_id: roleName === 'ADMIN' ? null : userID,
-  //     project_status: activeButton,
-  //     project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
-  //   };
-  //   postDataForFilter(activeButton === 'ALL' ? allData : userData);
-  //   setIsLoading(false);
-  //   setFilter(false);
-  //   setFilterValues({
-  //     search_by_name: '',
-  //   });
-  //   setIsResetDisabled(true);
-  // };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -214,11 +111,6 @@ const ProjectList = () => {
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
-  };
-
-  const deleteProjectHandler = (id: any) => {
-    setValue(id);
-    setOpen(true);
   };
 
   const deleteProject = () => {
@@ -237,8 +129,6 @@ const ProjectList = () => {
   };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
-  console.log('getAllLoadingPaginated', getAllLoadingPaginated);
-
   return (
     <div className={Styles.container}>
       <div>
@@ -256,11 +146,6 @@ const ProjectList = () => {
         >
           <div className={Styles.header}>
             <div className={Styles.firstHeader}>
-              {/* <div className={Styles.text}>
-                <div className={Styles.textStyle}>
-                  <h3>PROJECTS</h3>
-                </div>
-              </div> */}
               <div>
                 {isProjectCreate && (
                   <div>
@@ -302,31 +187,6 @@ const ProjectList = () => {
               />
             </div>
           </div>
-          {/* <div className={Styles.dividerStyle}></div> */}
-          {/* <div className={Styles.searchField}>
-        
-              <Button
-                className={Styles.searchButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={handleSearch}
-              >
-                Search
-              </Button>
-              <Button
-                className={Styles.resetButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={handleReset}
-                disabled={isResetDisabled}
-              >
-                Reset
-              </Button>
-            </div> */}
-
-          {/* <div className={Styles.dividerStyle}></div> */}
           <div className={Styles.tableContainer}>
             <div>
               <table className={Styles.scrollable_table}>
@@ -362,15 +222,14 @@ const ProjectList = () => {
                           </td>
                           <td>
                             <span
-                              className={`${Styles.status} ${
-                                data?.status === 'Inprogress'
-                                  ? Styles.inprogressStatus
-                                  : data?.status === 'Completed'
+                              className={`${Styles.status} ${data?.status === 'Inprogress'
+                                ? Styles.inprogressStatus
+                                : data?.status === 'Completed'
                                   ? Styles.completedStatus
                                   : data?.status === 'Draft'
-                                  ? Styles.draftStatus
-                                  : ''
-                              }`}
+                                    ? Styles.draftStatus
+                                    : ''
+                                }`}
                             >
                               {data?.status}
                             </span>
@@ -402,16 +261,9 @@ const ProjectList = () => {
                                     }}
                                   />
                                 )}
-
-                                {/* <DeleteIcon
-                            onClick={() =>
-                              deleteProjectHandler(data.project_id)
-                            }
-                          /> */}
                               </div>
                             </td>
                           )}
-                          {/* )} */}
                         </tr>
                       );
                     })

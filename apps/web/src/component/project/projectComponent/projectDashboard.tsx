@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Styles from '../../../styles/projectDashboard.module.scss';
-import Card from '../../ui/CustomCard';
 import { formatBudgetValue } from '../../../helper/common-function';
 import DashboardIcon from '../../menu/icons/dashboardIcon';
-import projectService from '../../../service/project-service';
 import { useParams } from 'react-router-dom';
 import { getByProjectId } from '../../../hooks/project-hooks';
 import {
@@ -38,27 +36,7 @@ const ProjectDashboard = () => {
   const routeParams = useParams();
   const projectId = Number(routeParams?.id);
   const { data: getProjectData } = getByProjectId(projectId);
-  // console.log("getProjectData", getProjectData);
 
-  // const [data, setData] = useState();
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const getData = await projectService.getOneProjectById(
-  //       Number(params?.id)
-  //     );
-  //     console.log("Get Data ==> ", getData);
-  //     setData(getData?.data);
-  //   }
-  //   console.log("start date ==>", data?.date_started);
-  //   // console.log("ISO start date ==>", data?.date_started?.toISOString());
-  //   fetchData();
-  // }, [params?.id]);  
-
-  // const startedDate =  data?.date_started;
-  // const sdate = new Date(startedDate);
-  // const formattedStartedDate = sdate.toISOString().split('T')[0];
-
-  // console.log("formattedStartedDate--->",formattedStartedDate);
 
   const startDate = new Date(getProjectData?.date_started);
   const endDate = new Date(getProjectData?.date_ended);
@@ -119,8 +97,6 @@ const ProjectDashboard = () => {
 
   };
 
-
-
   return (
     <div className={Styles.container}>
       <div className={Styles.subHeading}>
@@ -164,15 +140,6 @@ const ProjectDashboard = () => {
             <span>PROJECT PROGRESS</span>
           </div>
           <div >
-            {/* <div className={Styles.border}>
-            <div className={Styles.progressBar}>
-              <div className={Styles.totalDays} style={{ width: `${totalDays}%` }}></div>
-            </div>
-            <div className={Styles.progressBar}>
-              <div className={Styles.completedDays} style={{ width: `${progressPercentage}` }}></div>
-            </div>
-          </div> */}
-
             <Bar
               width={80}
               height={15}
@@ -213,5 +180,4 @@ const ProjectDashboard = () => {
     </div>
   );
 };
-
 export default ProjectDashboard;

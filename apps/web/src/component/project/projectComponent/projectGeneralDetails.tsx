@@ -5,34 +5,23 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Input from '../../ui/Input';
 import DatePicker from '../../ui/CustomDatePicker';
-import AddIcon from '../../menu/icons/addIcon';
 import ProjectDetailsIcon from '../../menu/icons/projectDetailsIcon';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import { useGetAllClientDrop } from '../../../hooks/client-hooks';
 import {
-  useGetAllUsersDrop,
-  useGetAllUsers,
   getUserbyRole,
 } from '../../../hooks/user-hooks';
-import { useGetAllSiteDrops } from '../../../hooks/site-hooks';
 import {
   createProject,
-  getByProjectId,
   useGetMasterProjectParentType,
   updateProject,
 } from '../../../hooks/project-hooks';
 import CustomClientAdd from '../../ui/CustomClientAdd';
-import CustomSiteAdd from '../../ui/CustomSiteAdd';
-import CustomConfirm from '../../ui/CustomConfirmDialogBox';
 import TextArea from '../../ui/CustomTextArea';
 import Select from '../../ui/selectNew';
 import projectService from '../../../service/project-service';
 import { useParams, useNavigate } from 'react-router-dom';
 import CustomSnackBar from '../../ui/customSnackBar';
-import {
-  getCreateValidateyup,
-  getEditValidateyup,
-} from '../../../helper/constants/project-constants';
 import CustomSidePopup from '../../ui/CustomSidePopup';
 import { store, RootState } from '../../../redux/store';
 import { getToken } from '../../../redux/reducer';
@@ -71,14 +60,10 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     project_id: '',
   });
   const [showClientForm, setShowClientForm] = useState(false);
-  const [showSiteForm, setShowSiteForm] = useState(false);
-  const [openConfirm, setOpenConfirm] = useState(false);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [bomConfig, setBomConfig] = useState<any>([]);
   const [siteConfigData, setSiteConfigData] = useState<any[]>([]);
-  const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
-  const { data: getAllUsersSiteDatadrop = [] } = useGetAllUsers();
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
   const { data: getProjectManagerList = [] } = getUserbyRole('Project Manager');
   const { data: getProjectApproverList = [] } =
@@ -125,24 +110,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     if (routeParams?.id != undefined) fetchData();
   }, [routeParams?.id]);
 
-  const handleOpenClientForm = () => {
-    setShowClientForm(true);
-  };
-  // const submitHandler = () => {
-  //   setOpenConfirm(true);
-  // };
-  const handleCloseConfirm = () => {
-    setOpenConfirm(false);
-  };
-  const handleConfirmForm = () => {
-    formik.setFieldValue('submitType', 'Inprogress');
-    formik.submitForm();
-    setOpenConfirm(false);
-  };
-  const drafthandler = () => {
-    formik.setFieldValue('submitType', 'Draft');
-    formik.submitForm();
-  };
+
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
@@ -209,13 +177,11 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     code: yup
       .string()
       .required('Project code is required')
-      // .matches(/^[A-Z0-9/\\-]*$/, 'Symbols are not allowed')
       .test(
         'code-availability',
         'Code is already present',
         async (value: any, { parent }: yup.TestContext) => {
           const ProjectId = parent.project_id;
-          console.log('parent project id', ProjectId);
           if (value) {
             const response = await projectService.checkProjectCodeDuplicate(
               value
@@ -224,7 +190,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
               response?.is_exist === true &&
               response?.data?.project_id === ProjectId
             ) {
-              console.log('if condition inn');
               return true;
             } else {
               if (response?.is_exist === false) {
@@ -248,7 +213,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
       .required('Estimated budget is required'),
     actual_budget: yup
       .number()
-      // .min(1, 'Value must be greater than 0')
       .max(5000000000, 'Value must be less then 5000000000')
       .typeError('Only Number are allowed'),
     project_type: yup.string().trim().required('Project type is required'),
@@ -267,7 +231,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
       routeParams?.id === undefined ? validateSchemaCreate : validateSchemaEdit,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      // const statusData = values.submitType === 'Draft' ? 'Draft' : 'Inprogress';
       const user_id =
         roleName === 'PROJECT MANAGER' ? userID : Number(values.user_id);
       const Object: any = {
@@ -383,7 +346,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                     value={formik.values.code.toUpperCase()}
                     onChange={formik.handleChange}
                     error={formik.touched.code && formik.errors.code}
-                    // disabled={routeParams?.id === undefined ? false : true}
                   />
                 </div>
                 <div className={Styles.clientInstantAdd}>
@@ -404,19 +366,11 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                       }}
                       addLabel="Add Client"
                       onAddClick={(value) => {
-                        console.log('onAddClick', value);
                         setShowClientForm(true);
                       }}
                       optionList={getAllClientDatadrop}
                     />
                   </div>
-                  {/* <div
-                    className={Styles.clientNewAddMain}
-                    onClick={handleOpenClientForm}
-                  >
-                    <AddIcon style={{ height: '13px', width: '20px' }} />
-                    <h4 className={Styles.addtext}>New client</h4>
-                  </div> */}
                 </div>
               </div>
               <div className={Styles.subOneChildThree}>
@@ -576,21 +530,9 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                 shape="rectangle"
                 size="small"
                 justify="center"
-                // onClick={() => submitHandler()}
               >
                 Save
               </Button>
-              {/* <Button
-                type="button"
-                color="secondary"
-                shape="rectangle"
-                size="small"
-                justify="center"
-                className={Styles.draftButton}
-                onClick={() => drafthandler()}
-              >
-                Save Draft
-              </Button> */}
             </div>
           </div>
         </form>
@@ -601,10 +543,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
           autoHideDuration={1000}
           type="success"
         />
-        {/* <CustomClientAdd
-          isVissible={showClientForm}
-          onAction={setShowClientForm}
-        /> */}
         <CustomSidePopup
           open={showClientForm}
           title={'Add Client'}

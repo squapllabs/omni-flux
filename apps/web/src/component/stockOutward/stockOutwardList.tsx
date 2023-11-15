@@ -80,7 +80,6 @@ const StockOutwardList = () => {
             <div>
               <AutoCompleteSelect
                 name="site_id"
-                // label="Site"
                 optionList={getSiteList != null ? getSiteList : []}
                 value={
                   selectedValue === null && getSiteList != null

@@ -201,7 +201,7 @@ const ProductPage = () => {
                       </div>
                     </th>
                     <th>Action</th>
-                    {activeButton === 'AC' && <th></th>}
+                    {/* {activeButton === 'AC' && <th></th>} */}
                   </tr>
                 </thead>
                 <tbody>
@@ -227,7 +227,7 @@ const ProductPage = () => {
                         </td>
                         <td>{data?.description}</td>
                         <td>{data?.gst?.rate}</td>
-                        <td>{formatBudgetValue(data.rate || '-')}</td>
+                        <td>{formatBudgetValue(data?.rate || '-')}</td>
                         {activeButton === 'AC' && (
                           <td>
                             <div className={Styles.tablerow}>
