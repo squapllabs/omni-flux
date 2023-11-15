@@ -45,7 +45,7 @@ const IndentRequest: React.FC = (props: any) => {
     project_id: Number(routeParams?.id),
     site_id: '',
     request_status: '',
-    request_type: '',
+    // request_type: '',
   });
   const [indentRequestDetailsList, setIndentRequestDetailsList] = useState<any>(
     []
@@ -111,10 +111,10 @@ const IndentRequest: React.FC = (props: any) => {
     { value: 'Medium', label: 'Medium' },
     { value: 'Low', label: 'Low' },
   ];
-  const purchase_type: any = [
-    { value: 'Local Purchase', label: 'Local Purchase' },
-    { value: 'Head Office', label: 'Head Office Purchase' },
-  ];
+  // const purchase_type: any = [
+  //   { value: 'Local Purchase', label: 'Local Purchase' },
+  //   { value: 'Head Office', label: 'Head Office Purchase' },
+  // ];
   const { mutate: postIndentData, isLoading: PostindentLoading } =
     createIndentRequest();
   const { mutate: updateIndentData, isLoading: updateindentLoading } =
@@ -232,47 +232,46 @@ const IndentRequest: React.FC = (props: any) => {
                 },
               });
             } else {
-              if (values.request_type === 'Local Purchase') {
-                const obj: any = {
-                  ...values,
-                  approver_status:
-                    values.request_status === 'Draft' ? 'Draft' : 'Approved',
-                  indent_request_details: indentRequestDetailsList,
-                  site_id: Number(formik.values.site_id),
-                };
-                console.log('obj:::', obj);
-                postIndentData(obj, {
-                  onSuccess(data, variables, context) {
-                    if (data?.status === true) {
-                      setMessage('Indent created successfully');
-                      setOpenSnack(true);
-                      setTimeout(() => {
-                        navigate(`/project-edit/${routeParams?.id}`);
-                      }, 2000);
-                    }
-                  },
-                });
-              } else {
-                const obj: any = {
-                  ...values,
-                  approver_status:
-                    values.request_status === 'Draft' ? 'Draft' : 'Pending',
-                  indent_request_details: indentRequestDetailsList,
-                  site_id: Number(formik.values.site_id),
-                };
-                console.log('obj:::', obj);
-                postIndentData(obj, {
-                  onSuccess(data, variables, context) {
-                    if (data?.status === true) {
-                      setMessage('Indent created successfully');
-                      setOpenSnack(true);
-                      setTimeout(() => {
-                        navigate(`/project-edit/${routeParams?.id}`);
-                      }, 2000);
-                    }
-                  },
-                });
-              }
+              // if (values.request_type === 'Local Purchase') {
+              //   const obj: any = {
+              //     ...values,
+              //     approver_status:
+              //       values.request_status === 'Draft' ? 'Draft' : 'Approved',
+              //     indent_request_details: indentRequestDetailsList,
+              //     site_id: Number(formik.values.site_id),
+              //   };
+              //   postIndentData(obj, {
+              //     onSuccess(data, variables, context) {
+              //       if (data?.status === true) {
+              //         setMessage('Indent created successfully');
+              //         setOpenSnack(true);
+              //         setTimeout(() => {
+              //           navigate(`/project-edit/${routeParams?.id}`);
+              //         }, 2000);
+              //       }
+              //     },
+              //   });
+              // } else {
+              const obj: any = {
+                ...values,
+                approver_status:
+                  values.request_status === 'Draft' ? 'Draft' : 'Pending',
+                indent_request_details: indentRequestDetailsList,
+                site_id: Number(formik.values.site_id),
+              };
+              console.log('obj:::', obj);
+              postIndentData(obj, {
+                onSuccess(data, variables, context) {
+                  if (data?.status === true) {
+                    setMessage('Indent created successfully');
+                    setOpenSnack(true);
+                    setTimeout(() => {
+                      navigate(`/project-edit/${routeParams?.id}`);
+                    }, 2000);
+                  }
+                },
+              });
+              // }
             }
           }
         })
@@ -341,7 +340,7 @@ const IndentRequest: React.FC = (props: any) => {
                       }
                     />
                   </div>
-
+                  {/* <div className={Styles.inputField}> */}
                   <div style={{ width: '40%' }}>
                     <Select
                       label="Site"
@@ -365,33 +364,32 @@ const IndentRequest: React.FC = (props: any) => {
                       )}
                     </Select>
                   </div>
-                  <div style={{ width: '40%' }}>
-                    <Select
-                      label="Purchase Type"
-                      name="request_type"
-                      mandatory={true}
-                      onChange={formik.handleChange}
-                      value={formik.values.request_type}
-                      defaultLabel="Select from priority"
-                      placeholder="Select from priority"
-                      error={
-                        formik.touched.request_type &&
-                        formik.errors.request_type
-                      }
-                      disabled={disabled}
-                    >
-                      {purchase_type?.map((items: any, index: any) => {
-                        return (
-                          <option key={items.value} value={items.value}>
-                            {items.label}
-                          </option>
-                        );
-                      })}
-                    </Select>
-                  </div>
-                </div>
-                {/* <div style={{ marginLeft: '2.5%' }}> */}
-                <div className={Styles.inputFields}>
+                  {/* <div style={{ width: '40%' }}>
+                      <Select
+                        label="Purchase Type"
+                        name="request_type"
+                        mandatory={true}
+                        onChange={formik.handleChange}
+                        value={formik.values.request_type}
+                        defaultLabel="Select from priority"
+                        placeholder="Select from priority"
+                        error={
+                          formik.touched.request_type &&
+                          formik.errors.request_type
+                        }
+                        disabled={disabled}
+                      >
+                        {purchase_type?.map((items: any, index: any) => {
+                          return (
+                            <option key={items.value} value={items.value}>
+                              {items.label}
+                            </option>
+                          );
+                        })}
+                      </Select>
+                    </div> */}
+                  {/* </div> */}
+                  {/* <div style={{ marginLeft: '2.5%' }}> */}
                   <div style={{ width: '40%' }}>
                     <Input
                       label="Total Cost"
@@ -404,20 +402,22 @@ const IndentRequest: React.FC = (props: any) => {
                       disabled={true}
                     />
                   </div>
-                  <div style={{ width: '40%' }}>
-                    <TextArea
-                      name="description"
-                      label="Indent Description"
-                      mandatory={true}
-                      placeholder="Enter project description"
-                      value={formik.values.description}
-                      onChange={formik.handleChange}
-                      rows={4}
-                      maxCharacterCount={400}
-                      error={
-                        formik.touched.description && formik.errors.description
-                      }
-                    />
+                  <div className={Styles.descriptioninputfeild}>
+                    <div style={{ width: '40%' }}>
+                      <TextArea
+                        name="description"
+                        label="Indent Description"
+                        mandatory={true}
+                        placeholder="Enter project description"
+                        value={formik.values.description}
+                        onChange={formik.handleChange}
+                        rows={4}
+                        maxCharacterCount={400}
+                        error={
+                          formik.touched.description && formik.errors.description
+                        }
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

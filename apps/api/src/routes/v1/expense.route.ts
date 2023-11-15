@@ -12,6 +12,8 @@ import {
   getExpenseDetailsByExpenseId,
   updateStatus,
   getByExpenseCode,
+  addIndependentExpense,
+  updateIndependentExpense,
 } from '../../controller/expense.controller';
 import { runValidation } from '../../validations/index';
 
@@ -59,6 +61,21 @@ router.get(
   '/get-by-expense-code/:expense_code',
   authMiddleware,
   getByExpenseCode
+);
+
+router.post(
+  '/addIndependentExpense',
+  authMiddleware,
+  runValidation,
+  addIndependentExpense
+);
+
+router.put(
+  '/updateIndependentExpense',
+  authMiddleware,
+  expenseUpdateValidator,
+  runValidation,
+  updateIndependentExpense
 );
 
 export default router;

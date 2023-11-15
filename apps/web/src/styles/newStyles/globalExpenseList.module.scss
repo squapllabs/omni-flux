@@ -1,7 +1,6 @@
 .container {
   width: 100%;
-  height: 100vh;
-  // background-color: #118153;
+  // height: 100vh;
 }
 
 .topHeading {
@@ -13,8 +12,8 @@
   padding: 0px 10px 0px 10px;
   align-self: center;
   padding-bottom: 10px;
-  // background-color: #118153;
 }
+
 .sub_header {
   height: 10vh;
   display: flex;
@@ -42,6 +41,7 @@
   align-items: center;
   border-radius: 7px;
 }
+
 .amountCards {
   display: flex;
   flex-direction: row;
@@ -59,6 +59,7 @@
   padding: 25px;
   background-color: white;
 }
+
 .card2 {
   display: flex;
   justify-content: flex-start;
@@ -69,6 +70,7 @@
   padding: 25px;
   background-color: white;
 }
+
 .grpButtons {
   display: flex;
   justify-content: center;
@@ -79,9 +81,11 @@
 .approvedStyles {
   color: #118153;
 }
+
 .rejectedStyles {
   color: red;
 }
+
 .pendingStyles {
   color: #c01574;
 }
@@ -92,18 +96,21 @@
   border-radius: 50px;
   color: #027a48;
 }
+
 .pendingStatus {
   background-color: #fdf2fa;
   padding: 6px;
   border-radius: 50px;
   color: #c11574;
 }
+
 .rejectedStatus {
   background-color: #fffaeb;
   padding: 6px;
   border-radius: 50px;
   color: #b54708;
 }
+
 .draftStatus {
   background-color: #eff8ff;
   padding: 6px;
@@ -112,16 +119,15 @@
 }
 
 .emptyData {
+
+  width: 100%;
+  height: 75vh;
   position: absolute;
-  top: 70%;
-  left: 60%;
-  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2px;
-  // text-align: center;
+  gap: 10px;
 }
 
 .tableContainer {
@@ -164,15 +170,7 @@
     }
   }
 
-  td:hover,
-  tr:hover {
-    /* Add hover styles if needed */
-  }
   tbody {
-    tr:nth-child(odd) {
-      // background: red;
-    }
-    //even keyword
     tr:nth-child(even) {
       // opacity: .7;
       // color: black;
@@ -237,90 +235,93 @@
 }
 
 .cardTable {
-  border: 1px  solid #ddd; 
+  border: 1px solid #ddd;
   border-bottom: 2px solid rgb(198, 197, 197);
-  border-radius: 2px 2px 0px 0px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  background-color: #fff; 
-  width: 80%; 
+  border-radius: 2px 2px 0px 0px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  width: 80%;
   height: 50px;
   overflow-y: scroll;
   text-align: center;
-  margin: 0; 
+  margin: 0;
 }
 
 .cardTable th {
-  padding: 5px; 
+  padding: 5px;
   border: none;
   font-size: 14px;
 }
 
 
 .cardTable td {
-  padding: 5px; 
+  padding: 5px;
   font-size: 14px;
   border: none;
-  // border-bottom: 1px solid black;
 }
 
-
 .cardHeader {
-  background-color: #f7f7f7; 
-  font-size: 12px; 
-  border-bottom: 1px solid #ddd; 
+  background-color: #f7f7f7;
+  font-size: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
 }
 
 
 @media only screen and (max-width: 750px) {
-  
-.topHeading {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  // background-color: green;
+
+  .topHeading {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    // background-color: green;
+  }
+
+  .sub_header {
+    display: none;
+  }
+
+  .amountCards {
+    display: flex;
+    flex-direction: column;
+    // background-color: red;
+    row-gap: 15px;
+    // justify-content: space-between;
+    // flex-wrap: wrap;
+  }
+
+
+  .tableContainer {
+    overflow-x: auto;
+    margin: 0px -10px;
+  }
+
+  .scrollable_table {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .scrollable_table,
+  .scrollable_table th,
+  .scrollable_table td {
+    padding: 15px;
+  }
+
+  .pagination {
+    padding: 10px 25px 10px 25px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .grpButtons {
+    display: flex;
+    justify-content: center;
+    padding: 0px 0px 25px 90px;
+  }
+
 }
-
-.sub_header {
-  display: none;
-}
-
-.amountCards {
-  display: flex;
-  flex-direction: column;
-  // background-color: red;
-  row-gap: 15px;
-  // justify-content: space-between;
-  // flex-wrap: wrap;
-}
-
-
-.tableContainer {
-  overflow-x: auto; 
-  margin: 0px -10px; 
-}
-
-.scrollable_table {
-  width: 100%;
-  max-width: 100%;
-}
-
-.scrollable_table,
-.scrollable_table th,
-.scrollable_table td {
-  padding: 15px;
-}
-
-.pagination {
-  padding: 10px 25px 10px 25px;
-  display: flex;
-  justify-content: center;
-}
-
-.grpButtons {
-  display: flex;
-  justify-content: center;
-  padding: 0px 0px 25px 90px;
-}
-
-} 

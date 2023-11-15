@@ -297,7 +297,7 @@ const PurchaseList = () => {
                       },
                     },
                     {
-                      label: 'Purhcase Request',
+                      label: 'Purchase Request',
                       onClick: () => {
                         navigate(
                           `/purchase-request-list/${data.indent_request_id}`

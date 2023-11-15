@@ -86,6 +86,19 @@ const getOneItemByName = async (values: any) => {
   }
 };
 
+const getOneItemByCode = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/item/check-duplicate-code/${values}`
+    );
+    console.log("service",response.data);
+    return response.data;
+  } catch (error) {
+    console.log('Error in getOneItemByCode:', error);
+    throw error;
+  }
+};
+
 export default {
   addProduct,
   getAllItems,
@@ -93,5 +106,6 @@ export default {
   getOneByItemID,
   updateItem,
   filterItem,
-  getOneItemByName
+  getOneItemByName,
+  getOneItemByCode
 };

@@ -16,6 +16,8 @@ interface vendorBody {
   notes: string;
   created_by: number;
   updated_by: number;
+  ratings: string;
+  code: string;
 }
 
 export { vendorBody };

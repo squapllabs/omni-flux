@@ -3,6 +3,7 @@ import itemDao from '../dao/item.dao';
 import { createItemBody, updateItemBody } from '../interfaces/item.interface';
 import prisma from '../utils/prisma';
 import xlsx from 'xlsx';
+
 /**
  * Method to Add a new item
  * @param body
@@ -21,6 +22,7 @@ const addItem = async (body: createItemBody) => {
     const updated_by = body.updated_by;
     const item_type_id = body.item_type_id;
     const rate = body.rate;
+    const code = body.code;
 
     result = await prisma
       .$transaction(async (prisma) => {
@@ -35,6 +37,7 @@ const addItem = async (body: createItemBody) => {
           item_type_id,
           brand_id,
           rate,
+          code,
           prisma
         );
 
@@ -59,12 +62,12 @@ const addItem = async (body: createItemBody) => {
     throw error;
   }
 };
+
 /**
  * Method to Add a bulk item
  * @param body
  * @returns
  */
-
 const addBulkItems = async (req) => {
   try {
     const workbook = xlsx.read(req.file.buffer, { type: 'buffer' });
@@ -106,16 +109,17 @@ const transformExcelData = (data: any[]): createItemBody[] => {
       brand_id: Number(item.brand_id),
       is_delete: false,
       rate: Number(item.rate),
+      code: item.code,
     };
   });
 
   return parsedData;
 };
+
 /**
  * Method to Get All item
  * @returns
  */
-
 const getAllItem = async (data) => {
   try {
     const offset = data.offset;
@@ -163,6 +167,14 @@ const getAllItem = async (data) => {
     throw error;
   }
 };
+
+/**
+ * Method for Apply Filter
+ * @param filterObj
+ * @param field_name
+ * @param operator
+ * @param field_value
+ */
 const applyFilter = async (filterObj, field_name, operator, field_value) => {
   if (operator === 'Equal') {
     filterObj.filterItem[field_name] = field_value;
@@ -277,6 +289,7 @@ const updateItem = async (body: updateItemBody) => {
     const item_type_id = body.item_type_id;
     const brand_id = body.brand_id;
     const rate = body.rate;
+    const code = body.code;
     let result = null;
     const ItemExist = await itemDao.getById(item_id);
     if (ItemExist) {
@@ -290,7 +303,8 @@ const updateItem = async (body: updateItemBody) => {
         updated_by,
         item_type_id,
         brand_id,
-        rate
+        rate,
+        code
       );
       result = { message: 'success', status: true, data: itemDetails };
       return result;
@@ -482,6 +496,26 @@ const getByIndentRequestId = async (indent_request_id: number) => {
   }
 };
 
+/**
+ * Method to get item by code
+ * @param code
+ * @returns {Promise<object>} Result object
+ */
+const getByCode = async (code: string) => {
+  try {
+    const itemData = await itemDao.getByCode(code);
+    const isExist = !!itemData;
+    return {
+      message: isExist ? 'code already exists' : 'code does not exists',
+      status: isExist,
+      is_exist: isExist,
+      data: itemData,
+    };
+  } catch (error) {
+    console.log('Error occurred in getByCode item service: ', error);
+    throw error;
+  }
+};
 export {
   addItem,
   getAllItem,
@@ -494,4 +528,5 @@ export {
   searchItem,
   getByItemName,
   getByIndentRequestId,
+  getByCode,
 };
