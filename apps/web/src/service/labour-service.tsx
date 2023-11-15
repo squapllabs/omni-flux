@@ -19,8 +19,6 @@ const filterLabour = async (values: JSON) => {
       `${environment.apiUrl}/labour/search`,
       values
     );
-    // console.log("response.data =====>/////",response.data);
-    
     return response.data;
   } catch (error) {
     console.log('Error in labour filter :', error);

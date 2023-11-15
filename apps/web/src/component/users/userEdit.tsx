@@ -280,15 +280,6 @@ const UserEdit = () => {
               <div className={Styles.fieldsOne}>
                 <div className={Styles.inputField}>
                   <span className={Styles.projectHeading}>Date of Birth</span>
-                  {/* <div className={Styles.dateField}>
-                    <input
-                      type="date"
-                      name="date_of_birth"
-                      onChange={formik.handleChange}
-                      value={formik.values.date_of_birth}
-                      className={Styles.datePicker}
-                    />
-                  </div> */}
                   <div className={Styles.dateField}>
                     <DatePicker
                         name="date_of_birth"

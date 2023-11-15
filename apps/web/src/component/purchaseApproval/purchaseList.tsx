@@ -307,7 +307,7 @@ const PurchaseList = () => {
                     },
                   ];
                   return (
-                    <tr key={data.indent_request_id}>
+                    <tr key={data?.indent_request_id}>
                       <td>{startingIndex + index}</td>
                       <td>{data?.indent_request_code}</td>
                       <td>{data?.project_data?.project_name}</td>

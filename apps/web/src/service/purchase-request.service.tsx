@@ -174,8 +174,6 @@ const purchaseDetailData = async (values: any) => {
 
 const purchseOrderGetAll = async (values: any) => {
   try {
-    console.log("values",values);
-    
     const response = await axiosinterceptor.post(
       `${environment.apiUrl}/purchase-order/get-all`,
       values

@@ -54,8 +54,6 @@ const getCustomBomData = async (values: JSON) => {
       `${environment.apiUrl}/bom/get-by-category-combo`,
       values
     );
-    console.log('response in service==>', response);
-
     return response.data;
   } catch (error) {
     console.log('Error in getCustomBomData  :', error);
