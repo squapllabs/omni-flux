@@ -601,7 +601,6 @@ const BomItems = (props: {
             onClick={() => {
                 const tempArray = [...deleteNodeById(uploadedTaskData,item.uniqueId)]
                 setUploadedTaskData(tempArray)
-            debugger
               // Handle delete action for this item
             }}
           />

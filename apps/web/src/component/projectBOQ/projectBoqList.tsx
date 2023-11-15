@@ -18,12 +18,11 @@ import CustomSubCategoryAddPopup from '../ui/CustomSubCategoryPopup';
 import BomService from '../../service/bom-service';
 import { formatBudgetValue } from '../../helper/common-function';
 import BomItems from '../projectBOQ/boqItems';
-// import Bom from './bom';
 import { useNavigate, useParams } from 'react-router-dom';
 import CategoryService from '../../service/category-service';
 import EditIcon from '../menu/icons/newEditIcon';
 import ViewIcon from '../menu/icons/newViewIcon';
-import DeleteIcon from '../menu/icons/deleteIcon';
+import DeleteIcon from '../menu/icons/newDeleteIcon';
 import CustomSnackBar from '../ui/customSnackBar';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import { getByProjectId } from '../../hooks/project-hooks';
@@ -39,7 +38,9 @@ import FileUploadIcon from '../menu/icons/fileUploadIcon';
 import { createMultipleCategory, getBySearchCategroy} from '../../hooks/category-hooks';
 import Pagination from '../menu/CustomPagination';
 import DownloadIcon from '../menu/icons/download';
-
+import CheckIcon from '../menu/icons/checkIcon';
+import TextArea from '../ui/CustomTextArea';
+import Input from '../ui/Input';
 
 interface BomListProps {
   bom_details: any
@@ -261,6 +262,14 @@ const handleFileUploadBtnClick = () =>{
     setShowSubCategoryForm(false);
   };
   // const open = true;
+
+  let uniqueIdCounter = 1;
+
+  const getUniqueId = ()=>{
+    uniqueIdCounter = uniqueIdCounter + 1
+    return uniqueIdCounter
+  }
+
 const handleFileOnChange = async (e:any) =>{
   const file = e.target.files[0];
   if (file) {
@@ -277,28 +286,35 @@ const handleFileOnChange = async (e:any) =>{
         bulkUploadData = {
           abstractName : 'CIVIL WORKS'
         }
-        const bodyData = parsedJson.filter((element:any) => {
+        let bodyData = parsedJson.filter((element:any) => {
           const keys = Object.keys(element)
+
           if(keys.length >= 2){
             return true
           }
-  
+
           return false
         });
+        bodyData = bodyData.map((data:any)=>({
+          se_no: data['SI.NO'],
+          amount:data['Amount'],
+          desc:data['Description'],
+          edit:false,
+          uniqId: getUniqueId()
+        }))
         if(bodyData.length){
           bulkUploadData = {
             ...bulkUploadData,
             bodyData
           }
           setAbstractBulkData(bulkUploadData)
+          
         }
       }
     };
     reader.readAsArrayBuffer(file);
   }
   }
-
-
   const uploadBulkAbstract = (data:any) =>{
     if(data && data?.bodyData.length){
       console.log('data?.bodyData',data?.bodyData)
@@ -307,8 +323,8 @@ const handleFileOnChange = async (e:any) =>{
       data.bodyData.forEach((element:any)=>{
         const obj = {
           name : bom_details.bom_description || '',
-          description: element['Description'],
-          estimated_budget: element['Amount'],
+          description: element.desc,
+          estimated_budget: element.amount,
           project_id: projectsId,
           budget: 0,
           start_date: '',
@@ -469,6 +485,7 @@ const handleFileOnChange = async (e:any) =>{
                                   <th  style={{padding: '5px 10px'}}>S No</th>
                                   <th  style={{padding: '5px 10px'}}>Name of Work</th>
                                   <th  style={{padding: '5px 10px'}}>Amount</th>
+                                  <th  style={{padding: '5px 10px'}}>Action</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -482,10 +499,85 @@ const handleFileOnChange = async (e:any) =>{
                                       >{index + 1}</td>
                                       <td
                                       style={{padding: '10px 10px'}}
-                                      >{item['Description']}</td>
+                                      >
+                                        { item.edit ? (
+                                          <TextArea
+                                          name="description"
+                                          label="Description"
+                                          placeholder="Enter description"
+                                          rows={2}
+                                          width={'30rem'}
+                                          value={item.desc}
+                                          onChange={(e: any)=>{
+                                            item.desc = e.target.value
+                                            const temp = {...abstractBulkData}
+                                            setAbstractBulkData(temp)
+                                          }}
+                                          mandatory={true}
+                                          // error={formik.touched.desc && formik.errors.desc}
+                                          maxCharacterCount={1000}
+                                        />
+                                      ) : (item.desc || '--')}</td>
                                       <td
                                       style={{padding: '10px 10px'}}
-                                      >{item['Amount']}</td>
+                                      >
+                                        { item.edit ? (
+                                            <Input
+                                            label="Amount"
+                                            placeholder="Enter Amount"
+                                            name="amount"
+                                            type="number"
+                                            mandatory={false}
+                                            value={item.amount}
+                                            onChange={(e: any)=>{
+                                                item.amount = Number(e.target.value)
+                                                const temp = {...abstractBulkData}
+                                                setAbstractBulkData(temp)
+                                              }}
+                                            width={'150px'}
+                                            // error={formik.touched.quantity && formik.errors.quantity}
+                                          />
+                                          ) : (item.amount || '--')
+                                          }</td>
+                                      <td 
+                                        className={`${Styles.flex} ${Styles.space_between}`}
+                                        style={{
+                                          display:'flex',
+                                          justifyContent:'flex-start',
+                                          alignItems:'center',
+                                          gap:'1rem',
+                                          cursor:'pointer',
+                                          minHeight: item.edit?'96px':'auto'
+                                          }}
+                                        >
+                                          { item.edit ?(
+                                            <span
+                                            onClick={()=>{
+                                              item.edit = false;
+                                              const temp = {...abstractBulkData}
+                                              setAbstractBulkData(temp)
+                                            }}
+                                            > <CheckIcon/>
+                                            </span>
+                                          
+                                          ):(
+                                            <EditIcon
+                                            onClick={()=>{
+                                              item.edit = true;
+                                              const temp = {...abstractBulkData}
+                                              setAbstractBulkData(temp)
+                                            }}
+                                            />
+                                          )}
+                                        
+                                          <DeleteIcon
+                                            onClick={() => {
+                                              abstractBulkData?.bodyData.splice(index , 1)
+                                              const temp = {...abstractBulkData}
+                                              setAbstractBulkData(temp)
+                                            }}
+                                          />
+                                        </td>
                                     </tr>
                                   ))
                                 ) : (
