@@ -94,7 +94,19 @@ const getByVendorName = async (values: any) => {
     );
     return response.data;
   } catch (error) {
-    console.log('Error in getting all Vendors:', error);
+    console.log('Error in getByVendorName:', error);
+    throw error;
+  }
+};
+
+const getByVendorCode = async (values: any) => {
+  try {
+    const response = await axiosinterceptor.get(
+      `${environment.apiUrl}/vendor/check-duplicate-code/${values}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in getByVendorCode:', error);
     throw error;
   }
 };
@@ -107,5 +119,6 @@ export default {
   updateVendors,
   getOneVendorEmail,
   getAllVendors,
-  getByVendorName
+  getByVendorName,
+  getByVendorCode
 }

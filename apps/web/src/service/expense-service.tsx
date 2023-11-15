@@ -61,10 +61,36 @@ const createsiteExpense = async (values: JSON) => {
     throw error;
   }
 };
+
+const createGlobalExpense = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.post(
+      `${environment.apiUrl}/expense/addIndependentExpense/`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in expense create :', error);
+    throw error;
+  }
+};
+
 const updatesiteExpense = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.put(
       `${environment.apiUrl}/expense/`,
+      values
+    );
+    return response.data;
+  } catch (error) {
+    console.log('Error in expense edit:', error);
+  }
+};
+
+const updateGlobalExpense = async (values: JSON) => {
+  try {
+    const response = await axiosinterceptor.put(
+      `${environment.apiUrl}/expense/updateIndependentExpense/`,
       values
     );
     return response.data;
@@ -161,4 +187,6 @@ export default {
   getOnesiteExpenseDetailByID,
   updatesiteExpenseStatus,
   getOnesiteExpenseByCode,
+  createGlobalExpense,
+  updateGlobalExpense
 };
