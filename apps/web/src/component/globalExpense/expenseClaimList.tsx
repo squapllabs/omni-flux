@@ -3,7 +3,7 @@ import Button from '../ui/Button';
 import AddIcon from '../menu/icons/addIcon';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import GlobalExpenseForm from './expenseForm';
-import Styles from '../../styles/newStyles/siteExpenseList.module.scss';
+import Styles from '../../styles/newStyles/globalExpenseList.module.scss';
 import MoneyIcon from '../menu/icons/moneyIcon';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import { getBySearchsiteExpense } from '../../hooks/expense-hook';
@@ -114,9 +114,9 @@ const ExpenseList = () => {
       <ProjectSubheader
         title="Expense List"
         // description="Create your Project with mandatory Details"
-        navigation="/Settings"
+        navigation="/home"
       />
-      <CustomLoader loading={fetchLoader} size={48}>
+      <CustomLoader loading={fetchLoader} size={48} color='black'>
         {/* {getSiteList ? ( */}
         <div>
           <div className={Styles.topHeading}>
@@ -256,7 +256,7 @@ const ExpenseList = () => {
                                       <td>{rowIndex}</td>
                                       <td>{items?.expense_code}</td>
                                       <td>{items?.employee_name}</td>
-                                      <td>{items?.site_data?.name}</td>
+                                      <td>{items?.site_data?.name || "-"}</td>
                                       <td>
                                         <span
                                           className={`${Styles.status} ${
@@ -442,7 +442,7 @@ const ExpenseList = () => {
             ) : (
               <div className={Styles.emptyData}>
                 <MoneyIcon height={60} width={60} color="#475467" />
-                <h5>No Site Expenses added for this site </h5>
+                <h5>No Expenses added </h5>
                 <span className={Styles.spanContent}>
                   Let's add an expanse now
                 </span>

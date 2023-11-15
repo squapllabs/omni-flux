@@ -1,0 +1,327 @@
+.container {
+  width: 100%;
+  // height: 100vh;
+}
+
+.topHeading {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 0px 10px 0px 10px;
+  align-self: center;
+  padding-bottom: 10px;
+}
+
+.sub_header {
+  height: 10vh;
+  display: flex;
+}
+
+.vertical {
+  position: relative;
+}
+
+.verticalLine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: #d0d5dd;
+  height: 100%;
+}
+
+.cards {
+  background-color: #f9f9f9;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7px;
+}
+
+.amountCards {
+  display: flex;
+  flex-direction: row;
+  // justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.card1 {
+  display: flex;
+  justify-content: flex-start;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  height: 20%;
+  border-radius: 7px;
+  padding: 25px;
+  background-color: white;
+}
+
+.card2 {
+  display: flex;
+  justify-content: flex-start;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  // width: 100%;
+  height: 20%;
+  border-radius: 7px;
+  padding: 25px;
+  background-color: white;
+}
+
+.grpButtons {
+  display: flex;
+  justify-content: center;
+  padding: 15px 0px 25px 0px;
+  // background-color: #667085;
+}
+
+.approvedStyles {
+  color: #118153;
+}
+
+.rejectedStyles {
+  color: red;
+}
+
+.pendingStyles {
+  color: #c01574;
+}
+
+.approvedStatus {
+  background-color: #ecfdf3;
+  padding: 6px;
+  border-radius: 50px;
+  color: #027a48;
+}
+
+.pendingStatus {
+  background-color: #fdf2fa;
+  padding: 6px;
+  border-radius: 50px;
+  color: #c11574;
+}
+
+.rejectedStatus {
+  background-color: #fffaeb;
+  padding: 6px;
+  border-radius: 50px;
+  color: #b54708;
+}
+
+.draftStatus {
+  background-color: #eff8ff;
+  padding: 6px;
+  border-radius: 50px;
+  color: #175cd3;
+}
+
+.emptyData {
+
+  width: 100%;
+  height: 75vh;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.tableContainer {
+  padding: 10px 10px 0px 10px;
+}
+
+/* Apply the scrollable_table class to your table element */
+.scrollable_table {
+  width: 100%;
+  height: 100%;
+  padding: 10px 10px;
+  gap: 12px;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 10px 10px 10px 24px;
+    text-align: left;
+    font-weight: var(--tableData-fontWeight);
+    font-size: var(--tableData-fontSize);
+    border: none;
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  td {
+    border-bottom: 0.1px solid #f0f0f0;
+  }
+
+  thead {
+    tr {
+      th {
+        padding: 10px 10px 10px 24px;
+        color: var(--tableHeader-fontColor);
+        background-color: var(--tableHeader-backgroundColor);
+        border: none;
+        font-size: var(--tableHeader-fontSize);
+        font-weight: var(--tableHeader-fontWeight);
+        text-transform: var(--tableHeader-textTransform);
+      }
+    }
+  }
+
+  tbody {
+    tr:nth-child(even) {
+      // opacity: .7;
+      // color: black;
+      background-color: var(--tableRow-backgroundColor);
+    }
+  }
+
+  .td_desc {
+    min-width: 55.5rem;
+  }
+}
+
+.spanContent {
+  font-size: 0.8rem;
+}
+
+.subHeading {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 11px;
+}
+
+.emptyDataHandling {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  padding-top: 3px;
+}
+
+.textmin {
+  padding: 10px;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.textmax {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.image {
+  display: flex;
+  justify-content: center;
+}
+
+.mobileTableContainer {
+  background-color: #f9f9f9;
+  height: 500px;
+  overflow-y: scroll;
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.cardTable {
+  border: 1px solid #ddd;
+  border-bottom: 2px solid rgb(198, 197, 197);
+  border-radius: 2px 2px 0px 0px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  width: 80%;
+  height: 50px;
+  overflow-y: scroll;
+  text-align: center;
+  margin: 0;
+}
+
+.cardTable th {
+  padding: 5px;
+  border: none;
+  font-size: 14px;
+}
+
+
+.cardTable td {
+  padding: 5px;
+  font-size: 14px;
+  border: none;
+}
+
+.cardHeader {
+  background-color: #f7f7f7;
+  font-size: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+
+
+@media only screen and (max-width: 750px) {
+
+  .topHeading {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    // background-color: green;
+  }
+
+  .sub_header {
+    display: none;
+  }
+
+  .amountCards {
+    display: flex;
+    flex-direction: column;
+    // background-color: red;
+    row-gap: 15px;
+    // justify-content: space-between;
+    // flex-wrap: wrap;
+  }
+
+
+  .tableContainer {
+    overflow-x: auto;
+    margin: 0px -10px;
+  }
+
+  .scrollable_table {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .scrollable_table,
+  .scrollable_table th,
+  .scrollable_table td {
+    padding: 15px;
+  }
+
+  .pagination {
+    padding: 10px 25px 10px 25px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .grpButtons {
+    display: flex;
+    justify-content: center;
+    padding: 0px 0px 25px 90px;
+  }
+
+}
