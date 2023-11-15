@@ -26,7 +26,6 @@ import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useLocation } from 'react-router-dom';
-import PreviousPageIcon from '../menu/icons/previousPageIcon';
 import ProjectSubheader from '../project/projectSubheader';
 
 const StoreOutwardAdd = () => {
@@ -54,7 +53,6 @@ const StoreOutwardAdd = () => {
   const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
-  let rowIndex = 0;
   let Obj: any = {
     projectID: projectId,
     role: 'Site Engineer',
@@ -144,37 +142,7 @@ const StoreOutwardAdd = () => {
           <form onSubmit={formik.handleSubmit}>
             <div className={Styles.fields_container}>
               <div className={Styles.fields_container_1}>
-                {/* <div>
-                  <Input
-                    label="OutWardID"
-                    placeholder="STO-YYYY-"
-                    name="quantity"
-                    // mandatory={true}
-                    disabled={true}
-                    width="350px"
-                    // value={formik.values.quantity}
-                    onChange={formik.handleChange}
-                    // error={
-                    //     formik.touched.quantity && formik.errors.quantity
-                    // }
-                  />
-                </div>
-                <div>
-                  <Input
-                    label="Project"
-                    // name="user_id"
-                    width="350px"
-                    // onSelect={(value) => {
-                    //     formik.setFieldValue('user_id', value);
-                    // }}
-                    value={getProjectData?.project_name}
-                    disabled={true}
-                    // error={
-                    //     formik.touched.user_id &&
-                    //     formik.errors.user_id
-                    // }
-                  />
-                </div> */}
+
                 <div className={Styles.topHeading}>
                   <span className={Styles.heading}>Project Name</span>
                   <h3>{getProjectData?.project_name}</h3>
@@ -205,7 +173,6 @@ const StoreOutwardAdd = () => {
                     value={formik.values.site_engineer_id}
                     placeholder="Select from options"
                     mandatory
-                    // disabled={siteChecked === false ? true : false}
                     width="350px"
                     onSelect={(value) => {
                       formik.setFieldValue('site_engineer_id', value);
@@ -226,7 +193,6 @@ const StoreOutwardAdd = () => {
                     disabled={disable}
                     width="350px"
                     value={formik.values.stock_outward_date}
-                    // error={formik.touched.access_start_date && formik.errors.access_start_date}
                   />
                 </div>
               </div>
@@ -236,19 +202,11 @@ const StoreOutwardAdd = () => {
                     name="is_editable"
                     checked={checked}
                     onChange={(e) => handleCheckBoxChange(e)}
-                    // label="Edit OutWard Date"
                   />
                   <span className={Styles.checkBox}> Edit OutWard Date</span>
                 </div>
               </div>
               <div className={Styles.dividerStyle1}></div>
-              {/* <div className={Styles.tableContainer}>
-                <ItemDetailsTable
-                  stockData={stockData}
-                  setStockData={setStockData}
-                  projectId={projectId}
-                />
-              </div> */}
               {formik.values.site_id && (
                 <div className={Styles.tableContainer}>
                   <ItemDetailsTable
@@ -330,20 +288,6 @@ const ItemDetailsTable: React.FC = (props: {
     fetchProjectInventoryItem();
   }, []);
 
-  // const handleChange = (
-  //     event: React.ChangeEvent<HTMLInputElement>,
-  //     index: number
-  // ) => {
-  //     let tempObj: any = {};
-  //     tempObj = {
-  //         ...stockData[index],
-  //         [event.target.name]: event.target.value,
-  //     };
-  //     const tempArry = [...stockData];
-  //     tempArry[index] = tempObj;
-  //     setStockData(tempArry);
-  // };
-
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -405,7 +349,6 @@ const ItemDetailsTable: React.FC = (props: {
                     <div
                       style={{
                         cursor: 'pointer',
-                        // paddingBottom: '20px',
                       }}
                     >
                       <div>
@@ -421,7 +364,6 @@ const ItemDetailsTable: React.FC = (props: {
               <td>
                 <AutoCompleteSelect
                   placeholder="Select from options"
-                  // width="250px"
                   name="item_id"
                   mandatory={true}
                   optionList={itemData}
@@ -484,17 +426,14 @@ const ItemDetailsTable: React.FC = (props: {
                   disabled={true}
                   value={formik.values.uom_name}
                   onChange={formik.handleChange}
-                  // error={formik.touched.bom_name && formik.errors.bom_name}
                 />
               </td>
               <td>
                 <div
                   style={{
                     cursor: 'pointer',
-                    // paddingBottom: '20px',
                   }}
                 >
-                  <div>{/* <DeleteIcon /> */}</div>
                 </div>
               </td>
             </tr>

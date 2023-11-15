@@ -414,6 +414,14 @@ const Navbar = () => {
                     <div className={Styles.dropDownContainer}>
                       <div>
                         <div className={Styles.dropDownContent}>
+                          <div
+                            className={Styles.dropDownItems}
+                            onClick={handleExpenseList}
+                          >
+                            <div className={Styles.itemsTitle}>
+                              <h2>Expense-Claim</h2>
+                            </div>
+                          </div>
                           {roleName === 'PROJECT MANAGER' ||
                           roleName === 'ADMIN' ? (
                             <div
@@ -439,14 +447,6 @@ const Navbar = () => {
                               </div>
                             </div>
                           ) : null}
-                          <div
-                            className={Styles.dropDownItems}
-                            onClick={handleExpenseList}
-                          >
-                            <div className={Styles.itemsTitle}>
-                              <h2>Expense-Claim</h2>
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </div>

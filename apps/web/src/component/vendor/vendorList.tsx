@@ -7,10 +7,8 @@ import Input from '../ui/Input';
 import SearchIcon from '../menu/icons/search';
 import Pagination from '../menu/CustomPagination';
 import EditIcon from '../menu/icons/newEditIcon';
-import DeleteIcon from '../menu/icons/newDeleteIcon';
 import ViewIcon from '../menu/icons/newViewIcon';
 import AddIcon from '../menu/icons/addIcon';
-import CustomGroupButton from '../ui/CustomGroupButton';
 import Styles from '../../styles/vendor.module.scss';
 import {
   useGetAllPaginatedVendor,
@@ -33,7 +31,6 @@ const VendorList = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [dataShow, setDataShow] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
@@ -61,11 +58,6 @@ const VendorList = () => {
     data: getFilterData,
     isLoading: searchLoader,
   } = getByFilterVendor();
-
-  const deleteVendorHandler = (value: any) => {
-    setValue(value);
-    setOpenDelete(true);
-  };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -160,43 +152,7 @@ const VendorList = () => {
                     setCurrentPage(1);
                   }}
                 />
-                {/* <div>
-                    <CustomGroupButton
-                      labels={buttonLabels}
-                      onClick={handleGroupButtonClick}
-                      activeButton={activeButton}
-                    />
-                  </div> */}
               </div>
-              {/* <div>
-              <Input
-                width="260px"
-                prefixIcon={<SearchIcon />}
-                name="search_by_name"
-                value={filterValues.search_by_name}
-                onChange={(e) => handleFilterChange(e)}
-                placeholder="Search"
-              />
-              <Button
-                className={Styles.searchButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={handleSearch}
-              >
-                Search
-              </Button>
-              <Button
-                className={Styles.resetButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={handleReset}
-                disabled={isResetDisabled}
-              >
-                Reset
-              </Button>
-              </div> */}
             </div>
             <div className={Styles.tableContainer}>
               <table className={Styles.scrollable_table}>
@@ -246,11 +202,6 @@ const VendorList = () => {
                                       navigate(`/vendor-edit/${data.vendor_id}`)
                                     }
                                   />
-                                  {/* <DeleteIcon
-                                        onClick={() =>
-                                          deleteVendorHandler(data.vendor_id)
-                                        }
-                                      /> */}
                                 </div>
                               </td>
                             )}
@@ -275,8 +226,6 @@ const VendorList = () => {
                         {activeButton === 'AC' && (
                           <td>
                             <div className={Styles.tablerow}>
-                              {/* <EditIcon onClick={() => handleEdit(data)} />
-                               */}
                               <EditIcon
                                 onClick={() =>
                                   navigate(`/vendor-edit/${data.vendor_id}`, { state: { path: currentPath } })
@@ -287,11 +236,6 @@ const VendorList = () => {
                                   navigate(`/vendor-info/${data.vendor_id}`)
                                 }
                               />
-                              {/* <DeleteIcon
-                                    onClick={() =>
-                                      deleteVendorHandler(data.vendor_id)
-                                    }
-                                  /> */}
                             </div>
                           </td>
                         )}
@@ -319,8 +263,6 @@ const VendorList = () => {
         ) : (
           <div>
             <div className={Styles.subHeading}>
-              {/* <MasterDataIcon /> */}
-              {/* <span>Vendors</span> */}
             </div>
             <div className={Styles.emptyDataHandling}>
               <div>

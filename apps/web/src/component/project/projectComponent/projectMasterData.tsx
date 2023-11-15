@@ -7,13 +7,10 @@ import MasterDataIcon from '../../menu/icons/masterDataIcon';
 import { useGetAllPaginatedMasterData } from '../../../hooks/masertData-hook';
 import EditIcon from '../../menu/icons/newEditIcon';
 import CustomLoader from '../../ui/customLoader';
-import CustomGroupButton from '../../ui/CustomGroupButton';
 import CustomPagination from '../../menu/CustomPagination';
-// import CustomPopup from '../../ui/CustomRightSidePopup';
 import CustomPopup from '../../ui/CustomSidePopup';
 import ProjectMasterDataEditForm from './projectMasterDataEdit';
 import CustomSnackBar from '../../ui/customSnackBar';
-import DeleteIcon from '../../menu/icons/newDeleteIcon';
 
 const ProjectMasterData: React.FC = (props: any) => {
   const routeParams = useParams();
@@ -25,7 +22,7 @@ const ProjectMasterData: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [mode, setMode] = useState('');
-  const [masterId,setMasterId] = useState();
+  const [masterId, setMasterId] = useState();
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
@@ -66,7 +63,6 @@ const ProjectMasterData: React.FC = (props: any) => {
     setOpen(false);
   }
 
-  
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
@@ -77,166 +73,156 @@ const ProjectMasterData: React.FC = (props: any) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-  const handleGroupButtonClick = (value: string) => {
-    setActiveButton(value);
-  };
-  
+
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
+
   return (
     <div className={Styles.container}>
-    <div>
-      <CustomLoader
-        loading={getAllLoadingProjectMasterData}
-        size={48}
-        color="#333C44"
-      >
-        {/* Header Part */}
-        {initialData?.is_available ? (
-          <div>
-            <div className={Styles.topHeading}>
-              <div className={Styles.heading}>
-                <div className={Styles.subHeading}>
-                  <MasterDataIcon />
-                  <h3>BOQ Type</h3>
+      <div>
+        <CustomLoader
+          loading={getAllLoadingProjectMasterData}
+          size={48}
+          color="#333C44"
+        >
+          {/* Header Part */}
+          {initialData?.is_available ? (
+            <div>
+              <div className={Styles.topHeading}>
+                <div className={Styles.heading}>
+                  <div className={Styles.subHeading}>
+                    <MasterDataIcon />
+                    <h3>BOQ Type</h3>
+                  </div>
+                  <div>
+                    <Button
+                      color="primary"
+                      shape="rectangle"
+                      justify="center"
+                      size="small"
+                      icon={<AddIcon color="white" />}
+                      onClick={handleAddMasterData}
+                    >
+                      Add BOQ Type
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              {/* Table Part */}
+              <div className={Styles.tableContainer}>
+                <div>
+                  <table className={Styles.scrollable_table}>
+                    <thead>
+                      <tr>
+                        <th className={Styles.tableHeading}>#</th>
+                        <th className={Styles.tableHeading}>Name</th>
+                        <th className={Styles.tableHeading}>Description</th>
+                        <th className={Styles.tableHeading}>Code</th>
+                        <th className={Styles.tableHeading}>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {initialData?.total_count === 0 ? (
+                        <tr>
+                          <td colSpan="5" style={{ textAlign: 'center' }}>
+                            No data found
+                          </td>
+                        </tr>
+                      ) : (
+                        initialData?.content?.map((data: any, index: number) => {
+                          return (
+                            <tr key={data?.master_data_id}>
+                              <td>{startingIndex + index}</td>
+                              <td>{data?.master_data_name}</td>
+                              <td>{data?.master_data_description}</td>
+                              <td>{data?.master_data_type}</td>
+                              <td>
+                                <div className={Styles.iconStyle}>
+                                  <EditIcon onClick={() => handleEdit(data?.master_data_id)} />
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      )}
+                    </tbody>
+                  </table>
                 </div>
                 <div>
+                  <CustomPagination
+                    currentPage={currentPage}
+                    totalPages={initialData?.total_page}
+                    totalCount={initialData?.total_count}
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                  />
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div className={Styles.subHeading}>
+                <MasterDataIcon />
+                <h3>BOQ Type</h3>
+              </div>
+              <div className={Styles.emptyDataHandling}>
+                <div>
+                  <img
+                    src="/masterDataImage.png"
+                    alt="aa"
+                    width="100%"
+                    height="180px"
+                  />
+                </div>
+                <div>
+                  <h5 className={Styles.textmax}>This project has no BOQ Type</h5>
+                </div>
+                <div>
+                  <p className={Styles.textmin}>Go ahead, add a BOQ Type to this project now</p>
+                </div>
+                <div className={Styles.emptyButton}>
                   <Button
                     color="primary"
                     shape="rectangle"
                     justify="center"
                     size="small"
                     icon={<AddIcon color="white" />}
-                    onClick={handleAddMasterData}
+                    onClick={() => setOpen(true)}
                   >
                     Add BOQ Type
                   </Button>
                 </div>
               </div>
-              {/* <div>
-                <CustomGroupButton
-                  labels={buttonLabels}
-                  onClick={handleGroupButtonClick}
-                  activeButton={activeButton}
-                />
-              </div> */}
             </div>
-            {/* Table Part */}
-            <div className={Styles.tableContainer}>
-              <div>
-                <table className={Styles.scrollable_table}>
-                  <thead>
-                    <tr>
-                      <th className={Styles.tableHeading}>#</th>
-                      <th className={Styles.tableHeading}>Name</th>
-                      <th className={Styles.tableHeading}>Description</th>
-                      <th className={Styles.tableHeading}>Code</th>
-                      <th className={Styles.tableHeading}>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {initialData?.total_count === 0 ? (
-                      <tr>
-                        <td colSpan="5" style={{ textAlign: 'center' }}>
-                          No data found
-                        </td>
-                      </tr>
-                    ) : (
-                      initialData?.content?.map((data: any, index: number) => {
-                        return (
-                          <tr key={data?.master_data_id}>
-                            <td>{startingIndex + index}</td>
-                            <td>{data?.master_data_name}</td>
-                            <td>{data?.master_data_description}</td>
-                            <td>{data?.master_data_type}</td>
-                            <td>
-                                <div className={Styles.iconStyle}>
-                              <EditIcon onClick={() => handleEdit(data?.master_data_id)}/>
-                              {/* <DeleteIcon/> */}
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })
-                    )}
-                  </tbody>
-                </table>
-              </div>
-              <div>
-                <CustomPagination
-                  currentPage={currentPage}
-                  totalPages={initialData?.total_page}
-                  totalCount={initialData?.total_count}
-                  rowsPerPage={rowsPerPage}
-                  onPageChange={handlePageChange}
-                  onRowsPerPageChange={handleRowsPerPageChange}
-                />
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div>
-            <div className={Styles.subHeading}>
-              <MasterDataIcon />
-              <h3>BOQ Type</h3>
-            </div>
-            <div className={Styles.emptyDataHandling}>
-              <div>
-                <img
-                  src="/masterDataImage.png"
-                  alt="aa"
-                  width="100%"
-                  height="180px"
-                />
-              </div>
-              <div>
-                <h5 className={Styles.textmax}>This project has no BOQ Type</h5>
-              </div>
-              <div>
-                <p className={Styles.textmin}>Go ahead, add a BOQ Type to this project now</p>
-              </div>
-              <div className={Styles.emptyButton}>
-                <Button
-                  color="primary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  icon={<AddIcon color="white" />}
-                  onClick={() => setOpen(true)}
-                >
-                  Add BOQ Type
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
-      </CustomLoader>
-      <CustomSnackBar
-        open={openSnack}
-        message={message}
-        onClose={handleSnackBarClose}
-        autoHideDuration={1000}
-        type="success"
-      />
-      <CustomPopup
-       title= {mode === "EDIT" ? 'Edit BOQ Type' : 'Add BOQ Type'}
-       description={mode === "EDIT" ? 'Modify existing boq type' : 'Create new boq type for a project'}
-        open={open}
-        handleClose={handleClosePopup}
-        content={
-          <ProjectMasterDataEditForm
-            setOpen={setOpen}
-            open={open}
-            mode={mode}
-            projectId={projectId}
-            masterID={masterId}
-            setOpenSnack={setOpenSnack}
-            setMessage={setMessage}
-          />
-        }
-      />
-    </div>
+          )}
+        </CustomLoader>
+        <CustomSnackBar
+          open={openSnack}
+          message={message}
+          onClose={handleSnackBarClose}
+          autoHideDuration={1000}
+          type="success"
+        />
+        <CustomPopup
+          title={mode === "EDIT" ? 'Edit BOQ Type' : 'Add BOQ Type'}
+          description={mode === "EDIT" ? 'Modify existing boq type' : 'Create new boq type for a project'}
+          open={open}
+          handleClose={handleClosePopup}
+          content={
+            <ProjectMasterDataEditForm
+              setOpen={setOpen}
+              open={open}
+              mode={mode}
+              projectId={projectId}
+              masterID={masterId}
+              setOpenSnack={setOpenSnack}
+              setMessage={setMessage}
+            />
+          }
+        />
+      </div>
     </div>
   );
 };

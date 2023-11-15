@@ -32,17 +32,13 @@ const UserList = () => {
     { label: 'Inactive', value: 'IN' },
   ]);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
-  const [isLoading, setIsLoading] = useState(true);
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
-  const [filter, setFilter] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [sortColumn, setSortColumn] = useState('');
   const [sortOrder, setSortOrder] = useState('desc');
-  const [isResetDisabled, setIsResetDisabled] = useState(true);
-  const [dataShow, setDataShow] = useState(false);
   const navigate = useNavigate();
   const userData = {
     limit: rowsPerPage,
@@ -80,7 +76,6 @@ const UserList = () => {
     setActiveButton(value);
   };
 
-
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton, sortColumn, sortOrder]);
@@ -91,17 +86,6 @@ const UserList = () => {
     return () => clearTimeout(handleSearch);
   }, [filterValues]);
 
-  /* Function for reseting the table to its actual state after search */
-  const handleReset = async () => {
-    setDataShow(false);
-    setIsLoading(false);
-    setFilter(false);
-    setFilterValues({
-      search_by_name: '',
-    });
-    setIsLoading(false);
-    setIsResetDisabled(true);
-  };
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -251,10 +235,6 @@ const UserList = () => {
           ) :
             (
               <div>
-                {/* <div className={Styles.subHeading}>
-                  <MemberIcon />
-                  <span>Users</span>
-                </div> */}
                 <div className={Styles.emptyDataHandling}>
                   <div>
                     <img

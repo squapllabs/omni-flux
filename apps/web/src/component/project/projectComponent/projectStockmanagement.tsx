@@ -64,7 +64,6 @@ const ProjectStockmanagement = () => {
   }, [currentPage, rowsPerPage, filterValue, reload, getSiteList, arrLength]);
   useEffect(() => {
     refetch();
-    // seekData(intialValue);
     const fetchData = async () => {
       const values = {
         projectId: projectId,
@@ -124,24 +123,6 @@ const ProjectStockmanagement = () => {
     setWarning(false);
   };
 
-  // const seekData = async (value: any) => {
-  //   const values = {
-  //     projectId: projectId,
-  //     siteId: intialValue === null ? getSiteList[0]?.value : intialValue,
-  //   };
-  //   try {
-  //     const itemsData = await StockAuditService.getItems(values);
-  //     const num = itemsData?.data?.length;
-  //     if (itemsData?.data?.length > 0) {
-  //       setArrLength(true);
-  //     } else {
-  //       setArrLength(false);
-  //     }
-  //   } catch (err) {
-  //     console.log('error in list : ', err);
-  //   }
-  // };
-
   return (
     <div className={Styles.container}>
       <CustomLoader loading={fetchLoader} size={48} color="#333C44">
@@ -187,17 +168,6 @@ const ProjectStockmanagement = () => {
           ) : (
             ''
           )}
-          {/* <div>
-            <Button
-              type="button"
-              color="primary"
-              shape="rectangle"
-              size="small"
-              justify="center"
-            >
-              Stock Adjustment
-            </Button>
-          </div> */}
         </div>
         {getStockAuditList?.total_count > 0 ? (
           <div className={Styles.tableContainer}>

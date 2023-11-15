@@ -266,29 +266,29 @@ const ProjectDocument: React.FC = (props: any) => {
               </Button>
             </div>
             <div className={Styles.viewFiles}>
-                <ol className={Styles.listStyles}>
-                  {previewUrls?.map((data, index) => {                    
-                    const fileName = data?.name
-                    return (
-                      <div className={Styles.selectedFiles}>
-                        <li key={index}>
-                          <div className={Styles.document}>
-                            <div onClick={() => viewDocument(data?.url)} className={Styles.fileList}>
-                              {fileName} {'  '}
-                            </div>
+              <ol className={Styles.listStyles}>
+                {previewUrls?.map((data, index) => {
+                  const fileName = data?.name
+                  return (
+                    <div className={Styles.selectedFiles}>
+                      <li key={index}>
+                        <div className={Styles.document}>
+                          <div onClick={() => viewDocument(data?.url)} className={Styles.fileList}>
+                            {fileName} {'  '}
                           </div>
-                        </li>
-                        <div className={Styles.closeIcon}>
-                          <CloseIcon
-                            width={10}
-                            height={10}
-                            onClick={() => deleteFile(index)}
-                          />
                         </div>
-                      </div>  
-                    )
-                  })}
-                </ol>
+                      </li>
+                      <div className={Styles.closeIcon}>
+                        <CloseIcon
+                          width={10}
+                          height={10}
+                          onClick={() => deleteFile(index)}
+                        />
+                      </div>
+                    </div>
+                  )
+                })}
+              </ol>
               <span>
                 {' '}
                 <p className={Styles.errorStyles}>{fileSizeError}</p>
@@ -335,13 +335,6 @@ const ProjectDocument: React.FC = (props: any) => {
                             </div>
                           </td>
                         </tr>
-
-                        // <div key={index} className={Styles.iframeDiv}>
-                        //   <div className={Styles.deleteIndex}>
-                        //   Document {rowindex} <CloseIcon width={10} onClick={() => deleteFileinList(files.path)}/>
-                        //   </div>
-                        //   <iframe src={files.path} style={{maxHeight:'150%', overflowX:"auto",overflowY:"auto",maxWidth:"170px",margin:"0 auto"}} />  
-                        // </div>                   
                       );
                     }
                   })

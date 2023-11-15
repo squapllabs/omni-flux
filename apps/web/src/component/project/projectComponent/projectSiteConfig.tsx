@@ -1,37 +1,16 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../../ui/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import CustomSnackBar from '../../ui/customSnackBar';
-import projectService from '../../../service/project-service';
 import Styles from '../../../styles/projectSiteConfig.module.scss';
-import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
 import DeleteIcon from '../../menu/icons/newDeleteIcon';
-import siteService from '../../../service/site-service';
 import CustomSiteAdd from '../../ui/CustomSiteAdd';
-import { useGetAllSiteDrops } from '../../../hooks/site-hooks';
-import {
-  useGetAllUsersDrop,
-  useGetAllUsers,
-  getUserbyRole,
-} from '../../../hooks/user-hooks';
 import AddIcon from '../../menu/icons/addIcon';
-import Input from '../../ui/Input';
-import {
-  createProject,
-  useGetMasterProjectParentType,
-  updateProject,
-  getUserDataProjectRolebased,
-} from '../../../hooks/project-hooks';
 import SiteNavigateIcon from '../../menu/icons/siteNavigateIcon';
 import NewEditIcon from '../../menu/icons/newEditIcon';
-import CustomPopup from '../../ui/CustomRightSidePopup';
 import CustomSidePopup from '../../ui/CustomSidePopup';
 import ProjectSiteConfigAdd from './projectSiteConfigAdd';
-
 import {
-  createprojectSite,
   useGetAllPaginatedprojectSite,
 } from '../../../hooks/projectSite-hooks';
 import CustomPagination from '../../menu/CustomPagination';
@@ -68,7 +47,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, reload]);
-  // console.log('getAllLoadingProjectMasterData', initialData);
+
   const handleCloseSiteAdd = () => {
     setOpen(false);
   };
@@ -152,12 +131,9 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {initialData?.content.map((row, index) => {
-                      // console.log('row', row);
+                    {initialData?.content.map((row: any, index: number) => {
                       rowIndex = rowIndex + 1;
                       return (
-
-
                         <tr key={index}>
                           <td>{rowIndex}</td>
                           <td>{row.site_details?.name}</td>
@@ -287,7 +263,6 @@ const ProjectSiteConfig: React.FC = (props: any) => {
             </div>
           </div>
         )}
-        {/* <CustomSiteAdd /> */}
         <CustomSnackBar
           open={openSnack}
           message={message}

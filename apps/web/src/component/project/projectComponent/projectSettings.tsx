@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Styles from '../../../styles/projectSettings.module.scss';
-import Input from '../../ui/Input';
 import Button from '../../ui/Button';
-import { useFormik } from 'formik';
 import AddIcon from '../../menu/icons/addIcon';
-import SearchIcon from '../../menu/icons/search';
-import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
-import DatePicker from '../../ui/CustomDatePicker';
 import CustomGroupButton from '../../ui/CustomGroupButton';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useGetAllSelectedRoles } from '../../../hooks/userRole-hooks';
+import { useParams } from 'react-router-dom';
 import {
-  createProjectMember,
   getBySearchProjectMembers,
   useGetAllPaginatedProjectMember,
   useDeleteProjectMember,
 } from '../../../hooks/projectSettings-hook';
-import ProjectSettingsService from '../../../service/projectSettings-service';
 import { format } from 'date-fns';
 import Avatar from '../../menu/AvatarComponent';
 import DeleteIcon from '../../menu/icons/newDeleteIcon';
@@ -24,22 +16,6 @@ import CustomLoader from '../../ui/customLoader';
 import Pagination from '../../menu/CustomPagination';
 import CustomDelete from '../../ui/customDeleteDialogBox';
 import CustomSnackBar from '../../ui/customSnackBar';
-import * as Yup from 'yup';
-import {
-  getProjectMemberCreationYupschema,
-  getCreateMasterValidateyup,
-} from '../../../helper/constants/projectSettings-constants';
-import TextArea from '../../ui/CustomTextArea';
-import {
-  useGetAllmasertData,
-  createmasertData,
-  useGetAllPaginatedMasterData,
-  useDeletemasertData,
-} from '../../../hooks/masertData-hook';
-import { getByProjectId } from '../../../hooks/project-hooks';
-import EditIcon from '../../menu/icons/editIcon';
-import CustomEditDialog from '../../ui/customEditDialogBox';
-import ProjectMasterDataEditForm from './projectMasterDataEdit';
 import MemberIcon from '../../menu/icons/memberIcon';
 import CustomProjectMemberAddPopup from './projectMemberAddPopup';
 import CustomPopup from '../../ui/CustomSidePopup';
@@ -47,7 +23,6 @@ import CustomPopup from '../../ui/CustomSidePopup';
 const ProjectSettings: React.FC = (props: any) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [open, setOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
@@ -55,25 +30,18 @@ const ProjectSettings: React.FC = (props: any) => {
   const [value, setValue] = useState();
   const [reload, setReload] = useState(false);
   const [message, setMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
   const [dataShow, setDataShow] = useState(false);
-  const [componentShow, setComponentShow] = useState(false);
   const [filterValues, setFilterValues] = useState({
     global_search: '',
   });
-  const { mutate: createNewProjectMember } = createProjectMember();
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const routeParams = useParams();
-  const [userData, setUserData] = useState();
-  const { data: getAllRolesData = [], isLoading: dropLoading } =
-    useGetAllSelectedRoles();
   const { mutate: getDeleteProjectMemberByID } = useDeleteProjectMember();
 
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
   ]);
-  const [filter, setFilter] = useState(false);
   const [projectId, setProjectId] = useState(Number(routeParams?.id));
 
   const [initialValues, setInitialValues] = useState({
@@ -129,63 +97,11 @@ const ProjectSettings: React.FC = (props: any) => {
     isLoading: FilterLoading,
   } = getBySearchProjectMembers();
 
-  /* Function for search */
-  // const handleSearch = async () => {
-  //   const demo: any = {
-  //     offset: (currentPage - 1) * rowsPerPage,
-  //     limit: rowsPerPage,
-  //     order_by_column: 'updated_date',
-  //     order_by_direction: 'desc',
-  //     status: activeButton,
-  //     project_id: Number(routeParams?.id),
-  //     ...filterValues,
-  //   };
-  //   postDataForFilter(demo);
-  //   setDataShow(true);
-  //   setIsLoading(false);
-  //   setFilter(true);
-  // };
-
-  /* Function for resting the search field and data to normal state */
-  // const handleReset = async () => {
-  //   const demo: any = {
-  //     offset: (currentPage - 1) * rowsPerPage,
-  //     limit: rowsPerPage,
-  //     order_by_column: 'updated_date',
-  //     order_by_direction: 'desc',
-  //     status: 'AC',
-  //     project_id: Number(routeParams?.id),
-  //     global_search: '',
-  //   };
-  //   postDataForFilter(demo);
-  //   setIsLoading(false);
-  //   setFilter(false);
-  //   setFilterValues({
-  //     global_search: '',
-  //   });
-  //   setIsLoading(false);
-  //   setDataShow(false);
-  //   setIsResetDisabled(true);
-  // };
 
   /* Function for group button (Active and Inactive status) */
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
-
-  /* Function for Filter Change */
-  // const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const searchValue = event.target.value;
-
-  //   setFilterValues({
-  //     ...filterValues,
-  //     ['global_search']: event.target.value,
-  //   });
-  //   setIsResetDisabled(searchValue === '');
-  //   if (searchValue === '') {
-  //     handleReset();
-  //   }
-  // };
 
   useEffect(() => {
     refetch();
@@ -313,9 +229,9 @@ const ProjectSettings: React.FC = (props: any) => {
                                   {data?.access_end_date == null
                                     ? '-'
                                     : format(
-                                        new Date(data?.access_end_date),
-                                        'MMM dd, yyyy'
-                                      )}
+                                      new Date(data?.access_end_date),
+                                      'MMM dd, yyyy'
+                                    )}
                                 </td>
                                 {activeButton === 'AC' && (
                                   <td>
@@ -371,9 +287,9 @@ const ProjectSettings: React.FC = (props: any) => {
                                 {data?.access_end_date == null
                                   ? '-'
                                   : format(
-                                      new Date(data?.access_end_date),
-                                      'MMM dd, yyyy'
-                                    )}
+                                    new Date(data?.access_end_date),
+                                    'MMM dd, yyyy'
+                                  )}
                               </td>
                               {activeButton === 'AC' && (
                                 <td>
@@ -483,5 +399,4 @@ const ProjectSettings: React.FC = (props: any) => {
     </div>
   );
 };
-
 export default ProjectSettings;

@@ -1,27 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../../styles/projectBomConfig.module.scss';
-
 import Button from '../../ui/Button';
 import AddIcon from '../../menu/icons/addIcon';
-import Input from '../../ui/Input';
-import Select from '../../ui/selectNew';
 import {
-  getBymasertDataType,
-  getBymasertDataTypeDrop,
   getByMasterDataProjectIdDrop,
 } from '../../../hooks/masertData-hook';
-import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
-import DeleteIcon from '../../menu/icons/deleteIcon';
 import {
   createProject,
   getByProjectId,
-  useGetMasterProjectParentType,
   updateProject,
 } from '../../../hooks/project-hooks';
 import { useNavigate, useParams } from 'react-router-dom';
-import CustomSnackBar from '../../ui/customSnackBar';
 import projectService from '../../../service/project-service';
 import BOQIcon from '../../menu/icons/boqIcon';
 import CustomLoader from '../../ui/customLoader';
@@ -34,7 +24,6 @@ import CustomMenu from '../../ui/NewCustomMenu';
 const ProjectBomConfig: React.FC = (props: any) => {
   const routeParams = useParams();
   const navigate = useNavigate();
-  let rowIndex = 0;
   const [initialValues, setInitialValues] = useState({
     bom_name: '',
     bom_description: '',
@@ -45,7 +34,6 @@ const ProjectBomConfig: React.FC = (props: any) => {
     bom_configuration_id: '',
   });
   const [bomConfig, setBomConfig] = useState<any>([]);
-  const [openConfirm, setOpenConfirm] = useState(false);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [projectData, setProjectData] = useState<any>({});
@@ -56,8 +44,6 @@ const ProjectBomConfig: React.FC = (props: any) => {
   const [mode, setMode] = useState('');
   const [boqId, setBoQId] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const action = [];
-  // const { data: getBomType = [] } = getBymasertDataTypeDrop('BOMTP');
   const { data: getBomType = [] } = getByMasterDataProjectIdDrop(
     Number(routeParams?.id)
   );
@@ -91,8 +77,6 @@ const ProjectBomConfig: React.FC = (props: any) => {
     data: initialData,
     refetch,
   } = getBySearchBoQProject(object);
-
-  // console.log("initialData", initialData);
 
   const handleAddBoQData = () => {
     setOpen(true);
@@ -131,36 +115,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
     };
     if (routeParams?.id != undefined) fetchData();
   }, []);
-  // const validateSchema = yup.object().shape({
-  //   bom_name: yup.string().required('BOM name is required'),
-  //   bom_description: yup.string().required('BOM description is required'),
-  //   bom_type_id: yup
-  //     .string()
-  //     .required('BOM type is required')
-  //     .test(
-  //       'decimal-validation',
-  //       'Already exist',
-  //       async function (value: number, { parent }: yup.TestContext) {
-  //         let isDelete = parent.is_delete;
-  //         try {
-  //           const isValuePresent = bomConfig.some((obj: any) => {
-  //             return (
-  //               Number(obj.bom_type_id) === Number(value) &&
-  //               obj.is_delete === isDelete
-  //             );
-  //           });
-  //           if (isValuePresent === false) {
-  //             return true;
-  //           } else return false;
-  //         } catch {
-  //           return true;
-  //         }
-  //       }
-  //     ),
-  // });
-  const handleSnackBarClose = () => {
-    setOpenSnack(false);
-  };
+
 
   const handleClosePopup = () => {
     setOpen(false);
@@ -260,110 +215,89 @@ const ProjectBomConfig: React.FC = (props: any) => {
                     </Button>
                   </div>
                 </div>
-                {/* <div>
-                <CustomGroupButton
-                  labels={buttonLabels}
-                  onClick={handleGroupButtonClick}
-                  activeButton={activeButton}
-                />
-              </div> */}
               </div>
-              {/* <div className={Styles.box}> */}
-                <div className={Styles.tableContainerBOM}>
-                  <div>
-                    <table className={Styles.scrollable_table}>
-                      <thead>
+              <div className={Styles.tableContainerBOM}>
+                <div>
+                  <table className={Styles.scrollable_table}>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Description</th>
+                        <th>Type</th>
+                        <th>Abstracts</th>
+                        <th>Tasks</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {initialData?.total_count === 0 ? (
                         <tr>
-                          <th>#</th>
-                          {/* <th>BoQ Name</th> */}
-                          <th>Description</th>
-                          <th>Type</th>
-                          <th>Abstracts</th>
-                          <th>Tasks</th>
-                          {/* <th>Plans</th> */}
-                          <th>Actions</th>
-                          {/* {activeButton === 'AC' && <th>Action</th>} */}
+                          <td colSpan="8" style={{ textAlign: 'center' }}>
+                            No data found
+                          </td>
                         </tr>
-                      </thead>
-                      <tbody>
-                        {initialData?.total_count === 0 ? (
-                          <tr>
-                            <td colSpan="8" style={{ textAlign: 'center' }}>
-                              No data found
-                            </td>
-                            {/* {activeButton === 'AC' && <td></td>} */}
-                          </tr>
-                        ) : (
-                          initialData?.content?.map(
-                            (data: any, index: number) => {
-                              const actions = [
-                                {
-                                  label: 'Manage Abstracts, Tasks or Plans',
-                                  onClick: () => {
-                                    navigate(
-                                      `/newBoq/${routeParams?.id}/${data?.bom_configuration_id}`
-                                    );
-                                  },
+                      ) : (
+                        initialData?.content?.map(
+                          (data: any, index: number) => {
+                            const actions = [
+                              {
+                                label: 'Manage Abstracts, Tasks or Plans',
+                                onClick: () => {
+                                  navigate(
+                                    `/newBoq/${routeParams?.id}/${data?.bom_configuration_id}`
+                                  );
                                 },
-                                {
-                                  label: 'Edit BoQ Name & Description',
-                                  onClick: () => {
-                                    handleEdit(data?.bom_configuration_id);
-                                  },
+                              },
+                              {
+                                label: 'Edit BoQ Name & Description',
+                                onClick: () => {
+                                  handleEdit(data?.bom_configuration_id);
                                 },
-                              ];
-                              return (
-                                <tr key={data?.bom_configuration_id}>
-                                  <td>{startingIndex + index}</td>
-                                  {/* <td>{data?.bom_name}</td> */}
-                                  <td
-                                  onClick={()=>{
-                                    console.log('initialData',initialData)
-                                    console.log('data',data)
+                              },
+                            ];
+                            return (
+                              <tr key={data?.bom_configuration_id}>
+                                <td>{startingIndex + index}</td>
+                                <td
+                                  onClick={() => {
+                                    console.log('initialData', initialData)
+                                    console.log('data', data)
                                   }}
-                                  >{data?.bom_description}
-                                  
-                                  </td>
-                                  <td>
-                                    {data?.bom_type_data?.master_data_name}
-                                  </td>
-                                  <td>{data?.abstract_count}</td>
-                                  <td>{data?.task_count}</td>
-                                  {/* <td>{0}</td> */}
-                                  <td>
-                                    <CustomMenu actions={actions} />
-                                  </td>
-                                </tr>
-                              );
-                            }
-                          )
-                        )}
-                        <td></td>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div>
-                    <Pagination
-                      currentPage={currentPage}
-                      totalPages={
-                        // dataShow
-                        //   ? getFilterData?.total_page
-                        //   :
-                        initialData?.total_page
-                      }
-                      totalCount={
-                        // dataShow
-                        //   ? getFilterData?.total_count
-                        //   :
-                        initialData?.total_count
-                      }
-                      rowsPerPage={rowsPerPage}
-                      onPageChange={handlePageChange}
-                      onRowsPerPageChange={handleRowsPerPageChange}
-                    />
-                  </div>
+                                >{data?.bom_description}
+
+                                </td>
+                                <td>
+                                  {data?.bom_type_data?.master_data_name}
+                                </td>
+                                <td>{data?.abstract_count}</td>
+                                <td>{data?.task_count}</td>
+                                <td>
+                                  <CustomMenu actions={actions} />
+                                </td>
+                              </tr>
+                            );
+                          }
+                        )
+                      )}
+                      <td></td>
+                    </tbody>
+                  </table>
                 </div>
-              {/* </div> */}
+                <div>
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={
+                      initialData?.total_page
+                    }
+                    totalCount={
+                      initialData?.total_count
+                    }
+                    rowsPerPage={rowsPerPage}
+                    onPageChange={handlePageChange}
+                    onRowsPerPageChange={handleRowsPerPageChange}
+                  />
+                </div>
+              </div>
             </div>
           ) : (
             <div>
@@ -424,5 +358,4 @@ const ProjectBomConfig: React.FC = (props: any) => {
     </div>
   );
 };
-
 export default ProjectBomConfig;

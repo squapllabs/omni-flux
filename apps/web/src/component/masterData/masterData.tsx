@@ -17,7 +17,7 @@ import CustomSidePopup from '../ui/CustomSidePopup';
 import MasterDataForm from './masterDataForm';
 import MasterDataIcon from '../menu/icons/masterDataIcon';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
-import {handleSortByColumn} from './../../helper/common-function'
+import { handleSortByColumn } from './../../helper/common-function'
 
 const MaterData = () => {
   const [openSnack, setOpenSnack] = useState(false);
@@ -147,7 +147,7 @@ const MaterData = () => {
                       <tr>
                         <th>#</th>
                         <th
-                          onClick={() =>  handleSortByColumn('master_data_name',sortOrder,setSortOrder,setSortColumn)}
+                          onClick={() => handleSortByColumn('master_data_name', sortOrder, setSortOrder, setSortColumn)}
                         >
                           <div className={Styles.headingRow}>
                             <div>Name</div>
@@ -157,7 +157,7 @@ const MaterData = () => {
                           </div>
                         </th>
                         <th
-                          onClick={() =>  handleSortByColumn('master_data_type',sortOrder,setSortOrder,setSortColumn)}
+                          onClick={() => handleSortByColumn('master_data_type', sortOrder, setSortOrder, setSortColumn)}
                         >
                           <div className={Styles.headingRow}>
                             <div>Code</div>

@@ -111,19 +111,10 @@ const ExpenseList = () => {
 
   return (
     <div className={Styles.container}>
-      <ProjectSubheader
-        title="Expense List"
-        // description="Create your Project with mandatory Details"
-        navigation="/home"
-      />
-      <CustomLoader loading={fetchLoader} size={48} color='black'>
-        {/* {getSiteList ? ( */}
+      <ProjectSubheader title="Expense List" navigation="/home" />
+      <CustomLoader loading={fetchLoader} size={48} color="black">
         <div>
           <div className={Styles.topHeading}>
-            {/* <div className={Styles.subHeading}>
-              <MoneyIcon width={30} height={30} color="black" />
-              <h3>Expense Claim</h3>
-            </div> */}
             <div>
               {getExpenseList?.expense_statistics?.total_expenses === 0 ? (
                 ' '
@@ -230,9 +221,16 @@ const ExpenseList = () => {
                               <th className={Styles.tableHeading}>
                                 Expense Code
                               </th>
-                              <th className={Styles.tableHeading}>Added By</th>
                               <th className={Styles.tableHeading}>Site</th>
                               <th className={Styles.tableHeading}>Status</th>
+                              {activeButton === 'Completed' ||
+                              activeButton === 'InProgress' ? (
+                                <th className={Styles.tableHeading}>
+                                  Approved By
+                                </th>
+                              ) : (
+                                ''
+                              )}
                               <th className={Styles.tableHeading}>Amount</th>
                               <th className={Styles.tableHeading}>Action</th>
                             </tr>
@@ -255,8 +253,7 @@ const ExpenseList = () => {
                                     <tr>
                                       <td>{rowIndex}</td>
                                       <td>{items?.expense_code}</td>
-                                      <td>{items?.employee_name}</td>
-                                      <td>{items?.site_data?.name || "-"}</td>
+                                      <td>{items?.site_data?.name || '-'}</td>
                                       <td>
                                         <span
                                           className={`${Styles.status} ${
@@ -278,6 +275,18 @@ const ExpenseList = () => {
                                             : items?.status}
                                         </span>
                                       </td>
+                                      {activeButton === 'Completed' ||
+                                      activeButton === 'InProgress' ? (
+                                        <td>
+                                          {items?.progressed_by_data
+                                            ?.first_name +
+                                            ' ' +
+                                            items?.progressed_by_data
+                                              ?.last_name}
+                                        </td>
+                                      ) : (
+                                        ''
+                                      )}
                                       <td>
                                         {formatBudgetValue(
                                           items?.total_amount

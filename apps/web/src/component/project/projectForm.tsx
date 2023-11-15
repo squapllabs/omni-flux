@@ -5,37 +5,26 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import Input from '../ui/Input';
 import DatePicker from '../ui/CustomDatePicker';
-import AddIcon from '../menu/icons/addIcon';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useGetAllClientDrop } from '../../hooks/client-hooks';
 import {
-  useGetAllUsersDrop,
-  useGetAllUsers,
   getUserbyRole,
 } from '../../hooks/user-hooks';
-import { useGetAllSiteDrops } from '../../hooks/site-hooks';
 import {
   createProject,
-  getByProjectId,
   useGetMasterProjectParentType,
   updateProject,
 } from '../../hooks/project-hooks';
 import CustomClientAdd from '../ui/CustomClientAdd';
-import CustomSiteAdd from '../ui/CustomSiteAdd';
 import CustomConfirm from '../ui/CustomConfirmDialogBox';
 import TextArea from '../ui/CustomTextArea';
 import Select from '../ui/selectNew';
 import projectService from '../../service/project-service';
 import { useParams, useNavigate } from 'react-router-dom';
 import CustomSnackBar from '../ui/customSnackBar';
-import {
-  getCreateValidateyup,
-  getEditValidateyup,
-} from '../../helper/constants/project-constants';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
-import SelectInput from '@mui/material/Select/SelectInput';
 import ProjectSubheader from './projectSubheader';
 
 const ProjectGeneralDetails: React.FC = (props: any) => {
@@ -71,14 +60,11 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     project_id: '',
   });
   const [showClientForm, setShowClientForm] = useState(false);
-  const [showSiteForm, setShowSiteForm] = useState(false);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [bomConfig, setBomConfig] = useState<any>([]);
   const [siteConfigData, setSiteConfigData] = useState<any[]>([]);
-  const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
-  const { data: getAllUsersSiteDatadrop = [] } = useGetAllUsers();
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
   const { data: getProjectManagerList = [] } = getUserbyRole('Project Manager');
   const { data: getProjectApproverList = [] } =
@@ -126,9 +112,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     if (routeParams?.id != undefined) fetchData();
   }, [routeParams?.id]);
 
-  const handleOpenClientForm = () => {
-    setShowClientForm(true);
-  };
   const submitHandler = () => {
     setOpenConfirm(true);
   };
@@ -155,7 +138,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     code: yup
       .string()
       .required('Project code is required')
-      // .matches(/^[A-Z0-9/\\-]*$/, 'Symbols are not allowed')
       .test(
         'code-availability',
         'Code is already present',
@@ -208,7 +190,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     code: yup
       .string()
       .required('Project code is required')
-      // .matches(/^[A-Z0-9/\\-]*$/, 'Symbols are not allowed')
       .test(
         'code-availability',
         'Code is already present',
@@ -309,9 +290,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         updateProjectData(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.status === true) {
-              // setMessage('Project updated');
-              // setOpenSnack(true);
-              // props.setLoader(!props.loader);
               if (data?.data?.project?.status === 'Draft') {
                 setMessage('Project draft updated');
                 setOpenSnack(true);
@@ -334,12 +312,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   });
   return (
     <div>
-      {/* HEADER */}
-      {/* <div className={Styles.topHeading}>
-        <div>
-          <h3>NEW PROJECT</h3>
-        </div>
-      </div> */}
       <ProjectSubheader
         title={
           routeParams?.id === undefined
@@ -414,7 +386,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                     value={formik.values.code}
                     onChange={formik.handleChange}
                     error={formik.touched.code && formik.errors.code}
-                    // disabled={routeParams?.id === undefined ? false : true}
                   />
                 </div>
                 <div className={Styles.clientInstantAdd}>
@@ -435,20 +406,11 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
                       }}
                       addLabel="Add Client"
                       onAddClick={(value) => {
-                        console.log('onAddClick', value);
-
                         setShowClientForm(true);
                       }}
                       optionList={getAllClientDatadrop}
                     />
                   </div>
-                  {/* <div
-                      className={Styles.clientNewAddMain}
-                      onClick={handleOpenClientForm}
-                    >
-                      <AddIcon style={{ height: '15px', width: '15px' }} />
-                      <h4 className={Styles.addtext}>New client</h4>
-                    </div> */}
                 </div>
               </div>
               <div className={Styles.subOneChildThree}>
@@ -639,7 +601,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
             />
           }
         />
-
         <CustomConfirm
           open={openConfirm}
           title="Confirm Submit"

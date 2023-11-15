@@ -446,6 +446,12 @@ const searchExpense = async (
             last_name: true,
           },
         },
+        progressed_by_data: {
+          select: {
+            first_name: true,
+            last_name: true,
+          },
+        },
       },
       orderBy: [
         {
