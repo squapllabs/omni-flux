@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import Styles from '../../styles/expanses.module.scss';
 import Input from '../ui/Input';
-import Select from '../ui/selectNew';
-import DatePicker from '../ui/CustomDatePicker';
 import Button from '../ui/Button';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { getBymasertDataTypeDrop } from '../../hooks/masertData-hook';
@@ -14,7 +12,6 @@ import CustomDelete from '../ui/customDeleteDialogBox';
 import AddIcon from '../menu/icons/addIcon';
 
 const SiteExpensesDetails: React.FC = (props: any) => {
-  console.log('props.expenseList', props.expenseList);
 
   let rowIndex = 0;
   const [initialValues, setInitialValues] = useState({
@@ -33,14 +30,11 @@ const SiteExpensesDetails: React.FC = (props: any) => {
   };
 
   const deleteSiteExpense = (e: any, values: any) => {
-    console.log('ExpenseValue', ExpenseValue);
-
     const itemIndex = props.expenseList.findIndex(
       (item: any) =>
         item.expense_data_id === ExpenseValue?.expense_data_id &&
         item.is_delete === ExpenseValue?.is_delete
     );
-    console.log('itemIndex', itemIndex);
 
     props.expenseList[itemIndex] = {
       ...props.expenseList[itemIndex],
@@ -64,13 +58,10 @@ const SiteExpensesDetails: React.FC = (props: any) => {
           const isDelete = parent.is_delete;
           try {
             const isValuePresent = props.expenseList.some((obj) => {
-              console.log('obj', obj);
               return (
                 obj.site_expense === Number(value) && obj.is_delete === isDelete
               );
             });
-            console.log('isValuePresent', isValuePresent);
-
             if (isValuePresent === true) {
               return false;
             } else {
@@ -92,7 +83,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
-      console.log('values', values);
       values['total'] = Number(values.total);
       props.setExpenseList([...props.expenseList, values]);
       setChecked(false);

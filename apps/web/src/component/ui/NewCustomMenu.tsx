@@ -28,7 +28,6 @@ const NewCustomMenu = ({ actions, name }: any) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-  console.log('name', name);
 
   return (
     <div className={Styles.customMenu} ref={menuRef}>

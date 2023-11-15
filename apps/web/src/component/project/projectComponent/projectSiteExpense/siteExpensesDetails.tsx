@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Styles from '../../../../styles/newStyles/projectSiteExpense.module.scss';
 import Input from '../../../ui/Input';
-import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
 import { getBymasertDataTypeDrop } from '../../../../hooks/masertData-hook';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -12,9 +11,7 @@ import FileUploadIcon from '../../../menu/icons/fileUploadIcon';
 import userService from '../../../../service/user-service';
 import Popup from '../../../ui/CustomPdfPopup';
 import SiteExpensesView from './siteExpensesView';
-import ViewIcon from '../../../menu/icons/newViewIcon';
 import CloseIcon from '../../../menu/icons/closeIcon';
-import CloudUploadIcon from '../../../menu/icons/cloudUpload';
 import Select from '../../../ui/selectNew';
 
 const SiteExpensesDetails: React.FC = (props: any) => {
@@ -79,11 +76,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
   }, [props?.mode]);
 
   const deleteSiteExpense = (e: any, values: any) => {
-    // const itemIndex = props.expenseList.findIndex(
-    //   (item: any) =>
-    //     item.expense_data_id === ExpenseValue?.expense_data_id &&
-    //     item.is_delete === ExpenseValue?.is_delete
-    // );
     if (props.expenseList[expenseIndex].expense_details_id != null) {
       if (props.expenseList[expenseIndex].bill_details != '') {
         props.expenseList[expenseIndex] = {
@@ -429,7 +421,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                   if (item.is_delete === false) {
                     rowIndex = rowIndex + 1;
                     const customQuotationName = generateCustomQuotationName(item);
-                    console.log('props.expenseList==>', props.expenseList);
                     return (
                       <tr>
                         <td>{rowIndex}</td>
@@ -490,7 +481,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                           >
                             {options?.map((item, index) => {
                               return (
-                                  <option value={item.value} >{item.label}</option>
+                                <option value={item.value} >{item.label}</option>
                               );
                             })}
                           </Select>
@@ -614,11 +605,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
             </table>
           </div>
           <div className={Styles.addDataIcon}>
-            {/* <div onClick={formik.handleSubmit} className={Styles.iconContent}>
-            <NewAddCircleIcon />
-            <span>Add Claim</span>
-          </div> */}
-
             <div
               onClick={() => {
                 handleAddObject();
@@ -817,20 +803,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                                 </div>
                               )}
                             </div>
-                            {/* <td>
-                            <div className={Styles.buttons}>
-                              <div
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                  setExpenseValue(item);
-                                  setOpenDelete(true);
-                                  setExpenseIndex(index);
-                                }}
-                              >
-                                <DeleteIcon />
-                              </div>
-                            </div>
-                          </td> */}
                           </div>
                         </tr>
                       );
@@ -851,7 +823,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         handleConfirm={deleteSiteExpense}
       />
       <Popup
-        // title="Pdf Viewer"
         openPopup={openPdfpopup}
         setOpenPopup={setOpenPdfpopup}
         content={

@@ -76,7 +76,6 @@ const getOnePurchaseOrderTableDataByID = async (values: number) => {
       inward_remaining_quantity:value.inward_remaining_quantity,
       unit_price:value.unit_price
     }))
-    console.log("fffff",response.data);
     return output;
   } catch (error) {
     console.log('Error in getOnePurchaseOrderDataByID :', error);
