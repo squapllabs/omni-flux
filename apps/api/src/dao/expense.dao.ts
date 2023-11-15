@@ -404,10 +404,7 @@ const searchExpense = async (
   orderByColumn: string,
   orderByDirection: string,
   filters,
-  project_id: number,
-  site_id: number,
   user_id: number,
-
   connectionObj = null
 ) => {
   try {
@@ -465,28 +462,6 @@ const searchExpense = async (
     };
 
     let expenseStatistics = {};
-
-    // if (project_id && site_id) {
-    //   const db_transaction = connectionObj !== null ? connectionObj : db;
-
-    //   const expenseStatisticsQuery = `select
-    //   cast((select COUNT(*) from expense where project_id =  ${project_id} and site_id = ${site_id} and is_delete = false) as INT) as total_expenses,
-    //   SUM(case when e.status = 'Completed' then ed.total else 0 end) as completed_expenses,
-    //   SUM(case when e.status = 'InProgress' then ed.total else 0 end) as inprogress_expenses,
-    //   SUM(case when e.status = 'Pending' then ed.total else 0 end) as pending_expenses,
-    //   SUM(case when e.status = 'Draft' then ed.total else 0 end) as draft_expenses
-    // from
-    //   expense e
-    // left join
-    //           expense_details ed on
-    //   ed.expense_id = e.expense_id
-    // where
-    //   e.project_id =  ${project_id}
-    //   and e.site_id = ${site_id}
-    //   and e.is_delete = false`;
-
-    //   expenseStatistics = await db_transaction.one(expenseStatisticsQuery);
-    // }
 
     if (user_id) {
       const db_transaction = connectionObj !== null ? connectionObj : db;
