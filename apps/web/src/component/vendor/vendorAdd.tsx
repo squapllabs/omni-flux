@@ -23,8 +23,8 @@ const AddVendor = () => {
   const navigate = useNavigate();
   const routeParams = useParams();
   const location = useLocation();
-  const currentPath = location.state.path;  
-  const locationState = location.state || {};  
+  const currentPath = location.state.path;
+  const locationState = location.state || {};
   const projectId = locationState.project_id || null;
   const indentId = locationState.indent_id || null;
   const { mutate: createNewVendor } = createVendor();
@@ -43,6 +43,7 @@ const AddVendor = () => {
   const [initialValues, setInitialValues] = useState({
     vendor_id: '',
     vendor_name: '',
+    code: '',
     contact_person: '',
     contact_email: '',
     contact_phone_no: '',
@@ -73,7 +74,7 @@ const AddVendor = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-  
+
   useEffect(() => {
     if (Number(routeParams?.id)) {
       const fetchOne = async () => {
@@ -83,6 +84,7 @@ const AddVendor = () => {
         setInitialValues({
           vendor_id: Vendordata?.data?.vendor_id,
           vendor_name: Vendordata?.data?.vendor_name,
+          code:Vendordata?.data?.code,
           contact_person: Vendordata?.data?.contact_person,
           contact_email: Vendordata?.data?.contact_email,
           contact_phone_no: Vendordata?.data?.contact_phone_no,
@@ -123,6 +125,7 @@ const AddVendor = () => {
     onSubmit: (values) => {
       const Object: any = {
         vendor_name: values.vendor_name,
+        code:values.code,
         contact_person: values.contact_person,
         contact_email: values.contact_email,
         contact_phone_no: values.contact_phone_no,
@@ -217,6 +220,20 @@ const AddVendor = () => {
               </div>
               <div>
                 <Input
+                  name="code"
+                  label="Vendor Code"
+                  placeholder="Enter Vendor Code"
+                  mandatory={true}
+                  value={formik.values.code}
+                  onChange={formik.handleChange}
+                  width="250px"
+                  error={
+                    formik.touched.code && formik.errors.code
+                  }
+                />
+              </div>
+              <div>
+                <Input
                   name="contact_person"
                   label="Contact Person Name"
                   placeholder="Enter Contact Person Name"
@@ -230,6 +247,8 @@ const AddVendor = () => {
                   }
                 />
               </div>
+            </div>
+            <div className={Styles.fieldRow}>
               <div>
                 <Input
                   name="contact_email"
@@ -244,8 +263,6 @@ const AddVendor = () => {
                   }
                 />
               </div>
-            </div>
-            <div className={Styles.fieldRow}>
               <div>
                 <Input
                   name="contact_phone_no"
@@ -275,336 +292,338 @@ const AddVendor = () => {
                   }
                 />
               </div>
-              <div>
-                <Input
-                  name="address.city"
-                  label="City"
-                  placeholder="Enter City"
-                  value={formik.values.address.city}
-                  onChange={formik.handleChange}
-                  width="250px"
-                  error={
-                    formik.touched.address?.city && formik.errors.address?.city
-                  }
-                />
-              </div>
             </div>
             <div className={Styles.fieldRow}>
               <div>
-                <Input
-                  name="address.state"
-                  label="State"
-                  placeholder="Enter State"
-                  value={formik.values.address.state}
-                  onChange={formik.handleChange}
-                  width="250px"
-                  error={
-                    formik.touched.address?.state &&
-                    formik.errors.address?.state
-                  }
-                />
-              </div>
-              <div>
-                <Input
-                  name="address.country"
-                  label="Country"
-                  placeholder="Enter Country"
-                  value={formik.values.address.country}
-                  onChange={formik.handleChange}
-                  width="250px"
-                  error={
-                    formik.touched.address?.country &&
-                    formik.errors.address?.country
-                  }
-                />
-              </div>
-              <div>
-                <Input
-                  name="address.pin_code"
-                  label="Pincode"
-                  placeholder="Enter Pincode"
-                  value={formik.values.address.pin_code}
-                  onChange={formik.handleChange}
-                  width="250px"
-                  error={
-                    formik.touched.address?.pin_code &&
-                    formik.errors.address?.pin_code
-                  }
-                />
-              </div>
-            </div>
-            <div className={Styles.box1}>
-              <h4>Bank and Payment Details</h4>
-            </div>
-            <div className={Styles.fieldRow}>
-              <div>
-                <Input
-                  name="bank_account_details.account_no"
-                  label="Account Number"
-                  mandatory={true}
-                  placeholder="Enter Account Number"
-                  value={formik.values.bank_account_details.account_no}
-                  onChange={formik.handleChange}
-                  width="250px"
-                  error={
-                    formik.touched.bank_account_details?.account_no &&
-                    formik.errors.bank_account_details?.account_no
-                  }
-                />
-              </div>
-              <div>
-                <Input
-                  name="bank_account_details.ifsc_code"
-                  label="IFSC Code"
-                  mandatory={true}
-                  placeholder="Enter Ifsc Code"
-                  value={formik.values.bank_account_details.ifsc_code}
-                  onChange={formik.handleChange}
-                  width="250px"
-                  error={
-                    formik.touched.bank_account_details?.ifsc_code &&
-                    formik.errors.bank_account_details?.ifsc_code
-                  }
-                />
-              </div>
-              <div>
-                <Input
-                  name="bank_account_details.acc_holder_name"
-                  label="Account Holder Name"
-                  mandatory={true}
-                  placeholder="Enter Account Holder Name"
-                  value={formik.values.bank_account_details.acc_holder_name}
-                  onChange={formik.handleChange}
-                  width="250px"
-                  error={
-                    formik.touched.bank_account_details?.acc_holder_name &&
-                    formik.errors.bank_account_details?.acc_holder_name
-                  }
-                />
-              </div>
-            </div>
-            <div className={Styles.fieldRow}>
-              <div>
-                <Input
-                  name="bank_account_details.bank_name"
-                  label="Bank Name"
-                  placeholder="Enter Bank Name"
-                  value={formik.values.bank_account_details.bank_name}
-                  onChange={formik.handleChange}
-                  width="250px"
-                  error={
-                    formik.touched.bank_account_details?.bank_name &&
-                    formik.errors.bank_account_details?.bank_name
-                  }
-                />
-              </div>
-              <div>
-                <Select
-                  name="preferred_payment_method_id"
-                  label="Preffered Payment Type"
-                  defaultLabel="Select from options"
-                  width="250px"
-                  mandatory={true}
-                  value={formik.values.preferred_payment_method_id}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.preferred_payment_method_id &&
-                    formik.errors.preferred_payment_method_id
-                  }
-                >
-                  {getAllPaymentTypeList?.map((option: any) => (
-                    <option
-                      key={option.master_data_id}
-                      value={option.master_data_id}
-                    >
-                      {option.master_data_name}
-                    </option>
-                  ))}
-                </Select>
-              </div>
-              <div>
-                <Select
-                  name="currency"
-                  label="Currency"
-                  defaultLabel="Select from options"
-                  mandatory={true}
-                  width="250px"
-                  value={formik.values.currency}
-                  onChange={formik.handleChange}
-                  error={formik.touched.currency && formik.errors.currency}
-                >
-                  {getAllCurrencyTypeList?.map((option: any) => (
-                    <option
-                      key={option.master_data_id}
-                      value={option.master_data_name}
-                    >
-                      {option.master_data_name}
-                    </option>
-                  ))}
-                </Select>
-              </div>
-            </div>
-            <div className={Styles.fieldRowLast}>
-              <TextArea
-                name="payment_terms"
-                label="Payment Terms"
-                placeholder="Enter description"
-                width="35%"
-                value={formik.values.payment_terms}
+              <Input
+                name="address.city"
+                label="City"
+                placeholder="Enter City"
+                value={formik.values.address.city}
                 onChange={formik.handleChange}
-                rows={5}
-                maxCharacterCount={250}
+                width="250px"
                 error={
-                  formik.touched.payment_terms && formik.errors.payment_terms
+                  formik.touched.address?.city && formik.errors.address?.city
                 }
               />
             </div>
-            <div className={Styles.box1}>
-              <h4>Other Details</h4>
-            </div>
-            <div className={Styles.fieldRow}>
-              <div>
-                <Select
-                  name="vendor_category_id"
-                  label="Vendor Category Type"
-                  defaultLabel="Select from options"
-                  mandatory={true}
-                  width="250px"
-                  value={formik.values.vendor_category_id}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.vendor_category_id &&
-                    formik.errors.vendor_category_id
-                  }
-                >
-                  {getAllVendorTypeList?.map((option: any) => (
-                    <option
-                      key={option.master_data_id}
-                      value={option.master_data_id}
-                    >
-                      {option.master_data_name}
-                    </option>
-                  ))}
-                </Select>
-              </div>
-              <div>
-                <Input
-                  name="lead_time"
-                  label="Delivery Duration"
-                  placeholder="Enter Delivery Duration"
-                  value={formik.values.lead_time}
-                  onChange={formik.handleChange}
-                  width="250px"
-                  error={formik.touched.lead_time && formik.errors.lead_time}
-                />
-              </div>
-              <div>
-                <Input
-                  name="minimum_order_quantity"
-                  label="Minimum Order Quantity"
-                  placeholder="Enter Minimum Order Quantity"
-                  value={formik.values.minimum_order_quantity}
-                  onChange={formik.handleChange}
-                  width="250px"
-                  error={
-                    formik.touched.minimum_order_quantity &&
-                    formik.errors.minimum_order_quantity
-                  }
-                />
-              </div>
-            </div>
-            <div className={Styles.fieldRowLast}>
-              <div>
-                <Input
-                  name="tax_id"
-                  label="Tax Number"
-                  mandatory={true}
-                  placeholder="Enter tax number"
-                  value={formik.values.tax_id}
-                  onChange={formik.handleChange}
-                  width="250px"
-                  error={formik.touched.tax_id && formik.errors.tax_id}
-                />
-              </div>
-            </div>
-            <div className={Styles.fieldRowLast}>
-              <TextArea
-                name="notes"
-                label="Notes"
-                placeholder="Enter Notes"
-                width="35%"
-                value={formik.values.notes}
+
+            <div>
+              <Input
+                name="address.state"
+                label="State"
+                placeholder="Enter State"
+                value={formik.values.address.state}
                 onChange={formik.handleChange}
-                rows={5}
-                maxCharacterCount={250}
-                error={formik.touched.notes && formik.errors.notes}
+                width="250px"
+                error={
+                  formik.touched.address?.state &&
+                  formik.errors.address?.state
+                }
+              />
+            </div>
+            <div>
+              <Input
+                name="address.country"
+                label="Country"
+                placeholder="Enter Country"
+                value={formik.values.address.country}
+                onChange={formik.handleChange}
+                width="250px"
+                error={
+                  formik.touched.address?.country &&
+                  formik.errors.address?.country
+                }
               />
             </div>
           </div>
-          <div className={Styles.buttonFields}>
+          <div className={Styles.fieldRowPin}>
+            <Input
+              name="address.pin_code"
+              label="Pincode"
+              placeholder="Enter Pincode"
+              value={formik.values.address.pin_code}
+              onChange={formik.handleChange}
+              width="250px"
+              error={
+                formik.touched.address?.pin_code &&
+                formik.errors.address?.pin_code
+              }
+            />
+          </div>
+
+          <div className={Styles.box1}>
+            <h4>Bank and Payment Details</h4>
+          </div>
+          <div className={Styles.fieldRow}>
             <div>
-              {projectId !== null ? (
-                <Button
-                  color="secondary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  onClick={() => {
-                    navigate('/purchase-request-add', {
-                      state: { project_id: projectId, indent_id: indentId },
-                    });
-                  }}
-                >
-                  Back
-                </Button>
-              ) : (
-                <Button
-                  color="secondary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  onClick={() => {
-                    navigate('/settings');
-                  }}
-                >
-                  Back
-                </Button>
-              )}
+              <Input
+                name="bank_account_details.account_no"
+                label="Account Number"
+                mandatory={true}
+                placeholder="Enter Account Number"
+                value={formik.values.bank_account_details.account_no}
+                onChange={formik.handleChange}
+                width="250px"
+                error={
+                  formik.touched.bank_account_details?.account_no &&
+                  formik.errors.bank_account_details?.account_no
+                }
+              />
             </div>
             <div>
-              {routeParams.id ? (
-                <Button
-                  color="primary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  type="submit"
-                >
-                  Update
-                </Button>
-              ) : (
-                <Button
-                  color="primary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  type="submit"
-                >
-                  Save
-                </Button>
-              )}
+              <Input
+                name="bank_account_details.ifsc_code"
+                label="IFSC Code"
+                mandatory={true}
+                placeholder="Enter Ifsc Code"
+                value={formik.values.bank_account_details.ifsc_code}
+                onChange={formik.handleChange}
+                width="250px"
+                error={
+                  formik.touched.bank_account_details?.ifsc_code &&
+                  formik.errors.bank_account_details?.ifsc_code
+                }
+              />
+            </div>
+            <div>
+              <Input
+                name="bank_account_details.acc_holder_name"
+                label="Account Holder Name"
+                mandatory={true}
+                placeholder="Enter Account Holder Name"
+                value={formik.values.bank_account_details.acc_holder_name}
+                onChange={formik.handleChange}
+                width="250px"
+                error={
+                  formik.touched.bank_account_details?.acc_holder_name &&
+                  formik.errors.bank_account_details?.acc_holder_name
+                }
+              />
             </div>
           </div>
-        </form>
+          <div className={Styles.fieldRow}>
+            <div>
+              <Input
+                name="bank_account_details.bank_name"
+                label="Bank Name"
+                placeholder="Enter Bank Name"
+                value={formik.values.bank_account_details.bank_name}
+                onChange={formik.handleChange}
+                width="250px"
+                error={
+                  formik.touched.bank_account_details?.bank_name &&
+                  formik.errors.bank_account_details?.bank_name
+                }
+              />
+            </div>
+            <div>
+              <Select
+                name="preferred_payment_method_id"
+                label="Preffered Payment Type"
+                defaultLabel="Select from options" 
+                width="250px"
+                mandatory={true}
+                value={formik.values.preferred_payment_method_id}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.preferred_payment_method_id &&
+                  formik.errors.preferred_payment_method_id
+                }
+              >
+                {getAllPaymentTypeList?.map((option: any) => (
+                  <option
+                    key={option.master_data_id}
+                    value={option.master_data_id}
+                  >
+                    {option.master_data_name}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            <div>
+              <Select
+                name="currency"
+                label="Currency"
+                defaultLabel="Select from options"
+                mandatory={true}
+                width="250px"
+                value={formik.values.currency}
+                onChange={formik.handleChange}
+                error={formik.touched.currency && formik.errors.currency}
+              >
+                {getAllCurrencyTypeList?.map((option: any) => (
+                  <option
+                    key={option.master_data_id}
+                    value={option.master_data_name}
+                  >
+                    {option.master_data_name}
+                  </option>
+                ))}
+              </Select>
+            </div>
+          </div>
+          <div className={Styles.fieldRowLast}>
+            <TextArea
+              name="payment_terms"
+              label="Payment Terms"
+              placeholder="Enter description"
+              width="35%"
+              value={formik.values.payment_terms}
+              onChange={formik.handleChange}
+              rows={5}
+              maxCharacterCount={250}
+              error={
+                formik.touched.payment_terms && formik.errors.payment_terms
+              }
+            />
+          </div>
+          <div className={Styles.box1}>
+            <h4>Other Details</h4>
+          </div>
+          <div className={Styles.fieldRow}>
+            <div>
+              <Select
+                name="vendor_category_id"
+                label="Vendor Category Type"
+                defaultLabel="Select from options"
+                mandatory={true}
+                width="250px"
+                value={formik.values.vendor_category_id}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.vendor_category_id &&
+                  formik.errors.vendor_category_id
+                }
+              >
+                {getAllVendorTypeList?.map((option: any) => (
+                  <option
+                    key={option.master_data_id}
+                    value={option.master_data_id}
+                  >
+                    {option.master_data_name}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            <div>
+              <Input
+                name="lead_time"
+                label="Delivery Duration"
+                placeholder="Enter Delivery Duration"
+                value={formik.values.lead_time}
+                onChange={formik.handleChange}
+                width="250px"
+                error={formik.touched.lead_time && formik.errors.lead_time}
+              />
+            </div>
+            <div>
+              <Input
+                name="minimum_order_quantity"
+                label="Minimum Order Quantity"
+                placeholder="Enter Minimum Order Quantity"
+                value={formik.values.minimum_order_quantity}
+                onChange={formik.handleChange}
+                width="250px"
+                error={
+                  formik.touched.minimum_order_quantity &&
+                  formik.errors.minimum_order_quantity
+                }
+              />
+            </div>
+          </div>
+          <div className={Styles.fieldRowLast}>
+            <div>
+              <Input
+                name="tax_id"
+                label="Tax Number"
+                mandatory={true}
+                placeholder="Enter tax number"
+                value={formik.values.tax_id}
+                onChange={formik.handleChange}
+                width="250px"
+                error={formik.touched.tax_id && formik.errors.tax_id}
+              />
+            </div>
+          </div>
+          <div className={Styles.fieldRowLast}>
+            <TextArea
+              name="notes"
+              label="Notes"
+              placeholder="Enter Notes"
+              width="35%"
+              value={formik.values.notes}
+              onChange={formik.handleChange}
+              rows={5}
+              maxCharacterCount={250}
+              error={formik.touched.notes && formik.errors.notes}
+            />
+          </div>
       </div>
-      <CustomSnackBar
-        open={openSnack}
-        message={message}
-        onClose={handleSnackBarClose}
-        autoHideDuration={1000}
-        type="success"
-      />
-    </div>
+      <div className={Styles.buttonFields}>
+        <div>
+          {projectId !== null ? (
+            <Button
+              color="secondary"
+              shape="rectangle"
+              justify="center"
+              size="small"
+              onClick={() => {
+                navigate('/purchase-request-add', {
+                  state: { project_id: projectId, indent_id: indentId },
+                });
+              }}
+            >
+              Back
+            </Button>
+          ) : (
+            <Button
+              color="secondary"
+              shape="rectangle"
+              justify="center"
+              size="small"
+              onClick={() => {
+                navigate('/settings');
+              }}
+            >
+              Back
+            </Button>
+          )}
+        </div>
+        <div>
+          {routeParams.id ? (
+            <Button
+              color="primary"
+              shape="rectangle"
+              justify="center"
+              size="small"
+              type="submit"
+            >
+              Update
+            </Button>
+          ) : (
+            <Button
+              color="primary"
+              shape="rectangle"
+              justify="center"
+              size="small"
+              type="submit"
+            >
+              Save
+            </Button>
+          )}
+        </div>
+      </div>
+    </form>
+      </div >
+  <CustomSnackBar
+    open={openSnack}
+    message={message}
+    onClose={handleSnackBarClose}
+    autoHideDuration={1000}
+    type="success"
+  />
+    </div >
   );
 };
 

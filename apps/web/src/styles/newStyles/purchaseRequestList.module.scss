@@ -260,3 +260,22 @@
     height: 1px;
     background-color: #d0d5dd;
 }
+
+.emptyDataHandling {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    padding-top: 29px;
+  }
+  
+  .textmax {
+    font-weight: 700;
+    font-size: 16px;
+  }
+  
+  .image {
+    display: flex;
+    justify-content: center;
+  }

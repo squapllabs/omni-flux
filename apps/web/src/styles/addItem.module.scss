@@ -32,6 +32,13 @@ border-bottom: 1px solid black;
   justify-content: space-around;
 }
 
+.itemFields2{
+  display: flex;
+  flex-direction:row;
+  flex-wrap: wrap;
+  margin-left: 10%;
+}
+
 .buttonFields {
   display:flex;
   flex-direction:row;

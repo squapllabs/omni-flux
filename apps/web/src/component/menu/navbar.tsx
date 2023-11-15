@@ -10,7 +10,7 @@ import BellIcon from './icons/bellIcon';
 import CheckIcon from './icons/checkIcon';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { resetAuth } from '../../redux/reducer';
+import { resetAuth, setToken } from '../../redux/reducer';
 import authService from '../../service/auth-service';
 import LogoutIcon from './icons/logoutIcon';
 import Avatar from './AvatarComponent';
@@ -30,7 +30,7 @@ import { format } from 'date-fns';
 import StarIcon from './icons/starIcon';
 import notificationService from '../../service/notification-service';
 import InvoiceIcon from './icons/invoiceIcon';
-
+import { resetMenustore } from '../../helper/common-function';
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -96,7 +96,7 @@ const Navbar = () => {
     setShowAssets(false);
     setShowReport(false);
     setShowInvoice(!showInvoice);
-  }
+  };
   const { mutate: updateNotification } = updateNotificationStatus();
 
   const { data: newNotificationCount } = getNewNotificationByUserID(
@@ -131,8 +131,6 @@ const Navbar = () => {
     };
   }, []);
 
-  console.log('userData', userData);
-
   function handleListItems() {
     navigate('/products');
   }
@@ -144,27 +142,40 @@ const Navbar = () => {
     navigate('/home');
   };
   const handleIndentapproval = () => {
+    resetMenustore();
     navigate('/indent-view');
   };
   const handlePurchaseOrder = () => {
+    resetMenustore();
     navigate('/purchase-order');
   };
   const handlePurchaseRequest = () => {
+    resetMenustore();
     navigate('/approved-indent-list');
   };
   const handlePurchaseRequestList = () => {
+    resetMenustore();
     navigate('/purchase-request-list-all');
   };
   const handleVendorList = () => {
+    resetMenustore();
     navigate('/vendor-list');
   };
   const handleExpenseApproval = () => {
+    resetMenustore();
     navigate('/site-expense-approve');
   };
   const handleExpenseRecall = () => {
+    resetMenustore();
     navigate('/expense-recall');
   };
+
+  const handleExpenseList = () => {
+    resetMenustore();
+    navigate('/expense-list');
+  };
   const handleFinanceView = () => {
+    resetMenustore();
     navigate('/finance-view');
   };
   const handleSearch = (searchTerm: string) => {
@@ -207,6 +218,7 @@ const Navbar = () => {
   };
 
   const handleNavigate = () => {
+    resetMenustore();
     navigate('/settings');
   };
 
@@ -216,7 +228,10 @@ const Navbar = () => {
       upadteReadStatus();
     }, 2000);
   };
-
+  const resetMenustore = () => {
+    dispatch(setToken({ key: 'settingsMenuID', value: null }));
+    dispatch(setToken({ key: 'projectMenuID', value: null }));
+  };
   const upadteReadStatus = () => {
     const Object: any = {
       notification_to_user_id: userData?.user_id,
@@ -246,6 +261,7 @@ const Navbar = () => {
             <div
               className={Styles.logo}
               onClick={() => {
+                resetMenustore();
                 navigate('/home');
               }}
             >
@@ -257,113 +273,118 @@ const Navbar = () => {
             <div className={Styles.verticalLine}></div>
           </div>
           <div className={Styles.navMenu}>
-            <div
-              onClick={handleShowAssets}
-              className={
-                showAssets
-                  ? `${Styles.menu_item} ${Styles.selected}`
-                  : `${Styles.menu_item}`
-              }
-            >
-              <Dropdown
-                label={
-                  <div className={Styles.menuContainer}>
-                    <DeliveryTruckIcon
-                      color="white"
-                      className={Styles.navIcon}
-                    />
-                    <div>
-                      {
-                        // roleName === 'FINANCE MANAGER' 
-                        //   ? 'Invoice '
-                        //   : 
-                        roleName === 'PLANNING ENGINEER'
-                          ? 'Indent'
-                          : 'Procurement'}
-                    </div>
-
-                    <DropdownIcon color="white" className={Styles.navIcon} />
-                  </div>
+            {roleName === 'ADMIN' ||
+            roleName === 'PROJECT MANAGER' ||
+            roleName === 'PLANNING ENGINEER' ||
+            roleName === 'PURCHASE MANAGER' ? (
+              <div
+                onClick={handleShowAssets}
+                className={
+                  showAssets
+                    ? `${Styles.menu_item} ${Styles.selected}`
+                    : `${Styles.menu_item}`
                 }
               >
-                <div className={Styles.container}>
-                  <div className={Styles.dropDownContainer}>
-                    <div>
-                      <div className={Styles.dropDownContent}>
-                        {roleName === 'PLANNING ENGINEER' ||
+                <Dropdown
+                  label={
+                    <div className={Styles.menuContainer}>
+                      <DeliveryTruckIcon
+                        color="white"
+                        className={Styles.navIcon}
+                      />
+                      <div>
+                        {
+                          // roleName === 'FINANCE MANAGER'
+                          //   ? 'Invoice '
+                          //   :
+                          roleName === 'PLANNING ENGINEER'
+                            ? 'Indent'
+                            : 'Procurement'
+                        }
+                      </div>
+
+                      <DropdownIcon color="white" className={Styles.navIcon} />
+                    </div>
+                  }
+                >
+                  <div className={Styles.container}>
+                    <div className={Styles.dropDownContainer}>
+                      <div>
+                        <div className={Styles.dropDownContent}>
+                          {roleName === 'PLANNING ENGINEER' ||
                           roleName === 'PROJECT MANAGER' ? (
-                          <div
-                            className={Styles.dropDownItems}
-                            onClick={handleIndentapproval}
-                          >
-                            <div className={Styles.itemsTitle}>
-                              <h2>Indent Approval</h2>
+                            <div
+                              className={Styles.dropDownItems}
+                              onClick={handleIndentapproval}
+                            >
+                              <div className={Styles.itemsTitle}>
+                                <h2>Indent Approval</h2>
+                              </div>
                             </div>
-                          </div>
-                        ) : null}
+                          ) : null}
 
-                        {roleName === 'PURCHASE MANAGER' ||
+                          {roleName === 'PURCHASE MANAGER' ||
                           roleName === 'PROJECT MANAGER' ||
                           roleName === 'ADMIN' ? (
-                          <div
-                            className={Styles.dropDownItems}
-                            onClick={handlePurchaseRequest}
-                          >
-                            <div className={Styles.itemsTitle}>
-                              <h2>Approved Indent</h2>
+                            <div
+                              className={Styles.dropDownItems}
+                              onClick={handlePurchaseRequest}
+                            >
+                              <div className={Styles.itemsTitle}>
+                                <h2>Approved Indent</h2>
+                              </div>
                             </div>
-                          </div>
-                        ) : null}
-                        {/* <div className={Styles.dashedLine}></div> */}
-                        {roleName === 'PURCHASE MANAGER' ||
+                          ) : null}
+                          {/* <div className={Styles.dashedLine}></div> */}
+                          {roleName === 'PURCHASE MANAGER' ||
                           roleName === 'PROJECT MANAGER' ||
                           roleName === 'ADMIN' ? (
-                          <div
-                            className={Styles.dropDownItems}
-                            onClick={handlePurchaseRequestList}
-                          >
-                            <div className={Styles.itemsTitle}>
-                              <h2>Purchase Request</h2>
+                            <div
+                              className={Styles.dropDownItems}
+                              onClick={handlePurchaseRequestList}
+                            >
+                              <div className={Styles.itemsTitle}>
+                                <h2>Purchase Request</h2>
+                              </div>
                             </div>
-                          </div>
-                        ) : null}
-                        {/* <div className={Styles.dashedLine}></div> */}
-                        {roleName === 'PURCHASE MANAGER' ||
+                          ) : null}
+                          {/* <div className={Styles.dashedLine}></div> */}
+                          {roleName === 'PURCHASE MANAGER' ||
                           roleName === 'PROJECT MANAGER' ||
                           roleName === 'ADMIN' ? (
-                          <div
-                            className={Styles.dropDownItems}
-                            onClick={handlePurchaseOrder}
-                          >
-                            <div className={Styles.itemsTitle}>
-                              <h2>Purchase Order</h2>
+                            <div
+                              className={Styles.dropDownItems}
+                              onClick={handlePurchaseOrder}
+                            >
+                              <div className={Styles.itemsTitle}>
+                                <h2>Purchase Order</h2>
+                              </div>
                             </div>
-                          </div>
-                        ) : null}
-                        {/* <div className={Styles.dashedLine}></div> */}
-                        {roleName === 'PURCHASE MANAGER' ||
+                          ) : null}
+                          {/* <div className={Styles.dashedLine}></div> */}
+                          {roleName === 'PURCHASE MANAGER' ||
                           roleName === 'ADMIN' ? (
-                          <div
-                            className={Styles.dropDownItems}
-                            onClick={handleVendorList}
-                          >
-                            <div className={Styles.itemsTitle}>
-                              <h2>Vendors</h2>
+                            <div
+                              className={Styles.dropDownItems}
+                              onClick={handleVendorList}
+                            >
+                              <div className={Styles.itemsTitle}>
+                                <h2>Vendors</h2>
+                              </div>
                             </div>
-                          </div>
-                        ) : null}
+                          ) : null}
 
-                        {/* <div className={Styles.dashedLine}></div> */}
+                          {/* <div className={Styles.dashedLine}></div> */}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className={Styles.dropDownContainer}>
-                    <div>
+                    <div className={Styles.dropDownContainer}>
+                      <div></div>
                     </div>
                   </div>
-                </div>
-              </Dropdown>
-            </div>
+                </Dropdown>
+              </div>
+            ) : null}
             <div>
               <div
                 onClick={handleShowExpense}
@@ -374,13 +395,19 @@ const Navbar = () => {
                 }
               >
                 <Dropdown
+                  // label={
+                  //   roleName === 'PROJECT MANAGER' || roleName === 'ADMIN' ? (
+                  //     <div className={Styles.menuContainer}>
+                  //       <BoxIcon color="white" />
+                  //       Expenses <DropdownIcon color="white" />
+                  //     </div>
+                  //   ) : null
+                  // }
                   label={
-                    roleName === 'PROJECT MANAGER' || roleName === 'ADMIN' ? (
-                      <div className={Styles.menuContainer}>
-                        <BoxIcon color="white" />
-                        Expenses <DropdownIcon color="white" />
-                      </div>
-                    ) : null
+                    <div className={Styles.menuContainer}>
+                      <BoxIcon color="white" />
+                      Expenses <DropdownIcon color="white" />
+                    </div>
                   }
                 >
                   <div className={Styles.container}>
@@ -388,7 +415,7 @@ const Navbar = () => {
                       <div>
                         <div className={Styles.dropDownContent}>
                           {roleName === 'PROJECT MANAGER' ||
-                            roleName === 'ADMIN' ? (
+                          roleName === 'ADMIN' ? (
                             <div
                               className={Styles.dropDownItems}
                               onClick={handleExpenseApproval}
@@ -402,7 +429,7 @@ const Navbar = () => {
                           ) : null}
 
                           {roleName === 'PROJECT MANAGER' ||
-                            roleName === 'ADMIN' ? (
+                          roleName === 'ADMIN' ? (
                             <div
                               className={Styles.dropDownItems}
                               onClick={handleExpenseRecall}
@@ -412,6 +439,14 @@ const Navbar = () => {
                               </div>
                             </div>
                           ) : null}
+                          <div
+                            className={Styles.dropDownItems}
+                            onClick={handleExpenseList}
+                          >
+                            <div className={Styles.itemsTitle}>
+                              <h2>Expense-Claim</h2>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -428,18 +463,18 @@ const Navbar = () => {
                     : `${Styles.menu_item}`
                 }
               >
-                {roleName === "ADMIN" || roleName === "FINANCE MANAGER" ? (
+                {roleName === 'ADMIN' || roleName === 'FINANCE MANAGER' ? (
                   <div
                     className={Styles.menuContainer}
                     onClick={() => {
+                      resetMenustore();
                       navigate('/finance-view');
                     }}
                   >
-                    <InvoiceIcon className={Styles.navIcon} color='white' />
+                    <InvoiceIcon className={Styles.navIcon} color="white" />
                     Invoice
                   </div>
-                ) : null
-                }
+                ) : null}
               </div>
             </div>
             <div>
@@ -454,6 +489,7 @@ const Navbar = () => {
                 <div
                   className={Styles.menuContainer}
                   onClick={() => {
+                    resetMenustore();
                     navigate('/reports');
                   }}
                 >
@@ -472,6 +508,7 @@ const Navbar = () => {
             >
               <div
                 onClick={() => {
+                  resetMenustore();
                   navigate('/project-list');
                 }}
                 className={Styles.menuContainer}

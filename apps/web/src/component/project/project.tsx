@@ -141,7 +141,8 @@ const Project = () => {
     dispatch(setToken({ key: 'projectMenuID', value: id }));
     setSelectedItem(id);
   };
-  const mainContentComponents: { [key: number]: JSX.Element } = {   //For Destop View
+  const mainContentComponents: { [key: number]: JSX.Element } = {
+    //For Destop View
     1: (
       <ProjectDashboard
         setActiveButton={setActiveButton}
@@ -234,7 +235,8 @@ const Project = () => {
       />
     ),
   };
-  const mainContentComponentsForMobile: { [key: number]: JSX.Element } = {   //For Mobile View
+  const mainContentComponentsForMobile: { [key: number]: JSX.Element } = {
+    //For Mobile View
     1: (
       <ProjectSiteExpenseList
         setActiveButton={setActiveButton}
@@ -255,10 +257,10 @@ const Project = () => {
     const updateDimension = () => {
       setScreenSize(getCurrentDimension());
     };
-    window.addEventListener("resize", updateDimension);
+    window.addEventListener('resize', updateDimension);
 
     return () => {
-      window.removeEventListener("resize", updateDimension);
+      window.removeEventListener('resize', updateDimension);
     };
   }, [screenSize]);
   return (
@@ -268,7 +270,7 @@ const Project = () => {
           <div className={Styles.sub_header}>
             <div
               className={Styles.logo}
-              onClick={() => {
+              onClick={(value) => {
                 navigate('/project-list');
                 dispatch(setToken({ key: 'projectMenuID', value: null }));
               }}

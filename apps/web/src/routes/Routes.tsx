@@ -285,6 +285,7 @@ import VendorQuotesUpdate from '../component/purchaseRequest/vendorQuotesUpdate'
 import Reports from '../component/reports/reports';
 import FinanceInvoiceNewView from '../component/finance/invoiceNewView';
 import AllPurchaseRequest from '../component/purchaseRequest/allPurchaseRequest/purchaseRequestAllList';
+import ExpenseList from '../component/globalExpense/expenseClaimList';
 const AppRoutes = () => {
   const [isAuth, setIsAuth] = useState<boolean>(false);
 
@@ -412,6 +413,7 @@ const AppRoutes = () => {
   );
   const ProtectedAllPurchaseRequestList =
     withLayoutAndProtection(AllPurchaseRequest);
+  const ProtectedExpenseList = withLayoutAndProtection(ExpenseList);
   return (
     <div>
       <Routes>
@@ -539,7 +541,10 @@ const AppRoutes = () => {
         />
         <Route path="/indent/:id" element={<ProtectedIndent />} />
         <Route path="/indent-view" element={<ProtectedIndentList />} />
-        <Route path="/approved-indent-list" element={<ProtectedPurchaseList />} />
+        <Route
+          path="/approved-indent-list"
+          element={<ProtectedPurchaseList />}
+        />
         <Route
           path="/indent-detail/:id"
           element={<ProtectedIndentDetailView />}
@@ -673,6 +678,7 @@ const AppRoutes = () => {
           path="/purchase-request-list-all"
           element={<ProtectedAllPurchaseRequestList />}
         />
+        <Route path="/expense-list" element={<ProtectedExpenseList />} />
       </Routes>
     </div>
   );

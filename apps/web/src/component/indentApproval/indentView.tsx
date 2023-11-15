@@ -17,6 +17,8 @@ import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import ApproveDialogBox from '../ui/CustomApprovePopup';
 import ProjectSubheader from '../project/projectSubheader';
+import IndentApprovePopup from './indentApprovePopup';
+import CustomPopup from '../ui/CustomSidePopup';
 
 const IndentView = () => {
   const routeParams = useParams();
@@ -31,7 +33,9 @@ const IndentView = () => {
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [showRejectForm, setShowRejectForm] = useState(false);
   const [openApprove, setOpenApprove] = useState(false);
+  const [open, setOpen] = useState(false);
   const IndentId = Number(routeParams?.id);
+
   const masterData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
@@ -92,7 +96,7 @@ const IndentView = () => {
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
         <div className={Styles.box}>
-        <ProjectSubheader
+          <ProjectSubheader
             description="Manage your Indent raise detail across your project"
             navigation={`/indent-view`}
             title={'Indent Request Detail List'}
@@ -136,7 +140,7 @@ const IndentView = () => {
           </div>
           {getAllData?.content[0]?.indent_request_data?.approver_status ===
             'Approved' ||
-          getAllData?.content[0]?.indent_request_data?.approver_status ===
+            getAllData?.content[0]?.indent_request_data?.approver_status ===
             'Rejected' ? null : (
             <div className={Styles.approveButtons}>
               <div>
@@ -171,14 +175,33 @@ const IndentView = () => {
           onAction={setShowRejectForm}
           selectedIndentId={IndentId}
         />
-        <ApproveDialogBox
+        {/* <ApproveDialogBox
           open={openApprove}
           title="Approve Indent Request"
           contentLine1="Are you sure want to approve this indent request ?"
           contentLine2=""
           handleClose={handleCloseApprove}
           handleConfirm={handleApprove}
+        /> */}
+
+        <CustomPopup
+          title="Approve Indent"
+          open={openApprove}
+          handleClose={handleCloseApprove}
+          content={
+            <IndentApprovePopup
+              setOpen={setOpenApprove}
+              open={openApprove}
+              handleClose={handleCloseApprove}
+              handleConfirm={handleApprove}
+              setOpenSnack={setOpenSnack}
+              setMessage={setMessage}
+              indentId={IndentId}
+              userId={userID}
+            />
+          }
         />
+
         <CustomSnackBar
           open={openSnack}
           message={message}
