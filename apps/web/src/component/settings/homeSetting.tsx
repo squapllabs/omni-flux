@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Styles from '../../styles/homeSettings.module.scss';
-import CustomGroupButton from '../ui/CustomGroupButton';
 import UserList from '../users/userList';
 import MasterData from '../masterData/masterData';
 import VendorList from '../vendor/vendorList';
@@ -55,14 +54,9 @@ const Settings = () => {
     );
   }
 
-  const [buttonLabels, setButtonLabels] = useState(menuItems);
   const [selectedItem, setSelectedItem] = useState<number>(
     settingsMenuID != null ? settingsMenuID : 1
   );
-
-  const handleGroupButtonClick = (value: string) => {
-    setActiveButton(value);
-  };
 
   const mainContentComponents: { [key: number]: JSX.Element } = {
     1: (
@@ -175,27 +169,6 @@ const Settings = () => {
             {mainContentComponents[selectedItem]}
           </div>
         </div>
-        {/* <div className={Styles.container}>
-        <div className={Styles.button}>
-          <CustomGroupButton
-            labels={buttonLabels}
-            onClick={handleGroupButtonClick}
-            activeButton={activeButton}
-          />
-        </div>
-      </div>
-      <div className={Styles.dividerLine}></div>
-      <div>
-        {activeButton === 'M' && <MasterData />}
-        {activeButton === 'U' && <UserList />}
-        {activeButton === 'VL' && <VendorList />}
-        {activeButton === 'LB' && <LabourList />}
-        {activeButton === 'GST' && <GstList />}
-        {activeButton === 'UOM' && <UomList />}
-        {activeButton === 'CL' && <ClientList />}
-        {activeButton === 'HC' && <HsnCodeList />}
-        {activeButton === 'IL' && <ItemList />}
-      </div> */}
       </div>
     </CustomLoader>
   );

@@ -15,20 +15,17 @@ import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
 import CustomPagination from '../menu/CustomPagination';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
-import {handleSortByColumn} from './../../helper/common-function'
+import { handleSortByColumn } from './../../helper/common-function'
 
 const ContractorList = () => {
   const { mutate: getDeleteContractorById } = useDeleteSite();
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [value, setValue] = useState();
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
-  const [filter, setFilter] = useState(false);
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
@@ -137,23 +134,23 @@ const ContractorList = () => {
                         <tr>
                           <th>S No</th>
                           <th
-                          onClick={() => handleSortByColumn('name',sortOrder,setSortOrder,setSortColumn)}
-                        >
-                          <div className={Styles.headingRow}>
-                            <div>Name</div><div>
-                              <FilterOrderIcon />
+                            onClick={() => handleSortByColumn('name', sortOrder, setSortOrder, setSortColumn)}
+                          >
+                            <div className={Styles.headingRow}>
+                              <div>Name</div><div>
+                                <FilterOrderIcon />
+                              </div>
                             </div>
-                          </div>
-                        </th>
-                        <th
-                          onClick={() => handleSortByColumn('code',sortOrder,setSortOrder,setSortColumn)}
-                        >
-                          <div className={Styles.headingRow}>
-                            <div>Code</div><div>
-                              <FilterOrderIcon />
+                          </th>
+                          <th
+                            onClick={() => handleSortByColumn('code', sortOrder, setSortOrder, setSortColumn)}
+                          >
+                            <div className={Styles.headingRow}>
+                              <div>Code</div><div>
+                                <FilterOrderIcon />
+                              </div>
                             </div>
-                          </div>
-                        </th>
+                          </th>
                           <th>Mobile Number</th>
                           <th>Description</th>
                           {activeButton === 'AC' && <th>Actions</th>}
@@ -175,17 +172,17 @@ const ContractorList = () => {
                           <tr key={item.site_contractor_id}>
                             <td>{startingIndex + index}</td>
                             <td><span title={item.name}>
-                                {item.name
-                                  ? item.name.substring(0, 50)
-                                  : '-'}
-                              </span></td>
+                              {item.name
+                                ? item.name.substring(0, 50)
+                                : '-'}
+                            </span></td>
                             <td><span title={item.code}>
-                                {item.code
-                                  ? item.code.substring(0, 50)
-                                  : '-'}
-                              </span></td>
+                              {item.code
+                                ? item.code.substring(0, 50)
+                                : '-'}
+                            </span></td>
                             <td>
-                            <span title={item.mobile_number}>
+                              <span title={item.mobile_number}>
                                 {item.mobile_number
                                   ? item.mobile_number.substring(0, 50)
                                   : '-'}
@@ -259,7 +256,7 @@ const ContractorList = () => {
                   alt="contractor_img"
                   width="100%"
                   height="200px"
-                  style={{paddingTop: '35px', paddingBottom: '10px'}}
+                  style={{ paddingTop: '35px', paddingBottom: '10px' }}
                 />
               </div>
               <div>
@@ -270,14 +267,14 @@ const ContractorList = () => {
               </div>
               <div>
                 <Button
-                color="primary"
-                shape="rectangle"
-                justify="center"
-                size="small"
-                icon={<AddIcon color="white" />}
-                onClick={() => navigate('/contractor-add')}
-              >
-                Add Contractor
+                  color="primary"
+                  shape="rectangle"
+                  justify="center"
+                  size="small"
+                  icon={<AddIcon color="white" />}
+                  onClick={() => navigate('/contractor-add')}
+                >
+                  Add Contractor
                 </Button>
               </div>
             </div>
