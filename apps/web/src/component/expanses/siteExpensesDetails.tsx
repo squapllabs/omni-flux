@@ -3,7 +3,7 @@ import Styles from '../../styles/expanses.module.scss';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
-import { getBymasertDataTypeDrop } from '../../hooks/masertData-hook';
+import { useGetBymasertDataTypeDrop } from '../../hooks/masertData-hook';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import Checkbox from '../ui/Checkbox';
@@ -24,7 +24,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
   const [ExpenseValue, setExpenseValue] = useState<any>({});
   const [checked, setChecked] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const { data: getSiteExpense } = getBymasertDataTypeDrop('SIEP');
+  const { data: getSiteExpense } = useGetBymasertDataTypeDrop('SIEP');
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };

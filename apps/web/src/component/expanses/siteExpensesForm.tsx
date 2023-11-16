@@ -7,8 +7,8 @@ import Button from '../ui/Button';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import { useFormik } from 'formik';
 import {
-  getBymasertDataType,
-  getBymasertDataTypeDrop,
+  useGetBymasertDataType,
+  useGetBymasertDataTypeDrop,
 } from '../../hooks/masertData-hook';
 import PopupExpense from './popupExpanse';
 import CustomDelete from '../ui/customDeleteDialogBox';
@@ -83,11 +83,11 @@ const SiteExpensesForm = () => {
     formik.setFieldValue('submitType', 'Draft');
     formik.submitForm();
   };
-  const { data: getAllDiscription } = getBymasertDataType('SEDT');
-  const { data: getAllSiteDepartment } = getBymasertDataType('SITD');
-  const { data: getAllpurpose } = getBymasertDataType('SITP');
-  const { data: getAlldesignation } = getBymasertDataType('SITDG');
-  const { data: getSiteExpense } = getBymasertDataTypeDrop('SIEP');
+  const { data: getAllDiscription } = useGetBymasertDataType('SEDT');
+  const { data: getAllSiteDepartment } = useGetBymasertDataType('SITD');
+  const { data: getAllpurpose } = useGetBymasertDataType('SITP');
+  const { data: getAlldesignation } = useGetBymasertDataType('SITDG');
+  const { data: getSiteExpense } = useGetBymasertDataTypeDrop('SIEP');
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
   useCreatesiteExpense();
   const { mutate: updateSiteExpenseData, isLoading: updateLoader } =

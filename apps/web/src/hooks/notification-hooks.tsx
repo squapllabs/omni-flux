@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import notificationService from '../service/notification-service';
 
-const getNotificationforUser = (data: any) => {
+const useGetNotificationforUser = (data: any) => {
   return useQuery(
     ['getNotificationforUser'],
     () => notificationService.filterNotification(data),
@@ -12,7 +12,7 @@ const getNotificationforUser = (data: any) => {
   );
 };
 
-const getNewNotificationByUserID = (id: number) => {
+const useGetNewNotificationByUserID = (id: number) => {
   return useQuery(
     ['getNewNotificationByUserID', id],
     () => notificationService.getNotificationCountByUserID(id),
@@ -22,7 +22,7 @@ const getNewNotificationByUserID = (id: number) => {
   );
 };
 
-const updateNotificationStatus = () => {
+const useUpdateNotificationStatus = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -37,7 +37,7 @@ const updateNotificationStatus = () => {
 };
 
 export {
-  getNotificationforUser,
-  getNewNotificationByUserID,
-  updateNotificationStatus,
+  useGetNotificationforUser,
+  useGetNewNotificationByUserID,
+  useUpdateNotificationStatus,
 };

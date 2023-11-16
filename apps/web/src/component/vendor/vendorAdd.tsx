@@ -9,7 +9,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import CustomSnackBar from '../ui/customSnackBar';
-import { getBymasertDataType } from '../../hooks/masertData-hook';
+import { useGetBymasertDataType } from '../../hooks/masertData-hook';
 import Select from '../ui/selectNew';
 import {
   getVendorCreationYupschema,
@@ -32,9 +32,9 @@ const AddVendor = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userData: any = encryptedData.userData;
-  const { data: getAllPaymentTypeList = [] } = getBymasertDataType('PPM');
-  const { data: getAllVendorTypeList = [] } = getBymasertDataType('VNC');
-  const { data: getAllCurrencyTypeList = [] } = getBymasertDataType('CRTYP');
+  const { data: getAllPaymentTypeList = [] } = useGetBymasertDataType('PPM');
+  const { data: getAllVendorTypeList = [] } = useGetBymasertDataType('VNC');
+  const { data: getAllCurrencyTypeList = [] } = useGetBymasertDataType('CRTYP');
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const validationSchema = routeParams?.id

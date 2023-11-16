@@ -9,7 +9,7 @@ import DatePicker from '../ui/CustomDatePicker';
 import { getCreateValidateyup } from '../../helper/constants/machinery-constants';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
-import { createInstantMachinery } from '../../hooks/machinery-hooks';
+import { useCreateInstantMachinery } from '../../hooks/machinery-hooks';
 import { format } from 'date-fns';
 import Select from '../ui/selectNew';
 
@@ -21,7 +21,7 @@ const InstantMachineryAdd = (props: {
 }) => {
   const { onAction, setMessage, setOpenSnack } = props;
   const { data: getAllUomList = [] } = useGetByUomType();
-  const { mutate: createNewMachinery } = createInstantMachinery();
+  const { mutate: createNewMachinery } = useCreateInstantMachinery();
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userData: any = encryptedData.userData;

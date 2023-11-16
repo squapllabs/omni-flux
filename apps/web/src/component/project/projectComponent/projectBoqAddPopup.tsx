@@ -8,7 +8,7 @@ import CustomSnackBar from '../../ui/customSnackBar';
 import * as yup from 'yup';
 import TextArea from '../../ui/CustomTextArea';
 import {
-    getByMasterDataProjectIdDrop,
+    useGetByMasterDataProjectIdDrop,
 } from '../../../hooks/masertData-hook';
 import {
     getCreateBoQValidateyup,
@@ -33,7 +33,7 @@ const ProjectBoqAddPopup = (props: any) => {
     const [message, setMessage] = useState('');
     const { mutate: createNewProjectBoQ } = useCreateBoQ();
     const { mutate: updateNewProjectBoQ } = useUpdateBoQ();
-    const { data: getBomType = [] } = getByMasterDataProjectIdDrop(props?.projectId);
+    const { data: getBomType = [] } = useGetByMasterDataProjectIdDrop(props?.projectId);
     const validationSchema = getCreateBoQValidateyup(yup);
 
     const handleSnackBarClose = () => {

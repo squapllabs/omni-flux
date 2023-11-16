@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import {
-  createmasertData,
+  useCreatemasterData,
   useGetAllParentmasertDataDrop,
-  updatemasertData,
+  useUpdatemasterData,
 } from '../../hooks/masertData-hook';
 import {
   getCreateValidateyup,
@@ -32,8 +32,8 @@ const MasterDataForm: React.FC = (props: any) => {
   //   }
   const { data: getAllmasterDataForDrop = [], isLoading: dropLoading } =
     useGetAllParentmasertDataDrop();
-  const { mutate: postMasterData } = createmasertData();
-  const { mutate: updateMasterData } = updatemasertData();
+  const { mutate: postMasterData } = useCreatemasterData();
+  const { mutate: updateMasterData } = useUpdatemasterData();
   const validationSchema =
     props.mode === 'Add'
       ? getCreateValidateyup(Yup)

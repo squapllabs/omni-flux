@@ -10,7 +10,7 @@ import {
   useUpdateleadEnquiry,
 } from '../../../hooks/leadEnquires-hooks';
 import { useGetAllClientDrop } from '../../../hooks/client-hooks';
-import { getBymasertDataType } from '../../../hooks/masertData-hook';
+import { useGetBymasertDataType } from '../../../hooks/masertData-hook';
 import {
   getCreateValidateyup,
   getUpdateValidateyup,
@@ -68,9 +68,9 @@ const Tender: React.FC = (props: any) => {
   const { mutate: postleadEnquiry } = useCreateleadEnquiry();
   const { mutate: updatelead } = useUpdateleadEnquiry();
   const { data: getAllClient = [] } = useGetAllClientDrop();
-  const { data: getClientLevel = [] } = getBymasertDataType('CTLVL');
-  const { data: getAllIndustrySector = [] } = getBymasertDataType('INSEC');
-  const { data: getAllTenderType = [] } = getBymasertDataType('TDTE');
+  const { data: getClientLevel = [] } = useGetBymasertDataType('CTLVL');
+  const { data: getAllIndustrySector = [] } = useGetBymasertDataType('INSEC');
+  const { data: getAllTenderType = [] } = useGetBymasertDataType('TDTE');
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };

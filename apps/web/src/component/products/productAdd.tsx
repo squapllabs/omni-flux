@@ -14,7 +14,7 @@ import { useGetAllGstForDrop } from '../../hooks/gst-hooks';
 import { useGetAllUomDrop } from '../../hooks/uom-hooks';
 import { useGetAllHsnForDrop } from '../../hooks/hsnCode-hooks';
 import { useCreateItem, useUpdateItem } from '../../hooks/add-product-hooks';
-import { getBymasertDataType } from '../../hooks/masertData-hook';
+import { useGetBymasertDataType } from '../../hooks/masertData-hook';
 import addProduct from '../../service/add-product';
 import {
   getCreateValidateyup,
@@ -23,7 +23,7 @@ import {
 import ProjectSubheader from '../project/projectSubheader';
 
 const ProductAdd = () => {
-  const { data: getAllItemTypeList = [] } = getBymasertDataType('IMTY');
+  const { data: getAllItemTypeList = [] } = useGetBymasertDataType('IMTY');
   const { data: getAllGstList = [] } = useGetAllGstForDrop();
   const { data: getAllUomList = [] } = useGetAllUomDrop();
   const { data: getAllHsnList = [] } = useGetAllHsnForDrop();

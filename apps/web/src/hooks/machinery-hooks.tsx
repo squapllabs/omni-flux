@@ -12,7 +12,7 @@ const useGetAllMachinery = () => {
     );
   };
 
-  const createMachinery = () => {
+  const useCreateMachinery = () => {
     const queryClient = useQueryClient();
     return useMutation(
       (data: any) => {
@@ -26,7 +26,7 @@ const useGetAllMachinery = () => {
     );
   };
 
-  const createInstantMachinery = () => {
+  const useCreateInstantMachinery = () => {
     const queryClient = useQueryClient();
     return useMutation(
       (data: any) => {
@@ -51,8 +51,7 @@ const useGetAllMachinery = () => {
     );
   };
 
-  const getByMachinery = () => {
-    const queryClient = useQueryClient();
+  const useGetByMachinery = () => {
     return useMutation(
       (data:any) => {
         return MachineryService.filterMachinery(data);
@@ -65,7 +64,7 @@ const useGetAllMachinery = () => {
     )
   };
 
-  const getByMachineryID = (id: number) => {
+  const useGetByMachineryID = (id: number) => {
     return useQuery(
       ['getByMachineryID', id],
       () => MachineryService.getOneMachineryByID(id),
@@ -75,7 +74,7 @@ const useGetAllMachinery = () => {
     );
   };
 
-  const updateMachinery = () => {
+  const useUpdateMachinery = () => {
     const queryClient = useQueryClient();
     return useMutation(
       (data: any) => {
@@ -119,4 +118,4 @@ const useGetAllMachinery = () => {
     );
   };
 
-  export {useGetAllMachinery,createMachinery,createInstantMachinery,useGetAllPaginatedMachinery,getByMachinery,getByMachineryID,updateMachinery,useDeleteMachinery,useGetAllMachineryForDrop};
+  export {useGetAllMachinery,useCreateMachinery,useCreateInstantMachinery,useGetAllPaginatedMachinery,useGetByMachinery,useGetByMachineryID,useUpdateMachinery,useDeleteMachinery,useGetAllMachineryForDrop};

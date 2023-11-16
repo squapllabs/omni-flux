@@ -22,9 +22,9 @@ import BookIcon from './icons/bookIcon';
 import ReceptIcon from './icons/recepitIcon';
 import PersonIcon from './icons/personIcon';
 import {
-  getNewNotificationByUserID,
-  getNotificationforUser,
-  updateNotificationStatus,
+  useGetNewNotificationByUserID,
+  useGetNotificationforUser,
+  useUpdateNotificationStatus,
 } from '../../hooks/notification-hooks';
 import { format } from 'date-fns';
 import StarIcon from './icons/starIcon';
@@ -97,9 +97,9 @@ const Navbar = () => {
     setShowReport(false);
     setShowInvoice(!showInvoice);
   };
-  const { mutate: updateNotification } = updateNotificationStatus();
+  const { mutate: updateNotification } = useUpdateNotificationStatus();
 
-  const { data: newNotificationCount } = getNewNotificationByUserID(
+  const { data: newNotificationCount } = useGetNewNotificationByUserID(
     userData?.user_id
   );
 
@@ -198,7 +198,7 @@ const Navbar = () => {
     isLoading: dataLoading,
     data: initialData,
     refetch,
-  } = getNotificationforUser(data);
+  } = useGetNotificationforUser(data);
 
   useEffect(() => {
     refetch();

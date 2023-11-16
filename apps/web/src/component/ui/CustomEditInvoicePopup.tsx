@@ -9,7 +9,7 @@ import CustomSnackBar from '../ui/customSnackBar';
 import { updatePurchseOrderBillStatus } from '../../hooks/purchase-request-hooks';
 import Select from '../ui/selectNew';
 import PurchaseRequestService from '../../service/purchase-request.service';
-import { getBymasertDataType } from '../../hooks/masertData-hook';
+import { useGetBymasertDataType } from '../../hooks/masertData-hook';
 import DatePicker from '../ui/CustomDatePicker';
 import { editInvoiceValidateyup } from '../../helper/constants/invoice-constants';
 import * as Yup from 'yup';
@@ -40,8 +40,8 @@ const CustomEditInvoicePopup = (props: {
   const userID: number = encryptedData.userId;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { data: getAllBillStatusTypeDatadrop = [] } =
-    getBymasertDataType('PYS');
-  const { data: getAllPaymentTypeDatadrop = [] } = getBymasertDataType('PPM');
+  useGetBymasertDataType('PYS');
+  const { data: getAllPaymentTypeDatadrop = [] } = useGetBymasertDataType('PPM');
 
   const { mutate: updatePoBillStatus } = updatePurchseOrderBillStatus();
   const [initialValues, setInitialValues] = useState({

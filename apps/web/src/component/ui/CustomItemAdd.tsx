@@ -13,7 +13,7 @@ import { useGetAllGstForDrop } from '../../hooks/gst-hooks';
 import { useGetAllUomDrop } from '../../hooks/uom-hooks';
 import { useGetAllHsnForDrop } from '../../hooks/hsnCode-hooks';
 import { useInstantCreateItem } from '../../hooks/item-hooks';
-import { getBymasertDataType } from '../../hooks/masertData-hook';
+import { useGetBymasertDataType } from '../../hooks/masertData-hook';
 import { getCreateValidateyup } from '../../helper/constants/item-constants';
 
 const InstantItemAdd = (props: {
@@ -23,7 +23,7 @@ const InstantItemAdd = (props: {
   setOpenSnack: any;
 }) => {
   const { onAction, setMessage, setOpenSnack } = props;
-  const { data: getAllItemTypeList = [] } = getBymasertDataType('IMTY');
+  const { data: getAllItemTypeList = [] } = useGetBymasertDataType('IMTY');
   const { data: getAllGstList = [] } = useGetAllGstForDrop();
   const { data: getAllUomList = [] } = useGetAllUomDrop();
   const { data: getAllHsnList = [] } = useGetAllHsnForDrop();
