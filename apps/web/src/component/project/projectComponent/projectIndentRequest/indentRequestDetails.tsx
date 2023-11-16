@@ -155,9 +155,9 @@ const IndentRequestDetails: React.FC = (props: any) => {
                 const dummy: any = [];
                 const allIds = props.indentRequestDetailsList.map(
                   (item: any) => {
-                    if (item.is_delete === 'N') {
-                      item.bom_detail_id;
-                    }
+                    // if (item.is_delete === 'N') {
+                    //   item.bom_detail_id;
+                    // }
                     if (item.is_delete === false)
                       dummy.push(item.bom_detail_id);
                   }
@@ -281,15 +281,13 @@ const IndentRequestDetails: React.FC = (props: any) => {
                           if (!value) {
                             tempObj.indent_requested_quantity = '';
                           }
-                          let tempArry = [...props.indentRequestDetailsList];
+                          const tempArry = [...props.indentRequestDetailsList];
                           tempArry[index] = tempObj;
                           props.setIndentRequestDetailsList(tempArry);
                         }}
                       />
                     </td>
-                    <td>
-                      {items?.uom_name}
-                    </td>
+                    <td>{items?.uom_name}</td>
                     <td>
                       <Input
                         width="180px"

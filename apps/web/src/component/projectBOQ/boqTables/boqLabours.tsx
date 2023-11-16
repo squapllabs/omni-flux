@@ -90,7 +90,7 @@ const BomLabours: React.FC = (props: any) => {
         [event.target.name]: event.target.value,
       };
     }
-    let tempArry = [...props.bomList];
+    const tempArry = [...props.bomList];
     tempArry[index] = tempObj;
     props.setBomList(tempArry);
   };
@@ -119,11 +119,11 @@ const BomLabours: React.FC = (props: any) => {
                   const bOMType = parent.bom_type;
                   if (bOMType === 'LABOR') {
                     // return true;
-                    let dummy: any = [];
+                    const dummy: any = [];
                     const allIds = props.bomList.map((item: any) => {
-                      if (item.is_delete === 'N') {
-                        item.labour_id;
-                      }
+                      // if (item.is_delete === 'N') {
+                      //   item.labour_id;
+                      // }
                       if (item.is_delete === false) {
                         dummy.push(item.labour_id);
                       }
@@ -235,7 +235,7 @@ const BomLabours: React.FC = (props: any) => {
                             if (!value) {
                               tempObj.rate = '';
                             }
-                            let tempArry = [...props.bomList];
+                            const tempArry = [...props.bomList];
                             tempArry[index] = tempObj;
                             props.setBomList(tempArry);
                           }}

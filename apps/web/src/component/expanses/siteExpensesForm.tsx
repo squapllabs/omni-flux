@@ -42,7 +42,6 @@ const SiteExpensesForm = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const tableInputwidth = '100px';
-  let rowIndex = 0;
   const [expenseList, setExpenseList] = useState<any>([]);
   const [expense, setExpense] = useState();
   const [ExpenseValue, setExpenseValue] = useState();

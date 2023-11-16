@@ -171,7 +171,7 @@ const ProjectDocument: React.FC = (props: any) => {
         selectedFiles,
         projectData.code.toUpperCase()
       );
-      let arr: any = [...projectDocs, ...s3UploadUrl];
+      const arr: any = [...projectDocs, ...s3UploadUrl];
 
       const obj: any = {
         ...projectData,

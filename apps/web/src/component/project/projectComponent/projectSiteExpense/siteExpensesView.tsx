@@ -66,11 +66,13 @@ const SiteExpensesView = (props: any) => {
           <img
             src={documentURL}
             style={{ maxWidth: '700px', height: 'auto' }}
+            alt="no docs"
           ></img>
         ) : (
           <iframe
             src={documentURL}
             style={{ width: '800px', height: '400px' }}
+            title="Document"
           ></iframe>
         )
       ) : (

@@ -158,7 +158,7 @@ const ModalPopup = (props: ModalPopupProps) => {
         else setHeadings([]);
         if (header.length !== 9) alert('Please upload the correct template');
         else {
-          let newData: any[] = [...rows];
+          const newData: any[] = [...rows];
           newData.forEach((ele: any) => {
             ele['total'] =
               ele['air_transport'] +
@@ -214,14 +214,14 @@ const ModalPopup = (props: ModalPopupProps) => {
 
   const handleRowRemove = async (index: number) => {
     setData((data) => {
-      let newData = [...data];
+      const newData = [...data];
       newData.splice(index, 1);
       return newData;
     });
   };
 
   const handleSave = (e: any) => {
-    let object = {
+    const object = {
       site_id: props.siteId,
       project_id: props.projectId,
       created_by: props.userId,

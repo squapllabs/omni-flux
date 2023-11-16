@@ -31,7 +31,7 @@ import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 interface Item {
   lead_enquiry_product_item_id: string;
   product_id: number;
-  product_name: String;
+  product_name: string;
   quantity: number;
   is_delete: string;
 }
@@ -483,7 +483,7 @@ const ProductSale: React.FC = (props: any) => {
                 justify="center"
                 size="small"
                 color="primary"
-                icon={<AddIcon width={20} color='white'/>}
+                icon={<AddIcon width={20} color="white" />}
                 type="button"
                 onClick={handleAddItems}
               >
@@ -517,21 +517,19 @@ const ProductSale: React.FC = (props: any) => {
                     if (item?.is_delete === 'N') {
                       rowIndex = rowIndex + 1;
                       return (
-                          <tr key={index}>
-                            <td>{rowIndex}</td>
-                            <td>{item.product_name}</td>
-                            <td>{item.quantity}</td>
-                            <td className={Styles.tableData}>
-                              <DeleteIcon
-                                onClick={(e: any) =>
-                                  handleProductDelete(e, item)
-                                }
-                              />
-                              <EditIcon
-                                onClick={(e: any) => handleProductEdit(e, item)}
-                              />
-                            </td>
-                          </tr>
+                        <tr key={index}>
+                          <td>{rowIndex}</td>
+                          <td>{item.product_name}</td>
+                          <td>{item.quantity}</td>
+                          <td className={Styles.tableData}>
+                            <DeleteIcon
+                              onClick={(e: any) => handleProductDelete(e, item)}
+                            />
+                            <EditIcon
+                              onClick={(e: any) => handleProductEdit(e, item)}
+                            />
+                          </td>
+                        </tr>
                       );
                     }
                   })}

@@ -40,9 +40,9 @@ const ProjectMemberAddPopup = (props: any) => {
       role: data,
     };
     const getData = await ProjectSettingsService.fetchRoleBasedUser(roleObj);
-    let arr: any = [];
-    let userList = getData?.data?.map((user: any, index: any) => {
-      let obj: any = {
+    const arr: any = [];
+    const userList = getData?.data?.map((user: any, index: any) => {
+      const obj: any = {
         value: user?.user_id,
         label: user?.first_name + ' ' + user?.last_name,
       };

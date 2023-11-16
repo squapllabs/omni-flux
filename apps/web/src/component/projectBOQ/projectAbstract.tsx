@@ -8,20 +8,20 @@ import BomList from './projectBoqList';
 import ClipboardIcon from '../menu/icons/clipboardIcon';
 import { useGetByBOMDetails } from '../../hooks/category-hooks';
 const projectAbstract = () => {
-  const navigate = useNavigate();
-  const routeParams = useParams();
-  const [overallAbstractValue ,setOverallAbstractValue] = useState<any>(0)
+  const useNavigation = useNavigate();
+  const useRouteParams = useParams();
+  const [overallAbstractValue, setOverallAbstractValue] = useState<any>(0);
   // const [reload, setReload] = useState(false);
   const obj: any = {
-    projectId: Number(routeParams?.projectId),
-    boQId: Number(routeParams?.bomconfigId),
+    projectId: Number(useRouteParams?.projectId),
+    boQId: Number(useRouteParams?.bomconfigId),
   };
   const { data: getBomData } = useGetByBOMDetails(obj);
 
-const getOverallAbsctractValue = (data)=>{
-  setOverallAbstractValue(data)
-}
-  
+  // const getOverallAbsctractValue = (data) => {
+  //   setOverallAbstractValue(data);
+  // };
+
   return (
     <div>
       <div className={Styles.container}>
@@ -30,7 +30,7 @@ const getOverallAbsctractValue = (data)=>{
             <div
               className={Styles.logo}
               onClick={() => {
-                navigate(`/project-edit/${routeParams?.projectId}`);
+                useNavigation(`/project-edit/${useRouteParams?.projectId}`);
               }}
             >
               <PreviousPageIcon width={15} height={15} color="#7f56d9" />
@@ -64,7 +64,7 @@ const getOverallAbsctractValue = (data)=>{
             </div>
             <div className={Styles.countContent}>
               {/* <h3>{getBomData?.abstract_count}</h3> */}
-              <h3 >{getBomData?.bom_configuration_data?.bom_description}</h3>
+              <h3>{getBomData?.bom_configuration_data?.bom_description}</h3>
             </div>
             {/* <div className={Styles.lineStyles}>
               <div className={Styles.vertical}>
@@ -97,9 +97,7 @@ const getOverallAbsctractValue = (data)=>{
         </div>
         <div className={Styles.selected}></div>
         <div>
-          <BomList
-          bom_details={getBomData?.bom_configuration_data}
-          />
+          <BomList bom_details={getBomData?.bom_configuration_data} />
         </div>
       </div>
     </div>

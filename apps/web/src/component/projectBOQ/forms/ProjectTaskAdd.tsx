@@ -19,7 +19,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
   console.log('props', props?.isCollapsed);
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
   const { mutate: createNewSubCategory } = useCreateInstantSubcategory();
-  const { mutate: useCreateInstantSubcategoryData } =
+  const { mutate: createInstantSubcategoryData } =
     useCreateInstantSubcategory();
   const [initialValues, setInitialValues] = useState({
     name: '',
@@ -96,7 +96,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           quantity: values.quantity || null,
         };
         console.log('abstract from', Object);
-        useCreateInstantSubcategoryData(Object, {
+        createInstantSubcategoryData(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
               resetForm();

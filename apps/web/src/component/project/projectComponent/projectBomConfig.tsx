@@ -91,13 +91,13 @@ const ProjectBomConfig: React.FC = (props: any) => {
         Number(routeParams?.id)
       );
       setProjectData(getData?.data);
-      let arr: any = [];
+      const arr: any = [];
       const bomConfigurationRows = getData?.data?.bom_configuration.map(
         (items: any) => {
           const matchingObjects = getBomType.filter(
             (obj: any) => Number(obj.value) === Number(items?.bom_type_id)
           );
-          let obj = {
+          const obj = {
             bom_name: items?.bom_name,
             bom_description: items?.bom_description,
             bom_type_id: items?.bom_type_id,

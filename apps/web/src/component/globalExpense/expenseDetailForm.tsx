@@ -151,7 +151,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
         site_expense_name: matchingObjects[0].label,
       };
 
-      let tempArry = [...props.expenseList];
+      const tempArry = [...props.expenseList];
       tempArry[index] = tempObj;
       props.setExpenseList(tempArry);
     } else {
@@ -160,7 +160,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
         [event.target.name]: event.target.value,
       };
     }
-    let tempArry = [...props.expenseList];
+    const tempArry = [...props.expenseList];
     tempArry[index] = tempObj;
     props.setExpenseList(tempArry);
   };
@@ -270,12 +270,12 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
       } else {
         const selectedFilesArray: File[] = [];
         const selectedFileNamesArray: string[] = [];
-        let arr: any = [];
+        const arr: any = [];
         fileList.forEach(async (file) => {
           const code = 'SITEEXPENSE' + props.siteId;
           const response = await userService.documentUpload(file, code);
 
-          let obj = {
+          const obj = {
             ...response?.data[0],
             is_delete: 'N',
           };
@@ -288,7 +288,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
         tempObj = {
           ...props.expenseList[expenseIndex],
         };
-        let tempArry = [...props.expenseList];
+        const tempArry = [...props.expenseList];
         tempArry[expenseIndex] = tempObj;
         props.setExpenseList(tempArry);
         setSelectedFiles(selectedFilesArray);
@@ -324,7 +324,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
     tempObj = {
       ...props.expenseList[index],
     };
-    let tempArry = [...props.expenseList];
+    const tempArry = [...props.expenseList];
     tempArry[index] = tempObj;
     props.setExpenseList(tempArry);
   };
@@ -344,7 +344,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
             'description-availability',
             '',
             async function (value, { parent }: Yup.TestContext) {
-              let bill_type = parent.bill_type;
+              const bill_type = parent.bill_type;
               if (bill_type === 'VOUCHER' && value > 5000) {
                 props.setMessage(
                   'In bill type voucher amount should not be more then 50000'
@@ -365,7 +365,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
             'description-availability',
             'Site Expense is already present',
             async function (value, { parent }: Yup.TestContext) {
-              let bill_details = parent.bill_details;
+              const bill_details = parent.bill_details;
               if (
                 bill_details?.length < 0 &&
                 bill_details[0]?.is_delete === 'Y'
@@ -392,7 +392,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
         props.setExpenseList([...props.expenseList, initialValues]);
       })
       .catch((e: any) => {
-        let errorObj = {};
+        const errorObj = {};
         e.inner?.map((error: any) => {
           return (errorObj[error.path] = error.message);
         });

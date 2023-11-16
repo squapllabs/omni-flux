@@ -174,7 +174,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
               'description-availability',
               '',
               async function (value, { parent }: Yup.TestContext) {
-                let bill_type = parent.bill_type;
+                const bill_type = parent.bill_type;
                 console.log('bill_details', bill_type);
                 if (bill_type === 'VOUCHER' && value > 5000) {
                   setMessage(
@@ -195,7 +195,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
               'description-availability',
               'Site Expense is already present',
               async function (value, { parent }: Yup.TestContext) {
-                let bill_details = parent.bill_details;
+                const bill_details = parent.bill_details;
                 console.log('bill_details', bill_details);
                 console.log('bill_detailslenght', bill_details.length);
                 if (
@@ -319,7 +319,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
           }
         })
         .catch((e: any) => {
-          let errorObj = {};
+          const errorObj = {};
           e.inner?.map((error: any) => {
             console.log('error', e);
             return (errorObj[error.path] = error.message);

@@ -33,7 +33,7 @@ const BomMachinery: React.FC = (props: any) => {
         'decimal-validation',
         bomErrorMessages.ITEM_EXIST,
         async function (value: number, { parent }: Yup.TestContext) {
-          let isDelete = parent.is_delete;
+          const isDelete = parent.is_delete;
           try {
             const isValuePresent = bomList.some((obj: any) => {
               return (
@@ -129,7 +129,7 @@ const BomMachinery: React.FC = (props: any) => {
       };
     }
 
-    let tempArry = [...props.bomList];
+    const tempArry = [...props.bomList];
     tempArry[index] = tempObj;
     props.setBomList(tempArry);
     rawMaterialTotalCalulate();

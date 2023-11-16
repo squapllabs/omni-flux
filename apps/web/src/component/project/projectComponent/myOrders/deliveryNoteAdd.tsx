@@ -61,7 +61,7 @@ const MyOrderView = () => {
       ...tableValue[index],
       [event.target.name]: Number(event.target.value),
     };
-    let tempArry = [...tableValue];
+    const tempArry = [...tableValue];
     tempArry[index] = tempObj;
     setTableValue(tempArry);
     if (
@@ -222,7 +222,7 @@ const MyOrderView = () => {
       const data = await poService.getOnePurchaseOrderTableDataByID(
         Number(routeParams?.id)
       );
-      let arr: any = [];
+      const arr: any = [];
       data?.map((items: any, index: any) => {
         let obj = {
           ...items,

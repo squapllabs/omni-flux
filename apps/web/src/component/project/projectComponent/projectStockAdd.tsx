@@ -2,10 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Styles from '../../../styles/newStyles/projectStockManagement.module.scss';
 import { useFormik } from 'formik';
 import Input from '../../ui/Input';
-import {
-  useGetProjectSite,
-  useGetByProjectId,
-} from '../../../hooks/project-hooks';
 import DatePicker from '../../ui/CustomDatePicker';
 import { format } from 'date-fns';
 import Checkbox from '../../ui/Checkbox';
@@ -23,7 +19,7 @@ const ProjectStockAdd: React.FC = (props: any) => {
 
   const currentDate = new Date();
   const projectId = props.project_id;
-  const [initialValues, setInitialValues] = useState({
+  const [initialValues] = useState({
     project_id: projectId,
     site_id: props.siteId,
     stock_audit_date: dateFormat(currentDate),
@@ -31,31 +27,12 @@ const ProjectStockAdd: React.FC = (props: any) => {
   const [itemsList, setItemsList] = useState<any>([]);
   const [itemData, setItemData] = useState<any>([]);
   const [check, setChecked] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
 
-  const { mutate: postStockData, isLoading: stockpostLoading } =
-    useCreateStockAudit();
+  const { mutate: postStockData } = useCreateStockAudit();
   const handleSnackBarClose = () => {
     setOpenSnack(false);
-  };
-
-  const searchCategory = async () => {
-    const values = {
-      projectId: projectId,
-      siteId: props.siteId,
-    };
-    try {
-      const itemsData = await StockAuditService.getItems(values);
-      const finalData = itemsData?.data;
-      const initialArray = finalData?.map((item: any) => ({
-        item_name: item?.item_data?.item_name,
-        quantity: '',
-      }));
-      setItemData(initialArray);
-    } catch (err) {
-      console.log('error in list : ', err);
-    }
   };
 
   const updateQuantity = (
@@ -96,8 +73,25 @@ const ProjectStockAdd: React.FC = (props: any) => {
   };
 
   useEffect(() => {
+    const searchCategory = async () => {
+      const values = {
+        projectId: projectId,
+        siteId: props.siteId,
+      };
+      try {
+        const itemsData = await StockAuditService.getItems(values);
+        const finalData = itemsData?.data;
+        const initialArray = finalData?.map((item: any) => ({
+          item_name: item?.item_data?.item_name,
+          quantity: '',
+        }));
+        setItemData(initialArray);
+      } catch (err) {
+        console.log('error in list : ', err);
+      }
+    };
     searchCategory();
-  }, [props?.siteId]);
+  }, [props?.siteId, projectId]);
 
   return (
     <div className={Styles.stock_Container}>

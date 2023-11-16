@@ -35,7 +35,7 @@ const BomMachinery: React.FC = (props: any) => {
         'decimal-validation',
         'Already Exists',
         async function (value, { parent }: Yup.TestContext) {
-          let isDelete = parent.is_delete;
+          const isDelete = parent.is_delete;
           try {
             const isValuePresent = bomList.some((obj: any) => {
               return (
@@ -151,7 +151,7 @@ const BomMachinery: React.FC = (props: any) => {
         [event.target.name]: event.target.value,
       };
     }
-    let tempArry = [...props.bomList];
+    const tempArry = [...props.bomList];
     tempArry[index] = tempObj;
     props.setBomList(tempArry);
     rawMaterialTotalCalulate();
@@ -195,11 +195,11 @@ const BomMachinery: React.FC = (props: any) => {
                   const bOMType = parent.bom_type;
                   if (bOMType === 'MCNRY') {
                     // return true;
-                    let dummy: any = [];
+                    const dummy: any = [];
                     const allIds = props.bomList.map((item: any) => {
-                      if (item.is_delete === 'N') {
-                        item.machinery_id;
-                      }
+                      // if (item.is_delete === 'N') {
+                      //   item.machinery_id;
+                      // }
                       if (item.is_delete === false) {
                         dummy.push(item.machinery_id);
                       }
@@ -316,7 +316,7 @@ const BomMachinery: React.FC = (props: any) => {
                             if (!value) {
                               tempObj.rate = '';
                             }
-                            let tempArry = [...props.bomList];
+                            const tempArry = [...props.bomList];
                             tempArry[index] = tempObj;
                             props.setBomList(tempArry);
                           }}

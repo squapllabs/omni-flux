@@ -146,11 +146,11 @@ const Bom: React.FC = (props: any) => {
                 try {
                   const bOMType = parent.bom_type;
                   if (bOMType === 'RAWMT') {
-                    let dummy: any = [];
+                    const dummy: any = [];
                     const allIds = bomList.map((item: any) => {
-                      if (item.is_delete === 'N') {
-                        item.item_id;
-                      }
+                      // if (item.is_delete === 'N') {
+                      //   item.item_id;
+                      // }
                       if (item.is_delete === false) {
                         dummy.push(item.item_id);
                       }
@@ -183,11 +183,11 @@ const Bom: React.FC = (props: any) => {
                 try {
                   const bOMType = parent.bom_type;
                   if (bOMType === 'LABOR') {
-                    let dummy: any = [];
+                    const dummy: any = [];
                     const allIds = bomList.map((item: any) => {
-                      if (item.is_delete === 'N') {
-                        item.labour_id;
-                      }
+                      // if (item.is_delete === 'N') {
+                      //   item.labour_id;
+                      // }
                       if (item.is_delete === false) {
                         dummy.push(item.labour_id);
                       }
@@ -220,11 +220,11 @@ const Bom: React.FC = (props: any) => {
                 try {
                   const bOMType = parent.bom_type;
                   if (bOMType === 'MCNRY') {
-                    let dummy: any = [];
+                    const dummy: any = [];
                     const allIds = bomList.map((item: any) => {
-                      if (item.is_delete === 'N') {
-                        item.machinery_id;
-                      }
+                      // if (item.is_delete === 'N') {
+                      //   item.machinery_id;
+                      // }
                       if (item.is_delete === false) {
                         dummy.push(item.machinery_id);
                       }
@@ -262,7 +262,6 @@ const Bom: React.FC = (props: any) => {
   );
 
   const handleBulkBomAdd = () => {
-    bomList;
     validationSchema
       .validate(bomList, { abortEarly: false })
       .then(() => {

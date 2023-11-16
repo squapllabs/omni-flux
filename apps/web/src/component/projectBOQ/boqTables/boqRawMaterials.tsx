@@ -92,7 +92,7 @@ const BomRawMaterials: React.FC = (props: any) => {
         [event.target.name]: event.target.value,
       };
     }
-    let tempArry = [...props.bomList];
+    const tempArry = [...props.bomList];
     tempArry[index] = tempObj;
     props.setBomList(tempArry);
   };
@@ -116,16 +116,16 @@ const BomRawMaterials: React.FC = (props: any) => {
             'decimal-validation',
             'Item already exists',
             async function (value, { parent }: Yup.TestContext) {
-              let isDelete = parent.is_delete;
+              const isDelete = parent.is_delete;
               if (value != null) {
                 try {
                   const bOMType = parent.bom_type;
                   if (bOMType === 'RAWMT') {
-                    let dummy: any = [];
+                    const dummy: any = [];
                     const allIds = props.bomList.map((item: any) => {
-                      if (item.is_delete === 'N') {
-                        item.item_id;
-                      }
+                      // if (item.is_delete === 'N') {
+                      //   item.item_id;
+                      // }
                       if (item.is_delete === false) {
                         dummy.push(item.item_id);
                       }
@@ -237,7 +237,7 @@ const BomRawMaterials: React.FC = (props: any) => {
                             if (!value) {
                               tempObj.rate = '';
                             }
-                            let tempArry = [...props.bomList];
+                            const tempArry = [...props.bomList];
                             tempArry[index] = tempObj;
                             props.setBomList(tempArry);
                           }}

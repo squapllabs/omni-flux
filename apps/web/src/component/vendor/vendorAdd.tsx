@@ -116,7 +116,7 @@ const AddVendor = () => {
       };
       fetchOne();
     }
-  }, [routeParams?.id]);
+  }, [routeParams?.id, userData.user_id]);
 
   const formik = useFormik({
     initialValues,

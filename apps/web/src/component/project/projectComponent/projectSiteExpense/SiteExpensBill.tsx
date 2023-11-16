@@ -122,7 +122,7 @@ const SiteExpenseBill: React.FC = (props: any) => {
     }
   };
   const handleSubmit = async () => {
-    let code = 'SITEEXPENSE' + props.projectId;
+    const code = 'SITEEXPENSE' + props.projectId;
     const s3UploadUrl: any = await handleDocuments(
       selectedFiles,
       code.toUpperCase()
