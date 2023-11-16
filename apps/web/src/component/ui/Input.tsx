@@ -129,8 +129,8 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
         </StyledLabel>
       )}
       <InputContainer
-        error={error === undefined ? 'false' : error}
-        hasprefixicon={prefixIcon === undefined ? 'false' : 'true'}
+        error={!!error}
+        hasprefixicon={!!prefixIcon}
         hassuffixicon={!!suffixIcon}
         transparent={transparent}
         disabled={disabled}
