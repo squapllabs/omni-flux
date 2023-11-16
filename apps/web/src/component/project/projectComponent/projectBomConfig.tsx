@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Styles from '../../../styles/projectBomConfig.module.scss';
 import Button from '../../ui/Button';
 import AddIcon from '../../menu/icons/addIcon';
-import { getByMasterDataProjectIdDrop } from '../../../hooks/masertData-hook';
+import { useGetByMasterDataProjectIdDrop } from '../../../hooks/masertData-hook';
 import { useFormik } from 'formik';
 import {
   useCreateProject,
@@ -42,7 +42,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
   const [mode, setMode] = useState('');
   const [boqId, setBoQId] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const { data: getBomType = [] } = getByMasterDataProjectIdDrop(
+  const { data: getBomType = [] } = useGetByMasterDataProjectIdDrop(
     Number(routeParams?.id)
   );
   const { data: projectDatas } = useGetByProjectId(Number(routeParams?.id));

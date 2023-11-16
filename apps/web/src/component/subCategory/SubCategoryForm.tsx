@@ -25,7 +25,7 @@ const SubCategoryForm: React.FC = (props: any) => {
       : getUpdateValidateyup(Yup);
   const { data: getAllCategory = [] } = useGetAllCategoryForDrop();
   const { mutate: createNewSubcategory } = useCreateSubcategory();
-  const { mutate: useCreateInstantSubcategoryData } =
+  const { mutate: createInstantSubcategoryData } =
     useCreateInstantSubcategory();
   const [initialValues, setInitialValues] = useState({
     sub_category_id: '',
@@ -80,7 +80,7 @@ const SubCategoryForm: React.FC = (props: any) => {
           budget: Number(values.budget),
           category_id: Number(values.category_id),
         };
-        useCreateInstantSubcategoryData(Object, {
+        createInstantSubcategoryData(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.success) {
               props.setOpen(false);

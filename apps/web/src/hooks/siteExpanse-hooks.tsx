@@ -65,17 +65,9 @@ const useDeletesiteExpense = () => {
 };
 
 const useGetBySearchsiteExpense = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return siteExpenseService.filtersiteExpense(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return siteExpenseService.filtersiteExpense(data);
+  });
 };
 const useBulkuploadSiteExpanse = () => {
   const queryClient = useQueryClient();

@@ -18,7 +18,6 @@ import CustomSnackbar from '../ui/customSnackBar';
 import CustomLoader from '../ui/customLoader';
 import ProjectSubheader from '../project/projectSubheader';
 import DatePicker from '../ui/CustomDatePicker';
-import CloseIcon from '../menu/icons/closeIcon';
 
 const validationSchema = getUsereditYupschema(Yup);
 const UserEdit = () => {
@@ -28,7 +27,7 @@ const UserEdit = () => {
     Number(routeParams?.id)
   );
 
-  const { mutate: useUpdateUserData } = useUpdateUser();
+  const { mutate: updateUserData } = useUpdateUser();
   const { data: getAllRoles = [] } = useGetAllRoles();
   const [OpenSnackbar, setOpenSnakBar] = useState(false);
   const [message, setMessage] = useState('');
@@ -162,7 +161,7 @@ const UserEdit = () => {
         profile_image_url: imageUrl ? imageUrl : values.profile_image_url,
         is_two_factor: checked,
       };
-      useUpdateUserData(Object, {
+      updateUserData(Object, {
         onSuccess: (data, variables, context) => {
           if (data?.success === true) {
             setOpenSnakBar(true);

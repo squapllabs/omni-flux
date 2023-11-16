@@ -9,7 +9,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import CustomSnackBar from '../ui/customSnackBar';
-import { getBymasertDataType } from '../../hooks/masertData-hook';
+import { useGetBymasertDataType } from '../../hooks/masertData-hook';
 import Select from '../ui/selectNew';
 import {
   getVendorCreationYupschema,
@@ -28,13 +28,13 @@ const AddVendor = () => {
   const projectId = locationState.project_id || null;
   const indentId = locationState.indent_id || null;
   const { mutate: createNewVendor } = useCreateVendor();
-  const { mutate: useUpdateVendors } = useUpdateVendor();
+  const { mutate: updateVendorData } = useUpdateVendor();
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userData: any = encryptedData.userData;
-  const { data: getAllPaymentTypeList = [] } = getBymasertDataType('PPM');
-  const { data: getAllVendorTypeList = [] } = getBymasertDataType('VNC');
-  const { data: getAllCurrencyTypeList = [] } = getBymasertDataType('CRTYP');
+  const { data: getAllPaymentTypeList = [] } = useGetBymasertDataType('PPM');
+  const { data: getAllVendorTypeList = [] } = useGetBymasertDataType('VNC');
+  const { data: getAllCurrencyTypeList = [] } = useGetBymasertDataType('CRTYP');
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const validationSchema = routeParams?.id
@@ -154,7 +154,7 @@ const AddVendor = () => {
         vendor_id: Number(routeParams?.id) ? Number(routeParams?.id) : '',
       };
       if (Number(routeParams?.id)) {
-        useUpdateVendors(Object, {
+        updateVendorData(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.status === true) {
               setMessage('Vendor edited');

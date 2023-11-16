@@ -59,7 +59,7 @@ const NewCustomMenu = ({ actions, name }: any) => {
               //     : ''
               // }`}
               className={
-                name === 'BoQItems' && action.disabled == true
+                name === 'BoQItems' && action.disabled === true
                   ? Styles.displayNone
                   : action.disabled
                   ? Styles.disabled

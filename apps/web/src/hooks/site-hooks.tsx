@@ -26,7 +26,7 @@ const useCreateSite = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries([]);
+        queryClient.invalidateQueries(['']);
       },
     }
   );
@@ -87,12 +87,12 @@ const useDeleteSite = () => {
   return useMutation(
     (data: any) => {
       return SiteService.deleteSite(data);
-    },
-    {
-      onSuccess: () => {
-        useGetBySearchSiteData().mutate({});
-      },
     }
+    // {
+    //   onSuccess: () => {
+    //     useGetBySearchSiteData().mutate({});
+    //   },
+    // }
   );
 };
 

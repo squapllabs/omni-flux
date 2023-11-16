@@ -66,9 +66,9 @@ const StoreOutwardEdit = () => {
 
   const fetchProjectSite = async () => {
     const siteData = await ProjectService.getOneProjectSite(projectId);
-    let arr: any = [];
-    let siteValues = siteData?.data?.map((site: any) => {
-      let obj: any = {
+    const arr: any = [];
+    const siteValues = siteData?.data?.map((site: any) => {
+      const obj: any = {
         value: site?.site_id,
         label: site?.site_details?.name,
       };
@@ -100,8 +100,8 @@ const StoreOutwardEdit = () => {
   }, []);
 
   const navigate = useNavigate();
-  let rowIndex = 0;
-  let Obj: any = {
+  const rowIndex = 0;
+  const Obj: any = {
     projectID: projectId,
     role: 'Site Engineer',
   };
@@ -116,7 +116,7 @@ const StoreOutwardEdit = () => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
-      let object: any = {
+      const object: any = {
         stock_outward_id: values.stock_outward_id,
         project_id: Number(projectId),
         site_id: values.site_id,
@@ -353,9 +353,9 @@ const ItemDetailsTable: React.FC = (props: {
       projectId
     );
     setItemDetails(itemData?.data);
-    let arr: any = [];
-    let itemValues = itemData?.data?.map((item: any) => {
-      let obj: any = {
+    const arr: any = [];
+    const itemValues = itemData?.data?.map((item: any) => {
+      const obj: any = {
         value: item?.item_id,
         label: item?.item_data?.item_name,
       };

@@ -1,11 +1,9 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import Button from '../ui/Button';
 import Styles from '../../styles/vendorView.module.scss';
 import CustomCard from '../ui/CustomCard';
 import { useGetByVendorId } from '../../hooks/vendor-hooks';
-import BackArrowIcon from '../menu/icons/backArrow';
 import ProjectSubheader from '../project/projectSubheader';
 
 const VendorView = () => {

@@ -12,7 +12,7 @@ import {
   useUpdateleadEnquiry,
 } from '../../../hooks/leadEnquires-hooks';
 import AddIcon from '../../menu/icons/addIcon';
-import { getBymasertDataType } from '../../../hooks/masertData-hook';
+import { useGetBymasertDataType } from '../../../hooks/masertData-hook';
 import { useGetAllItems } from '../../../hooks/item-hooks';
 import DeleteIcon from '../../menu/icons/deleteIcon';
 import EditIcon from '../../menu/icons/editIcon';
@@ -157,9 +157,9 @@ const ProductSale: React.FC = (props: any) => {
   }, []);
   const { data: getAllClient = [] } = useGetAllClientDrop();
   const { data: getAllUsers = [] } = useGetAllUsersDrop();
-  const { data: getClientLevel = [] } = getBymasertDataType('CTLVL');
-  const { data: getLeadProbability = [] } = getBymasertDataType('LDPRB');
-  const { data: getLeadSource = [] } = getBymasertDataType('LDSE');
+  const { data: getClientLevel = [] } = useGetBymasertDataType('CTLVL');
+  const { data: getLeadProbability = [] } = useGetBymasertDataType('LDPRB');
+  const { data: getLeadSource = [] } = useGetBymasertDataType('LDSE');
   const { data: getAllItems = [] } = useGetAllItems();
   const { mutate: postleadEnquiry } = useCreateleadEnquiry();
   const { mutate: updatelead } = useUpdateleadEnquiry();

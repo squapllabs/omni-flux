@@ -73,10 +73,10 @@ const CustomPurchaseRequestPopup = (props: {
 
   const handleDropChange = async (obj: any) => {
     const itemsData = await PurchaseRequestService.getProjectItems(projectId);
-    let arr: any = [];
+    const arr: any = [];
     setItemsData(itemsData.data);
-    let items = itemsData?.data?.map((items: any, index: any) => {
-      let obj: any = {
+    const items = itemsData?.data?.map((items: any, index: any) => {
+      const obj: any = {
         value: items?.item_id,
         label: items?.item_data?.item_name,
       };

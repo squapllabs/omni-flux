@@ -206,7 +206,7 @@ const AutoCompleteSelect: React.FC<
   useEffect(() => {
     setAllOptions(optionList);
     setFilteredOptions(optionList);
-    let num: number = value;
+    const num: number = value;
     if (num > 0) {
       const matchingObjects = allOptions.filter(
         (obj) => Number(obj.value) === Number(value)

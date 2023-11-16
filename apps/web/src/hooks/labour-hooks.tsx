@@ -17,18 +17,10 @@ const useGetAllLabourForDrop = () => {
 };
 
 const useGetBySearchLabour = () => {
-  return useMutation(
-    (data: any) => {
-      return LabourService.filterLabour(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return LabourService.filterLabour(data);
+  });
 };
-
 
 const useGetAllLabour = (data: any) => {
   return useQuery(
@@ -40,7 +32,6 @@ const useGetAllLabour = (data: any) => {
     }
   );
 };
-
 
 const useGetLabourUomForDrop = () => {
   return useQuery(
@@ -113,4 +104,13 @@ const useDeleteLabour = () => {
   );
 };
 
-export { useGetAllLabourForDrop, useGetBySearchLabour, useGetLabourUomForDrop, useCreateLabour, useUpdateLabour, useDeleteLabour, useGetAllLabour,useCreateInstantLabour };
+export {
+  useGetAllLabourForDrop,
+  useGetBySearchLabour,
+  useGetLabourUomForDrop,
+  useCreateLabour,
+  useUpdateLabour,
+  useDeleteLabour,
+  useGetAllLabour,
+  useCreateInstantLabour,
+};

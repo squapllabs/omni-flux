@@ -9,7 +9,6 @@ const useCreateBom = () => {
     },
     {
       onSuccess: (response, _var) => {
-        response;
         queryClient.invalidateQueries([
           'getOneSubcategoryID',
           _var[0].sub_category_id,
@@ -26,7 +25,6 @@ const useCreateBulkBom = () => {
     },
     {
       onSuccess: (response) => {
-        console.log('response', response);
         queryClient.invalidateQueries([
           'getBOMDetails',
           {
@@ -35,7 +33,6 @@ const useCreateBulkBom = () => {
               response?.data?.bom_configuration_details?.bom_configuration_id,
           },
         ]);
-        response;
       },
     }
   );

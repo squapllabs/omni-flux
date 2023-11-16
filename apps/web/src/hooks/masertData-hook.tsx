@@ -39,7 +39,7 @@ const useGetAllParentmasertDataDrop = () => {
   );
 };
 
-const getBymasertDataID = (id: number) => {
+const useGetBymasertDataID = (id: number) => {
   return useQuery(
     ['getOnemasertDataID', id],
     () => masertDataService.getOnemasertDataByID(id),
@@ -48,7 +48,7 @@ const getBymasertDataID = (id: number) => {
     }
   );
 };
-const getBymasertDataType = (value: String) => {
+const useGetBymasertDataType = (value: any) => {
   return useQuery(
     ['getOnemasertDataType', value],
     () => masertDataService.getOnemasertDataByType(value),
@@ -58,7 +58,7 @@ const getBymasertDataType = (value: String) => {
     }
   );
 };
-const getBymasertDataTypeDrop = (value: String) => {
+const useGetBymasertDataTypeDrop = (value: any) => {
   return useQuery(
     ['getBymasertDataTypeDrop', value],
     () => masertDataService.getOnemasertDataByType(value),
@@ -73,7 +73,7 @@ const getBymasertDataTypeDrop = (value: String) => {
   );
 };
 
-const getByMasterDataProjectIdDrop = (value: String) => {
+const useGetByMasterDataProjectIdDrop = (value: any) => {
   return useQuery(
     ['getByMasterDataProjectIdDrop', value],
     () => masertDataService.getOneMasterDataByProjectId(value),
@@ -88,7 +88,7 @@ const getByMasterDataProjectIdDrop = (value: String) => {
   );
 };
 
-const createmasertData = () => {
+const useCreatemasterData = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -106,7 +106,7 @@ const createmasertData = () => {
   );
 };
 
-const updatemasertData = () => {
+const useUpdatemasterData = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -148,18 +148,10 @@ const useGetMasterCurency = () => {
   );
 };
 
-const getBySearchmasterData = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return masertDataService.filtermasertData(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+const useGetBySearchmasterData = () => {
+  return useMutation((data: any) => {
+    return masertDataService.filtermasertData(data);
+  });
 };
 //
 const useGetAllPaginatedMasterData = (data: any) => {
@@ -174,16 +166,16 @@ const useGetAllPaginatedMasterData = (data: any) => {
 };
 export {
   useGetAllmasertData,
-  getBymasertDataID,
-  createmasertData,
-  updatemasertData,
+  useGetBymasertDataID,
+  useCreatemasterData,
+  useUpdatemasterData,
   useDeletemasertData,
-  getBySearchmasterData,
+  useGetBySearchmasterData,
   useGetAllmasertDataDrop,
   useGetAllParentmasertDataDrop,
   useGetMasterCurency,
-  getBymasertDataType,
+  useGetBymasertDataType,
   useGetAllPaginatedMasterData,
-  getBymasertDataTypeDrop,
-  getByMasterDataProjectIdDrop,
+  useGetBymasertDataTypeDrop,
+  useGetByMasterDataProjectIdDrop,
 };

@@ -64,17 +64,9 @@ const useCreateMultipleSubcategory = () => {
 };
 
 const useGetBySearchCategroy = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return SubcategoryService.filterSubCategory(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return SubcategoryService.filterSubCategory(data);
+  });
 };
 
 const useGetBycategoryIdInSub = (values: any) => {

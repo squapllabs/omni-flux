@@ -23,24 +23,16 @@ const useCreateProjectBreakDownData = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries([]);
+        queryClient.invalidateQueries(['']);
       },
     }
   );
 };
 
 const useGetBySearchProjectWorkBreakDownData = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return projectBreakDownService.filterProjectWorkBreakDownData(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return projectBreakDownService.filterProjectWorkBreakDownData(data);
+  });
 };
 
 const useGetByProjectWorkBreakDownId = (id: number) => {
@@ -54,17 +46,9 @@ const useGetByProjectWorkBreakDownId = (id: number) => {
 };
 
 const useUpdateProjectBreakDown = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return projectBreakDownService.updateProjectBreakDownData(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return projectBreakDownService.updateProjectBreakDownData(data);
+  });
 };
 export {
   useGetAllParentProjectBreakDownDrop,

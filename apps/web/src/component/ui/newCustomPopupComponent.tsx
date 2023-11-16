@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import Button from '../ui/Button';
+import React from 'react';
 import CancelIcon from '../menu/icons/closeIcon';
-import Select from './Select';
 
 interface DialogBoxProps {
   title: string;
@@ -11,7 +9,7 @@ interface DialogBoxProps {
   content: React.ReactNode;
 }
 
-const NewCustomPopupComponent: React.FC<DialogBoxProps> & {} = ({
+const NewCustomPopupComponent: React.FC<DialogBoxProps> = ({
   title,
   open,
   handleClose,

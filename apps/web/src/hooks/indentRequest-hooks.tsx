@@ -39,19 +39,12 @@ const useUpdateIndentRequest = () => {
 };
 
 const useGetBySearchIndent = () => {
-  return useMutation(
-    (data: any) => {
-      return IndentService.filterIndnet(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return IndentService.filterIndnet(data);
+  });
 };
 
-const useGetIndentSearchPaginated = (data : any) =>{
+const useGetIndentSearchPaginated = (data: any) => {
   return useQuery(
     ['getIndentSearchPaginated'],
     () => IndentService.filterIndnet(data),
@@ -67,5 +60,5 @@ export {
   useCreateIndentRequest,
   useUpdateIndentRequest,
   useGetBySearchIndent,
-  useGetIndentSearchPaginated
+  useGetIndentSearchPaginated,
 };

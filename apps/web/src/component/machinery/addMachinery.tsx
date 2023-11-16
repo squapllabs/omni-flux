@@ -10,7 +10,7 @@ import DatePicker from '../ui/CustomDatePicker';
 import { getCreateValidateyup } from '../../helper/constants/machinery-constants';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
-import { createMachinery, updateMachinery } from '../../hooks/machinery-hooks';
+import { useCreateMachinery, useUpdateMachinery } from '../../hooks/machinery-hooks';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useParams } from 'react-router-dom';
 import machineryService from '../../service/machinery-service';
@@ -20,8 +20,8 @@ import ProjectSubheader from '../project/projectSubheader';
 
 const AddMachinery = () => {
   const { data: getAllUomList = [] } = useGetByUomType();
-  const { mutate: createNewMachinery } = createMachinery();
-  const { mutate: updateOneMachinery } = updateMachinery();
+  const { mutate: createNewMachinery } = useCreateMachinery();
+  const { mutate: updateOneMachinery } = useUpdateMachinery();
   const routeParams = useParams();
   const navigate = useNavigate();
   const state: RootState = store.getState();

@@ -45,37 +45,21 @@ const useCreateProject = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries([]);
+        queryClient.invalidateQueries(['']);
       },
     }
   );
 };
 
 const useGetByProject = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return ProjectService.filterProject(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return ProjectService.filterProject(data);
+  });
 };
 const useGetMemberBasedProject = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return ProjectService.filterProjectmemberBased(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return ProjectService.filterProjectmemberBased(data);
+  });
 };
 
 const useGetPaginatedMemberBasedProject = (data: any) => {
@@ -158,17 +142,9 @@ const useGetUserIDBasedProject = (value: any) => {
 };
 
 const useUpdateProject = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return ProjectService.updateProjectData(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return ProjectService.updateProjectData(data);
+  });
 };
 
 const useGetMasterProjectParentType = () => {

@@ -13,7 +13,7 @@ import CustomLoader from '../ui/customLoader';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router';
-import { getBymasertDataTypeDrop } from '../../hooks/masertData-hook';
+import { useGetBymasertDataTypeDrop } from '../../hooks/masertData-hook';
 import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/pdfReport/invoice';
 import CustomPagination from '../menu/CustomPagination';
@@ -54,7 +54,7 @@ const IndentList = () => {
   } = useGetAllIndentbyUserRole(userData);
 
   const { data: getPriorityType = [], isLoading: dropLoading } =
-    getBymasertDataTypeDrop('PRTYPE');
+  useGetBymasertDataTypeDrop('PRTYPE');
 
   const SampleOption: any = [
     { label: 'Low', value: 'Low' },

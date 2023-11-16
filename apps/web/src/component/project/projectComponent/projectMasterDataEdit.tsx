@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import {
-  updatemasertData,
-  createmasertData,
+  useUpdatemasterData,
+  useCreatemasterData,
 } from '../../../hooks/masertData-hook';
 import {
   getUpdateValidateyup,
@@ -44,8 +44,8 @@ const ProjectMasterDataEditForm: React.FC = (props: any) => {
       fetchOne();
     }
   }, []);
-  const { mutate: postMasterData } = createmasertData();
-  const { mutate: updateMasterData } = updatemasertData();
+  const { mutate: postMasterData } = useCreatemasterData();
+  const { mutate: updateMasterData } = useUpdatemasterData();
 
   const formik = useFormik({
     initialValues,

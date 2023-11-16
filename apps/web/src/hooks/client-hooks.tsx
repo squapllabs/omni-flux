@@ -84,16 +84,9 @@ const useDeleteClient = () => {
   );
 };
 const useGetByClient = () => {
-  return useMutation(
-    (data: any) => {
-      return ClientService.filterClient(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return ClientService.filterClient(data);
+  });
 };
 
 const useGetAllPaginatedClient = (data: any) => {

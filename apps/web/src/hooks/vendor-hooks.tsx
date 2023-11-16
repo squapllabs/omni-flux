@@ -13,16 +13,9 @@ const useGetAllPaginatedVendor = (data: any) => {
 };
 
 const useGetByFilterVendor = () => {
-  return useMutation(
-    (data: any) => {
-      return vendorService.filterVendor(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return vendorService.filterVendor(data);
+  });
 };
 
 const useDeleteVendor = () => {

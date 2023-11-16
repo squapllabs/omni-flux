@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Styles from '../../../../styles/newStyles/projectSiteExpense.module.scss';
 import Input from '../../../ui/Input';
-import { getBymasertDataTypeDrop } from '../../../../hooks/masertData-hook';
+import { useGetBymasertDataTypeDrop } from '../../../../hooks/masertData-hook';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import DeleteIcon from '../../../menu/icons/newDeleteIcon';
@@ -43,7 +43,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [display, setDisplay] = useState(props.mode === 'Add' ? true : false);
   const [fileMandatoryError, setFileMandatoryError] = useState('');
-  const { data: getSiteExpense } = getBymasertDataTypeDrop('SIEP');
+  const { data: getSiteExpense } = useGetBymasertDataTypeDrop('SIEP');
   const [expenseIndex, setExpenseIndex] = useState<any>();
   const [screenSize, setScreenSize] = useState(getCurrentDimension());
   const handleCloseDelete = () => {

@@ -2,16 +2,9 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import indentApprovalService from '../service/indent-approval-request-service';
 
 const useGetByUserRoleIndent = () => {
-  return useMutation(
-    (data: any) => {
-      return indentApprovalService.indentRaise(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return indentApprovalService.indentRaise(data);
+  });
 };
 
 const useGetAllIndentbyUserRole = (data: any) => {
@@ -65,5 +58,5 @@ export {
   useGetAllIndentRequestDetail,
   useUpdateIndentRequest,
   useGetAllIndentbyUserRole,
-  useGetByIndnetId
+  useGetByIndnetId,
 };

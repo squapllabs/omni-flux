@@ -2,17 +2,9 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import stockOutwardService from '../service/stock-outward-service';
 
 const useGetAllStockOutwardData = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return stockOutwardService.getStockOutWardData(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return stockOutwardService.getStockOutWardData(data);
+  });
 };
 
 const useGetAllPaginatedStockOutwardData = (data: any) => {

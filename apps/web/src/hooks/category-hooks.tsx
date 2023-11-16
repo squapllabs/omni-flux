@@ -129,16 +129,9 @@ const useDeleteCategory = () => {
   );
 };
 const useGetBySearchCategroy = () => {
-  return useMutation(
-    (data: any) => {
-      return CategoryService.filterCategory(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return CategoryService.filterCategory(data);
+  });
 };
 const useGetMasterAbstractStatusParentType = () => {
   return useQuery(
@@ -165,5 +158,5 @@ export {
   UseCreateInstantCategory,
   useGetMasterAbstractStatusParentType,
   useGetByBOMDetails,
-  useCreateMultipleCategory
+  useCreateMultipleCategory,
 };

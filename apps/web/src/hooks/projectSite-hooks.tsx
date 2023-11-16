@@ -26,7 +26,7 @@ const useGetAllprojectSiteDrop = () => {
   );
 };
 
-const getByuserID = (id: number) => {
+const useGetOneprojectSiteyID = (id: number) => {
   return useQuery(
     ['getOneprojectSiteyID', id],
     () => projectSiteService.getOneprojectSiteByID(id),
@@ -92,17 +92,9 @@ const useDeleteprojectSite = () => {
   );
 };
 const useGetByprojectSite = () => {
-  const queryprojectSite = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return projectSiteService.filterprojectSite(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return projectSiteService.filterprojectSite(data);
+  });
 };
 
 const useGetAllPaginatedprojectSite = (data: any) => {
@@ -118,7 +110,7 @@ const useGetAllPaginatedprojectSite = (data: any) => {
 
 export {
   useGetAllprojectSite,
-  getByuserID,
+  useGetOneprojectSiteyID,
   useCreateprojectSite,
   useUpdateprojectSite,
   useDeleteprojectSite,

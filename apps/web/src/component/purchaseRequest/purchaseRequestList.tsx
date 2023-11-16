@@ -62,7 +62,6 @@ const PurchaseRequestList = () => {
     const formattedDate = format(currentDate, 'dd MMM yyyy');
     return formattedDate;
   };
-  const handleChange = () => {};
   const handleQuotation = (value: any) => {
     navigate(`/vendor-select/${Number(value?.purchase_request_id)}`, {
       state: {

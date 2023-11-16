@@ -65,16 +65,9 @@ const useDeleteleadEnquiry = () => {
 };
 
 const useGetBySearchLeadEnquiry = () => {
-  return useMutation(
-    (data: any) => {
-      return leadEnquiryService.filterLeadEnquiry(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return leadEnquiryService.filterLeadEnquiry(data);
+  });
 };
 export {
   useGetAllleadEnquiry,

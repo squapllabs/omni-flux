@@ -28,7 +28,7 @@ const InvoiceReportGenerator = (data: any) => {
     poType: data?.purchase_order_data?.purchase_order_type,
     // taxRate: 8, // 8% tax rate
   };
-  let demoData: any = [];
+  const demoData: any = [];
   const itemsData = data?.purchase_order_data?.grn?.map((items: any) => {
     items?.grn_details.map((subItems: any) => {
       demoData.push(subItems);

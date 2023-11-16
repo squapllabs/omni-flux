@@ -49,18 +49,18 @@ const ProjectInwardReport = async (datas: any) => {
         subHeaderCell.value = 'Quantity';
         const subHeaderCell2 = worksheet.getCell('D2');
         subHeaderCell2.value = 'Value';
-        (subHeaderCell.font = { color: { argb: '000000' } }),
-          (subHeaderCell.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: 'd3d3d3' }, // Yellow background color
-          });
-        (subHeaderCell2.font = { color: { argb: '000000' } }),
-          (subHeaderCell2.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: 'd3d3d3' }, // Yellow background color
-          });
+        subHeaderCell.font = { color: { argb: '000000' } };
+        subHeaderCell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'd3d3d3' }, // Yellow background color
+        };
+        subHeaderCell2.font = { color: { argb: '000000' } };
+        subHeaderCell2.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'd3d3d3' }, // Yellow background color
+        };
         subHeaderCell2.border = {
           top: { style: 'thin', color: { argb: '000000' } },
           bottom: { style: 'thin', color: { argb: '000000' } },
