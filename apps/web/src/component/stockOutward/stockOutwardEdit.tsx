@@ -6,7 +6,6 @@ import Input from '../ui/Input';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import DatePicker from '../ui/CustomDatePicker';
 import Button from '../ui/Button';
-import AddIcon from '../menu/icons/addIcon';
 import Checkbox from '../ui/Checkbox';
 import { format } from 'date-fns';
 import DeleteIcon from '../menu/icons/deleteIcon';
@@ -18,7 +17,7 @@ import {
 } from '../../hooks/project-hooks';
 import {
   useUpdateStockOutWard,
-  useGetByStockOutWardId,
+  // useGetByStockOutWardId,
 } from '../../hooks/stock-outward';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -38,8 +37,8 @@ const StoreOutwardEdit = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userData: any = encryptedData?.userData;
-  const siteEngineerName: any =
-    userData?.first_name + ' ' + userData?.last_name;
+  // const siteEngineerName: any =
+  //   userData?.first_name + ' ' + userData?.last_name;
   const siteEngineerId: any = userData?.user_id;
   const location = useLocation();
   const projectId = location.state?.projectId;
@@ -100,7 +99,6 @@ const StoreOutwardEdit = () => {
   }, []);
 
   const navigate = useNavigate();
-  const rowIndex = 0;
   const Obj: any = {
     projectID: projectId,
     role: 'Site Engineer',
@@ -158,10 +156,10 @@ const StoreOutwardEdit = () => {
     setOpenSnack(false);
   };
 
-  const handleCheckBoxSiteChange = (e: any) => {
-    const CheckboxValue = e.target.checked;
-    setSiteChecked(CheckboxValue);
-  };
+  // const handleCheckBoxSiteChange = (e: any) => {
+  //   const CheckboxValue = e.target.checked;
+  //   setSiteChecked(CheckboxValue);
+  // };
 
   return (
     <div>
@@ -234,7 +232,7 @@ const StoreOutwardEdit = () => {
                     onSelect={(value) => {
                       formik.setFieldValue('site_id', value);
                     }}
-                    optionList={siteData != undefined ? siteData : []}
+                    optionList={siteData !== undefined ? siteData : []}
                     error={formik.touched.site_id && formik.errors.site_id}
                   />
                 </div>
@@ -252,7 +250,7 @@ const StoreOutwardEdit = () => {
                       formik.setFieldValue('site_engineer_id', value);
                     }}
                     optionList={
-                      getSiteEngineerData != undefined
+                      getSiteEngineerData !== undefined
                         ? getSiteEngineerData
                         : []
                     }

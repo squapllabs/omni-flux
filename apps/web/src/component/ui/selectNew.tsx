@@ -166,7 +166,7 @@ const Select: FC<SelectProps & { mandatory?: boolean }> = ({
         </div>
         <span>{helperText && <HelperText>Note:{helperText}</HelperText>}</span>
         {error === false ? (
-          <></>
+          <div></div>
         ) : (
           <ErrorMessageWrapper>
             {error && <InputError>{error}</InputError>}

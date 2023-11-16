@@ -10,7 +10,7 @@ import { getCreateValidateyup } from '../../helper/constants/machinery-constants
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import { useCreateInstantMachinery } from '../../hooks/machinery-hooks';
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 import Select from '../ui/selectNew';
 
 const InstantMachineryAdd = (props: {
@@ -26,13 +26,13 @@ const InstantMachineryAdd = (props: {
   const encryptedData = getToken(state, 'Data');
   const userData: any = encryptedData.userData;
   const validationSchema = getCreateValidateyup(Yup);
-  const dateFormat = (value: any) => {
-    if (value !== null) {
-      const currentDate = new Date(value);
-      const formattedDate = format(currentDate, 'yyyy-MM-dd');
-      return formattedDate;
-    }
-  };
+  // const dateFormat = (value: any) => {
+  //   if (value !== null) {
+  //     const currentDate = new Date(value);
+  //     const formattedDate = format(currentDate, 'yyyy-MM-dd');
+  //     return formattedDate;
+  //   }
+  // };
   const [initialValues, setInitialValues] = useState({
     machinery_name: '',
     machinery_type: '',

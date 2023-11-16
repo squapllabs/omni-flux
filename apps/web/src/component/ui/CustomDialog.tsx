@@ -1,5 +1,5 @@
 import React from 'react';
-import DeleteIcon from '../menu/icons/deleteIcon';
+// import DeleteIcon from '../menu/icons/deleteIcon';
 import Button from '../ui/Button';
 import CancelIcon from '../menu/icons/closeIcon';
 import FlagIcon from '../menu/icons/flagIcon';
@@ -68,12 +68,12 @@ const CustomDialogBox: React.FC<DialogBoxProps> = ({
     borderRadius: '8px',
   };
 
-  const conformButtonStyle: React.CSSProperties = {
-    ...buttonStyle,
-    backgroundColor: '#D92D20',
-    color: 'white',
-    borderRadius: '8px',
-  };
+  // const conformButtonStyle: React.CSSProperties = {
+  //   ...buttonStyle,
+  //   backgroundColor: '#D92D20',
+  //   color: 'white',
+  //   borderRadius: '8px',
+  // };
 
   const mainContentStyle: React.CSSProperties = {
     display: 'flex',

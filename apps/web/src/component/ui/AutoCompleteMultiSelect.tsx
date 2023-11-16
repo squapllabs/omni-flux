@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import DropdownIcon from '../menu/icons/dropDownButton';
-import CancelFilterIcon from '../menu/icons/cancelFilterIcon';
+// import CancelFilterIcon from '../menu/icons/cancelFilterIcon';
 import CloseIcon from '../menu/icons/closeIcon';
-import ClearIcon from '../menu/icons/closeIcon';
+// import ClearIcon from '../menu/icons/closeIcon';
 import AddIcon from '../menu/icons/addIcon';
 
 interface InputWrapperProps {

@@ -1,5 +1,4 @@
 import React from 'react';
-import Styles from '../../styles/customPopup.module.scss';
 
 interface DialogBoxProps {
   open: boolean;

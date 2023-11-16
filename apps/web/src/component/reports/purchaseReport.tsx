@@ -4,7 +4,7 @@ import StackedChart from './charts/stackedChart';
 import Styles from '../../styles/newStyles/reportModule/purchasereport.module.scss';
 import LineChart from './charts/lineChart';
 import HorizontalBarChart from './charts/horizontalBarChart';
-import CloseIcon from '../menu/icons/closeIcon';
+// import CloseIcon from '../menu/icons/closeIcon';
 
 const PurchaseReport = () => {
   const data: any = [
@@ -39,9 +39,9 @@ const PurchaseReport = () => {
     { value: 'AVRP', label: 'POs Status' },
   ]);
   const [selectedMenu, setSelectedMenu] = useState<any>('DMPO');
-  const handleMenuClear = () => {
-    setSelectedMenu('');
-  };
+  // const handleMenuClear = () => {
+  //   setSelectedMenu('');
+  // };
   const onMenuClick = (value: string) => {
     setSelectedMenu(value);
   };

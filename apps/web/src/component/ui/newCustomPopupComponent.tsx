@@ -51,15 +51,15 @@ const NewCustomPopupComponent: React.FC<DialogBoxProps> = ({
     fontSize: '13px',
   };
 
-  const contentStyle: React.CSSProperties = {
-    padding: '10px',
-    fontSize: 'smaller',
-  };
+  // const contentStyle: React.CSSProperties = {
+  //   padding: '10px',
+  //   fontSize: 'smaller',
+  // };
 
-  const textStyle: React.CSSProperties = {
-    padding: '5px',
-    fontSize: 'smaller',
-  };
+  // const textStyle: React.CSSProperties = {
+  //   padding: '5px',
+  //   fontSize: 'smaller',
+  // };
 
   const buttonStyle: React.CSSProperties = {
     margin: '15px',
@@ -67,17 +67,17 @@ const NewCustomPopupComponent: React.FC<DialogBoxProps> = ({
     cursor: 'pointer',
   };
 
-  const cancelButtonStyle: React.CSSProperties = {
-    ...buttonStyle,
-    borderRadius: '8px',
-  };
+  // const cancelButtonStyle: React.CSSProperties = {
+  //   ...buttonStyle,
+  //   borderRadius: '8px',
+  // };
 
-  const conformButtonStyle: React.CSSProperties = {
-    ...buttonStyle,
-    // backgroundColor: '#D92D20',
-    color: 'white',
-    borderRadius: '8px',
-  };
+  // const conformButtonStyle: React.CSSProperties = {
+  //   ...buttonStyle,
+  //   // backgroundColor: '#D92D20',
+  //   color: 'white',
+  //   borderRadius: '8px',
+  // };
 
   const mainContentStyle: React.CSSProperties = {
     display: 'flex',
@@ -95,11 +95,11 @@ const NewCustomPopupComponent: React.FC<DialogBoxProps> = ({
     // maxHeight: '100px',
   };
 
-  const errorContent: React.CSSProperties = {
-    color: 'red',
-    fontSize: '2vh',
-    paddingLeft: '5px',
-  };
+  // const errorContent: React.CSSProperties = {
+  //   color: 'red',
+  //   fontSize: '2vh',
+  //   paddingLeft: '5px',
+  // };
 
   const dividerStyle: React.CSSProperties = {
     borderTop: '2px solid #ccc',

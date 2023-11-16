@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
@@ -26,18 +26,18 @@ const DeliveryNotes = (data: any, GRNData: any) => {
   //         total: item?.purchase_requested_quantity * item?.item_data?.rate
   //     }));
 
-  const overallTotal = itemsData?.reduce(
-    (accumulator: any, currentItem: any) => {
-      return accumulator + currentItem?.total;
-    },
-    0
-  );
-  const overallTotalQuantity = itemsData?.reduce(
-    (accumulator: any, currentItem: any) => {
-      return accumulator + currentItem?.quantity;
-    },
-    0
-  );
+  // const overallTotal = itemsData?.reduce(
+  //   (accumulator: any, currentItem: any) => {
+  //     return accumulator + currentItem?.total;
+  //   },
+  //   0
+  // );
+  // const overallTotalQuantity = itemsData?.reduce(
+  //   (accumulator: any, currentItem: any) => {
+  //     return accumulator + currentItem?.quantity;
+  //   },
+  //   0
+  // );
 
   // const purchaseOrder;
 

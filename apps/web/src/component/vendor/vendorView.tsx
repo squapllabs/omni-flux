@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import Styles from '../../styles/vendorView.module.scss';
 import CustomCard from '../ui/CustomCard';
 import { useGetByVendorId } from '../../hooks/vendor-hooks';
@@ -8,7 +7,6 @@ import ProjectSubheader from '../project/projectSubheader';
 
 const VendorView = () => {
   const routeParams = useParams();
-  const navigate = useNavigate();
   const VendorId = Number(routeParams?.id);
   const { data: getOneVendor } = useGetByVendorId(VendorId);
   return (

@@ -7,17 +7,17 @@ import {
 import CategoryForm from './SubCategoryForm';
 import Button from '../ui/Button';
 import Input from '../../component/ui/Input';
-import { useFormik } from 'formik';
-import { getCreateValidateyup } from '../../helper/constants/category/subcategory-constants';
-import * as Yup from 'yup';
-import { useCreateSubcategory } from '../../hooks/subCategory-hooks';
-import { useGetAllCategoryForDrop } from '../../hooks/category-hooks';
+// import { useFormik } from 'formik';
+// import { getCreateValidateyup } from '../../helper/constants/category/subcategory-constants';
+// import * as Yup from 'yup';
+// import { useCreateSubcategory } from '../../hooks/subCategory-hooks';
+// import { useGetAllCategoryForDrop } from '../../hooks/category-hooks';
 import SearchIcon from '../menu/icons/search';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/pagination';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import EditIcon from '../menu/icons/editIcon';
-import DeleteIcon from '../menu/icons/deleteIcon';
+// import DeleteIcon from '../menu/icons/deleteIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
 import CustomEditDialog from '../ui/customEditDialogBox';
@@ -61,14 +61,14 @@ const SubCategoryList = () => {
     setActiveButton(value);
   };
   /* Function for invoking delete sub category popup */
-  const deleteCategoryHandler = (id: any) => {
-    setValue(id);
-    setOpenDelete(true);
-  };
+  // const deleteCategoryHandler = (id: any) => {
+  //   setValue(id);
+  //   setOpenDelete(true);
+  // };
   /* Function for closing popup */
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
   /* Function for closing delete popup */
   const handleCloseDelete = () => {
     setOpenDelete(false);

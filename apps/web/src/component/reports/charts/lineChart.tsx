@@ -12,7 +12,6 @@ import {
   LineController,
   registerables,
 } from 'chart.js';
-import { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 ChartJS.register(
   CategoryScale,

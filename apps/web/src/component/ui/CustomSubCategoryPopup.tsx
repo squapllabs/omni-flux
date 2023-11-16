@@ -6,7 +6,7 @@ import Button from '../ui/Button';
 import Styles from '../../styles/customaddabstract.module.scss';
 import {
   useCreateInstantSubcategory,
-  updateSubcategory,
+  useUpdateSubcategory,
 } from '../../hooks/subCategory-hooks';
 import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
@@ -32,7 +32,6 @@ const CustomSubCategoryAdd = (props: {
     onAction,
     selectedCategoryId,
     selectedProject,
-    mode,
     selectedSubCategory,
     setMode,
     selectedBomConfig,
@@ -41,7 +40,7 @@ const CustomSubCategoryAdd = (props: {
 
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
   const { mutate: createNewSubCategory } = useCreateInstantSubcategory();
-  const { mutate: updateSubcategoryData } = updateSubcategory();
+  const { mutate: updateSubcategoryData } = useUpdateSubcategory();
   const [clientinitialValues, setclientInitialValues] = useState({
     name: '',
     description: '',

@@ -12,7 +12,7 @@ import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/pagination';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import EditIcon from '../menu/icons/editIcon';
-import DeleteIcon from '../menu/icons/deleteIcon';
+// import DeleteIcon from '../menu/icons/deleteIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
 import CustomEditDialog from '../ui/customEditDialogBox';
@@ -83,10 +83,10 @@ const SubSubCategoryList = () => {
   }, [currentPage, rowsPerPage, activeButton]);
 
   /* Function for opening delete popup */
-  const deleteSubSubCategoryHandler = (id: any) => {
-    setValue(id);
-    setOpen(true);
-  };
+  // const deleteSubSubCategoryHandler = (id: any) => {
+  //   setValue(id);
+  //   setOpen(true);
+  // };
   /* Function for closing popup */
   const handleClose = () => {
     setOpen(false);
