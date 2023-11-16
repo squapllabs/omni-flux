@@ -66,9 +66,9 @@ const StyledInput = styled.input<StyledInputProps>`
   box-sizing: border-box;
 `;
 
-const IconWrapper = styled.div`
-  display: flex;
-`;
+// const IconWrapper = styled.div`
+//   display: flex;
+// `;
 const InputError = styled.span`
   color: red;
   margin-top: 2px;

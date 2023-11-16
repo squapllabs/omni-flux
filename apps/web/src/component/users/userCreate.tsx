@@ -25,7 +25,6 @@ const UserCreate = () => {
   const [isWarning, setIsWarning] = useState(false);
   const [message, setMessage] = useState('');
   const [passwordShown, setPasswordShown] = useState(false);
-  const [selectedValue, setSelectedValue] = useState('');
   const [selectedGenderValue, setSelectedGenderValue] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [userImage, setUserImage] = useState();

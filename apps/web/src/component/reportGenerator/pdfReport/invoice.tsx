@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
@@ -35,7 +34,7 @@ const InvoiceReportGenerator = (data: any) => {
     });
   });
 
-  console.log('demoData', demoData);
+  // console.log('demoData', demoData);
 
   // Create a new jsPDF instance
   const pdf = new jsPDF();

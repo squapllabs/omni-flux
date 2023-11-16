@@ -3,7 +3,7 @@ import Button from '../../../ui/Button';
 import AddIcon from '../../../menu/icons/addIcon';
 import CustomSidePopup from '../../../ui/CustomSidePopup';
 import ProjectSiteExpenseForm from './projectSiteExpenseForm';
-import { useNavigate, useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import Styles from '../../../../styles/newStyles/siteExpenseList.module.scss';
 import MoneyIcon from '../../../menu/icons/moneyIcon';
 import { useGetProjectSite } from '../../../../hooks/project-hooks';
@@ -20,7 +20,7 @@ import ExpenseDetailApprove from './approval/siteExpenseDetailApprove';
 const ProjectSiteExpenseList = () => {
   const routeParams = useParams();
   let rowIndex = 0;
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [expenseOpen, setExpenseOpen] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>('All');
@@ -290,7 +290,7 @@ const ProjectSiteExpenseList = () => {
                               )}
                               {getExpenseList?.content?.map(
                                 (items: any, index: any) => {
-                                  if (items.is_delete != true) {
+                                  if (items.is_delete !== true) {
                                     rowIndex = rowIndex + 1;
                                     return (
                                       <tr key={items?.expense_id}>
@@ -378,7 +378,7 @@ const ProjectSiteExpenseList = () => {
                       <div className={Styles.cardContainer}>
                         {getExpenseList?.content?.map(
                           (items: any, index: any) => {
-                            if (items.is_delete != true) {
+                            if (items.is_delete !== true) {
                               rowIndex = rowIndex + 1;
                               return (
                                 <table className={Styles.cardTable}>
@@ -554,7 +554,7 @@ const ProjectSiteExpenseList = () => {
             </div>
             <div className={Styles.emptyDataHandling}>
               <div className={Styles.image}>
-                <img src="/siteAdd.png" width="70%" height="20%" />
+                <img src="/siteAdd.png" alt="site" width="70%" height="20%" />
               </div>
               <div>
                 <h5 className={Styles.textmax}>

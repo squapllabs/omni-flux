@@ -37,9 +37,7 @@ const CustomAbstractAdd = (props: {
     selectedProject,
     setReload,
     mode,
-    categoryId,
     selectedBomConfig,
-    setMode,
   } = props;
   // console.log("props.mode---->",mode);
   

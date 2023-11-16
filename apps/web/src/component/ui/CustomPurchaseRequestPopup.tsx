@@ -75,7 +75,7 @@ const CustomPurchaseRequestPopup = (props: {
     const itemsData = await PurchaseRequestService.getProjectItems(projectId);
     const arr: any = [];
     setItemsData(itemsData.data);
-    const items = itemsData?.data?.map((items: any, index: any) => {
+    itemsData?.data?.map((items: any, index: any) => {
       const obj: any = {
         value: items?.item_id,
         label: items?.item_data?.item_name,
@@ -256,7 +256,7 @@ const CustomPurchaseRequestPopup = (props: {
                             // let vendorName = item?.vendor_id?.map((vendor: any) => vendor.label).join(', ')
                             rowIndex = rowIndex + 1;
                             return (
-                              <>
+
                                 <tr>
                                   <td>{rowIndex}</td>
                                   {/* <td>{vendorName}</td> */}
@@ -272,7 +272,6 @@ const CustomPurchaseRequestPopup = (props: {
                                     </div>
                                   </td>
                                 </tr>
-                              </>
                             );
                           })
                         )}

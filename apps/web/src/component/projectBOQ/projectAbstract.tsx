@@ -7,16 +7,20 @@ import { formatBudgetValue } from '../../helper/common-function';
 import BomList from './projectBoqList';
 import ClipboardIcon from '../menu/icons/clipboardIcon';
 import { useGetByBOMDetails } from '../../hooks/category-hooks';
-const projectAbstract = () => {
-  const useNavigation = useNavigate();
-  const useRouteParams = useParams();
-  const [overallAbstractValue, setOverallAbstractValue] = useState<any>(0);
+
+const ProjectAbstract = () => {
+  const navigate = useNavigate();
+  const routeparams = useParams();
+  // const [overallAbstractValue, setOverallAbstractValue] = useState<any>(0);
   // const [reload, setReload] = useState(false);
   const obj: any = {
-    projectId: Number(useRouteParams?.projectId),
-    boQId: Number(useRouteParams?.bomconfigId),
+    projectId: Number(routeparams?.projectId),
+    boQId: Number(routeparams?.bomconfigId),
   };
-  const { data: getBomData } = useGetByBOMDetails(obj);
+  const { data: getBomData } = useGetByBOMDetails({
+    projectId: Number(routeparams?.projectId),
+    boQId: Number(routeparams?.bomconfigId),
+  });
 
   // const getOverallAbsctractValue = (data) => {
   //   setOverallAbstractValue(data);
@@ -30,7 +34,7 @@ const projectAbstract = () => {
             <div
               className={Styles.logo}
               onClick={() => {
-                useNavigation(`/project-edit/${useRouteParams?.projectId}`);
+                navigate(`/project-edit/${routeparams?.projectId}`);
               }}
             >
               <PreviousPageIcon width={15} height={15} color="#7f56d9" />
@@ -104,4 +108,4 @@ const projectAbstract = () => {
   );
 };
 
-export default projectAbstract;
+export default ProjectAbstract;

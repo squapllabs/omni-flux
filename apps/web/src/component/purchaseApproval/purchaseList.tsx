@@ -20,7 +20,7 @@ import CustomMenu from '../ui/NewCustomMenu';
 const PurchaseList = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
-  const userID: number = encryptedData.userId;
+  // const userID: number = encryptedData.userId;
   const navigate = useNavigate();
   const { data: getAllmasterDataForDrop = [] } = useGetAllProjectDrop();
   //   const [buttonLabels, setButtonLabels] = useState([
@@ -32,7 +32,7 @@ const PurchaseList = () => {
   const [priorityValue, setPriorityValue] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [projectId, setProjectId] = useState();
+  // const [projectId, setProjectId] = useState();
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [filterValues, setFilterValues] = useState({
     search_by_code: '',
@@ -65,13 +65,13 @@ const PurchaseList = () => {
     });
     setIsResetDisabled(true);
   };
-  const handleReportGenerator = () => {
-    const data: any = {
-      title: 'Purchase Request',
-      name: 'purchase_request',
-    };
-    ReportGenerator(data);
-  };
+  // const handleReportGenerator = () => {
+  //   const data: any = {
+  //     title: 'Purchase Request',
+  //     name: 'purchase_request',
+  //   };
+  //   ReportGenerator(data);
+  // };
   /* Function for searching a user in the table */
   const handleSearch = async () => {
     const userData: any = {

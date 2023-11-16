@@ -149,7 +149,7 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
         {suffixIcon && <SuffixIconWrapper>{suffixIcon}</SuffixIconWrapper>}
       </InputContainer>
       {error === false ? (
-        <></>
+        <div></div>
       ) : (
         !errorDisable && (
           <ErrorMessageWrapper>

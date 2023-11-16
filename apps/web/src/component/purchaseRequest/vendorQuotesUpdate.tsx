@@ -17,7 +17,6 @@ import TextArea from '../ui/CustomTextArea';
 import PageDisabled from '../ui/pageDisableComponent';
 import { useUpdateVendorQuotes } from '../../hooks/vendorQuotes-hooks';
 import vendorQuotesService from '../../service/vendorQuotes-service';
-import MailIcon from '../menu/icons/mailIcon';
 import TelePhoneIcon from '../menu/icons/telephone';
 import PersonIcon from '../menu/icons/personIcon';
 import OutBoxIcon from '../menu/icons/outBox';

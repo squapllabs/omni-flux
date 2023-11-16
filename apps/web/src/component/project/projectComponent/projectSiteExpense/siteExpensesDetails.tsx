@@ -41,7 +41,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [display, setDisplay] = useState(props.mode === 'Add' ? true : false);
+  // const [display, setDisplay] = useState(props.mode === 'Add' ? true : false);
   const [fileMandatoryError, setFileMandatoryError] = useState('');
   const { data: getSiteExpense } = useGetBymasertDataTypeDrop('SIEP');
   const [expenseIndex, setExpenseIndex] = useState<any>();
@@ -69,7 +69,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
   }, [screenSize]);
 
   useEffect(() => {
-    if (props?.mode != 'Edit' && props.expenseList.length === 0) {
+    if (props?.mode !== 'Edit' && props.expenseList.length === 0) {
       props.setExpenseList([...props.expenseList, initialValues]);
     }
   }, [props?.mode]);

@@ -29,7 +29,7 @@ const PurchaseView = () => {
   const constructPurchaseOrder = () => {
     const purchaseOrderItems: any = [];
     getAllData?.purchase_request_details?.forEach((data: any) => {
-      console.log('constructPurchaseOrder', data);
+      // console.log('constructPurchaseOrder', data);
 
       purchaseOrderItems.push({
         purchase_order_id: '',

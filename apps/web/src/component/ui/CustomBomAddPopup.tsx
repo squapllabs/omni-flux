@@ -40,16 +40,15 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
         uom_id: Number(values.uom_id),
         item_id: Number(values.item_id),
       };
-      console.log(Object)
-    //   createNewBom(Object, {
-    //     onSuccess: (data, variables, context) => {
-    //       if (data?.success) {
-    //         setMessage('Bom created');
-    //         setOpenSnack(true);
-    //         handleCloseForm();
-    //       }
-    //     },
-    //   });
+      createNewBom(Object, {
+        onSuccess: (data, variables, context) => {
+          if (data?.success) {
+            setMessage('Bom created');
+            setOpenSnack(true);
+            handleCloseForm();
+          }
+        },
+      });
     },
   });
 

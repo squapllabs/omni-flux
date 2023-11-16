@@ -3,19 +3,19 @@ import { useParams, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
 import Styles from '../../styles/purchaseView.module.scss';
-import { environment } from '../../environment/environment';
-import { formatBudgetValue } from '../../helper/common-function';
+// import { environment } from '../../environment/environment';
+// import { formatBudgetValue } from '../../helper/common-function';
 import CustomLoader from '../ui/customLoader';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import indentApprovalService from '../../service/indent-approval-request-service';
-import AddIcon from '../menu/icons/addIcon';
+// import AddIcon from '../menu/icons/addIcon';
 import purchaseRequestService from '../../service/purchaseRequest-service';
 import CustomPurchaseRequest from '../ui/CustomPurchaseRequestPopup';
-import CustomMenu from '../ui/CustomMenu';
+// import CustomMenu from '../ui/CustomMenu';
 import CustomSnackBar from '../ui/customSnackBar';
 import ProjectSubheader from '../project/projectSubheader';
-import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
+// import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/pdfReport/requestForQuotation';
 import Checkbox from '../ui/Checkbox';
 
@@ -53,9 +53,9 @@ const PurchaseView = () => {
     indent_request_id: indentId,
   };
 
-  const handleReportGenerator = (data: any) => {
-    ReportGenerator(data);
-  };
+  // const handleReportGenerator = (data: any) => {
+  //   ReportGenerator(data);
+  // };
 
   useEffect(() => {
     const getAllData = async () => {

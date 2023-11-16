@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import DropdownIcon from '../menu/icons/dropDownButton';
-import CancelFilterIcon from '../menu/icons/cancelFilterIcon';
+// import CancelFilterIcon from '../menu/icons/cancelFilterIcon';
 import CloseIcon from '../menu/icons/closeIcon';
 import AddIcon from '../menu/icons/addIcon';
 
@@ -278,7 +278,7 @@ const AutoCompleteSelect: React.FC<
               gap: '10px',
             }}
           >
-            {!disabled && values != '' && showclearicon ? (
+            {!disabled && values !== '' && showclearicon ? (
               <CloseIcon width={10} onClick={(e) => handleClear(e)} />
             ) : (
               ''
@@ -300,7 +300,7 @@ const AutoCompleteSelect: React.FC<
 
             {filteredOptions?.map((option) => {
               return (
-                <>
+                <div>
                   <li
                     key={option.value}
                     onClick={() => {
@@ -316,7 +316,7 @@ const AutoCompleteSelect: React.FC<
                   >
                     {option.label}
                   </li>
-                </>
+                </div>
               );
             })}
             {addLabel != null && (
@@ -345,7 +345,7 @@ const AutoCompleteSelect: React.FC<
         )}
       </OptionContainer>
       {error === false ? (
-        <></>
+        <div></div>
       ) : (
         <ErrorMessageWrapper>
           {error && <InputError>{error}</InputError>}

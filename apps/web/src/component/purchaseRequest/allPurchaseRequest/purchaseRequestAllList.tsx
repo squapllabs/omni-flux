@@ -3,12 +3,12 @@ import Styles from '../../../styles/newStyles/purchaseRequestList.module.scss';
 import ProjectSubheader from '../../project/projectSubheader';
 import Input from '../../ui/Input';
 import SearchIcon from '../../menu/icons/search';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useGetBySearchPR } from '../../../hooks/purchase-request-hooks';
 import { format } from 'date-fns';
 import ReportGenerator from '../../reportGenerator/pdfReport/requestForQuotation';
 import PrintIcon from '../../menu/icons/printIcon';
-import SiteNavigateIcon from '../../menu/icons/siteNavigateIcon';
+// import SiteNavigateIcon from '../../menu/icons/siteNavigateIcon';
 import CustomLoader from '../../ui/customLoader';
 import CustomGroupButton from '../../ui/CustomGroupButton';
 

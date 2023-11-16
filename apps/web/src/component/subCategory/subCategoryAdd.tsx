@@ -16,7 +16,7 @@ import {
   useUpdateSubcategory,
 } from '../../hooks/subCategory-hooks';
 import { useGetAllCategoryForDrop } from '../../hooks/category-hooks';
-import Select from '../ui/selectNew';
+// import Select from '../ui/selectNew';
 import Styles from '../../styles/categoryForm.module.scss';
 import SubcategoryService from '../../service/subCategory-service';
 import { formatBudgetValue } from '../../helper/common-function';

@@ -3,15 +3,13 @@ import { useParams } from 'react-router-dom';
 import CustomCard from '../ui/CustomCard';
 import stockOutwardService from '../../service/stock-outward-service';
 import Styles from '../../styles/stockOutWardView.module.scss';
-import Button from '../menu/button';
-import { useNavigate, useLocation } from 'react-router-dom';
+import {  useLocation } from 'react-router-dom';
 import { format } from 'date-fns';
 import ProjectSubheader from '../project/projectSubheader';
 
 const StockOutWardView = () => {
   const routeParams = useParams();
   const stockOutWardId = Number(routeParams?.id);
-  const navigate = useNavigate();
   const [stockOutwardData, setStockOutWardData] = useState();
   const [date, setDate] = useState();
   const location = useLocation();

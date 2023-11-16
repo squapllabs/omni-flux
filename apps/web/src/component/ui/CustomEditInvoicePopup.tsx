@@ -2,15 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import Button from '../ui/Button';
 import Styles from '../../styles/customEditInvoicePopup.module.scss';
-import CustomPopup from '../ui/CustomPopupDialog';
-import CloseIcon from '../menu/icons/closeIcon';
+// import CustomPopup from '../ui/CustomPopupDialog';
+// import CloseIcon from '../menu/icons/closeIcon';
 import UploadIcon from '../menu/icons/cloudUpload';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useUpdatePurchseOrderBillStatus } from '../../hooks/purchase-request-hooks';
 import Select from '../ui/selectNew';
 import PurchaseRequestService from '../../service/purchase-request.service';
 import { useGetBymasertDataType } from '../../hooks/masertData-hook';
-import DatePicker from '../ui/CustomDatePicker';
+// import DatePicker from '../ui/CustomDatePicker';
 import { editInvoiceValidateyup } from '../../helper/constants/invoice-constants';
 import * as Yup from 'yup';
 import { formatBudgetValue } from '../../helper/common-function';
@@ -27,8 +27,6 @@ const CustomEditInvoicePopup = (props: {
   selectedInvDoc: any;
 }) => {
   const {
-    isVissible,
-    onAction,
     selectedPurchaseOrder,
     selectedInvoive,
     selectedInvoiceId,
@@ -39,8 +37,8 @@ const CustomEditInvoicePopup = (props: {
   const encryptedData = getToken(state, 'Data');
   const userID: number = encryptedData.userId;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const { data: getAllBillStatusTypeDatadrop = [] } =
-  useGetBymasertDataType('PYS');
+  // const { data: getAllBillStatusTypeDatadrop = [] } =
+  // useGetBymasertDataType('PYS');
   const { data: getAllPaymentTypeDatadrop = [] } = useGetBymasertDataType('PPM');
 
   const { mutate: updatePoBillStatus } = useUpdatePurchseOrderBillStatus();
