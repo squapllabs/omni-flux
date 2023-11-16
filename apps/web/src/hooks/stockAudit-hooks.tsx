@@ -13,17 +13,9 @@ const useGetAllPaginatedStockAudit = (data: any) => {
 };
 
 const useGetByFilterStockAudit = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return StockAuditService.filterStockAudit(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return StockAuditService.filterStockAudit(data);
+  });
 };
 
 const useDeleteStockAudit = () => {

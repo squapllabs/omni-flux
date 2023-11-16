@@ -13,7 +13,6 @@ const useGetAllPaginatedVendor = (data: any) => {
 };
 
 const useGetByFilterVendor = () => {
-  const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
       return vendorService.filterVendor(data);

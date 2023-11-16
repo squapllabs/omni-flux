@@ -3,7 +3,7 @@ import { useGetAllSiteDrops } from '../../../hooks/site-hooks';
 import {
   useGetAllUsersDrop,
   useGetAllUsers,
-  getUserbyRole,
+  useGetUserbyRole,
 } from '../../../hooks/user-hooks';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';

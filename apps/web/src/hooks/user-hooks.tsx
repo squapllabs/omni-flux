@@ -38,7 +38,7 @@ const useGetAllInactiveUsers = () => {
 const useGetByloginID = (id: string) => {
   return useQuery(['getByLoginID', id], () => userService.getOneUser(id));
 };
-const getUserbyRole = (type: string) => {
+const useGetUserbyRole = (type: string) => {
   return useQuery(
     ['getUserbyRole', type],
     () => userService.getuserByRoleType(type),
@@ -99,17 +99,9 @@ const useDeleteUsers = () => {
   );
 };
 const useGetByUser = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return userService.filterUser(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return userService.filterUser(data);
+  });
 };
 export {
   useGetAllUsers,
@@ -122,5 +114,5 @@ export {
   useGetAllUsersDrop,
   useGetByUser,
   useGetAllPaginatedUser,
-  getUserbyRole,
+  useGetUserbyRole,
 };

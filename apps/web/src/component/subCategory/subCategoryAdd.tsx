@@ -13,7 +13,7 @@ import {
 } from '../../helper/constants/category/subcategory-constants';
 import {
   useCreateSubcategory,
-  updateSubcategory,
+  useUpdateSubcategory,
 } from '../../hooks/subCategory-hooks';
 import { useGetAllCategoryForDrop } from '../../hooks/category-hooks';
 import Select from '../ui/selectNew';
@@ -26,7 +26,7 @@ import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 const SubCategoryAdd = () => {
   const { data: getAllCategoryDrop = [] } = useGetAllCategoryForDrop();
   const { mutate: createNewSubcategory } = useCreateSubcategory();
-  const { mutate: updateOneSubcategory } = updateSubcategory();
+  const { mutate: updateOneSubcategory } = useUpdateSubcategory();
   const routeParams = useParams();
 
   const validationSchema =

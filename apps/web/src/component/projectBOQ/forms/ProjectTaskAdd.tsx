@@ -3,10 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Input from '../../ui/Input';
 import Button from '../../ui/Button';
-import {
-  useCreateInstantSubcategory,
-  useCreateInstantSubcategory,
-} from '../../../hooks/subCategory-hooks';
+import { useCreateInstantSubcategory } from '../../../hooks/subCategory-hooks';
 import { getSubCategoryValidateyup } from '../../../helper/constants/abstract-constants';
 import TextArea from '../../ui/CustomTextArea';
 import DatePicker from '../../ui/CustomDatePicker';

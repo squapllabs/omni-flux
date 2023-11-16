@@ -64,17 +64,9 @@ const useDeleteSubSubcategory = () => {
 };
 
 const useGetBySearchSubSubCategroy = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return SubSubcategoryService.filterSubSubCategory(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+  return useMutation((data: any) => {
+    return SubSubcategoryService.filterSubSubCategory(data);
+  });
 };
 export {
   useGetAllSubSubcategory,

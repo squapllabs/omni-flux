@@ -8,9 +8,7 @@ import DatePicker from '../../ui/CustomDatePicker';
 import ProjectDetailsIcon from '../../menu/icons/projectDetailsIcon';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import { useGetAllClientDrop } from '../../../hooks/client-hooks';
-import {
-  getUserbyRole,
-} from '../../../hooks/user-hooks';
+import { useGetUserbyRole } from '../../../hooks/user-hooks';
 import {
   createProject,
   useGetMasterProjectParentType,
@@ -65,9 +63,10 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   const [bomConfig, setBomConfig] = useState<any>([]);
   const [siteConfigData, setSiteConfigData] = useState<any[]>([]);
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
-  const { data: getProjectManagerList = [] } = getUserbyRole('Project Manager');
+  const { data: getProjectManagerList = [] } =
+    useGetUserbyRole('Project Manager');
   const { data: getProjectApproverList = [] } =
-    getUserbyRole('Planning Engineer');
+    useGetUserbyRole('Planning Engineer');
   const { data: getAllProjectTypeDatadrop = [] } =
     useGetMasterProjectParentType();
   const { mutate: createNewProjectData } = createProject();
@@ -109,7 +108,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     };
     if (routeParams?.id != undefined) fetchData();
   }, [routeParams?.id]);
-
 
   const handleSnackBarClose = () => {
     setOpenSnack(false);

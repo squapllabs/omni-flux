@@ -10746,3 +10746,76 @@ D:\ERP\project\new\omni-flux\apps\api\src\dao\project.dao.ts:577:47
 Can't reach database server at `3.108.30.2`:`5432`
 
 Please make sure your database server is running at `3.108.30.2`:`5432`.
+[31merror[39m: ERRORS: status code: Error << DETAILS >>/updateVendor << ERRSTRING >>Error: 
+Invalid `transaction.vendor.update()` invocation in
+D:\Jegan\ERP\2023\Sep\30\omni-flux\apps\api\src\dao\vendor.dao.ts:82:45
+
+  79 try {
+  80   const currentDate = new Date();
+  81   const transaction = connectionObj !== null ? connectionObj : prisma;
+→ 82   const vendor = await transaction.vendor.update({
+         where: {
+           vendor_id: 88
+         },
+         data: {
+           vendor_name: 'Ultratech cementss',
+           contact_person: 'Sugumar',
+           contact_email: 'velavan.balaraman@aalamsoft.com',
+           contact_phone_no: '9442838007',
+           address: {
+             street: 'Thiru Nagar',
+             city: 'Salem',
+             state: '',
+             country: '',
+             pin_code: ''
+           },
+           tax_id: 'KLIRS1234K',
+           payment_terms: 'Testing',
+           preferred_payment_method_id: 417,
+           bank_account_details: {
+             account_no: '3456789017834562',
+             ifsc_code: 'HDFC0001878',
+             acc_holder_name: 'Velu',
+             bank_name: 'State Bank of India'
+           },
+           currency: 'Rupees',
+           vendor_category_id: 421,
+           lead_time: '',
+           minimum_order_quantity: 0,
+           notes: 'Sample notes',
+           updated_by: undefined,
+           ratings: undefined,
+           code: 'UCMETS',
+           ~~~~
+           updated_date: new Date('2023-11-16T06:45:31.065Z')
+         }
+       })
+
+Unknown arg `code` in data.code for type vendorUncheckedUpdateInput. Did you mean `notes`? Available args:
+type vendorUncheckedUpdateInput {
+  vendor_id?: Int | IntFieldUpdateOperationsInput
+  vendor_name?: String | StringFieldUpdateOperationsInput
+  contact_person?: String | NullableStringFieldUpdateOperationsInput | Null
+  contact_email?: String | NullableStringFieldUpdateOperationsInput | Null
+  contact_phone_no?: String | NullableStringFieldUpdateOperationsInput | Null
+  address?: NullableJsonNullValueInput | Json
+  tax_id?: String | NullableStringFieldUpdateOperationsInput | Null
+  payment_terms?: String | NullableStringFieldUpdateOperationsInput | Null
+  preferred_payment_method_id?: Int | NullableIntFieldUpdateOperationsInput | Null
+  bank_account_details?: NullableJsonNullValueInput | Json
+  currency?: String | NullableStringFieldUpdateOperationsInput | Null
+  vendor_category_id?: Int | NullableIntFieldUpdateOperationsInput | Null
+  lead_time?: String | NullableStringFieldUpdateOperationsInput | Null
+  minimum_order_quantity?: Int | NullableIntFieldUpdateOperationsInput | Null
+  notes?: String | NullableStringFieldUpdateOperationsInput | Null
+  is_delete?: Boolean | BoolFieldUpdateOperationsInput
+  created_date?: DateTime | DateTimeFieldUpdateOperationsInput
+  updated_date?: DateTime | DateTimeFieldUpdateOperationsInput
+  created_by?: Int | NullableIntFieldUpdateOperationsInput | Null
+  updated_by?: Int | NullableIntFieldUpdateOperationsInput | Null
+  purchase_request?: purchase_requestUncheckedUpdateManyWithoutSelected_vendor_dataNestedInput
+  purchase_order?: purchase_orderUncheckedUpdateManyWithoutVendor_dataNestedInput
+  vendor_quotes?: vendor_quotesUncheckedUpdateManyWithoutVendor_dataNestedInput
+}
+
+
