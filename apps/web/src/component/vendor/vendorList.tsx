@@ -12,7 +12,6 @@ import AddIcon from '../menu/icons/addIcon';
 import Styles from '../../styles/vendor.module.scss';
 import {
   useGetAllPaginatedVendor,
-  useGetByFilterVendor,
   useDeleteVendor,
 } from '../../hooks/vendor-hooks';
 import CustomSnackbar from '../ui/customSnackBar';
@@ -52,12 +51,6 @@ const VendorList = () => {
     data: initialData,
     refetch,
   } = useGetAllPaginatedVendor(vendorData);
-
-  const {
-    mutate: postDataForFilter,
-    data: getFilterData,
-    isLoading: searchLoader,
-  } = useGetByFilterVendor();
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -100,7 +93,7 @@ const VendorList = () => {
   return (
     <div>
       <CustomLoader
-        loading={searchLoader ? searchLoader : getAllLoadingPaginated}
+        loading={getAllLoadingPaginated}
         size={48}
         color="#333C44"
       >
@@ -200,38 +193,7 @@ const VendorList = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {dataShow ? (
-                    getFilterData?.total_count === 0 ? (
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td>No data found</td>
-                        {activeButton === 'AC' && <td></td>}
-                      </tr>
-                    ) : (
-                      getFilterData?.content?.map(
-                        (data: any, index: number) => (
-                          <tr key={data.vendor_id}>
-                            <td>{startingIndex + index}</td>
-                            <td>{data.vendor_name}</td>
-                            <td>{data.contact_person}</td>
-                            <td>{data.contact_phone_no}</td>
-                            {activeButton === 'AC' && (
-                              <td>
-                                <div className={Styles.tablerow}>
-                                  <EditIcon
-                                    onClick={() =>
-                                      navigate(`/vendor-edit/${data.vendor_id}`)
-                                    }
-                                  />
-                                </div>
-                              </td>
-                            )}
-                          </tr>
-                        )
-                      )
-                    )
-                  ) : initialData?.total_count === 0 ? (
+                  {initialData?.total_count === 0 ? (
                     <tr>
                       <td></td>
                       <td></td>
@@ -265,7 +227,8 @@ const VendorList = () => {
                         )}
                       </tr>
                     ))
-                  )}
+                  )
+                  }
                 </tbody>
               </table>
             </div>
