@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import Styles from '../../styles/newStyles/hsnList.module.scss';
 import {
   useDeleteHsnCode,
-  uploadHsnCode,
-  getByCode,
+  useUploadHsnCode,
+  useGetByCode,
   useGetAllPaginatedHsnCodeData,
 } from '../../hooks/hsnCode-hooks';
 import CustomSnackBar from '../ui/customSnackBar';
@@ -12,7 +12,7 @@ import HsnForm from './hsnCodeCreate';
 import Button from '../ui/Button';
 import Button1 from '../menu/button';
 import Input from '../ui/Input';
-import { createHsnCode } from '../../hooks/hsnCode-hooks';
+import { useCreateHsnCode } from '../../hooks/hsnCode-hooks';
 import * as XLSX from 'xlsx';
 import SearchIcon from '../menu/icons/search';
 import CustomLoader from '../ui/customLoader';
@@ -38,10 +38,10 @@ const HsnCodeList = () => {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: searchLoader,
-  } = getByCode();
+  } = useGetByCode();
   const { mutate: getDeleteHsnCodeByID } = useDeleteHsnCode();
-  const { mutate: uploadJsonData } = uploadHsnCode();
-  const { mutate: createNewHsnCode } = createHsnCode();
+  const { mutate: uploadJsonData } = useUploadHsnCode();
+  const { mutate: createNewHsnCode } = useCreateHsnCode();
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [reload, setReload] = useState(false);

@@ -9,7 +9,7 @@ import CloseIcon from '../menu/icons/closeIcon';
 import { getIndentRejectValidateyup } from '../../helper/constants/indent-constants';
 import CustomSnackBar from '../ui/customSnackBar';
 import { format } from 'date-fns';
-import { updateIndentRequest } from '../../hooks/indent-approval-hooks';
+import { useUpdateIndentRequest } from '../../hooks/indent-approval-hooks';
 import { useNavigate } from 'react-router-dom';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
@@ -28,7 +28,7 @@ const CustomRejectIndentPopup = (props: {
   const encryptedData = getToken(state, 'Data');
   const userID: number = encryptedData.userId;
   const validationSchemaIndent = getIndentRejectValidateyup(Yup);
-  const { mutate: updateIndent } = updateIndentRequest();
+  const { mutate: updateIndent } = useUpdateIndentRequest();
   const [clientinitialValues, setclientInitialValues] = useState({
     approver_comments: '',
   });

@@ -5,14 +5,14 @@ import Input from '../ui/Input';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import Button from '../ui/Button';
 import CustomSnackBar from '../ui/customSnackBar';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
   useGetLabourUomForDrop,
-  createLabour,
-  updateLabour
+  useCreateLabour,
+  useUpdateLabour
 } from '../../hooks/labour-hooks';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import LabourService from '../../service/labour-service';
 import {
   getLabourCreationYupschema,
@@ -29,10 +29,10 @@ const LabourAddForm = (props : any) => {
   });
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-  const navigate = useNavigate();
-  const routeParams = useParams();
-  const { mutate: createNewLabour } = createLabour();
-  const { mutate: updateOneLabour } = updateLabour();
+  // const navigate = useNavigate();
+  // const routeParams = useParams();
+  const { mutate: createNewLabour } = useCreateLabour();
+  const { mutate: updateOneLabour } = useUpdateLabour();
   const { data: getLaboursUom = [], isLoading: dropLoading } = useGetLabourUomForDrop();
 
 

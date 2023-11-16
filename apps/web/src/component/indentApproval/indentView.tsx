@@ -6,7 +6,7 @@ import CustomSnackBar from '../ui/customSnackBar';
 import BackArrowIcon from '../menu/icons/backArrow';
 import {
   useGetAllIndentRequestDetail,
-  updateIndentRequest,
+  useUpdateIndentRequest,
 } from '../../hooks/indent-approval-hooks';
 import Styles from '../../styles/indentList.module.scss';
 import { formatBudgetValue } from '../../helper/common-function';
@@ -51,7 +51,7 @@ const IndentView = () => {
     refetch,
   } = useGetAllIndentRequestDetail(masterData);
 
-  const { mutate: updateIndentRequestData } = updateIndentRequest();
+  const { mutate: updateIndentRequestData } = useUpdateIndentRequest();
 
   const handleApprove = () => {
     const date = format(new Date(), 'yyyy/MM/dd');

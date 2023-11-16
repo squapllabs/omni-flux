@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
   useGetLabourUomForDrop,
-  createInstantLabour,
+  useCreateInstantLabour,
 } from '../../hooks/labour-hooks';
 import { getLabourCreationYupschema } from '../../helper/constants/labour-constants';
 
@@ -26,7 +26,7 @@ const InstantLabourAdd = (props: {
     uom_id: '',
     rate: '',
   });
-  const { mutate: createNewLabour } = createInstantLabour();
+  const { mutate: createNewLabour } = useCreateInstantLabour();
   const { data: getLaboursUom = [], isLoading: dropLoading } =
     useGetLabourUomForDrop();
   const validationSchema = getLabourCreationYupschema(Yup);

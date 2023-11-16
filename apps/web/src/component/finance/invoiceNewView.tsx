@@ -7,10 +7,10 @@ import { useGetOnePurchaseOrder } from '../../hooks/purchase-request-hooks';
 import { environment } from '../../environment/environment';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
-import Button from '../ui/Button';
-import AddIcon from '../menu/icons/addIcon';
-import ViewIcon from '../menu/icons/viewIcon';
-import { getByPurchaseOrderId } from '../../hooks/invoice-hooks';
+// import Button from '../ui/Button';
+// import AddIcon from '../menu/icons/addIcon';
+// import ViewIcon from '../menu/icons/viewIcon';
+import { useGetByPurchaseOrderId } from '../../hooks/invoice-hooks';
 import EditIcon from '../menu/icons/newEditIcon';
 import CustomPopup from '../ui/CustomSidePopup';
 import CustomEditInvoicePopup from '../ui/CustomEditInvoicePopup';
@@ -33,8 +33,7 @@ const MyOrderView = () => {
   const [invAmount,setInvAmount] = useState();
   const[invDoc,setInvDoc]= useState();
   const { isLoading: dataLoading, data: getAllData = [] } =
-    getByPurchaseOrderId(purchaseOrderId);
-  // console.log('ooooooooopppppppp', getAllData);
+  useGetByPurchaseOrderId(purchaseOrderId);
 
   const generateCustomInvoice = (data: any) => {
     if (data) {

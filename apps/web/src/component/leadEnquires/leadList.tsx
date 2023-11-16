@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/leadTender.module.scss';
-import { getBySearchLeadEnquiry } from '../../hooks/leadEnquires-hooks';
+import { useGetBySearchLeadEnquiry } from '../../hooks/leadEnquires-hooks';
 import EditIcon from '../menu/icons/editIcon';
 import Pagination from '../menu/pagination';
 import Button from '../ui/Button';
@@ -18,7 +18,7 @@ const LeadList = () => {
     mutate: postleadEnquiry,
     data: filterData,
     isLoading: getFilterLoading,
-  } = getBySearchLeadEnquiry();
+  } = useGetBySearchLeadEnquiry();
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [filterValues, setFilterValues] = useState({

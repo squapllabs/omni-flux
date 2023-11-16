@@ -12,8 +12,8 @@ import { store, RootState } from '../../../../redux/store';
 import { getToken } from '../../../../redux/reducer';
 import CustomConfirm from '../../../ui/CustomConfirmDialogBox';
 import {
-  createIndentRequest,
-  updateIndentRequest,
+  useCreateIndentRequest,
+  useUpdateIndentRequest,
 } from '../../../../hooks/indentRequest-hooks';
 import IndentRequestService from '../../../../service/indentRequest-service';
 import { format } from 'date-fns';
@@ -80,7 +80,7 @@ const IndentRequest: React.FC = (props: any) => {
       } else {
         setDisabled(true);
       }
-      let obj: any = {
+      const obj: any = {
         ...indentData?.data,
         expected_delivery_date: dateFormat(
           indentData?.data?.expected_delivery_date
@@ -113,9 +113,9 @@ const IndentRequest: React.FC = (props: any) => {
   //   { value: 'Head Office', label: 'Head Office Purchase' },
   // ];
   const { mutate: postIndentData, isLoading: PostindentLoading } =
-    createIndentRequest();
+  useCreateIndentRequest();
   const { mutate: updateIndentData, isLoading: updateindentLoading } =
-    updateIndentRequest();
+  useUpdateIndentRequest();
   const { data: getAllProjectSiteDatadrop = [] } = getProjectSite(
     Number(routeParams?.id)
   );
@@ -162,7 +162,7 @@ const IndentRequest: React.FC = (props: any) => {
               'Already exist',
               async function (value, { parent }: yup.TestContext) {
                 try {
-                  let dummy: any = [];
+                  const dummy: any = [];
                   const allIds = indentRequestDetailsList.map((item: any) => {
                     if (item.is_delete === 'N') {
                       item.bom_detail_id;

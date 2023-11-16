@@ -1,8 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import indentApprovalService from '../service/indent-approval-request-service';
 
-const getByUserRoleIndent = () => {
-  const queryClient = useQueryClient();
+const useGetByUserRoleIndent = () => {
   return useMutation(
     (data: any) => {
       return indentApprovalService.indentRaise(data);
@@ -15,7 +14,7 @@ const getByUserRoleIndent = () => {
   );
 };
 
-const getAllIndentbyUserRole = (data: any) => {
+const useGetAllIndentbyUserRole = (data: any) => {
   return useQuery(
     ['getAllIndentbyUserRole'],
     () => indentApprovalService.indentRaise(data),
@@ -37,7 +36,7 @@ const useGetAllIndentRequestDetail = (data: any) => {
   );
 };
 
-const updateIndentRequest = () => {
+const useUpdateIndentRequest = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -51,7 +50,7 @@ const updateIndentRequest = () => {
   );
 };
 
-const getByIndnetId = (id: number) => {
+const useGetByIndnetId = (id: number) => {
   return useQuery(
     ['getByIndnetId', id],
     () => indentApprovalService.getOneIndentById(id),
@@ -62,9 +61,9 @@ const getByIndnetId = (id: number) => {
 };
 
 export {
-  getByUserRoleIndent,
+  useGetByUserRoleIndent,
   useGetAllIndentRequestDetail,
-  updateIndentRequest,
-  getAllIndentbyUserRole,
-  getByIndnetId
+  useUpdateIndentRequest,
+  useGetAllIndentbyUserRole,
+  useGetByIndnetId
 };

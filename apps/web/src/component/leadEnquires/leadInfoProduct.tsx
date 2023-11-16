@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import CustomCard from '../ui/CustomCard';
-import { getByleadEnquiryID } from '../../hooks/leadEnquires-hooks';
+import { useGetByleadEnquiryID } from '../../hooks/leadEnquires-hooks';
 import Styles from '../../styles/projectInfo.module.scss';
 import Button from '../menu/button';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const LeadInfoProduct = () => {
   const routeParams = useParams();
   const LeadId = Number(routeParams?.id);
-  const { data: getOneLead } = getByleadEnquiryID(LeadId);
+  const { data: getOneLead } = useGetByleadEnquiryID(LeadId);
   
   const navigate = useNavigate();
   return (

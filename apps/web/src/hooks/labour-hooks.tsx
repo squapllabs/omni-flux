@@ -16,8 +16,7 @@ const useGetAllLabourForDrop = () => {
   );
 };
 
-const getBySearchLabour = () => {
-  const queryClient = useQueryClient();
+const useGetBySearchLabour = () => {
   return useMutation(
     (data: any) => {
       return LabourService.filterLabour(data);
@@ -58,7 +57,7 @@ const useGetLabourUomForDrop = () => {
   );
 };
 
-const createLabour = () => {
+const useCreateLabour = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -72,7 +71,7 @@ const createLabour = () => {
   );
 };
 
-const createInstantLabour = () => {
+const useCreateInstantLabour = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -86,7 +85,7 @@ const createInstantLabour = () => {
   );
 };
 
-const updateLabour = () => {
+const useUpdateLabour = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -114,4 +113,4 @@ const useDeleteLabour = () => {
   );
 };
 
-export { useGetAllLabourForDrop, getBySearchLabour, useGetLabourUomForDrop, createLabour, updateLabour, useDeleteLabour, useGetAllLabour,createInstantLabour };
+export { useGetAllLabourForDrop, useGetBySearchLabour, useGetLabourUomForDrop, useCreateLabour, useUpdateLabour, useDeleteLabour, useGetAllLabour,useCreateInstantLabour };

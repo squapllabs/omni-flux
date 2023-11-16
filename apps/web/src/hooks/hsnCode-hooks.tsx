@@ -36,7 +36,7 @@ const useDeleteHsnCode = () => {
   );
 };
 
-const createHsnCode = () => {
+const useCreateHsnCode = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -50,7 +50,7 @@ const createHsnCode = () => {
   );
 };
 
-const uploadHsnCode = () => {
+const useUploadHsnCode = () => {
   const queryClient = useQueryClient();
   return useMutation (
     (data: any) => {
@@ -64,7 +64,7 @@ const uploadHsnCode = () => {
   );
 }
 
-const updateHsnCode = () => {
+const useUpdateHsnCode = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -77,15 +77,13 @@ const updateHsnCode = () => {
     }
   );
 };
-const getByCode = () => {
-  const queryClient = useQueryClient();
+const useGetByCode = () => {
   return useMutation(
     (data: any) => {
       return hsnCodeService.filterHsn(data);
     },
     {
-      onSuccess: (response) => {
-        
+      onSuccess: (response) => { 
         response;
       },
     }
@@ -103,4 +101,4 @@ const useGetAllPaginatedHsnCodeData = (data: any) => {
   );
 };
 
-export { useGetAllHsnCode, useDeleteHsnCode, createHsnCode, updateHsnCode ,uploadHsnCode, getByCode, useGetAllPaginatedHsnCodeData,useGetAllHsnForDrop};
+export { useGetAllHsnCode, useDeleteHsnCode, useCreateHsnCode, useUpdateHsnCode ,useUploadHsnCode, useGetByCode, useGetAllPaginatedHsnCodeData,useGetAllHsnForDrop};

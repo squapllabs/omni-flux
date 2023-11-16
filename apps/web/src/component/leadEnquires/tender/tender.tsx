@@ -6,8 +6,8 @@ import DatePicker from '../../ui/CustomDatePicker';
 import Button from '../../ui/Button';
 import { useFormik } from 'formik';
 import {
-  createleadEnquiry,
-  updateleadEnquiry,
+  useCreateleadEnquiry,
+  useUpdateleadEnquiry,
 } from '../../../hooks/leadEnquires-hooks';
 import { useGetAllClientDrop } from '../../../hooks/client-hooks';
 import { getBymasertDataType } from '../../../hooks/masertData-hook';
@@ -65,8 +65,8 @@ const Tender: React.FC = (props: any) => {
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [appendedValue, setAppendedValue] = useState('');
-  const { mutate: postleadEnquiry } = createleadEnquiry();
-  const { mutate: updatelead } = updateleadEnquiry();
+  const { mutate: postleadEnquiry } = useCreateleadEnquiry();
+  const { mutate: updatelead } = useUpdateleadEnquiry();
   const { data: getAllClient = [] } = useGetAllClientDrop();
   const { data: getClientLevel = [] } = getBymasertDataType('CTLVL');
   const { data: getAllIndustrySector = [] } = getBymasertDataType('INSEC');

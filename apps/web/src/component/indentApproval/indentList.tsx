@@ -3,8 +3,8 @@ import Styles from '../../styles/indentList.module.scss';
 import Button from '../ui/Button';
 import Select from '../ui/selectNew';
 import {
-  getAllIndentbyUserRole,
-  getByUserRoleIndent,
+  useGetAllIndentbyUserRole,
+  useGetByUserRoleIndent,
 } from '../../hooks/indent-approval-hooks';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
@@ -51,7 +51,7 @@ const IndentList = () => {
     data: getIndentData,
     isLoading: FilterLoading,
     refetch,
-  } = getAllIndentbyUserRole(userData);
+  } = useGetAllIndentbyUserRole(userData);
 
   const { data: getPriorityType = [], isLoading: dropLoading } =
     getBymasertDataTypeDrop('PRTYPE');

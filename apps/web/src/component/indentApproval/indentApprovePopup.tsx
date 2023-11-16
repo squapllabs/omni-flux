@@ -3,7 +3,7 @@ import Styles from '../../styles/projectSettings.module.scss';
 import Button from '../ui/Button';
 import Select from '../ui/selectNew';
 import {
-    updateIndentRequest,
+    useUpdateIndentRequest,
 } from '../../hooks/indent-approval-hooks';
 import format from 'date-fns/format';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 const IndentApprovePopup = (props: any) => {
 
     const navigate = useNavigate();
-    const { mutate: updateIndentRequestData } = updateIndentRequest();
+    const { mutate: updateIndentRequestData } = useUpdateIndentRequest();
     const purchase_type: any = [
         { value: 'Select from Options', label: 'Select from Options' },
         { value: 'Local Purchase', label: 'Local Purchase' },

@@ -15,7 +15,7 @@ import PrintIcon from '../menu/icons/printIcon';
 import SiteNavigateIcon from '../menu/icons/siteNavigateIcon';
 import CustomLoader from '../ui/customLoader';
 import CustomGroupButton from '../ui/CustomGroupButton';
-import { getByIndnetId } from '../../hooks/indent-approval-hooks';
+import { useGetByIndnetId } from '../../hooks/indent-approval-hooks';
 
 const PurchaseRequestList = () => {
   const routeParams = useParams();
@@ -50,7 +50,7 @@ const PurchaseRequestList = () => {
     isFetched,
   } = getBySearchPR(purchaseData);
 
-  const { data: getOneIndnetData } = getByIndnetId(Number(routeParams?.id));
+  const { data: getOneIndnetData } = useGetByIndnetId(Number(routeParams?.id));
 
   const { data: getAllmasterDataForDrop = [] } = useGetAllProjectDrop();
 

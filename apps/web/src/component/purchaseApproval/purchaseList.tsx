@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/purchaseList.module.scss';
 import Button from '../ui/Button';
-import { getByUserRoleIndent } from '../../hooks/indent-approval-hooks';
+import { useGetByUserRoleIndent } from '../../hooks/indent-approval-hooks';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import CustomLoader from '../ui/customLoader';
@@ -42,7 +42,7 @@ const PurchaseList = () => {
     mutate: postDataForFilter,
     data: getIndentData,
     isLoading: FilterLoading,
-  } = getByUserRoleIndent();
+  } = useGetByUserRoleIndent();
 
   const handleReset = async () => {
     const userData: any = {

@@ -131,7 +131,7 @@ const useDeletesiteExpense = () => {
 };
 
 const useGetBySearchsiteExpense = () => {
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
       return siteExpenseService.filtersiteExpense(data);

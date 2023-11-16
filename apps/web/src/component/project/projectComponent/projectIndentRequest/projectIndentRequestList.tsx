@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Styles from '../../../../styles/newStyles/projectIndentList.module.scss';
 import {
-  getIndentSearchPaginated,
+  useGetIndentSearchPaginated,
 } from '../../../../hooks/indentRequest-hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import EditIcon from '../../../menu/icons/newEditIcon';
@@ -55,7 +55,7 @@ const ProjectIndentRequestList = () => {
     isLoading: FilterLoading,
     data: getFilterData,
     refetch,
-  } = getIndentSearchPaginated(demo);
+  } = useGetIndentSearchPaginated(demo);
 
   useEffect(() => {
     refetch();

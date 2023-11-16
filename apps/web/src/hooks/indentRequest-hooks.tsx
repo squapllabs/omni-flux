@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import IndentService from '../service/indentRequest-service';
 
-const getProjectBasedIndent = (id: number) => {
+const useGetProjectBasedIndent = (id: number) => {
   return useQuery(
     ['getProjectBasedIndent', id],
     () => IndentService.getIndentByProjectID(id),
@@ -11,7 +11,7 @@ const getProjectBasedIndent = (id: number) => {
   );
 };
 
-const createIndentRequest = () => {
+const useCreateIndentRequest = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -24,7 +24,7 @@ const createIndentRequest = () => {
     }
   );
 };
-const updateIndentRequest = () => {
+const useUpdateIndentRequest = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -38,8 +38,7 @@ const updateIndentRequest = () => {
   );
 };
 
-const getBySearchIndent = () => {
-  const queryClient = useQueryClient();
+const useGetBySearchIndent = () => {
   return useMutation(
     (data: any) => {
       return IndentService.filterIndnet(data);
@@ -52,7 +51,7 @@ const getBySearchIndent = () => {
   );
 };
 
-const getIndentSearchPaginated = (data : any) =>{
+const useGetIndentSearchPaginated = (data : any) =>{
   return useQuery(
     ['getIndentSearchPaginated'],
     () => IndentService.filterIndnet(data),
@@ -64,9 +63,9 @@ const getIndentSearchPaginated = (data : any) =>{
 };
 
 export {
-  getProjectBasedIndent,
-  createIndentRequest,
-  updateIndentRequest,
-  getBySearchIndent,
-  getIndentSearchPaginated
+  useGetProjectBasedIndent,
+  useCreateIndentRequest,
+  useUpdateIndentRequest,
+  useGetBySearchIndent,
+  useGetIndentSearchPaginated
 };

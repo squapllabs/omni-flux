@@ -8,8 +8,8 @@ import { useFormik } from 'formik';
 import { useGetAllClientDrop } from '../../../hooks/client-hooks';
 import { useGetAllUsersDrop } from '../../../hooks/user-hooks';
 import {
-  createleadEnquiry,
-  updateleadEnquiry,
+  useCreateleadEnquiry,
+  useUpdateleadEnquiry,
 } from '../../../hooks/leadEnquires-hooks';
 import AddIcon from '../../menu/icons/addIcon';
 import { getBymasertDataType } from '../../../hooks/masertData-hook';
@@ -161,9 +161,8 @@ const ProductSale: React.FC = (props: any) => {
   const { data: getLeadProbability = [] } = getBymasertDataType('LDPRB');
   const { data: getLeadSource = [] } = getBymasertDataType('LDSE');
   const { data: getAllItems = [] } = useGetAllItems();
-
-  const { mutate: postleadEnquiry } = createleadEnquiry();
-  const { mutate: updatelead } = updateleadEnquiry();
+  const { mutate: postleadEnquiry } = useCreateleadEnquiry();
+  const { mutate: updatelead } = useUpdateleadEnquiry();
   const fetchLeadID = async () => {
     const leadID = await LeadEnquiresServices.getLeadID(props.leadType);
     initialValues.lead_code = leadID?.data;

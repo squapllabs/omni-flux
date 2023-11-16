@@ -12,7 +12,7 @@ const useGetAllleadEnquiry = () => {
   );
 };
 
-const getByleadEnquiryID = (id: number) => {
+const useGetByleadEnquiryID = (id: number) => {
   return useQuery(
     ['getOneleadEnquiryID', id],
     () => leadEnquiryService.getOneleadEnquiryByID(id),
@@ -22,7 +22,7 @@ const getByleadEnquiryID = (id: number) => {
   );
 };
 
-const createleadEnquiry = () => {
+const useCreateleadEnquiry = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -36,7 +36,7 @@ const createleadEnquiry = () => {
   );
 };
 
-const updateleadEnquiry = () => {
+const useUpdateleadEnquiry = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -64,8 +64,7 @@ const useDeleteleadEnquiry = () => {
   );
 };
 
-const getBySearchLeadEnquiry = () => {
-  const queryClient = useQueryClient();
+const useGetBySearchLeadEnquiry = () => {
   return useMutation(
     (data: any) => {
       return leadEnquiryService.filterLeadEnquiry(data);
@@ -79,9 +78,9 @@ const getBySearchLeadEnquiry = () => {
 };
 export {
   useGetAllleadEnquiry,
-  getByleadEnquiryID,
-  createleadEnquiry,
-  updateleadEnquiry,
+  useGetByleadEnquiryID,
+  useCreateleadEnquiry,
+  useUpdateleadEnquiry,
   useDeleteleadEnquiry,
-  getBySearchLeadEnquiry,
+  useGetBySearchLeadEnquiry,
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { createHsnCode, updateHsnCode } from '../../hooks/hsnCode-hooks';
+import { useCreateHsnCode, useUpdateHsnCode } from '../../hooks/hsnCode-hooks';
 import {
   gethsnCreateValidateyup,
   gethsnUpdateValidateyup,
@@ -36,8 +36,8 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
     props.mode === 'ADD'
       ? gethsnCreateValidateyup(Yup)
       : gethsnUpdateValidateyup(Yup);
-  const { mutate: createNewHsnCode } = createHsnCode();
-  const { mutate: updateHsnById } = updateHsnCode();
+  const { mutate: createNewHsnCode } = useCreateHsnCode();
+  const { mutate: updateHsnById } = useUpdateHsnCode();
   const formik = useFormik({
     initialValues,
     validationSchema,
