@@ -3,8 +3,8 @@ import Styles from '../../styles/newStyles/globalExpense.module.scss';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useFormik } from 'formik';
 import {
-  createGlobalExpense,
-  updateGlobalExpense,
+  useCreateGlobalExpense,
+  useUpdateGlobalExpense,
 } from '../../hooks/expense-hook';
 import { format } from 'date-fns';
 import * as Yup from 'yup';
@@ -76,10 +76,10 @@ const GlobalExpenseForm: React.FC = (props: any) => {
   const { data: getProjectList = [], isLoading: dropLoading} = useGetAllProjectDrop();
 
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
-    createGlobalExpense();
+  useCreateGlobalExpense();
 
   const { mutate: updateSiteExpenseData, isLoading: updateLoader } =
-    updateGlobalExpense();
+  useUpdateGlobalExpense();
   const drafthandler = () => {
     formik.setFieldValue('submitType', 'Draft');
     formik.submitForm();

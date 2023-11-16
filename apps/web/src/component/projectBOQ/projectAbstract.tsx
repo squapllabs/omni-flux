@@ -6,7 +6,7 @@ import categoryService from '../../service/category-service';
 import { formatBudgetValue } from '../../helper/common-function';
 import BomList from './projectBoqList';
 import ClipboardIcon from '../menu/icons/clipboardIcon';
-import { getByBOMDetails } from '../../hooks/category-hooks';
+import { useGetByBOMDetails } from '../../hooks/category-hooks';
 const projectAbstract = () => {
   const navigate = useNavigate();
   const routeParams = useParams();
@@ -16,7 +16,7 @@ const projectAbstract = () => {
     projectId: Number(routeParams?.projectId),
     boQId: Number(routeParams?.bomconfigId),
   };
-  const { data: getBomData } = getByBOMDetails(obj);
+  const { data: getBomData } = useGetByBOMDetails(obj);
 
 const getOverallAbsctractValue = (data)=>{
   setOverallAbstractValue(data)

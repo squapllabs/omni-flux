@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Styles from '../../styles/gstList.module.scss';
 import { useGetAllGst, useDeleteGst } from '../../hooks/gst-hooks';
 import CustomSnackBar from '../ui/customSnackBar';
-import { createGst } from '../../hooks/gst-hooks';
+import { useCreateGst } from '../../hooks/gst-hooks';
 import CustomLoader from '../ui/customLoader';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomPopup from '../ui/CustomSidePopup';
@@ -12,7 +12,7 @@ import GSTAddForm from './gstCreate'
 const GstList = () => {
   const { data: getAllGstData, isLoading: getAllLoading } = useGetAllGst();
   const { mutate: getDeleteGstByID } = useDeleteGst();
-  const { mutate: createNewGst } = createGst();
+  const { mutate: createNewGst } = useCreateGst();
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState('');
   const [reload, setReload] = useState(false);

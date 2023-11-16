@@ -4,8 +4,8 @@ import * as Yup from 'yup';
 import Input from '../../ui/Input';
 import Button from '../../ui/Button';
 import {
-  createInstantCategory,
-  updateCategory,
+  UseCreateInstantCategory,
+  useUpdateCategory,
   useGetMasterAbstractStatusParentType,
 } from '../../../hooks/category-hooks';
 import { getAbstractValidateyup } from '../../../helper/constants/abstract-constants';
@@ -19,8 +19,8 @@ import ZIcon from '../../menu/icons/zIcon';
 
 const ProjectAbstractAdd: React.FC = (props: any) => {
   const validationSchemaAbstract = getAbstractValidateyup(Yup);
-  const { mutate: createNewAbstract } = createInstantCategory();
-  const { mutate: updateCategoryData } = updateCategory();
+  const { mutate: createNewAbstract } = UseCreateInstantCategory();
+  const { mutate: updateCategoryData } = useUpdateCategory();
   const { data: getAllAbstractStatusDatadrop = [] } =
     useGetMasterAbstractStatusParentType();
   const [initialValues, setInitialValues] = useState<any>({

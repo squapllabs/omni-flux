@@ -20,7 +20,7 @@ const getOneClientByID = async (values: any) => {
     );
     return response.data;
   } catch (error) {
-    console.log('Error in getOne uom :', error);
+    console.log('Error in getOne client :', error);
     throw error;
   }
 };

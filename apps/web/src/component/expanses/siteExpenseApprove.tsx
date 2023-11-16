@@ -9,8 +9,8 @@ import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import {
-  getBySearchsiteExpense,
-  updatesiteExpense,
+  useGetBySearchsiteExpense,
+  useUpdatesiteExpense,
 } from '../../hooks/expense-hook';
 import { getUserIDProjectRolebased } from '../../hooks/project-hooks';
 import InfoIcon from '../menu/icons/infoIcon';
@@ -35,9 +35,9 @@ const ExpenseApprove = () => {
     mutate: postDataForFilter,
     data: getExpenseList,
     isLoading: fetchLoader,
-  } = getBySearchsiteExpense();
+  } = useGetBySearchsiteExpense();
 
-  const { mutate: updateSiteExpenseData } = updatesiteExpense();
+  const { mutate: updateSiteExpenseData } = useUpdatesiteExpense();
 
   const Obj: any = {
     userID: Number(userID),

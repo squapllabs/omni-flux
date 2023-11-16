@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { createCategory, updateCategory } from '../../hooks/category-hooks';
+import { useCreateCategory, useUpdateCategory } from '../../hooks/category-hooks';
 import {
   getCreateValidateyup,
   getUpdateValidateyup,
@@ -19,8 +19,8 @@ import CancelIcon from '../menu/icons/closeIcon';
 //Function for Category Form
 const CategoryForm: React.FC = (props: any) => {
   const { data: getAllProjectList = [] } = useGetAllProject();
-  const { mutate: createNewCategory } = createCategory();
-  const { mutate: updateCategoryData } = updateCategory();
+  const { mutate: createNewCategory } = useCreateCategory();
+  const { mutate: updateCategoryData } = useUpdateCategory();
   const validationSchema =
     props.mode === 'ADD'
       ? getCreateValidateyup(Yup)

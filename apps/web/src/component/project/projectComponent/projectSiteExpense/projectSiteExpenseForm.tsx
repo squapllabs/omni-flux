@@ -4,8 +4,8 @@ import Styles from '../../../../styles/newStyles/projectSiteExpense.module.scss'
 import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
 import { useFormik } from 'formik';
 import {
-  createsiteExpense,
-  updatesiteExpense,
+  useCreatesiteExpense,
+  useUpdatesiteExpense,
 } from '../../../../hooks/expense-hook';
 import { format } from 'date-fns';
 import * as Yup from 'yup';
@@ -76,9 +76,9 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
   const [tableView, setTableView] = useState(false);
   const { data: getSiteList } = getProjectSite(Number(projectId));
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
-    createsiteExpense();
+  useCreatesiteExpense();
   const { mutate: updateSiteExpenseData, isLoading: updateLoader } =
-    updatesiteExpense();
+  useUpdatesiteExpense();
   const drafthandler = () => {
     formik.setFieldValue('submitType', 'Draft');
     formik.submitForm();

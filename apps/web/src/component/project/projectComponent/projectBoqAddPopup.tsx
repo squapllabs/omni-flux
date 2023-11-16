@@ -13,7 +13,7 @@ import {
 import {
     getCreateBoQValidateyup,
 } from '../../../helper/constants/boq-constants';
-import { createBoQ,updateBoQ } from '../../../hooks/bom-hooks';
+import { useCreateBoQ,useUpdateBoQ } from '../../../hooks/bom-hooks';
 import BOMService from '../../../service/bom-service';
 
 
@@ -31,8 +31,8 @@ const ProjectBoqAddPopup = (props: any) => {
     });
     const [openSnack, setOpenSnack] = useState(false);
     const [message, setMessage] = useState('');
-    const { mutate: createNewProjectBoQ } = createBoQ();
-    const { mutate: updateNewProjectBoQ } = updateBoQ();
+    const { mutate: createNewProjectBoQ } = useCreateBoQ();
+    const { mutate: updateNewProjectBoQ } = useUpdateBoQ();
     const { data: getBomType = [] } = getByMasterDataProjectIdDrop(props?.projectId);
     const validationSchema = getCreateBoQValidateyup(yup);
 

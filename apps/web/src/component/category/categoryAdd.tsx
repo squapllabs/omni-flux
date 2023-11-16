@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { createCategory, updateCategory } from '../../hooks/category-hooks';
+import { useCreateCategory, useUpdateCategory } from '../../hooks/category-hooks';
 import { useGetAllProjectDrop } from '../../hooks/project-hooks';
 import { formatBudgetValue } from '../../helper/common-function';
 import { environment } from '../../environment/environment';
@@ -20,8 +20,8 @@ import CategoryService from '../../service/category-service';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 
 const CategotyAdd: React.FC = (props: any) => {
-  const { mutate: createNewCategory } = createCategory();
-  const { mutate: updateOneCategory } = updateCategory();
+  const { mutate: createNewCategory } = useCreateCategory();
+  const { mutate: updateOneCategory } = useUpdateCategory();
   const { data: getAllProjectList = [] } = useGetAllProjectDrop();
 
   const routeParams = useParams();

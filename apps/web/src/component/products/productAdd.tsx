@@ -13,7 +13,7 @@ import { useGetAllBrandForDrop } from '../../hooks/item-type-hooks';
 import { useGetAllGstForDrop } from '../../hooks/gst-hooks';
 import { useGetAllUomDrop } from '../../hooks/uom-hooks';
 import { useGetAllHsnForDrop } from '../../hooks/hsnCode-hooks';
-import { createItem, updateItem } from '../../hooks/add-product-hooks';
+import { useCreateItem, useUpdateItem } from '../../hooks/add-product-hooks';
 import { getBymasertDataType } from '../../hooks/masertData-hook';
 import addProduct from '../../service/add-product';
 import {
@@ -28,8 +28,8 @@ const ProductAdd = () => {
   const { data: getAllUomList = [] } = useGetAllUomDrop();
   const { data: getAllHsnList = [] } = useGetAllHsnForDrop();
   const { data: getAllBrandList = [] } = useGetAllBrandForDrop();
-  const { mutate: createNewItem } = createItem();
-  const { mutate: upateOneItem } = updateItem();
+  const { mutate: createNewItem } = useCreateItem();
+  const { mutate: upateOneItem } = useUpdateItem();
   const routeParams = useParams();
   const validationSchema =
     routeParams?.id === undefined

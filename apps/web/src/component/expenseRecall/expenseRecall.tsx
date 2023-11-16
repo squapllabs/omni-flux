@@ -7,7 +7,7 @@ import siteExpenseService from '../../service/expense-service';
 import { formatBudgetValue } from '../../helper/common-function';
 import ApproveDialogBox from '../ui/CustomApprovePopup';
 import ApproveCommentDialogBox from '../ui/ApproveCommentPopup';
-import { createExpenseRecall } from '../../hooks/expense-recall-hooks';
+import { useCreateExpenseRecall } from '../../hooks/expense-recall-hooks';
 import CustomSnackBar from '../ui/customSnackBar';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
@@ -17,7 +17,7 @@ const ExpenseRecall = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userID = encryptedData.userId;
-  const { mutate: createExpenseRecallData } = createExpenseRecall();
+  const { mutate: createExpenseRecallData } = useCreateExpenseRecall();
   const [value, setValue] = useState('');
   const [expenseValue, setExpenseValue] = useState(0);
   const [searchData, setSearchData] = useState(false);
@@ -78,7 +78,7 @@ const ExpenseRecall = () => {
       created_by: userID,
       recall_date: currentDate.toISOString().slice(0, 10),
     };
-    console.log('object', object);
+    // console.log('object', object);
     createExpenseRecallData(object, {
       onSuccess(data, variables, context) {
         if (data?.message === 'success') {

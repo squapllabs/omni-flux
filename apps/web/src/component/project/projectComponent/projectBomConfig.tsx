@@ -18,7 +18,7 @@ import CustomLoader from '../../ui/customLoader';
 import Pagination from '../../menu/CustomPagination';
 import CustomPopup from '../../ui/CustomSidePopup';
 import ProjectBoqAddPopup from './projectBoqAddPopup';
-import { getBySearchBoQProject } from '../../../hooks/bom-hooks';
+import { useGetBySearchBoQProject } from '../../../hooks/bom-hooks';
 import CustomMenu from '../../ui/NewCustomMenu';
 
 const ProjectBomConfig: React.FC = (props: any) => {
@@ -76,7 +76,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
     isLoading: getAllLoadingBoQProjectData,
     data: initialData,
     refetch,
-  } = getBySearchBoQProject(object);
+  } = useGetBySearchBoQProject(object);
 
   const handleAddBoQData = () => {
     setOpen(true);

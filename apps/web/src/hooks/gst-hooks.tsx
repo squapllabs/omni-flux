@@ -28,7 +28,7 @@ const useDeleteGst = () => {
   );
 };
 
-const createGst = () => {
+const useCreateGst = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -42,7 +42,7 @@ const createGst = () => {
   );
 };
 
-const updateGst = () => {
+const useUpdateGst = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -69,4 +69,4 @@ const useGetAllGstForDrop = () => {
       }
   );
 };
-export { useGetAllGst, useDeleteGst, createGst, updateGst, useGetOneGst,useGetAllGstForDrop };
+export { useGetAllGst, useDeleteGst, useCreateGst, useUpdateGst, useGetOneGst,useGetAllGstForDrop };

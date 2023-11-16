@@ -12,7 +12,7 @@ const useGetAllsiteExpense = () => {
   );
 };
 
-const getBysiteExpenseID = (id: number) => {
+const useGetBysiteExpenseID = (id: number) => {
   return useQuery(
     ['getBysiteExpenseID', id],
     () => siteExpenseService.getOnesiteExpenseByID(id),
@@ -22,7 +22,7 @@ const getBysiteExpenseID = (id: number) => {
   );
 };
 
-const getBysiteExpenseCode = (code: any) => {
+const useGetBysiteExpenseCode = (code: any) => {
   return useQuery(
     ['getBysiteExpenseCode', code],
     () => siteExpenseService.getOnesiteExpenseByCode(code),
@@ -32,7 +32,7 @@ const getBysiteExpenseCode = (code: any) => {
   );
 };
 
-const createsiteExpense = () => {
+const useCreatesiteExpense = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -46,7 +46,7 @@ const createsiteExpense = () => {
   );
 };
 
-const updatesiteExpense = () => {
+const useUpdatesiteExpense = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -60,7 +60,7 @@ const updatesiteExpense = () => {
   );
 };
 
-const createGlobalExpense = () => {
+const useCreateGlobalExpense = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -74,7 +74,7 @@ const createGlobalExpense = () => {
   );
 };
 
-const updateGlobalExpense = () => {
+const useUpdateGlobalExpense = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -88,7 +88,7 @@ const updateGlobalExpense = () => {
   );
 };
 
-const updatesiteExpenseStatus = () => {
+const useUpdatesiteExpenseStatus = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -102,7 +102,7 @@ const updatesiteExpenseStatus = () => {
   );
 };
 
-const updatesiteExpenseDetail = () => {
+const useUpdatesiteExpenseDetail = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -130,7 +130,7 @@ const useDeletesiteExpense = () => {
   );
 };
 
-const getBySearchsiteExpense = () => {
+const useGetBySearchsiteExpense = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -170,16 +170,16 @@ const useBulkuploadSiteExpanse = () => {
 };
 export {
   useGetAllsiteExpense,
-  getBysiteExpenseID,
-  createsiteExpense,
-  updatesiteExpense,
+  useGetBysiteExpenseID,
+  useCreatesiteExpense,
+  useUpdatesiteExpense,
   useDeletesiteExpense,
-  getBySearchsiteExpense,
+  useGetBySearchsiteExpense,
   useBulkuploadSiteExpanse,
-  updatesiteExpenseDetail,
+  useUpdatesiteExpenseDetail,
   useGetAllPaginatedExpense,
-  updatesiteExpenseStatus,
-  getBysiteExpenseCode,
-  createGlobalExpense,
-  updateGlobalExpense,
+  useUpdatesiteExpenseStatus,
+  useGetBysiteExpenseCode,
+  useCreateGlobalExpense,
+  useUpdateGlobalExpense,
 };

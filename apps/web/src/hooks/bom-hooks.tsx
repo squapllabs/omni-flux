@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import BomService from '../service/bom-service';
 
-const createBom = () => {
+const useCreateBom = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -18,7 +18,7 @@ const createBom = () => {
     }
   );
 };
-const createBulkBom = () => {
+const useCreateBulkBom = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -41,7 +41,7 @@ const createBulkBom = () => {
   );
 };
 
-const getBOMbyProjectandType = (value: any) => {
+const useGetBOMbyProjectandType = (value: any) => {
   return useQuery(
     ['getBOMbyProjectandType', value],
     () => BomService.getBOMbyProjectandType(value),
@@ -59,7 +59,7 @@ const getBOMbyProjectandType = (value: any) => {
   );
 };
 
-const createBoQ = () => {
+const useCreateBoQ = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -73,7 +73,7 @@ const createBoQ = () => {
   );
 };
 
-const getBySearchBoQProject = (data: any) => {
+const useGetBySearchBoQProject = (data: any) => {
   return useQuery(
     ['useGetAllProjectBOQData'],
     () => BomService.getProjectBoQList(data),
@@ -84,7 +84,7 @@ const getBySearchBoQProject = (data: any) => {
   );
 };
 
-const updateBoQ = () => {
+const useUpdateBoQ = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -124,10 +124,10 @@ const updateBoQ = () => {
 // };
 
 export {
-  createBom,
-  createBulkBom,
-  getBOMbyProjectandType,
-  createBoQ,
-  getBySearchBoQProject,
-  updateBoQ,
+  useCreateBom,
+  useCreateBulkBom,
+  useGetBOMbyProjectandType,
+  useCreateBoQ,
+  useGetBySearchBoQProject,
+  useUpdateBoQ,
 };

@@ -4,7 +4,7 @@ import AddIcon from '../../menu/icons/addIcon';
 import { useFormik } from 'formik';
 import DeleteIcon from '../../menu/icons/deleteIcon';
 import Button from '../../ui/Button';
-import { createBulkBom } from '../../../hooks/bom-hooks';
+import { useCreateBulkBom } from '../../../hooks/bom-hooks';
 import { useGetAllUomDrop, getUomByType } from '../../../hooks/uom-hooks';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -58,7 +58,7 @@ const BomLabours: React.FC = (props: any) => {
 
   const { data: getAllLabourDrop } = useGetAllLabourForDrop();
   const { data: getAllUomDrop } = getUomByType('LABOR');
-  const { mutate: bulkBomData, data: responseData } = createBulkBom();
+  const { mutate: bulkBomData, data: responseData } = useCreateBulkBom();
 
   const handleCloseDelete = () => {
     setOpenDelete(false);

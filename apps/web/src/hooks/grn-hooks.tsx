@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import GrnService from '../service/grn-service';
 
-const createGrn = () => {
+const useCreateGrn = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -37,4 +37,4 @@ const useGetOneGrnById = (id: any) => {
   );
 };
 
-export { createGrn,useGetAllGrnData,useGetOneGrnById };
+export { useCreateGrn,useGetAllGrnData,useGetOneGrnById };

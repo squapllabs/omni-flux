@@ -1,8 +1,7 @@
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import BomService from '../service/bom-service';
 
-const createAbstract = () => {
-    const queryClient = useQueryClient();
+const useCreateAbstract = () => {
     return useMutation(
       (data: any) => {
         return BomService.createBomData(data);
@@ -10,12 +9,11 @@ const createAbstract = () => {
       {
         onSuccess: (response) => {
             response
-        //   queryClient.invalidateQueries(['useGetAllClientData']);
         },
       }
     );
   };
   
   export {
-    createAbstract
+    useCreateAbstract
   }

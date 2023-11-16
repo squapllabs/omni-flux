@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
-import { createBulkBom } from '../../hooks/bom-hooks';
+import { useCreateBulkBom } from '../../hooks/bom-hooks';
 import BomService from '../../service/bom-service';
 import {
   getBombulkValidateyup,
@@ -124,7 +124,7 @@ const Bom: React.FC = (props: any) => {
     setBomTotal(total_value)
   },[bomList,activeButton, reload])
 
-  const { mutate: bulkBomData, data: responseData } = createBulkBom();
+  const { mutate: bulkBomData, data: responseData } = useCreateBulkBom();
 
 
 

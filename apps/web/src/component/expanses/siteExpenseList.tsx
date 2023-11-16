@@ -4,7 +4,7 @@ import Button from '../ui/Button';
 import AddIcon from '../menu/icons/addIcon';
 import Styles from '../../styles/project.module.scss';
 // import Pagination from '../menu/pagination';
-import { getBySearchsiteExpense } from '../../hooks/expense-hook';
+import { useGetBySearchsiteExpense } from '../../hooks/expense-hook';
 import { getProjectSite } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { format } from 'date-fns';
@@ -20,7 +20,7 @@ const SiteExpenseList = () => {
     mutate: postDataForFilter,
     data: getExpenseList,
     isLoading: fetchLoader,
-  } = getBySearchsiteExpense();
+  } = useGetBySearchsiteExpense();
   // console.log('getExpenseList', getExpenseList?.content);
 
   const { data: getSiteList } = getProjectSite(Number(routeParams?.id));

@@ -1,7 +1,7 @@
 import addProduct from '../service/add-product';
 import {useQuery, useMutation,useQueryClient } from 'react-query';
 
-const createItem = () => {
+const useCreateItem = () => {
     const queryClient = useQueryClient();
     return useMutation(
       (data: any) => {
@@ -22,7 +22,7 @@ const createItem = () => {
     });
   };
 
-  const updateItem = () => {
+  const useUpdateItem = () => {
     const queryClient = useQueryClient();
     return useMutation(
       (data:any) => {
@@ -47,8 +47,7 @@ const createItem = () => {
     );
   };
 
-  const getByItem = () => {
-    const queryClient = useQueryClient();
+  const useGetByItem = () => {
     return useMutation(
       (data: any) => {
         return addProduct.filterItem(data);
@@ -63,4 +62,4 @@ const createItem = () => {
 
   
 
-  export {createItem, updateItem,getByItem,useGetAllItem,useGetAllPaginatedItemData};
+  export {useCreateItem, useUpdateItem,useGetByItem,useGetAllItem,useGetAllPaginatedItemData};

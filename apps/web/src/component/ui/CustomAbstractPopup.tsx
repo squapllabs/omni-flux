@@ -4,10 +4,10 @@ import * as Yup from 'yup';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/customaddabstract.module.scss';
-// import { createAbstract } from '../../hooks/abstract-hooks';
+// import { useCreateAbstract } from '../../hooks/abstract-hooks';
 import {
-  createInstantCategory,
-  updateCategory,
+  UseCreateInstantCategory,
+  useUpdateCategory,
   useGetMasterAbstractStatusParentType
 } from '../../hooks/category-hooks';
 import CustomPopup from '../ui/CustomPopupDialog';
@@ -41,11 +41,11 @@ const CustomAbstractAdd = (props: {
     selectedBomConfig,
     setMode,
   } = props;
-  console.log("props.mode---->",mode);
+  // console.log("props.mode---->",mode);
   
   const validationSchemaAbstract = getAbstractValidateyup(Yup);
-  const { mutate: createNewAbstract } = createInstantCategory();
-  const { mutate: updateCategoryData } = updateCategory();
+  const { mutate: createNewAbstract } = UseCreateInstantCategory();
+  const { mutate: updateCategoryData } = useUpdateCategory();
   const { data: getAllAbstractStatusDatadrop = [] } =
   useGetMasterAbstractStatusParentType();
   

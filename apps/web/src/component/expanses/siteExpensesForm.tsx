@@ -12,7 +12,7 @@ import {
 } from '../../hooks/masertData-hook';
 import PopupExpense from './popupExpanse';
 import CustomDelete from '../ui/customDeleteDialogBox';
-import { createsiteExpense, updatesiteExpense } from '../../hooks/expense-hook';
+import { useCreatesiteExpense, useUpdatesiteExpense } from '../../hooks/expense-hook';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import siteExpenseService from '../../service/expense-service';
@@ -89,9 +89,9 @@ const SiteExpensesForm = () => {
   const { data: getAlldesignation } = getBymasertDataType('SITDG');
   const { data: getSiteExpense } = getBymasertDataTypeDrop('SIEP');
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
-    createsiteExpense();
+  useCreatesiteExpense();
   const { mutate: updateSiteExpenseData, isLoading: updateLoader } =
-    updatesiteExpense();
+  useUpdatesiteExpense();
 
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);

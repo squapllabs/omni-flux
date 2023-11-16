@@ -9,7 +9,7 @@ import MoneyIcon from '../../../menu/icons/moneyIcon';
 import { getProjectSite } from '../../../../hooks/project-hooks';
 import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
 import CustomGroupButton from '../../../ui/CustomGroupButton';
-import { getBySearchsiteExpense } from '../../../../hooks/expense-hook';
+import { useGetBySearchsiteExpense } from '../../../../hooks/expense-hook';
 import EditIcon from '../../../menu/icons/newEditIcon';
 import CustomLoader from '../../../ui/customLoader';
 import CustomPagination from '../../../menu/CustomPagination';
@@ -49,7 +49,7 @@ const ProjectSiteExpenseList = () => {
     mutate: postDataForFilter,
     data: getExpenseList,
     isLoading: fetchLoader,
-  } = getBySearchsiteExpense();
+  } = useGetBySearchsiteExpense();
 
   const handleSearch = async () => {
     const demo: any = {

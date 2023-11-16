@@ -36,7 +36,7 @@ import ProjectAbstractAdd from './forms/projectAbstractAdd';
 import ProjectTaskAdd from './forms/ProjectTaskAdd';
 import CustomMenu from '../ui/NewCustomMenu';
 import FileUploadIcon from '../menu/icons/fileUploadIcon';
-import { createMultipleCategory, getBySearchCategroy} from '../../hooks/category-hooks';
+import { useCreateMultipleCategory, useGetBySearchCategroy} from '../../hooks/category-hooks';
 import Pagination from '../menu/CustomPagination';
 import DownloadIcon from '../menu/icons/download';
 
@@ -47,9 +47,9 @@ interface BomListProps {
 
 
 const BomList: React.FC<BomListProps> = (props: any) => {
-  const { mutate: createMultipleNewCategory } = createMultipleCategory();
+  const { mutate: createMultipleNewCategory } = useCreateMultipleCategory();
   const {bom_details} = props
-  // const { mutate : getBySearchNewCategory } = getBySearchCategroy();
+  // const { mutate : getBySearchNewCategory } = useGetBySearchCategroy();
   const params = useParams();
   const navigate = useNavigate();
   const projectId = Number(params?.projectId);
@@ -170,7 +170,7 @@ const [rowsPerPage, setRowsPerPage] = useState(10);
   //   isLoading: getAllLoadingBoQProjectData,
   //   data: initialData,
   //   refetch,
-  // } = getBySearchCategroy(object);
+  // } = useGetBySearchCategroy(object);
 
    /* Function for changing the table page */
    const handlePageChange = (page: React.SetStateAction<number>) => {

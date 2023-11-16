@@ -7,7 +7,7 @@ import DatePicker from '../../../ui/CustomDatePicker';
 import TextArea from '../../../ui/CustomTextArea';
 import Button from '../../../ui/Button';
 import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
-import { getBOMbyProjectandType } from '../../../../hooks/bom-hooks';
+import { useGetBOMbyProjectandType } from '../../../../hooks/bom-hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import DeleteIcon from '../../../menu/icons/deleteIcon';
 import EditIcon from '../../../menu/icons/editIcon';
@@ -50,8 +50,8 @@ const IndentRequestDetails: React.FC = (props: any) => {
     id: Number(routeParams?.id),
     type: 'RAWMT',
   };
-  const { data: getBOMList } = getBOMbyProjectandType(bomPostData);
-  console.log('getBOMList', getBOMList);
+  const { data: getBOMList } = useGetBOMbyProjectandType(bomPostData);
+  // console.log('getBOMList', getBOMList);
 
   const handleCloseDelete = () => {
     setOpenDelete(false);

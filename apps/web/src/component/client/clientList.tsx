@@ -3,7 +3,7 @@ import Styles from '../../styles/clientList.module.scss';
 import EditIcon from '../menu/icons/newEditIcon';
 import {
   useDeleteClient,
-  getByClient,
+  useGetByClient,
   useGetAllPaginatedClient,
 } from '../../hooks/client-hooks';
 import ClientForm from './clientForm';
@@ -25,7 +25,7 @@ const ClientList = () => {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: searchLoader,
-  } = getByClient();
+  } = useGetByClient();
 
   const { mutate: getDeleteClientByID } = useDeleteClient();
   const [openDelete, setOpenDelete] = useState(false);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { getGstcreationYupschema } from '../../helper/constants/gst-constants';
-import { createGst, updateGst } from '../../hooks/gst-hooks';
+import { useCreateGst, useUpdateGst } from '../../hooks/gst-hooks';
 import gstService from '../../service/gst-service';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
@@ -13,8 +13,8 @@ const validationSchema = getGstcreationYupschema(Yup);
 
 //Function fOR GST Form
 const GstCreate: React.FC = (props: any) => {
-  const { mutate: createNewGst } = createGst();
-  const { mutate: updateGstById } = updateGst();
+  const { mutate: createNewGst } = useCreateGst();
+  const { mutate: updateGstById } = useUpdateGst();
   const [initialValues, setInitialValues] = useState({
     gst_id: '',
     rate: '',

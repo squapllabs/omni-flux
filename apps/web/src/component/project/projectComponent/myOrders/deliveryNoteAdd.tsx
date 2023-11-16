@@ -22,7 +22,7 @@ import poService from '../../../../service/purchase-request.service';
 import FileUploadIcon from '../../../menu/icons/fileUploadIcon';
 import CloseIcon from '../../../menu/icons/closeIcon';
 import CustomSnackBar from '../../../ui/customSnackBar';
-import { createGrn } from '../../../../hooks/grn-hooks';
+import { useCreateGrn } from '../../../../hooks/grn-hooks';
 import { store, RootState } from '../../../../redux/store';
 import { getToken } from '../../../../redux/reducer';
 import purchaseRequestService from '../../../../service/purchase-request.service';
@@ -41,7 +41,7 @@ const MyOrderView = () => {
   const { data: getListData, isLoading: dataLoading } = useGetOnePurchaseOrder(
     Number(routeParams?.id)
   );
-  const { mutate: postGrnData } = createGrn();
+  const { mutate: postGrnData } = useCreateGrn();
   const [tableValue, setTableValue] = useState<any>([]);
   const [invoiceDocument, setInvoiceDocument] = useState<any>([]);
   const [openSnack, setOpenSnack] = useState(false);

@@ -6,7 +6,7 @@ import GlobalExpenseForm from './expenseForm';
 import Styles from '../../styles/newStyles/globalExpenseList.module.scss';
 import MoneyIcon from '../menu/icons/moneyIcon';
 import CustomGroupButton from '../ui/CustomGroupButton';
-import { getBySearchsiteExpense } from '../../hooks/expense-hook';
+import { useGetBySearchsiteExpense } from '../../hooks/expense-hook';
 import EditIcon from '../menu/icons/newEditIcon';
 import CustomLoader from '../ui/customLoader';
 import CustomPagination from '../menu/CustomPagination';
@@ -43,7 +43,7 @@ const ExpenseList = () => {
     mutate: postDataForFilter,
     data: getExpenseList,
     isLoading: fetchLoader,
-  } = getBySearchsiteExpense();
+  } = useGetBySearchsiteExpense();
 
   const handleSearch = async () => {
     const demo: any = {
