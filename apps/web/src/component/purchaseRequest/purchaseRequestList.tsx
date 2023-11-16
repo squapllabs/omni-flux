@@ -51,9 +51,6 @@ const PurchaseRequestList = () => {
   } = useGetBySearchPR(purchaseData);
 
   const { data: getOneIndnetData } = useGetByIndnetId(Number(routeParams?.id));
-
-  const { data: getAllmasterDataForDrop = [] } = useGetAllProjectDrop();
-
   const handleReportGenerator = async (data: any) => {
     await ReportGenerator(data);
   };
@@ -88,7 +85,10 @@ const PurchaseRequestList = () => {
     return () => clearTimeout(handleSearch);
   }, [filterValue]);
   useEffect(() => {
-    refetch();
+    const fetchData = () => {
+      refetch();
+    };
+    fetchData();
   }, [activeButton]);
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);

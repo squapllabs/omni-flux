@@ -10,7 +10,7 @@ import { useInstantCreateSite } from '../../hooks/site-hooks';
 import CustomSnackbar from '../ui/customSnackBar';
 
 const CustomSiteAdd = (props: { setOpen: any; open: any }) => {
-  const { setOpen, open } = props;
+  const { setOpen } = props;
   const { mutate: createNewSite } = useInstantCreateSite();
   const validationSchemaSite = siteValidate(Yup);
   const [message, setMessage] = useState('');

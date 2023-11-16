@@ -61,11 +61,11 @@ const NewCustomPopupComponent: React.FC<DialogBoxProps> = ({
   //   fontSize: 'smaller',
   // };
 
-  const buttonStyle: React.CSSProperties = {
-    margin: '15px',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  };
+  // const buttonStyle: React.CSSProperties = {
+  //   margin: '15px',
+  //   borderRadius: '4px',
+  //   cursor: 'pointer',
+  // };
 
   // const cancelButtonStyle: React.CSSProperties = {
   //   ...buttonStyle,

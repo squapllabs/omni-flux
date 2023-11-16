@@ -41,8 +41,6 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onAddClick: (e: string) => void;
 }
 
-
-
 const OptionContainer = styled.div`
   position: relative;
   display: inline-block;
@@ -91,7 +89,8 @@ const InputContainer = styled.div<StyledInputProps>`
   display: flex;
   align-items: center;
   padding: ${(props) =>
-    `0 ${props.hasSuffixIcon ? '32px' : '12px'} 0 ${props.hasPrefixIcon ? '32px' : '12px'
+    `0 ${props.hasSuffixIcon ? '32px' : '12px'} 0 ${
+      props.hasPrefixIcon ? '32px' : '12px'
     }`};
   border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
@@ -151,9 +150,9 @@ const ErrorMessageWrapper = styled.div`
   min-height: 20px;
 `;
 
-
-const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = ({
-
+const AutoCompleteMultiSelect: React.FC<
+  InputProps & { mandatory?: boolean }
+> = ({
   label,
   placeholder,
   error,
@@ -182,17 +181,14 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
   const [open, setOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.toLowerCase();
     setValues(inputValue);
     const filtered = optionList.filter((option) =>
       option.label.toLowerCase().includes(inputValue)
-
     );
     setFilteredOptions(filtered);
   };
-
 
   const handleBackspace = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Backspace' && inputValue === '') {
@@ -207,12 +203,12 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
     }
   };
 
-
-
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
-
-      if (inputRef.current && !inputRef.current.contains(event.target as Node)) {
+      if (
+        inputRef.current &&
+        !inputRef.current.contains(event.target as Node)
+      ) {
         setOpen(false);
       }
     };
@@ -223,16 +219,12 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
     };
   }, [open, selectedValues, selectedOptions]);
 
-  const optionContainerRef = useRef<HTMLDivElement | null>(null); // Define the ref for OptionContainer
-  const [isOptionListOpen, setIsOptionListOpen] = useState(false);
-
-
-
-
+  // const optionContainerRef = useRef<HTMLDivElement | null>(null); // Define the ref for OptionContainer
+  // const [isOptionListOpen, setIsOptionListOpen] = useState(false);
 
   const handleSelect = (option: Option) => {
     if (!selectedValues.includes(option.label)) {
-      setSelectedOptions([...selectedOptions, option.label])
+      setSelectedOptions([...selectedOptions, option.label]);
       setSelectedValues([...selectedValues, option.value.toString()]);
       onSelect([...selectedValues, option.value.toString()]);
       // setSelectedValues([...selectedValues, option]);
@@ -258,9 +250,7 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
 
   const handleDeselect = (label: string) => {
     const updatedOptions = selectedOptions.filter((value) => value !== label);
-    const updatedValues = selectedValues.filter(
-      (value) => value !== label
-    );
+    const updatedValues = selectedValues.filter((value) => value !== label);
     setSelectedOptions(updatedOptions);
     setSelectedValues(updatedValues);
     onSelect(updatedValues);
@@ -307,12 +297,11 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
                 marginRight: '4px', // Add space between values
                 fontSize: '0.8rem', // Reduce font size
                 color: '#333c44', // Text color
-                marginTop: "2px"
+                marginTop: '2px',
               }}
             >
               {selectedValue}
               <span
-
                 style={{
                   marginLeft: '4px',
                   cursor: 'pointer',
@@ -321,10 +310,14 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
               >
                 {/* Make the clear icon smaller */}
               </span>
-              <CloseIcon width={8} onClick={() => {
-                // Handle removal of the selected value here
-                handleDeselect(selectedValue);
-              }} disabled={disabled} />
+              <CloseIcon
+                width={8}
+                onClick={() => {
+                  // Handle removal of the selected value here
+                  handleDeselect(selectedValue);
+                }}
+                disabled={disabled}
+              />
             </div>
           ))}
           <StyledInput
@@ -366,11 +359,9 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
       </InputContainer>
 
       {open && (
-        <OptionContainer >
+        <OptionContainer>
           <OptionList>
-            {defaultLabel != null && (
-              <li value="">{defaultLabel}</li>
-            )}
+            {defaultLabel != null && <li value="">{defaultLabel}</li>}
             {filteredOptions
               .filter((option) => !selectedOptions.includes(option.label)) // Exclude selected options
               .map((option) => (
@@ -421,9 +412,6 @@ const AutoCompleteMultiSelect: React.FC<InputProps & { mandatory?: boolean }> = 
       )}
     </InputWrapper>
   );
-
-
-}
-
+};
 
 export default AutoCompleteMultiSelect;

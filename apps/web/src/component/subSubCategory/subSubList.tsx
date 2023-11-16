@@ -107,9 +107,9 @@ const SubSubCategoryList = () => {
     navigate(`/subsubcategory-edit/${id}`);
   };
   /* Function for closing delete popup */
-  const handleClosePopup = () => {
-    setOpenPopup(false);
-  };
+  // const handleClosePopup = () => {
+  //   setOpenPopup(false);
+  // };
   /* Function for changing the filter values */
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value;

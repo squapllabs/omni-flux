@@ -78,7 +78,7 @@ const CustomSubCategoryAdd = (props: {
       };
       fetchOne();
     }
-  }, [props.mode, selectedSubCategory]);
+  }, [props.mode, selectedSubCategory, selectedBomConfig]);
 
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);

@@ -49,7 +49,7 @@ const SubCategoryForm: React.FC = (props: any) => {
       };
       fetchOne();
     }
-  }, []);
+  }, [props.mode]);
 
   //Function for Adding and Editing Sub Category
   const formik = useFormik({

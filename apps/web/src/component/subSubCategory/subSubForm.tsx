@@ -48,7 +48,7 @@ const SubSubCategoryForm: React.FC = (props: any) => {
       };
       fetchOne();
     }
-  }, []);
+  }, [props.mode, props.subSubCategoryId]);
   //Function for adding and updating the sub sub category
   const formik = useFormik({
     initialValues,

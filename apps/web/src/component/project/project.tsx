@@ -28,21 +28,6 @@ const Project = () => {
   const dispatch = useDispatch();
   const state: RootState = store.getState();
   const projectMenuID = getToken(state, 'projectMenuID');
-
-
-  const [buttonLabels, setButtonLabels] = useState([
-    { label: 'Dashboard', value: 'PDB' },
-    { label: 'Generic', value: 'PGS' },
-    { label: 'Settings', value: 'PSG' },
-    { label: 'Site', value: 'PSC' },
-    { label: 'BOQ', value: 'PBC' },
-    { label: 'Document', value: 'PDT' },
-    { label: 'Indent', value: 'PIR' },
-    { label: 'Stock Audit', value: 'PSM' },
-    { label: 'Site Expense', value: 'PSE' },
-    { label: 'Stock Outward', value: 'PSO' },
-    { label: 'Master Data', value: 'MD' },
-  ]);
   const [activeButton, setActiveButton] = useState<string | null>('PGS');
   const [screenSize, setScreenSize] = useState(getCurrentDimension());
   const [loader, setLoader] = useState(false);
@@ -56,13 +41,6 @@ const Project = () => {
     };
     if (routeParams?.id != undefined) fetchData();
   }, [loader]);
-  const handleGroupButtonClick = (value: string) => {
-    if (routeParams?.id != undefined) {
-      setActiveButton(value);
-    } else {
-      setActiveButton('PGS');
-    }
-  };
   const [selectedItem, setSelectedItem] = useState<number>(
     projectMenuID != null ? projectMenuID : 1
   );

@@ -1,9 +1,9 @@
-import { configureStore ,getDefaultMiddleware} from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import authReducer from './reducer';
-import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 
 const rootReducer = combineReducers({
@@ -17,7 +17,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-type ThunkResult<R> = ThunkAction<R, RootState, undefined, Action<string>>;
+// type ThunkResult<R> = ThunkAction<R, RootState, undefined, Action<string>>;
 type ThunkDispatchType = ThunkDispatch<RootState, undefined, Action<string>>;
 
 const middleware = [
@@ -28,7 +28,6 @@ const middleware = [
     },
   }),
 ];
-
 
 export const store = configureStore({
   reducer: persistedReducer,

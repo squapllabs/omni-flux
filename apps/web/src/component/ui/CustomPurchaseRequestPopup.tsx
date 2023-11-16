@@ -48,8 +48,7 @@ const CustomPurchaseRequestPopup = (props: {
     item_name: '',
   });
 
-  const { data: getAllVendorsData = [], isLoading: dropLoading } =
-    useGetAllVendors();
+  const { data: getAllVendorsData = [] } = useGetAllVendors();
   const { mutate: createNewPurchaseRequest } = useCreatePurchaseRequest();
 
   const formik = useFormik({
@@ -69,20 +68,6 @@ const CustomPurchaseRequestPopup = (props: {
     onAction(false);
     setPurchaseRequestData([]);
     setDropDisable(false);
-  };
-
-  const handleDropChange = async (obj: any) => {
-    const itemsData = await PurchaseRequestService.getProjectItems(projectId);
-    const arr: any = [];
-    setItemsData(itemsData.data);
-    itemsData?.data?.map((items: any, index: any) => {
-      const obj: any = {
-        value: items?.item_id,
-        label: items?.item_data?.item_name,
-      };
-      arr.push(obj);
-    });
-    setItemsValues(arr);
   };
 
   const deletePurchaseRequest = (index: number) => {
@@ -126,10 +111,6 @@ const CustomPurchaseRequestPopup = (props: {
     onAction(false);
     setPurchaseRequestData('');
   };
-
-  useEffect(() => {
-    handleDropChange();
-  }, [initialValues]);
 
   return (
     <div>
@@ -256,22 +237,21 @@ const CustomPurchaseRequestPopup = (props: {
                             // let vendorName = item?.vendor_id?.map((vendor: any) => vendor.label).join(', ')
                             rowIndex = rowIndex + 1;
                             return (
-
-                                <tr>
-                                  <td>{rowIndex}</td>
-                                  {/* <td>{vendorName}</td> */}
-                                  <td>{item.item_name}</td>
-                                  <td>{item.quantity}</td>
-                                  <td>
-                                    <div className={Styles.tablerow}>
-                                      <DeleteIcon
-                                        onClick={() =>
-                                          deletePurchaseRequest(index)
-                                        }
-                                      />
-                                    </div>
-                                  </td>
-                                </tr>
+                              <tr>
+                                <td>{rowIndex}</td>
+                                {/* <td>{vendorName}</td> */}
+                                <td>{item.item_name}</td>
+                                <td>{item.quantity}</td>
+                                <td>
+                                  <div className={Styles.tablerow}>
+                                    <DeleteIcon
+                                      onClick={() =>
+                                        deletePurchaseRequest(index)
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                              </tr>
                             );
                           })
                         )}
