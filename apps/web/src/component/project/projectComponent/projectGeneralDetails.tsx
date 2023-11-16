@@ -10,9 +10,9 @@ import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import { useGetAllClientDrop } from '../../../hooks/client-hooks';
 import { useGetUserbyRole } from '../../../hooks/user-hooks';
 import {
-  createProject,
+  useCreateProject,
   useGetMasterProjectParentType,
-  updateProject,
+  useUpdateProject,
 } from '../../../hooks/project-hooks';
 import CustomClientAdd from '../../ui/CustomClientAdd';
 import TextArea from '../../ui/CustomTextArea';
@@ -69,8 +69,8 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     useGetUserbyRole('Planning Engineer');
   const { data: getAllProjectTypeDatadrop = [] } =
     useGetMasterProjectParentType();
-  const { mutate: createNewProjectData } = createProject();
-  const { mutate: updateProjectData } = updateProject();
+  const { mutate: createNewProjectData } = useCreateProject();
+  const { mutate: updateProjectData } = useUpdateProject();
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'yyyy-MM-dd');

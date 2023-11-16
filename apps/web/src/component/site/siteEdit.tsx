@@ -8,15 +8,15 @@ import { useNavigate } from 'react-router';
 import CustomSnackBar from '../ui/customSnackBar';
 import TextArea from '../ui/CustomTextArea';
 import { editCreateValidateyup } from '../../helper/constants/site-constants';
-import { updateSite, getBySiteId } from '../../hooks/site-hooks';
+import { useUpdateSite, useGetBySiteId } from '../../hooks/site-hooks';
 import { useParams } from 'react-router-dom';
 
 const SiteForm = () => {
   const routeParams = useParams();
-  const { data: getOneSiteData, isLoading } = getBySiteId(
+  const { data: getOneSiteData, isLoading } = useGetBySiteId(
     Number(routeParams?.id)
   );
-  const { mutate: updateNewSite } = updateSite();
+  const { mutate: updateNewSite } = useUpdateSite();
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const navigate = useNavigate();

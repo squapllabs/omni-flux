@@ -15,8 +15,7 @@ const useGetRoleBasedUser = () => {
   );
 };
 
-
-const createProjectMember = () => {
+const useCreateProjectMember = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -30,19 +29,10 @@ const createProjectMember = () => {
   );
 };
 
-
-const getBySearchProjectMembers = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return ProjectSettingsService.filterProjectMember(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+const useGetBySearchProjectMembers = () => {
+  return useMutation((data: any) => {
+    return ProjectSettingsService.filterProjectMember(data);
+  });
 };
 
 const useDeleteProjectMember = () => {
@@ -59,7 +49,6 @@ const useDeleteProjectMember = () => {
   );
 };
 
-
 const useGetAllPaginatedProjectMember = (data: any) => {
   return useQuery(
     ['useGetAllProjectPaginatedData'],
@@ -69,7 +58,12 @@ const useGetAllPaginatedProjectMember = (data: any) => {
       staleTime: Infinity,
     }
   );
-
 };
 
-export { useGetRoleBasedUser, createProjectMember, getBySearchProjectMembers, useGetAllPaginatedProjectMember, useDeleteProjectMember };
+export {
+  useGetRoleBasedUser,
+  useCreateProjectMember,
+  useGetBySearchProjectMembers,
+  useGetAllPaginatedProjectMember,
+  useDeleteProjectMember,
+};

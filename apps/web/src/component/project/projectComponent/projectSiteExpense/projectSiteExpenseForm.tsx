@@ -12,7 +12,7 @@ import * as Yup from 'yup';
 import { getCreateValidateyup } from '../../../../helper/constants/siteExpanse-constants';
 import { store, RootState } from '../../../../redux/store';
 import { getToken } from '../../../../redux/reducer';
-import { getProjectSite } from '../../../../hooks/project-hooks';
+import { useGetProjectSite } from '../../../../hooks/project-hooks';
 import DatePicker from '../../../ui/CustomDatePicker';
 import SiteExpensesDetails from './siteExpensesDetails';
 import Input from '../../../ui/Input';
@@ -74,11 +74,11 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
   const [totalAmount, setTotalAmount] = useState<any>();
   // const [checked, setChecked] = useState(false);
   const [tableView, setTableView] = useState(false);
-  const { data: getSiteList } = getProjectSite(Number(projectId));
+  const { data: getSiteList } = useGetProjectSite(Number(projectId));
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
-  useCreatesiteExpense();
+    useCreatesiteExpense();
   const { mutate: updateSiteExpenseData, isLoading: updateLoader } =
-  useUpdatesiteExpense();
+    useUpdatesiteExpense();
   const drafthandler = () => {
     formik.setFieldValue('submitType', 'Draft');
     formik.submitForm();

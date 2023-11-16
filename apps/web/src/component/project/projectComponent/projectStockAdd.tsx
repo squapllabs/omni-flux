@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import Styles from '../../../styles/newStyles/projectStockManagement.module.scss';
 import { useFormik } from 'formik';
 import Input from '../../ui/Input';
-import { getProjectSite, getByProjectId } from '../../../hooks/project-hooks';
+import {
+  useGetProjectSite,
+  useGetByProjectId,
+} from '../../../hooks/project-hooks';
 import DatePicker from '../../ui/CustomDatePicker';
 import { format } from 'date-fns';
 import Checkbox from '../../ui/Checkbox';

@@ -10,7 +10,7 @@ import AutoCompleteMultiSelect from './AutoCompleteMultiSelect';
 import AddIcon from '../menu/icons/addIcon';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import { useGetAllVendors } from '../../hooks/vendor-hooks';
-import { createPurchaseRequest } from '../../hooks/purchaseRequest-hooks';
+import { useCreatePurchaseRequest } from '../../hooks/purchaseRequest-hooks';
 import PurchaseRequestService from '../../service/purchaseRequest-service';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
@@ -21,10 +21,18 @@ const CustomPurchaseRequestPopup = (props: {
   indentId: any;
   projectId: any;
   setReload: any;
-  setOpenSnack:any;
-  setMessage:any;
+  setOpenSnack: any;
+  setMessage: any;
 }) => {
-  const { isVissible, onAction, indentId, projectId, setReload ,setOpenSnack,setMessage} = props;
+  const {
+    isVissible,
+    onAction,
+    indentId,
+    projectId,
+    setReload,
+    setOpenSnack,
+    setMessage,
+  } = props;
   const [itemValues, setItemsValues] = useState([]);
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
@@ -42,7 +50,7 @@ const CustomPurchaseRequestPopup = (props: {
 
   const { data: getAllVendorsData = [], isLoading: dropLoading } =
     useGetAllVendors();
-  const { mutate: createNewPurchaseRequest } = createPurchaseRequest();
+  const { mutate: createNewPurchaseRequest } = useCreatePurchaseRequest();
 
   const formik = useFormik({
     initialValues,

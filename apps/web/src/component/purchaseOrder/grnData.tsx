@@ -7,7 +7,7 @@ import ExpandClose from '../menu/icons/expandClose';
 import ExpandIcon from '../menu/icons/expandIcon';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
-import { updatePurchseOrderStatus } from '../../hooks/purchase-request-hooks';
+import { useUpdatePurchseOrderStatus } from '../../hooks/purchase-request-hooks';
 import { useNavigate } from 'react-router-dom';
 const GrnData: React.FC = (props: any) => {
   const state: RootState = store.getState();
@@ -17,7 +17,7 @@ const GrnData: React.FC = (props: any) => {
   const [grnData, setGrnData] = useState<any>([]);
   const [colps, setColps] = useState(false);
   const [poID, setPoID] = useState<any>({});
-  const { mutate: updatePoBillStatus } = updatePurchseOrderStatus();
+  const { mutate: updatePoBillStatus } = useUpdatePurchseOrderStatus();
 
   useEffect(() => {
     const fetchOne = async () => {

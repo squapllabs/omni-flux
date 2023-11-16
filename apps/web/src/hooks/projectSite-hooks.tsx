@@ -36,7 +36,7 @@ const getByuserID = (id: number) => {
   );
 };
 
-const createprojectSite = () => {
+const useCreateprojectSite = () => {
   const queryprojectSite = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -50,7 +50,7 @@ const createprojectSite = () => {
   );
 };
 
-const instantcreateprojectSite = () => {
+const useInstantcreateprojectSite = () => {
   const queryprojectSite = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -64,7 +64,7 @@ const instantcreateprojectSite = () => {
   );
 };
 
-const updateprojectSite = () => {
+const useUpdateprojectSite = () => {
   const queryprojectSite = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -91,7 +91,7 @@ const useDeleteprojectSite = () => {
     }
   );
 };
-const getByprojectSite = () => {
+const useGetByprojectSite = () => {
   const queryprojectSite = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -119,11 +119,11 @@ const useGetAllPaginatedprojectSite = (data: any) => {
 export {
   useGetAllprojectSite,
   getByuserID,
-  createprojectSite,
-  updateprojectSite,
+  useCreateprojectSite,
+  useUpdateprojectSite,
   useDeleteprojectSite,
   useGetAllprojectSiteDrop,
-  getByprojectSite,
-  instantcreateprojectSite,
+  useGetByprojectSite,
+  useInstantcreateprojectSite,
   useGetAllPaginatedprojectSite,
 };

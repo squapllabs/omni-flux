@@ -6,7 +6,7 @@ import CustomLoader from '../ui/customLoader';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router';
 import AddIcon from '../menu/icons/addIcon';
-import { getProjectSite } from '../../hooks/project-hooks';
+import { useGetProjectSite } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import ViewIcon from '../menu/icons/newViewIcon';
 import EditIcon from '../menu/icons/newEditIcon';
@@ -18,7 +18,7 @@ const StockOutwardList = () => {
   const navigate = useNavigate();
   const routeParams = useParams();
 
-  const { data: getSiteList, isLoading: siteLoading } = getProjectSite(
+  const { data: getSiteList, isLoading: siteLoading } = useGetProjectSite(
     Number(routeParams?.id)
   );
   const initialSiteId =

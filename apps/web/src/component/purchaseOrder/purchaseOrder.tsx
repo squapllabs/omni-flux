@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   useGetAllPurchaseOrderData,
-  purchaseOrderGetAll,
+  usePurchaseOrderGetAll,
 } from '../../hooks/purchase-request-hooks';
 import Styles from '../../styles/purchaseRequestView.module.scss';
 import CustomLoader from '../ui/customLoader';
@@ -64,7 +64,7 @@ const OrderView = () => {
     purchase_order_type: 'Head Office',
   };
   const { isLoading: PODataLoading, data: POData } =
-    purchaseOrderGetAll(orderType);
+    usePurchaseOrderGetAll(orderType);
 
   const { data: getAllProjectDataForDrop = [], isLoading: dropLoading } =
     useGetAllProject();
@@ -208,7 +208,7 @@ const OrderView = () => {
                     <td></td>
                   </tr>
                 ) : (
-                  getAllData?.content?.map((data: any, index: number) => {                    
+                  getAllData?.content?.map((data: any, index: number) => {
                     const customBillName = generateCustomBillName(data);
                     const customQuotationName =
                       generateCustomQuotationName(data);
@@ -233,7 +233,12 @@ const OrderView = () => {
                               ?.purchase_request_documents?.length > 0 ? (
                               data?.purchase_request_data?.purchase_request_documents.map(
                                 (document: any, index: number) => (
-                                  <div key={data?.purchase_request_data?.purchase_request_id}>
+                                  <div
+                                    key={
+                                      data?.purchase_request_data
+                                        ?.purchase_request_id
+                                    }
+                                  >
                                     <a
                                       href={document.path}
                                       target="_blank"

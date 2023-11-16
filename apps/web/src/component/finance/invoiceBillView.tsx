@@ -5,7 +5,7 @@ import Button from '../ui/Button';
 import CustomCard from '../ui/CustomCard';
 import BackArrow from '../menu/icons/backArrow';
 import { useGetOnePurchaseOrder } from '../../hooks/purchase-request-hooks';
-import { getByProjectId } from '../../hooks/project-hooks';
+import { useGetByProjectId } from '../../hooks/project-hooks';
 import Styles from '../../styles/billView.module.scss';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
@@ -18,7 +18,7 @@ const BillView = () => {
   const project_id = Number(
     getOneBillDetail?.purchase_request_data?.project_id
   );
-  const { data: getOneProject } = getByProjectId(project_id);
+  const { data: getOneProject } = useGetByProjectId(project_id);
   const generateCustomQuotationName = () => {
     const vendorName = getOneBillDetail?.vendor_data?.vendor_name || '';
     const year = new Date().getFullYear();

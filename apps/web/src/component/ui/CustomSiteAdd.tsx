@@ -6,12 +6,12 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import TextArea from '../ui/CustomTextArea';
 import { getCreateValidateyup as siteValidate } from '../../helper/constants/site-constants';
-import { instantCreateSite } from '../../hooks/site-hooks';
+import { useInstantCreateSite } from '../../hooks/site-hooks';
 import CustomSnackbar from '../ui/customSnackBar';
 
 const CustomSiteAdd = (props: { setOpen: any; open: any }) => {
   const { setOpen, open } = props;
-  const { mutate: createNewSite } = instantCreateSite();
+  const { mutate: createNewSite } = useInstantCreateSite();
   const validationSchemaSite = siteValidate(Yup);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);

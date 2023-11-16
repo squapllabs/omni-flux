@@ -6,7 +6,7 @@ import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
 import UploadIcon from '../menu/icons/cloudUpload';
 import CustomSnackBar from '../ui/customSnackBar';
-import { updatePurchseOrderBillStatus } from '../../hooks/purchase-request-hooks';
+import { useUpdatePurchseOrderBillStatus } from '../../hooks/purchase-request-hooks';
 import Select from '../ui/selectNew';
 import PurchaseRequestService from '../../service/purchase-request.service';
 import { getBymasertDataType } from '../../hooks/masertData-hook';
@@ -43,7 +43,7 @@ const CustomEditInvoicePopup = (props: {
     getBymasertDataType('PYS');
   const { data: getAllPaymentTypeDatadrop = [] } = getBymasertDataType('PPM');
 
-  const { mutate: updatePoBillStatus } = updatePurchseOrderBillStatus();
+  const { mutate: updatePoBillStatus } = useUpdatePurchseOrderBillStatus();
   const [initialValues, setInitialValues] = useState({
     bill_status: '',
     payment_date: '',

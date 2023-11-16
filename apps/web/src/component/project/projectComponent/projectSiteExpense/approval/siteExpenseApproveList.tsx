@@ -7,7 +7,7 @@ import AutoCompleteSelect from '../../../../ui/AutoCompleteSelect';
 import { store, RootState } from '../../../../../redux/store';
 import { getToken } from '../../../../../redux/reducer';
 import { useUpdatesiteExpense } from '../../../../../hooks/expense-hook';
-import { getUserIDBasedProject } from '../../../../../hooks/project-hooks';
+import { useGetUserIDBasedProject } from '../../../../../hooks/project-hooks';
 import ApproveDialogBox from '../../../../ui/CustomApprovePopup';
 import siteExpenseService from '../../../../../service/expense-service';
 import CustomSnackBar from '../../../../ui/customSnackBar';
@@ -35,7 +35,7 @@ const ExpenseApprove = () => {
   const { mutate: updateSiteExpenseData } = useUpdatesiteExpense();
 
   const { data: getProjectList = [], isLoading: dropLoading } =
-    getUserIDBasedProject(roleName === 'ADMIN' ? '' : userID);
+    useGetUserIDBasedProject(roleName === 'ADMIN' ? '' : userID);
 
   const fetchProjectSiteData = async (value: any) => {
     if (value) {

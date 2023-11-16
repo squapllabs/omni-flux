@@ -1,9 +1,9 @@
-import { useQuery,useMutation, useQueryClient } from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 import SiteService from '../service/site-service';
 
 const useGetAllSiteDrop = () => {
   return useQuery(['useGetAllSite'], () => SiteService.getAllSiteDrop(), {
-     select: (data) => data.data,
+    select: (data) => data.data,
     staleTime: Infinity,
   });
 };
@@ -18,7 +18,7 @@ const useGetAllSiteDrops = () => {
   });
 };
 
-const createSite = () => {
+const useCreateSite = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -32,7 +32,7 @@ const createSite = () => {
   );
 };
 
-const instantCreateSite = () => {
+const useInstantCreateSite = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -41,50 +41,42 @@ const instantCreateSite = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['useGetAllSite']);
-
       },
     }
   );
 };
 
-const getBySearchSiteData = () => {
-  return useMutation(
-    (data: any) => {
-      return SiteService.filterSiteData(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+const useGetBySearchSiteData = () => {
+  return useMutation((data: any) => {
+    return SiteService.filterSiteData(data);
+  });
 };
 
 const useGetAllPaginatedContractorsData = (data: any) => {
   return useQuery(
-    ['useGetAllPaginatedContractorsData'], 
+    ['useGetAllPaginatedContractorsData'],
     () => SiteService.filterContractorData(data),
     {
-        select: (data) => data,
-        staleTime: Infinity
+      select: (data) => data,
+      staleTime: Infinity,
     }
   );
 };
 
-const getBySiteId = (id: number) => {
+const useGetBySiteId = (id: number) => {
   return useQuery(['getByuserID', id], () => SiteService.getOneSiteById(id), {
     select: (data) => data.data,
   });
 };
 
-const updateSite = () => {
+const useUpdateSite = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
       return SiteService.updateSiteData(data);
     },
     {
-      onSuccess: (response) => {        
+      onSuccess: (response) => {
         queryClient.invalidateQueries(['useGetAllPaginatedContractorsData']);
       },
     }
@@ -98,10 +90,20 @@ const useDeleteSite = () => {
     },
     {
       onSuccess: () => {
-        getBySearchSiteData().mutate({})
+        useGetBySearchSiteData().mutate({});
       },
     }
   );
 };
 
-export { useGetAllSiteDrop,useGetAllSiteDrops,createSite,getBySearchSiteData,getBySiteId,updateSite,useDeleteSite,instantCreateSite, useGetAllPaginatedContractorsData };
+export {
+  useGetAllSiteDrop,
+  useGetAllSiteDrops,
+  useCreateSite,
+  useGetBySearchSiteData,
+  useGetBySiteId,
+  useUpdateSite,
+  useDeleteSite,
+  useInstantCreateSite,
+  useGetAllPaginatedContractorsData,
+};

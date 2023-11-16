@@ -16,8 +16,8 @@ import siteService from '../../service/site-service';
 import AddIcon from '../menu/icons/addIcon';
 import UploadIcon from '../menu/icons/cloudUpload';
 import {
-  updateProject,
-  getByProjectId,
+  useUpdateProject,
+  useGetByProjectId,
   useGetMasterProjectParentType,
 } from '../../hooks/project-hooks';
 import userService from '../../service/user-service';
@@ -33,13 +33,13 @@ import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import CustomLoader from '../ui/customLoader';
 const ProjectEdit = () => {
   const routeParams = useParams();
-  const { data: getOneProjectData, isLoading } = getByProjectId(
+  const { data: getOneProjectData, isLoading } = useGetByProjectId(
     Number(routeParams?.id)
   );
   const isStatusInProgress = getOneProjectData?.status === 'Inprogress';
 
   const [message, setMessage] = useState('');
-  const { mutate: updateProjectData } = updateProject();
+  const { mutate: updateProjectData } = useUpdateProject();
   const [openSnack, setOpenSnack] = useState(false);
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();

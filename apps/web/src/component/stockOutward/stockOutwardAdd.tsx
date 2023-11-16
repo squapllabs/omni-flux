@@ -13,8 +13,8 @@ import DeleteIcon from '../menu/icons/deleteIcon';
 import ProjectService from '../../service/project-service';
 import StockOutWardService from '../../service/stock-outward-service';
 import {
-  getUserDataProjectRolebased,
-  getByProjectId,
+  useGetUserDataProjectRolebased,
+  useGetByProjectId,
 } from '../../hooks/project-hooks';
 import { useCreateStockOutWard } from '../../hooks/stock-outward';
 import { useNavigate } from 'react-router-dom';
@@ -57,8 +57,9 @@ const StoreOutwardAdd = () => {
     projectID: projectId,
     role: 'Site Engineer',
   };
-  const { data: getSiteEngineerData = [] } = getUserDataProjectRolebased(Obj);
-  const { data: getProjectData } = getByProjectId(projectId);
+  const { data: getSiteEngineerData = [] } =
+    useGetUserDataProjectRolebased(Obj);
+  const { data: getProjectData } = useGetByProjectId(projectId);
   const { mutate: createNewStockOutWard } = useCreateStockOutWard();
 
   const validationSchema = getStockOutwardCreationYupschema(Yup);

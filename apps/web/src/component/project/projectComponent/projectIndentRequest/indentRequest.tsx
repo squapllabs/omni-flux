@@ -20,7 +20,7 @@ import { format } from 'date-fns';
 import * as yup from 'yup';
 import { formatBudgetValue } from '../../../../helper/common-function';
 import CustomSnackBar from '../../../ui/customSnackBar';
-import { getProjectSite } from '../../../../hooks/project-hooks';
+import { useGetProjectSite } from '../../../../hooks/project-hooks';
 import ProjectSubheader from '../../projectSubheader';
 import CustomDialogBox from '../../../ui/CustomDialog';
 
@@ -113,10 +113,10 @@ const IndentRequest: React.FC = (props: any) => {
   //   { value: 'Head Office', label: 'Head Office Purchase' },
   // ];
   const { mutate: postIndentData, isLoading: PostindentLoading } =
-  useCreateIndentRequest();
+    useCreateIndentRequest();
   const { mutate: updateIndentData, isLoading: updateindentLoading } =
-  useUpdateIndentRequest();
-  const { data: getAllProjectSiteDatadrop = [] } = getProjectSite(
+    useUpdateIndentRequest();
+  const { data: getAllProjectSiteDatadrop = [] } = useGetProjectSite(
     Number(routeParams?.id)
   );
   const handleDraft = (e: any) => {
@@ -364,7 +364,8 @@ const IndentRequest: React.FC = (props: any) => {
                         rows={4}
                         maxCharacterCount={400}
                         error={
-                          formik.touched.description && formik.errors.description
+                          formik.touched.description &&
+                          formik.errors.description
                         }
                       />
                     </div>

@@ -7,7 +7,7 @@ import Button from '../../ui/Button';
 import userService from '../../../service/user-service';
 import { useNavigate, useParams } from 'react-router-dom';
 import projectService from '../../../service/project-service';
-import { updateProject } from '../../../hooks/project-hooks';
+import { useUpdateProject } from '../../../hooks/project-hooks';
 import CustomSnackBar from '../../ui/customSnackBar';
 import DeleteIcon from '../../menu/icons/newDeleteIcon';
 import ViewIcon from '../../menu/icons/newViewIcon';
@@ -22,20 +22,19 @@ const ProjectDocument: React.FC = (props: any) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [viewDocs, setViewDocs] = useState();
   const [fileSizeError, setFileSizeError] = useState<string>('');
-  const [reload, setReload] = useState(false)
+  const [reload, setReload] = useState(false);
   const [openPdfpopup, setOpenPdfpopup] = useState(false);
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [projectDocs, setProjectDocs] = useState<any>([]);
   const [projectData, setProjectData] = useState<any>({});
   const [dataCount, setDataCount] = useState(0);
-  const [documentAdd, setDocumentAdd] = useState(false)
+  const [documentAdd, setDocumentAdd] = useState(false);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
-  const { mutate: updateProjectData } = updateProject();
+  const { mutate: updateProjectData } = useUpdateProject();
   const [previewUrls, setPreviewUrls] = useState<any[]>([]);
   const [preFile, setPreFile] = useState<File[]>([]);
-
 
   const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -63,7 +62,6 @@ const ProjectDocument: React.FC = (props: any) => {
           : file.name;
         selectedFileNamesArray.push(originalFileName);
       });
-
 
       setSelectedFiles(selectedFilesArray);
       setSelectedFileName(selectedFileNamesArray);
@@ -93,17 +91,16 @@ const ProjectDocument: React.FC = (props: any) => {
         const selectedFileURLArray: any[] = [];
         fileList.forEach((file) => {
           selectedFilesArray.push(file);
-          const urls =
-            URL.createObjectURL(file)
+          const urls = URL.createObjectURL(file);
 
           const obj: any = {
             name: file.name,
-            url: urls
-          }
+            url: urls,
+          };
           selectedFileNamesArray.push(file.name);
           selectedFileURLArray.push(obj);
         });
-        setPreviewUrls(selectedFileURLArray)
+        setPreviewUrls(selectedFileURLArray);
         setSelectedFiles(selectedFilesArray);
         setSelectedFileName(selectedFileNamesArray);
         setFileSizeError('');
@@ -122,7 +119,7 @@ const ProjectDocument: React.FC = (props: any) => {
     newFiles.splice(index, 1);
     newFileNames.splice(index, 1);
     setSelectedFiles(newFiles);
-    setPreviewUrls(newFiles)
+    setPreviewUrls(newFiles);
     setSelectedFileName(newFileNames);
   };
   const deleteFileinList = (data: any) => {
@@ -146,7 +143,7 @@ const ProjectDocument: React.FC = (props: any) => {
       );
       setProjectData(getData?.data);
       setProjectDocs(getData?.data?.project_documents);
-      setDataCount(getData?.data?.project_documents.length)
+      setDataCount(getData?.data?.project_documents.length);
     };
     if (routeParams?.id != undefined) fetchData();
   }, [reload]);
@@ -188,8 +185,8 @@ const ProjectDocument: React.FC = (props: any) => {
             setMessage('Document Uploaded');
             setOpenSnack(true);
             props.setLoader(!props.loader);
-            setPreviewUrls([])
-            setReload(true)
+            setPreviewUrls([]);
+            setReload(true);
             setTimeout(() => {
               navigate(`/project-edit/${data?.data?.project?.project_id}`);
               props.setLoader(props.loader);
@@ -198,8 +195,7 @@ const ProjectDocument: React.FC = (props: any) => {
           }
         },
       });
-    }
-    else {
+    } else {
       setMessage('Please Choose Document');
       setOpenSnack(true);
     }
@@ -268,12 +264,15 @@ const ProjectDocument: React.FC = (props: any) => {
             <div className={Styles.viewFiles}>
               <ol className={Styles.listStyles}>
                 {previewUrls?.map((data, index) => {
-                  const fileName = data?.name
+                  const fileName = data?.name;
                   return (
                     <div className={Styles.selectedFiles}>
                       <li key={index}>
                         <div className={Styles.document}>
-                          <div onClick={() => viewDocument(data?.url)} className={Styles.fileList}>
+                          <div
+                            onClick={() => viewDocument(data?.url)}
+                            className={Styles.fileList}
+                          >
                             {fileName} {'  '}
                           </div>
                         </div>
@@ -286,7 +285,7 @@ const ProjectDocument: React.FC = (props: any) => {
                         />
                       </div>
                     </div>
-                  )
+                  );
                 })}
               </ol>
               <span>
@@ -295,7 +294,6 @@ const ProjectDocument: React.FC = (props: any) => {
               </span>
             </div>
           </div>
-
 
           <div className={Styles.tableDiv}>
             {/* <div className={Styles.tableContainer}> */}
@@ -314,11 +312,11 @@ const ProjectDocument: React.FC = (props: any) => {
                       rowindex = rowindex + 1;
                       return (
                         <tr>
-                          <td >{rowindex}</td>
-                          <td >
+                          <td>{rowindex}</td>
+                          <td>
                             <a href={files.path}>Document {rowindex}</a>
                           </td>
-                          <td >
+                          <td>
                             <div className={Styles.icons}>
                               {' '}
                               <ViewIcon
@@ -331,7 +329,6 @@ const ProjectDocument: React.FC = (props: any) => {
                                 height={15}
                                 onClick={() => deleteFileinList(files.path)}
                               />
-
                             </div>
                           </td>
                         </tr>
@@ -340,13 +337,16 @@ const ProjectDocument: React.FC = (props: any) => {
                   })
                 ) : (
                   <tr>
-                    <td colSpan="3" style={{ textAlign: 'center' }}>No documents found</td>
+                    <td colSpan="3" style={{ textAlign: 'center' }}>
+                      No documents found
+                    </td>
                   </tr>
                 )}
               </tbody>
             </table>
           </div>
-        </div>) : (
+        </div>
+      ) : (
         <div>
           <div className={Styles.emptyDataHandling}>
             <div className={Styles.image}>
@@ -371,18 +371,16 @@ const ProjectDocument: React.FC = (props: any) => {
                   size="small"
                   icon={<AddIcon color="white" />}
                   onClick={() => {
-                    setDocumentAdd(true)
+                    setDocumentAdd(true);
                   }}
                 >
                   Add Document
                 </Button>
               </div>
-
             </div>
           </div>
         </div>
-      )
-      }
+      )}
 
       {/* </div> */}
       <Popup

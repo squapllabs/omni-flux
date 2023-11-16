@@ -5,7 +5,7 @@ import AddIcon from '../menu/icons/addIcon';
 import Styles from '../../styles/project.module.scss';
 // import Pagination from '../menu/pagination';
 import { useGetBySearchsiteExpense } from '../../hooks/expense-hook';
-import { getProjectSite } from '../../hooks/project-hooks';
+import { useGetProjectSite } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { format } from 'date-fns';
 import CustomLoader from '../ui/customLoader';
@@ -23,7 +23,7 @@ const SiteExpenseList = () => {
   } = useGetBySearchsiteExpense();
   // console.log('getExpenseList', getExpenseList?.content);
 
-  const { data: getSiteList } = getProjectSite(Number(routeParams?.id));
+  const { data: getSiteList } = useGetProjectSite(Number(routeParams?.id));
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filterValue, setFilterValue] = useState<any>({});
@@ -162,7 +162,9 @@ const SiteExpenseList = () => {
             <tbody>
               {getExpenseList?.content?.length === 0 ? (
                 <tr>
-                  <td colSpan="7" style={{textAlign:'center'}}>No data found</td>
+                  <td colSpan="7" style={{ textAlign: 'center' }}>
+                    No data found
+                  </td>
                 </tr>
               ) : (
                 ''

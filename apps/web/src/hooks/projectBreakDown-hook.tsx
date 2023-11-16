@@ -15,57 +15,61 @@ const useGetAllParentProjectBreakDownDrop = () => {
   );
 };
 
-const createProjectBreakDownData = () => {
-    const queryClient = useQueryClient();
-    return useMutation(
-      (data: any) => {
-        return projectBreakDownService.createProjectBreakDownData(data);
+const useCreateProjectBreakDownData = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return projectBreakDownService.createProjectBreakDownData(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries([]);
       },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries([]);
-        },
-      }
-    );
-  };
+    }
+  );
+};
 
-  const getBySearchProjectWorkBreakDownData = () => {
-    const queryClient = useQueryClient();
-    return useMutation(
-      (data: any) => {
-        return projectBreakDownService.filterProjectWorkBreakDownData(data);
+const useGetBySearchProjectWorkBreakDownData = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return projectBreakDownService.filterProjectWorkBreakDownData(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
       },
-      {
-        onSuccess: (response) => {
-          response;
-        },
-      }
-    );
-  };
+    }
+  );
+};
 
-  const getByProjectWorkBreakDownId = (id: number) => {
-    return useQuery(['getByuserID', id], () => projectBreakDownService.getOneProjectWorkBreakDownById(id), {
+const useGetByProjectWorkBreakDownId = (id: number) => {
+  return useQuery(
+    ['getByuserID', id],
+    () => projectBreakDownService.getOneProjectWorkBreakDownById(id),
+    {
       select: (data) => data.data,
-    });
-  };
-  
-  const updateProjectBreakDown = () => {
-    const queryClient = useQueryClient();
-    return useMutation(
-      (data: any) => {
-        return projectBreakDownService.updateProjectBreakDownData(data);
+    }
+  );
+};
+
+const useUpdateProjectBreakDown = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return projectBreakDownService.updateProjectBreakDownData(data);
+    },
+    {
+      onSuccess: (response) => {
+        response;
       },
-      {
-        onSuccess: (response) => {
-          response;
-        },
-      }
-    );
-  };
+    }
+  );
+};
 export {
-    useGetAllParentProjectBreakDownDrop,
-    createProjectBreakDownData,
-    getBySearchProjectWorkBreakDownData,
-    getByProjectWorkBreakDownId,
-    updateProjectBreakDown
+  useGetAllParentProjectBreakDownDrop,
+  useCreateProjectBreakDownData,
+  useGetBySearchProjectWorkBreakDownData,
+  useGetByProjectWorkBreakDownId,
+  useUpdateProjectBreakDown,
 };

@@ -13,8 +13,8 @@ import DeleteIcon from '../menu/icons/deleteIcon';
 import ProjectService from '../../service/project-service';
 import StockOutWardService from '../../service/stock-outward-service';
 import {
-  getUserDataProjectRolebased,
-  getByProjectId,
+  useGetUserDataProjectRolebased,
+  useGetByProjectId,
 } from '../../hooks/project-hooks';
 import {
   useUpdateStockOutWard,
@@ -106,8 +106,8 @@ const StoreOutwardEdit = () => {
     role: 'Site Engineer',
   };
 
-  const { data: getSiteEngineerData } = getUserDataProjectRolebased(Obj);
-  const { data: getProjectData } = getByProjectId(projectId);
+  const { data: getSiteEngineerData } = useGetUserDataProjectRolebased(Obj);
+  const { data: getProjectData } = useGetByProjectId(projectId);
   const { mutate: updateOneStockOutWard } = useUpdateStockOutWard();
   const validationSchema = getStockOutwardCreationYupschema(Yup);
 

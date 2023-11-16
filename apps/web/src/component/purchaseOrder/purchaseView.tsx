@@ -5,7 +5,7 @@ import Button from '../ui/Button';
 import CustomSnackBar from '../ui/customSnackBar';
 import {
   useGetOnePurchaseRequest,
-  purchaseOrderRequest,
+  usePurchaseOrderRequest,
 } from '../../hooks/purchase-request-hooks';
 import Styles from '../../styles/purchaseRequestView.module.scss';
 import { formatBudgetValue } from '../../helper/common-function';
@@ -25,7 +25,7 @@ const PurchaseView = () => {
     refetch,
   } = useGetOnePurchaseRequest(PurchaseId);
   console.log('getAllDataVVVV', getAllData);
-  const { mutate: postDataForFilter } = purchaseOrderRequest();
+  const { mutate: postDataForFilter } = usePurchaseOrderRequest();
   const constructPurchaseOrder = () => {
     const purchaseOrderItems: any = [];
     getAllData?.purchase_request_details?.forEach((data: any) => {
@@ -70,12 +70,12 @@ const PurchaseView = () => {
       if (data?.quotation_status === 'Approved') {
         console.log('constructPurchaseOrder', data);
         data?.vendor_quotation_details?.forEach((vendorQuotes: any) => {
-          console.log('vendorQuotes', vendorQuotes)
+          console.log('vendorQuotes', vendorQuotes);
           purchaseOrderItems.push({
             purchase_order_id: '',
             item_id: vendorQuotes?.item_id,
             order_quantity: vendorQuotes?.purchase_requested_quantity,
-            unit_price:vendorQuotes?.unit_cost
+            unit_price: vendorQuotes?.unit_cost,
           });
         });
       }
@@ -197,29 +197,29 @@ const PurchaseView = () => {
                 )}
               </div>
               <div>
-              {getAllData?.purchase_request_documents?.length > 0 ? (
-                      getAllData?.purchase_request_documents.map(
-                        (document: any, index: number) => {
-                          const customQuotationName = generateCustomQuotation(
-                            getAllData?.selected_vendor_data?.vendor_name
-                          );
-                          return (
-                            <div key={document.code}>
-                              <a
-                                href={document.path}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {/* Document {index + 1} */}
-                                {customQuotationName}
-                              </a>
-                            </div>
-                          );
-                        }
-                      )
-                    ) : (
-                      <div>-</div>
-                    )}
+                {getAllData?.purchase_request_documents?.length > 0 ? (
+                  getAllData?.purchase_request_documents.map(
+                    (document: any, index: number) => {
+                      const customQuotationName = generateCustomQuotation(
+                        getAllData?.selected_vendor_data?.vendor_name
+                      );
+                      return (
+                        <div key={document.code}>
+                          <a
+                            href={document.path}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {/* Document {index + 1} */}
+                            {customQuotationName}
+                          </a>
+                        </div>
+                      );
+                    }
+                  )
+                ) : (
+                  <div>-</div>
+                )}
               </div>
               {/* <div>
                 {getAllData?.purchase_request_documents?.length > 0 ? (

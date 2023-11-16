@@ -9,7 +9,7 @@ import SiteNavigateIcon from '../../../menu/icons/siteNavigateIcon';
 // import userService from '../../../../service/user-service';
 // import FileUploadIcon from '../../../menu/icons/fileUploadIcon';
 import Button from '../../../ui/Button';
-import { purchaseOrderRequest } from '../../../../hooks/purchase-request-hooks';
+import { usePurchaseOrderRequest } from '../../../../hooks/purchase-request-hooks';
 import CustomSnackBar from '../../../ui/customSnackBar';
 import ApproveDialogBox from '../../../ui/CustomApprovePopup';
 
@@ -37,7 +37,7 @@ const LocalPurchaseOrder = () => {
   //     fileInputRef.current.click();
   //   }
   // };
-  const { mutate: postDataForFilter } = purchaseOrderRequest();
+  const { mutate: postDataForFilter } = usePurchaseOrderRequest();
   const currentDate = new Date();
 
   const fetchData = async () => {

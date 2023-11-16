@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Styles from '../../../styles/projectBomConfig.module.scss';
 import Button from '../../ui/Button';
 import AddIcon from '../../menu/icons/addIcon';
-import {
-  getByMasterDataProjectIdDrop,
-} from '../../../hooks/masertData-hook';
+import { getByMasterDataProjectIdDrop } from '../../../hooks/masertData-hook';
 import { useFormik } from 'formik';
 import {
-  createProject,
-  getByProjectId,
-  updateProject,
+  useCreateProject,
+  useGetByProjectId,
+  useUpdateProject,
 } from '../../../hooks/project-hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import projectService from '../../../service/project-service';
@@ -47,7 +45,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
   const { data: getBomType = [] } = getByMasterDataProjectIdDrop(
     Number(routeParams?.id)
   );
-  const { data: projectDatas } = getByProjectId(Number(routeParams?.id));
+  const { data: projectDatas } = useGetByProjectId(Number(routeParams?.id));
 
   const truncateString = (str: any, maxLength: number) => {
     if (projectDatas?.project_name.length > maxLength) {
@@ -58,8 +56,8 @@ const ProjectBomConfig: React.FC = (props: any) => {
 
   const truncatedString = truncateString(projectDatas?.project_name, 30);
 
-  const { mutate: createNewProjectData } = createProject();
-  const { mutate: updateProjectData } = updateProject();
+  const { mutate: createNewProjectData } = useCreateProject();
+  const { mutate: updateProjectData } = useUpdateProject();
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   const object: any = {
@@ -115,7 +113,6 @@ const ProjectBomConfig: React.FC = (props: any) => {
     };
     if (routeParams?.id != undefined) fetchData();
   }, []);
-
 
   const handleClosePopup = () => {
     setOpen(false);
@@ -258,11 +255,8 @@ const ProjectBomConfig: React.FC = (props: any) => {
                             return (
                               <tr key={data?.bom_configuration_id}>
                                 <td>{startingIndex + index}</td>
-                                <td>{data?.bom_description}
-                                </td>
-                                <td>
-                                  {data?.bom_type_data?.master_data_name}
-                                </td>
+                                <td>{data?.bom_description}</td>
+                                <td>{data?.bom_type_data?.master_data_name}</td>
                                 <td>{data?.abstract_count}</td>
                                 <td>{data?.task_count}</td>
                                 <td>
@@ -280,12 +274,8 @@ const ProjectBomConfig: React.FC = (props: any) => {
                 <div>
                   <Pagination
                     currentPage={currentPage}
-                    totalPages={
-                      initialData?.total_page
-                    }
-                    totalCount={
-                      initialData?.total_count
-                    }
+                    totalPages={initialData?.total_page}
+                    totalCount={initialData?.total_count}
                     rowsPerPage={rowsPerPage}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
@@ -301,7 +291,12 @@ const ProjectBomConfig: React.FC = (props: any) => {
               </div>
               <div className={Styles.emptyDataHandling}>
                 <div className={Styles.imageAdd}>
-                  <img src="/boq-add.png" alt="aa" width="100%" height="150px" />
+                  <img
+                    src="/boq-add.png"
+                    alt="aa"
+                    width="100%"
+                    height="150px"
+                  />
                 </div>
                 <div>
                   <h5 className={Styles.textmax}>

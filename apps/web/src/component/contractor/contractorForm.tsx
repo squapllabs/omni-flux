@@ -8,11 +8,11 @@ import { useNavigate } from 'react-router';
 import CustomSnackBar from '../ui/customSnackBar';
 import TextArea from '../ui/CustomTextArea';
 import { getCreateValidateyup } from '../../helper/constants/contractor-constants';
-import { createSite } from '../../hooks/site-hooks';
+import { useCreateSite } from '../../hooks/site-hooks';
 import ProjectSubheader from '../project/projectSubheader';
 
 const ContractorForm = () => {
-  const { mutate: createNewSite } = createSite();
+  const { mutate: createNewSite } = useCreateSite();
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ const ContractorForm = () => {
         },
       };
       createNewSite(Object, {
-        onSuccess: (data: any) => {          
+        onSuccess: (data: any) => {
           if (data.message === 'success') {
             setMessage('Contractor created');
             setOpenSnack(true);
@@ -141,9 +141,7 @@ const ContractorForm = () => {
                 rows={4}
                 maxCharacterCount={100}
                 mandatory={true}
-                error={
-                  formik.touched.description && formik.errors.description
-                }
+                error={formik.touched.description && formik.errors.description}
               />
             </div>
           </div>

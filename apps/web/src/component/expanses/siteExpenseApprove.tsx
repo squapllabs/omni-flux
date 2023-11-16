@@ -12,7 +12,7 @@ import {
   useGetBySearchsiteExpense,
   useUpdatesiteExpense,
 } from '../../hooks/expense-hook';
-import { getUserIDProjectRolebased } from '../../hooks/project-hooks';
+import { useGetUserIDProjectRolebased } from '../../hooks/project-hooks';
 import InfoIcon from '../menu/icons/infoIcon';
 import TickIcon from '../menu/icons/tickIcon';
 import ApproveDialogBox from '../ui/CustomApprovePopup';
@@ -44,7 +44,7 @@ const ExpenseApprove = () => {
     roleID: Number(roleID),
   };
 
-  const { data: getProjectList = [] } = getUserIDProjectRolebased(Obj);
+  const { data: getProjectList = [] } = useGetUserIDProjectRolebased(Obj);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filterValue, setFilterValue] = useState<any>({});
@@ -251,7 +251,11 @@ const ExpenseApprove = () => {
     <div className={Styles.container}>
       <CustomLoader loading={fetchLoader}>
         <div className={Styles.box}>
-          <ProjectSubheader navigation={'/home'} title="Expense Approval for Site" description="Review and authorization of expenses incurred at a designated site"/>
+          <ProjectSubheader
+            navigation={'/home'}
+            title="Expense Approval for Site"
+            description="Review and authorization of expenses incurred at a designated site"
+          />
         </div>
         <div className={Styles.tableContainer}>
           <div className={Styles.searchField}>

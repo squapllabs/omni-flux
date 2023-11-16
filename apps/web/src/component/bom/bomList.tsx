@@ -23,7 +23,7 @@ import EditIcon from '../menu/icons/editIcon';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import CustomSnackBar from '../ui/customSnackBar';
 import CustomDelete from '../ui/customDeleteDialogBox';
-import { getByProjectId } from '../../hooks/project-hooks';
+import { useGetByProjectId } from '../../hooks/project-hooks';
 import BackArrow from '../menu/icons/backArrow';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import ProjectAbstractAdd from '../projectBOQ/forms/projectAbstractAdd';
@@ -36,7 +36,7 @@ const BomList = () => {
   const bomconfigId = Number(params?.bomconfigId);
   // console.log('oooo', params);
   // const projectId = Number(params?.projectId);
-  const { data: projectData } = getByProjectId(projectId);
+  const { data: projectData } = useGetByProjectId(projectId);
   // console.log('projectData', projectData);
 
   const [projectsId, setProjectsId] = useState(projectId);
@@ -158,7 +158,7 @@ const BomList = () => {
               <h3>{projectData?.project_name}</h3>
               <span className={Styles.content}>{projectData?.description}</span>
             </div>
-  
+
             <div className={Styles.backButton}>
               <div>
                 <Button

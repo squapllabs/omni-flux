@@ -4,7 +4,7 @@ import ProjectSubheader from '../../project/projectSubheader';
 import Input from '../../ui/Input';
 import SearchIcon from '../../menu/icons/search';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getBySearchPR } from '../../../hooks/purchase-request-hooks';
+import { useGetBySearchPR } from '../../../hooks/purchase-request-hooks';
 import { format } from 'date-fns';
 import ReportGenerator from '../../reportGenerator/pdfReport/requestForQuotation';
 import PrintIcon from '../../menu/icons/printIcon';
@@ -42,7 +42,7 @@ const AllPurchaseRequest = () => {
     isLoading: loading,
     refetch,
     isFetched,
-  } = getBySearchPR(purchaseData);
+  } = useGetBySearchPR(purchaseData);
   const handleReportGenerator = async (data: any) => {
     await ReportGenerator(data);
   };
@@ -197,7 +197,7 @@ const AllPurchaseRequest = () => {
                               (vendors: any, vendorIndex: number) => {
                                 return (
                                   <li
-                                  key={vendors?.vendor_data?.vendor_id}
+                                    key={vendors?.vendor_data?.vendor_id}
                                     className={`${Styles.vendorLinks} ${
                                       items?.selected_vendor_data?.vendor_id ===
                                       vendors?.vendor_data?.vendor_id

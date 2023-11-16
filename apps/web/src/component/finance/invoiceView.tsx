@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   useGetAllPurchaseOrderData,
-  getBySearchPoData,
+  useGetBySearchPoData,
 } from '../../hooks/purchase-request-hooks';
 import Styles from '../../styles/purchaseRequestView.module.scss';
 import CustomLoader from '../ui/customLoader';
@@ -71,7 +71,7 @@ const OrderView = () => {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: searchLoader,
-  } = getBySearchPoData();
+  } = useGetBySearchPoData();
   // console.log('rrrr', getFilterData);
 
   const handleEdit = (value: any, invoice: any) => {

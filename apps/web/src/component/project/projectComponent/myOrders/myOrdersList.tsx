@@ -6,7 +6,7 @@ import CustomLoader from '../../../ui/customLoader';
 import ViewIcon from '../../../menu/icons/viewIcon';
 import { formatBudgetValue } from '../../../../helper/common-function';
 import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
-import { getProjectSite } from '../../../../hooks/project-hooks';
+import { useGetProjectSite } from '../../../../hooks/project-hooks';
 import CustomPagination from '../../../menu/CustomPagination';
 import OrderIcon from '../../../menu/icons/orderIcon';
 import CustomGroupButton from '../../../ui/CustomGroupButton';
@@ -35,7 +35,7 @@ const MyOrderList = () => {
   };
   const [colps, setColps] = useState(false);
 
-  const { data: getSiteList, isLoading: siteLoading } = getProjectSite(
+  const { data: getSiteList, isLoading: siteLoading } = useGetProjectSite(
     Number(projectId)
   );
 
@@ -162,7 +162,7 @@ const MyOrderList = () => {
                                 }}
                               >
                                 {colps === false &&
-                                  data?.purchase_order_id ===
+                                data?.purchase_order_id ===
                                   poID?.purchase_order_id ? (
                                   <ExpandClose />
                                 ) : (
@@ -206,52 +206,52 @@ const MyOrderList = () => {
                           </tr>
                           {data.purchase_order_id ===
                             poID.purchase_order_id && (
-                              <tr key={data?.purchase_order_id}>
-                                <td colSpan="8" style={{ paddingRight: 28 }}>
-                                  <div className={Styles.subTableContainer}>
-                                    <table
-                                      className={Styles.scrollable_sub_table}
-                                    >
-                                      <thead>
-                                        <tr>
-                                          <th>S No</th>
-                                          <th>Goods Received Date</th>
-                                          <th>Invoice No</th>
-                                          <th>Options</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        {data?.grn?.map(
-                                          (grn_data: any, index: any) => {
-                                            return (
-                                              <tr key={grn_data?.grn_id}>
-                                                <td>{index + 1}</td>{' '}
-                                                <td>
-                                                  {dateFormat(
-                                                    grn_data?.goods_received_date
-                                                  )}
-                                                </td>
-                                                <td>{grn_data?.invoice_id}</td>
-                                                <td>
-                                                  <ViewIcon
-                                                    onClick={() => {
-                                                      navigate(
-                                                        `/view-received-goods/${data?.purchase_order_id}/${grn_data?.grn_id}`,
-                                                        { state: { projectId } }
-                                                      );
-                                                    }}
-                                                  />
-                                                </td>
-                                              </tr>
-                                            );
-                                          }
-                                        )}
-                                      </tbody>
-                                    </table>
-                                  </div>
-                                </td>
-                              </tr>
-                            )}
+                            <tr key={data?.purchase_order_id}>
+                              <td colSpan="8" style={{ paddingRight: 28 }}>
+                                <div className={Styles.subTableContainer}>
+                                  <table
+                                    className={Styles.scrollable_sub_table}
+                                  >
+                                    <thead>
+                                      <tr>
+                                        <th>S No</th>
+                                        <th>Goods Received Date</th>
+                                        <th>Invoice No</th>
+                                        <th>Options</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {data?.grn?.map(
+                                        (grn_data: any, index: any) => {
+                                          return (
+                                            <tr key={grn_data?.grn_id}>
+                                              <td>{index + 1}</td>{' '}
+                                              <td>
+                                                {dateFormat(
+                                                  grn_data?.goods_received_date
+                                                )}
+                                              </td>
+                                              <td>{grn_data?.invoice_id}</td>
+                                              <td>
+                                                <ViewIcon
+                                                  onClick={() => {
+                                                    navigate(
+                                                      `/view-received-goods/${data?.purchase_order_id}/${grn_data?.grn_id}`,
+                                                      { state: { projectId } }
+                                                    );
+                                                  }}
+                                                />
+                                              </td>
+                                            </tr>
+                                          );
+                                        }
+                                      )}
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </td>
+                            </tr>
+                          )}
                         </>
                       );
                     })
@@ -262,7 +262,6 @@ const MyOrderList = () => {
                       </td>
                     </tr>
                   )}
-
                 </tbody>
               </table>
             </div>

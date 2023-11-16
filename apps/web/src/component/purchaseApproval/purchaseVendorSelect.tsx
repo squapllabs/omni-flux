@@ -8,7 +8,7 @@ import AddIcon from '../menu/icons/addIcon';
 import Button from '../ui/Button';
 import * as yup from 'yup';
 import PreviousPageIcon from '../menu/icons/previousPageIcon';
-import { createPurchaseRequest } from '../../hooks/purchaseRequest-hooks';
+import { useCreatePurchaseRequest } from '../../hooks/purchaseRequest-hooks';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import DeleteIcon from '../menu/icons/newDeleteIcon';
@@ -41,7 +41,7 @@ const VendorChooseModule = () => {
   const indentId = location.state.indentId;
   const projectId = location.state.projectId;
   const [tableValue, setTableValue] = useState(transformedArray);
-  const { mutate: createNewPurchaseRequest } = createPurchaseRequest();
+  const { mutate: createNewPurchaseRequest } = useCreatePurchaseRequest();
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [value, setValue] = useState();
@@ -291,7 +291,7 @@ const VendorChooseModule = () => {
                       ) : (
                         tableValue?.map((item: any, index: any) => {
                           return (
-                            <tr  key={item?.indent_request_details_id}>
+                            <tr key={item?.indent_request_details_id}>
                               <td>{index + 1}</td>
                               <td>{item?.item_name}</td>
                               <td>{item?.uom_name}</td>
@@ -402,7 +402,7 @@ const VendorChooseModule = () => {
           autoHideDuration={2000}
           type="success"
         />
-      </CustomLoader> 
+      </CustomLoader>
     </div>
   );
 };

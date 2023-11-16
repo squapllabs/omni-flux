@@ -8,7 +8,7 @@ import Pagination from '../menu/pagination';
 import CustomLoader from '../ui/customLoader';
 import {
   useGetAllParentProjectBreakDownDrop,
-  getBySearchProjectWorkBreakDownData,
+  useGetBySearchProjectWorkBreakDownData,
 } from '../../hooks/projectBreakDown-hook';
 import { formatBudgetValue } from '../../helper/common-function';
 import AddIcon from '../menu/icons/addIcon';
@@ -33,7 +33,7 @@ const ProjectWorkBreakList = () => {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: FilterLoading,
-  } = getBySearchProjectWorkBreakDownData();
+  } = useGetBySearchProjectWorkBreakDownData();
   const navigate = useNavigate();
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,7 +43,7 @@ const ProjectWorkBreakList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
-    if(searchValue=== ''){
+    if (searchValue === '') {
       handleReset();
     }
   };
@@ -106,7 +106,7 @@ const ProjectWorkBreakList = () => {
     setCurrentPage(1);
   };
 
-  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">

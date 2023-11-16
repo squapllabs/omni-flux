@@ -8,7 +8,7 @@ import AutoCompleteMultiSelect from '../ui/AutoCompleteMultiSelect';
 import AddIcon from '../menu/icons/addIcon';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import { useGetAllVendors } from '../../hooks/vendor-hooks';
-import { createPurchaseRequest } from '../../hooks/purchaseRequest-hooks';
+import { useCreatePurchaseRequest } from '../../hooks/purchaseRequest-hooks';
 import PurchaseRequestService from '../../service/purchaseRequest-service';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
@@ -37,14 +37,14 @@ const PurchaseRequestAdd = () => {
     requested_quantity: '',
     allocated_quantity: '',
     item_name: '',
-    indent_request_details_id:''
+    indent_request_details_id: '',
   });
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
 
   const { data: getAllVendorsData = [], isLoading: dropLoading } =
     useGetAllVendors();
-  const { mutate: createNewPurchaseRequest } = createPurchaseRequest();
+  const { mutate: createNewPurchaseRequest } = useCreatePurchaseRequest();
   const validationSchema = getPurchaseRequestCreateValidateyup(yup);
   const formik = useFormik({
     initialValues,
@@ -53,10 +53,10 @@ const PurchaseRequestAdd = () => {
     onSubmit: (values, { resetForm }) => {
       let arr: any[] = [];
       arr = [...purchaseRequestData, values];
-      const newArray = dynamicitemValues.filter(item2 => {
-        return !arr.some(item1 => item1.item_name === item2.label);
+      const newArray = dynamicitemValues.filter((item2) => {
+        return !arr.some((item1) => item1.item_name === item2.label);
       });
-      setDynamicItemsValues(newArray)
+      setDynamicItemsValues(newArray);
       setPurchaseRequestData(arr);
       resetForm({
         values: {
@@ -81,17 +81,19 @@ const PurchaseRequestAdd = () => {
       };
       arr.push(obj);
     });
-    setItemsValues(arr)
+    setItemsValues(arr);
     setDynamicItemsValues(arr);
   };
 
   const deletePurchaseRequest = (index: number) => {
     purchaseRequestData.splice(index, 1);
     setPurchaseRequestData([...purchaseRequestData]);
-    const newArray = itemValues.filter(item2 => {
-      return !purchaseRequestData.some(item1 => item1.item_name === item2.label);
+    const newArray = itemValues.filter((item2) => {
+      return !purchaseRequestData.some(
+        (item1) => item1.item_name === item2.label
+      );
     });
-    setDynamicItemsValues(newArray)
+    setDynamicItemsValues(newArray);
     setDropDisable(false);
   };
 
@@ -108,9 +110,11 @@ const PurchaseRequestAdd = () => {
         purchase_requested_quantity: Number(item.allocated_quantity),
         item_name: item.item_name,
         rate: Number(item?.rate),
-        indent_request_details_id:Number(item?.indent_request_details_id)
+        indent_request_details_id: Number(item?.indent_request_details_id),
       })),
-      vendor_ids: purchaseRequestData.map((item: any) => item.vendor_id.map(Number)).flat()
+      vendor_ids: purchaseRequestData
+        .map((item: any) => item.vendor_id.map(Number))
+        .flat(),
     };
     createNewPurchaseRequest(requestBody, {
       onSuccess: (data, variables, context) => {
@@ -154,7 +158,7 @@ const PurchaseRequestAdd = () => {
               onClick={() => {
                 navigate(`/purchase-detail/${indentId}`, {
                   state: { project_id: projectId },
-                })
+                });
               }}
             >
               <PreviousPageIcon width={20} height={20} color="#7f56d9" />
@@ -184,7 +188,6 @@ const PurchaseRequestAdd = () => {
           <div className={Styles.dividerStyle}></div>
           {/* <div className={Styles.inputFields}> */}
           <div className={Styles.fields_container}>
-            
             <div className={Styles.fields_container_1}>
               <div>
                 <AutoCompleteMultiSelect
@@ -211,7 +214,7 @@ const PurchaseRequestAdd = () => {
                   error={formik.touched.vendor_id && formik.errors.vendor_id}
                 />
               </div>
-            
+
               {/* <div
                 className={Styles.instantAdd}
                 onClick={() =>
@@ -225,7 +228,7 @@ const PurchaseRequestAdd = () => {
               </div> */}
             </div>
             <div className={Styles.fields_container_2}>
-            <div>
+              <div>
                 <AutoCompleteSelect
                   label="Items"
                   name="item_id"
@@ -240,7 +243,7 @@ const PurchaseRequestAdd = () => {
 
                     const matchingObjects = itemsData?.filter(
                       (obj: any) => Number(obj.item_id) === Number(value)
-                    );                    
+                    );
                     formik.setFieldValue(
                       'requested_quantity',
                       matchingObjects[0]?.indent_requested_quantity
@@ -257,10 +260,7 @@ const PurchaseRequestAdd = () => {
                       'item_name',
                       matchingObjects[0]?.item_name
                     );
-                    formik.setFieldValue(
-                      'rate',
-                      matchingObjects[0]?.rate
-                    );
+                    formik.setFieldValue('rate', matchingObjects[0]?.rate);
                   }}
                   optionList={dynamicitemValues}
                   error={formik.touched.item_name && formik.errors.item_name}

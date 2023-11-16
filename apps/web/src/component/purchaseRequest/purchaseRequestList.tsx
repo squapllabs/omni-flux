@@ -6,7 +6,7 @@ import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import Input from '../ui/Input';
 import SearchIcon from '../menu/icons/search';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getBySearchPR } from '../../hooks/purchase-request-hooks';
+import { useGetBySearchPR } from '../../hooks/purchase-request-hooks';
 import { format } from 'date-fns';
 import Button from '../ui/Button';
 import DownloadIcon from '../menu/icons/pdfDownloadIcon';
@@ -48,7 +48,7 @@ const PurchaseRequestList = () => {
     isLoading: loading,
     refetch,
     isFetched,
-  } = getBySearchPR(purchaseData);
+  } = useGetBySearchPR(purchaseData);
 
   const { data: getOneIndnetData } = useGetByIndnetId(Number(routeParams?.id));
 
