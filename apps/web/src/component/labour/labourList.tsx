@@ -5,7 +5,6 @@ import Button from '../ui/Button';
 import AddIcon from '../menu/icons/addIcon';
 import EditIcon from '../menu/icons/newEditIcon';
 import SearchIcon from '../menu/icons/search';
-import { useNavigate } from 'react-router-dom';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import {
   useDeleteLabour,
@@ -20,7 +19,6 @@ import FilterOrderIcon from '../menu/icons/filterOrderIcon';
 import { handleSortByColumn } from './../../helper/common-function'
 
 const LabourList = () => {
-  const navigate = useNavigate();
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [dataShow, setDataShow] = useState(false);
   const [filterValues, setFilterValues] = useState({

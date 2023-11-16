@@ -7,22 +7,17 @@ import {
   useGetAllPaginatedHsnCodeData,
 } from '../../hooks/hsnCode-hooks';
 import CustomSnackBar from '../ui/customSnackBar';
-import DeleteIcon from '../menu/icons/newDeleteIcon';
 import EditIcon from '../menu/icons/newEditIcon';
-import CustomEditDialog from '../ui/customEditDialogBox';
 import HsnForm from './hsnCodeCreate';
 import Button from '../ui/Button';
 import Button1 from '../menu/button';
 import Input from '../ui/Input';
-import { useFormik } from 'formik';
 import { createHsnCode } from '../../hooks/hsnCode-hooks';
 import * as XLSX from 'xlsx';
 import SearchIcon from '../menu/icons/search';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/CustomPagination';
-import CustomGroupButton from '../ui/CustomGroupButton';
 import * as Yup from 'yup';
-import { gethsnCreateValidateyup } from '../../helper/constants/hsn-constants';
 import DownloadIcon from '../menu/icons/download';
 import { store, RootState } from '../../redux/store';
 import userService from '../../service/user-service';
@@ -44,7 +39,6 @@ const HsnCodeList = () => {
     data: getFilterData,
     isLoading: searchLoader,
   } = getByCode();
-  const validationSchema = gethsnCreateValidateyup(Yup);
   const { mutate: getDeleteHsnCodeByID } = useDeleteHsnCode();
   const { mutate: uploadJsonData } = uploadHsnCode();
   const { mutate: createNewHsnCode } = createHsnCode();
@@ -55,15 +49,8 @@ const HsnCodeList = () => {
   const [hsnCodeId, setHsnCodeId] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [isLoading, setIsLoading] = useState(true);
-  const [filter, setFilter] = useState(false);
   const [dataShow, setDataShow] = useState(false);
   const [openHsnForm, setOpenHsnForm] = useState(false);
-  const [initialValues, setInitialValues] = useState({
-    hsn_code_id: '',
-    code: '',
-    description: '',
-  });
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
@@ -77,7 +64,6 @@ const HsnCodeList = () => {
   const [error, setError] = useState<string | null>(null);
   const [value, setValue] = useState();
   const [openDelete, setOpenDelete] = useState(false);
-  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [sortColumn, setSortColumn] = useState('');
   const [sortOrder, setSortOrder] = useState('desc');
 
@@ -95,10 +81,6 @@ const HsnCodeList = () => {
     refetch,
   } = useGetAllPaginatedHsnCodeData(hsnCodeData);
 
-  const deleteCategoryHandler = (id: any) => {
-    setValue(id);
-    setOpenDelete(true);
-  };
   /* Function for deleting a HSN Code from the list */
   const deleteHscCode = () => {
     getDeleteHsnCodeByID(value);
@@ -143,28 +125,6 @@ const HsnCodeList = () => {
     setCurrentPage(1);
   };
 
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    enableReinitialize: true,
-    onSubmit: (values, { resetForm }) => {
-      if (values) {
-        const Object: any = {
-          code: values.code,
-          description: values.description,
-        };
-        createNewHsnCode(Object, {
-          onSuccess: (data: { success: any }, variables: any, context: any) => {
-            if (data?.success) {
-              setMessage('HSN Code has successfully created');
-              setOpenSnack(true);
-              resetForm();
-            }
-          },
-        });
-      }
-    },
-  });
   /* Function for reading a excel file from system */
   const handleFileChange = async (e: any) => {
     const file = e.target.files[0];
@@ -321,19 +281,9 @@ const HsnCodeList = () => {
                       }}
                     />
                   </div>
-                  {/* <div>
-                    <CustomGroupButton
-                      labels={buttonLabels}
-                      onClick={handleGroupButtonClick}
-                      activeButton={activeButton}
-                    />
-                  </div> */}
                 </div>
               </div>
               <div className={Styles.uploads}>
-                {/* <div style={{paddingTop:'5px'}}>
-                    <h3>File Upload</h3>
-                  </div> */}
                 <div>
                   {selectedFile ? (
                     <div>
@@ -391,50 +341,6 @@ const HsnCodeList = () => {
               {error && <div className={Styles.error}>{error}</div>}
 
               <div className={Styles.box}>
-                {/* <div className={Styles.textContent}>
-                  <h3>List of HSN Code</h3>
-                  <span className={Styles.content}>
-                    Manage your HSN Code details here.
-                  </span>
-                </div>
-                <div className={Styles.searchField}>
-                  <div className={Styles.inputFilter}>
-                    <Input
-                      width="260px"
-                      prefixIcon={<SearchIcon />}
-                      name="search_by_name"
-                      value={filterValues.search_by_name}
-                      onChange={(e) => handleFilterChange(e)}
-                      placeholder="Search"
-                    />
-                    <Button
-                      className={Styles.searchButton}
-                      shape="rectangle"
-                      justify="center"
-                      size="small"
-                      onClick={handleSearch}
-                    >
-                      Search
-                    </Button>
-                    <Button
-                      className={Styles.resetButton}
-                      shape="rectangle"
-                      justify="center"
-                      size="small"
-                      onClick={handleReset}
-                      disabled={isResetDisabled}
-                    >
-                      Reset
-                    </Button>
-                  </div>
-                  <div>
-                    <CustomGroupButton
-                      labels={buttonLabels}
-                      onClick={handleGroupButtonClick}
-                      activeButton={activeButton}
-                    />
-                  </div>
-                </div> */}
                 <div className={Styles.tableContainer}>
                   <div>
                     <table className={Styles.scrollable_table}>
@@ -490,11 +396,6 @@ const HsnCodeList = () => {
                                             editHscCodeHandler(data.hsn_code_id)
                                           }
                                         />
-                                        {/* <DeleteIcon
-                                          onClick={() =>
-                                            deleteCategoryHandler(data.hsn_code_id)
-                                          }
-                                        /> */}
                                       </div>
                                     </td>
                                   )}
@@ -536,11 +437,6 @@ const HsnCodeList = () => {
                                           editHscCodeHandler(data.hsn_code_id)
                                         }
                                       />
-                                      {/* <DeleteIcon
-                                      onClick={() =>
-                                        deleteCategoryHandler(data.hsn_code_id)
-                                      }
-                                    /> */}
                                     </div>
                                   </td>
                                 )}

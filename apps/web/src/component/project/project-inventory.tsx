@@ -2,18 +2,15 @@ import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/projectInventory.module.scss';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import Button from '../ui/Button';
 import { environment } from '../../environment/environment';
 import { formatBudgetValue } from '../../helper/common-function';
 import CustomLoader from '../ui/customLoader';
 import projectInventoryService from '../../service/projectInventory-service';
-import ProjectSubheader from '../project/projectSubheader';
 import StoreIcon from '../menu/icons/newStoreIcon';
 
 
 const ProjectInventory = () => {
   const routeParams = useParams();
-  const navigate = useNavigate();
   const projectId = Number(routeParams?.id);
 
   const [rowsPerPage, setRowsPerPage] = useState(50);
@@ -41,7 +38,7 @@ const ProjectInventory = () => {
         );
         if (result.message === 'success') {
           setTableData(result.content);
-          setDataLoading(false);          
+          setDataLoading(false);
         }
       }
     };
@@ -56,18 +53,17 @@ const ProjectInventory = () => {
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
 
-        {/* <div className={Styles.dividerStyle}></div> */}
         <div className={Styles.topHeading}>
-              <div className={Styles.heading}>
-                <div className={Styles.headingOne}>
-                  <div className={Styles.subHeading}>
-                    <StoreIcon />
-                    <h3>Inventory</h3>
-                  </div>
-                </div>
+          <div className={Styles.heading}>
+            <div className={Styles.headingOne}>
+              <div className={Styles.subHeading}>
+                <StoreIcon />
+                <h3>Inventory</h3>
               </div>
             </div>
-        
+          </div>
+        </div>
+
         <div className={Styles.tableContainer}>
           <div>
             <table className={Styles.scrollable_table}>

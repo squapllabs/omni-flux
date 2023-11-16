@@ -6,7 +6,6 @@ import Select from '../../../ui/selectNew';
 import DatePicker from '../../../ui/CustomDatePicker';
 import TextArea from '../../../ui/CustomTextArea';
 import Button from '../../../ui/Button';
-import { getBOMbyProjectandType } from '../../../../hooks/bom-hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import IndentRequestDetails from './indentRequestDetails';
 import { store, RootState } from '../../../../redux/store';
@@ -19,7 +18,6 @@ import {
 import IndentRequestService from '../../../../service/indentRequest-service';
 import { format } from 'date-fns';
 import * as yup from 'yup';
-import PageDisabled from '../../../ui/pageDisableComponent';
 import { formatBudgetValue } from '../../../../helper/common-function';
 import CustomSnackBar from '../../../ui/customSnackBar';
 import { getProjectSite } from '../../../../hooks/project-hooks';
@@ -45,7 +43,6 @@ const IndentRequest: React.FC = (props: any) => {
     project_id: Number(routeParams?.id),
     site_id: '',
     request_status: '',
-    // request_type: '',
   });
   const [indentRequestDetailsList, setIndentRequestDetailsList] = useState<any>(
     []
@@ -232,26 +229,6 @@ const IndentRequest: React.FC = (props: any) => {
                 },
               });
             } else {
-              // if (values.request_type === 'Local Purchase') {
-              //   const obj: any = {
-              //     ...values,
-              //     approver_status:
-              //       values.request_status === 'Draft' ? 'Draft' : 'Approved',
-              //     indent_request_details: indentRequestDetailsList,
-              //     site_id: Number(formik.values.site_id),
-              //   };
-              //   postIndentData(obj, {
-              //     onSuccess(data, variables, context) {
-              //       if (data?.status === true) {
-              //         setMessage('Indent created successfully');
-              //         setOpenSnack(true);
-              //         setTimeout(() => {
-              //           navigate(`/project-edit/${routeParams?.id}`);
-              //         }, 2000);
-              //       }
-              //     },
-              //   });
-              // } else {
               const obj: any = {
                 ...values,
                 approver_status:
@@ -259,7 +236,6 @@ const IndentRequest: React.FC = (props: any) => {
                 indent_request_details: indentRequestDetailsList,
                 site_id: Number(formik.values.site_id),
               };
-              console.log('obj:::', obj);
               postIndentData(obj, {
                 onSuccess(data, variables, context) {
                   if (data?.status === true) {
@@ -278,7 +254,6 @@ const IndentRequest: React.FC = (props: any) => {
         .catch((e: any) => {
           const errorObj = {};
           e.inner?.map((error: any) => {
-            console.log('error', e);
             return (errorObj[error.path] = error.message);
           });
           setErrors({
@@ -364,32 +339,7 @@ const IndentRequest: React.FC = (props: any) => {
                       )}
                     </Select>
                   </div>
-                  {/* <div style={{ width: '40%' }}>
-                      <Select
-                        label="Purchase Type"
-                        name="request_type"
-                        mandatory={true}
-                        onChange={formik.handleChange}
-                        value={formik.values.request_type}
-                        defaultLabel="Select from priority"
-                        placeholder="Select from priority"
-                        error={
-                          formik.touched.request_type &&
-                          formik.errors.request_type
-                        }
-                        disabled={disabled}
-                      >
-                        {purchase_type?.map((items: any, index: any) => {
-                          return (
-                            <option key={items.value} value={items.value}>
-                              {items.label}
-                            </option>
-                          );
-                        })}
-                      </Select>
-                    </div> */}
-                  {/* </div> */}
-                  {/* <div style={{ marginLeft: '2.5%' }}> */}
+
                   <div style={{ width: '40%' }}>
                     <Input
                       label="Total Cost"

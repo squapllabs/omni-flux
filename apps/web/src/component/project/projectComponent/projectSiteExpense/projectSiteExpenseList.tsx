@@ -10,7 +10,6 @@ import { getProjectSite } from '../../../../hooks/project-hooks';
 import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
 import CustomGroupButton from '../../../ui/CustomGroupButton';
 import { getBySearchsiteExpense } from '../../../../hooks/expense-hook';
-import { format } from 'date-fns';
 import EditIcon from '../../../menu/icons/newEditIcon';
 import CustomLoader from '../../../ui/customLoader';
 import CustomPagination from '../../../menu/CustomPagination';
@@ -126,23 +125,6 @@ const ProjectSiteExpenseList = () => {
 
   return (
     <div className={Styles.container}>
-      {/* <div className={Styles.cardContainer}>
-        <table className={Styles.cardTable}>
-          <tr>
-            <th className={Styles.cardHeader}>EXPENSE CODE</th>
-          </tr>
-          <tr>
-            <td>tb</td>
-          </tr>
-          <tr>
-            <th className={Styles.cardHeader} style={{ borderTop: '1px solid rgb(198, 197, 197)' }}>ADDED BY</th>
-          </tr>
-          <tr>
-            <td>tb</td>
-          </tr>
-        </table>
-      </div> */}
-
       <CustomLoader loading={fetchLoader} size={48}>
         {getSiteList ? (
           <div>
@@ -380,7 +362,7 @@ const ProjectSiteExpenseList = () => {
                     </div>
                   )}
                   {screenSize.width <= 750 && (                             //For Mobile Table View
-                    <div className={Styles.mobileTableContainer} >               
+                    <div className={Styles.mobileTableContainer} >
                       <div className={Styles.cardContainer}>
                         {getExpenseList?.content?.map(
                           (items: any, index: any) => {

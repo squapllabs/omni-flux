@@ -46,31 +46,14 @@ const Home = () => {
   const { data: projectData = [], isLoading: getAllProjectStatusLoading } =
     useGetDashboardDatasforPO();
 
-  const handleCreateList = () => {
-    setCreateItem(true);
-    setCreateCustomer(false);
-  };
-
-  const handleCreateCustomer = () => {
-    setCreateCustomer(true);
-    setCreateItem(false);
-  };
-
-  // const projectStatusData: any = [['Projects', 'Total Days', 'So Far']];
   const projectNames: any = [];
   const projectTotal: any = [];
   const projectCompleted: any = [];
-  // console.log("getAllProjectStatusLoading", getAllProjectStatusLoading);
   projectData?.top_projects?.map(async (val: any) => {
     projectNames.push(val.project_name);
     projectTotal.push(val.project_total_days);
     projectCompleted.push(val.days_completed);
   });
-
-  // useEffect(()=>{
-
-  // },[!getAllProjectStatusLoading])
-  // console.log("projectTotal",projectTotal);
 
   const data = {
     labels: projectNames,
@@ -85,10 +68,9 @@ const Home = () => {
         label: 'So Far',
         data: !getAllProjectStatusLoading ? projectCompleted : [],
         backgroundColor: '#7752FE', // Color for the second dataset
-      }
+      },
     ],
   };
-
 
   const yAxisMin = 0; // Minimum value on the Y-axis
   const yAxisMax = 3000;
@@ -110,13 +92,10 @@ const Home = () => {
     },
   };
 
-
-
   const topProjectsData: any = [['Projects', 'Budget']];
   projectData?.top_projects?.map(async (val: any) => {
     await topProjectsData.push([val.project_name, val.total_budget]);
   });
-
 
   const formatNumberToLakh = (number: number) => {
     const lakhValue = number / 100000;
@@ -132,16 +111,10 @@ const Home = () => {
         color="#333C44"
       >
         <div className={Styles.containerCard}>
-          {/* <div className={Styles.dashBoardcontainer}> */}
           <div>PROJECT TRACKER</div>
           <div className={Styles.barCarddDiv}>
             <div className={Styles.chart}>
-              <Bar
-                width={50}
-                height={15}
-                data={data}
-                options={options}
-              />
+              <Bar width={50} height={15} data={data} options={options} />
             </div>
           </div>
           <div>
@@ -289,14 +262,13 @@ const Home = () => {
         </div>
         <div className={Styles.projectDiv}>
           <div className={Styles.headingGap}>
-            {' '}
             TOP 5: PROJECTS
             <table className={Styles.scrollable_table}>
               <thead></thead>
               <tbody>
-                {projectData?.top_projects?.map((data: any) => {
+                {projectData?.top_projects?.map((data: any, index: any) => {
                   return (
-                    <tr>
+                    <tr key={data?.project_name}>
                       <td className={Styles.headTitle}>
                         {data?.project_name}
                         {/* <span className={Styles.spantag}>120 invoices (so for)</span> */}
@@ -322,7 +294,7 @@ const Home = () => {
                 {projectData?.project_based_purchase_order_data?.map(
                   (data: any) => {
                     return (
-                      <tr>
+                      <tr key={data?.project_name}>
                         <td>
                           <span className={Styles.headTitle}>
                             {data?.project_name}

@@ -9,9 +9,6 @@ import {
 import ClientForm from './clientForm';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
-import { createClient } from '../../hooks/client-hooks';
-import * as Yup from 'yup';
-import { getClientValidateyup } from '../../helper/constants/client-constants';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/CustomPagination';
 import SearchIcon from '../menu/icons/search';
@@ -20,7 +17,7 @@ import AddIcon from '../menu/icons/addIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
-import {handleSortByColumn} from './../../helper/common-function'
+import { handleSortByColumn } from './../../helper/common-function'
 
 /* Function for Client List */
 const ClientList = () => {
@@ -39,10 +36,7 @@ const ClientList = () => {
   const [message, setMessage] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [isLoading, setIsLoading] = useState(true);
-  const [filter, setFilter] = useState(false);
   const [value, setValue] = useState();
-  const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [dataShow, setDataShow] = useState(false);
   const [openClientForm, setOpenClientForm] = useState(false);
   const [filterValues, setFilterValues] = useState({
@@ -68,7 +62,7 @@ const ClientList = () => {
 
   useEffect(() => {
     refetch();
-  }, [currentPage, rowsPerPage, activeButton,  sortColumn, sortOrder]);
+  }, [currentPage, rowsPerPage, activeButton, sortColumn, sortOrder]);
 
   useEffect(() => {
     const handleSearch = setTimeout(() => {
@@ -173,13 +167,13 @@ const ClientList = () => {
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th onClick={() => handleSortByColumn('name',sortOrder,setSortOrder,setSortColumn)}>
-                        <div className={Styles.headingRow}>
-                            <div>Client Name</div><div>
-                              <FilterOrderIcon />
+                          <th onClick={() => handleSortByColumn('name', sortOrder, setSortOrder, setSortColumn)}>
+                            <div className={Styles.headingRow}>
+                              <div>Client Name</div><div>
+                                <FilterOrderIcon />
+                              </div>
                             </div>
-                          </div>
-                        </th>
+                          </th>
                           <th>Contact Details</th>
                           {activeButton === 'AC' && <th>Actions</th>}
                         </tr>
@@ -263,40 +257,40 @@ const ClientList = () => {
             </div>
           ) : (
             <div>
-            <div className={Styles.subHeading}>
-            </div>
-            <div className={Styles.emptyDataHandling}>
-              <div>
-                <img
-                  src="/client.jpg"
-                  alt="aa"
-                  width="100%"
-                  height="200px"
-                />
+              <div className={Styles.subHeading}>
               </div>
-              <div>
-                <h5>Client list is Empty</h5>
-              </div>
-              <div className={Styles.contentGap}>
-                <span className={Styles.spanContent}>Go ahead, add new Clients</span>
-              </div>
-              <div>
+              <div className={Styles.emptyDataHandling}>
+                <div>
+                  <img
+                    src="/client.jpg"
+                    alt="aa"
+                    width="100%"
+                    height="200px"
+                  />
+                </div>
+                <div>
+                  <h5>Client list is Empty</h5>
+                </div>
+                <div className={Styles.contentGap}>
+                  <span className={Styles.spanContent}>Go ahead, add new Clients</span>
+                </div>
+                <div>
                   <Button
-                      color="primary"
-                      shape="rectangle"
-                      justify="center"
-                      size="small"
-                      icon={<AddIcon color="white" />}
-                      onClick={() => {
-                        setMode('ADD');
-                        setOpenClientForm(true);
-                      }}
-                    >
-                      Add Client
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => {
+                      setMode('ADD');
+                      setOpenClientForm(true);
+                    }}
+                  >
+                    Add Client
                   </Button>
+                </div>
               </div>
             </div>
-          </div>
           )}
         </CustomLoader>
         <CustomSidePopup
