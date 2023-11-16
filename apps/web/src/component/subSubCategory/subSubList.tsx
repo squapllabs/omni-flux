@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/subSubCategoryList.module.scss';
 import {
   useDeleteSubSubcategory,
-  getBySearchSubSubCategroy,
+  useGetBySearchSubSubCategroy,
 } from '../../hooks/subSubCategory-hooks';
 import SubSubForm from './subSubForm';
 import Button from '../ui/Button';
@@ -26,7 +26,7 @@ const SubSubCategoryList = () => {
     mutate: postFilterRequest,
     data: getFilterData,
     isLoading: filterLoading,
-  } = getBySearchSubSubCategroy();
+  } = useGetBySearchSubSubCategroy();
   const { mutate: getDeleteSubSubCategoryByID } = useDeleteSubSubcategory();
   const navigate = useNavigate();
   const [value, setValue] = useState(0);
@@ -118,7 +118,7 @@ const SubSubCategoryList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
-    if(searchValue=== ''){
+    if (searchValue === '') {
       handleReset();
     }
   };
@@ -141,12 +141,12 @@ const SubSubCategoryList = () => {
     setIsLoading(false);
     setIsResetDisabled(true);
   };
- 
+
   /* Function for group button (Active and Inactive) */
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
-  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div>
       <CustomLoader loading={filterLoading} size={48} color="#333C44">
@@ -156,13 +156,15 @@ const SubSubCategoryList = () => {
               <h3>Add New Sub Sub Categories</h3>
             </div>
             <div>
-            <Button
+              <Button
                 color="primary"
                 shape="rectangle"
                 justify="center"
                 size="small"
-                icon={<AddIcon color='white'/>}
-                onClick={() => {navigate('/subsubcategory-add')}}
+                icon={<AddIcon color="white" />}
+                onClick={() => {
+                  navigate('/subsubcategory-add');
+                }}
               >
                 Add Sub Sub Category
               </Button>
@@ -246,7 +248,9 @@ const SubSubCategoryList = () => {
                             <td>{formatBudgetValue(item.budget)}</td>
                             <td>
                               <span title={item.description}>
-                                {item.description?item.description.substring(0, 20) : '-'}
+                                {item.description
+                                  ? item.description.substring(0, 20)
+                                  : '-'}
                               </span>
                             </td>
                             {activeButton === 'AC' && (

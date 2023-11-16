@@ -2,7 +2,7 @@ import React from 'react';
 import {
   useGetAllUsers,
   useDeleteUsers,
-  getByUser,
+  useGetByUser,
   useGetAllPaginatedUser,
 } from '../../hooks/user-hooks';
 

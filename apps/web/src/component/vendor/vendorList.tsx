@@ -12,13 +12,13 @@ import AddIcon from '../menu/icons/addIcon';
 import Styles from '../../styles/vendor.module.scss';
 import {
   useGetAllPaginatedVendor,
-  getByFilterVendor,
+  useGetByFilterVendor,
   useDeleteVendor,
 } from '../../hooks/vendor-hooks';
 import CustomSnackbar from '../ui/customSnackBar';
 import ProjectSubheader from '../project/projectSubheader';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
-import { handleSortByColumn } from './../../helper/common-function'
+import { handleSortByColumn } from './../../helper/common-function';
 
 const VendorList = () => {
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ const VendorList = () => {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: searchLoader,
-  } = getByFilterVendor();
+  } = useGetByFilterVendor();
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -132,7 +132,9 @@ const VendorList = () => {
                     justify="center"
                     size="small"
                     icon={<AddIcon color="white" />}
-                    onClick={() => navigate('/vendor-add', { state: { path: currentPath } })}
+                    onClick={() =>
+                      navigate('/vendor-add', { state: { path: currentPath } })
+                    }
                   >
                     Add Vendor
                   </Button>
@@ -159,16 +161,36 @@ const VendorList = () => {
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th onClick={() => handleSortByColumn('vendor_name', sortOrder, setSortOrder, setSortColumn)}>
+                    <th
+                      onClick={() =>
+                        handleSortByColumn(
+                          'vendor_name',
+                          sortOrder,
+                          setSortOrder,
+                          setSortColumn
+                        )
+                      }
+                    >
                       <div className={Styles.headingRow}>
-                        <div>Vendor Name</div><div>
+                        <div>Vendor Name</div>
+                        <div>
                           <FilterOrderIcon />
                         </div>
                       </div>
                     </th>
-                    <th onClick={() => handleSortByColumn('contact_person', sortOrder, setSortOrder, setSortColumn)}>
+                    <th
+                      onClick={() =>
+                        handleSortByColumn(
+                          'contact_person',
+                          sortOrder,
+                          setSortOrder,
+                          setSortColumn
+                        )
+                      }
+                    >
                       <div className={Styles.headingRow}>
-                        <div>Contact Person Name</div><div>
+                        <div>Contact Person Name</div>
+                        <div>
                           <FilterOrderIcon />
                         </div>
                       </div>
@@ -228,7 +250,9 @@ const VendorList = () => {
                             <div className={Styles.tablerow}>
                               <EditIcon
                                 onClick={() =>
-                                  navigate(`/vendor-edit/${data.vendor_id}`, { state: { path: currentPath } })
+                                  navigate(`/vendor-edit/${data.vendor_id}`, {
+                                    state: { path: currentPath },
+                                  })
                                 }
                               />
                               <ViewIcon
@@ -252,7 +276,9 @@ const VendorList = () => {
                   dataShow ? getFilterData?.total_page : initialData?.total_page
                 }
                 totalCount={
-                  dataShow ? getFilterData?.total_count : initialData?.total_count
+                  dataShow
+                    ? getFilterData?.total_count
+                    : initialData?.total_count
                 }
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
@@ -262,8 +288,7 @@ const VendorList = () => {
           </div>
         ) : (
           <div>
-            <div className={Styles.subHeading}>
-            </div>
+            <div className={Styles.subHeading}></div>
             <div className={Styles.emptyDataHandling}>
               <div>
                 <img
@@ -278,7 +303,9 @@ const VendorList = () => {
                 <h5>Vendors List is Empty</h5>
               </div>
               <div className={Styles.contentGap}>
-                <span className={Styles.spanContent}>Go ahead, add new vendors</span>
+                <span className={Styles.spanContent}>
+                  Go ahead, add new vendors
+                </span>
               </div>
               <div>
                 <Button
@@ -295,7 +322,6 @@ const VendorList = () => {
             </div>
           </div>
         )}
-
       </CustomLoader>
       <CustomDelete
         open={openDelete}

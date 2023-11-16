@@ -15,9 +15,7 @@ import userService from '../../service/user-service';
 import CloseIcon from '../menu/icons/closeIcon';
 import TextArea from '../ui/CustomTextArea';
 import PageDisabled from '../ui/pageDisableComponent';
-import {
-  updateVendorQuotes,
-} from '../../hooks/vendorQuotes-hooks';
+import { useUpdateVendorQuotes } from '../../hooks/vendorQuotes-hooks';
 import vendorQuotesService from '../../service/vendorQuotes-service';
 import MailIcon from '../menu/icons/mailIcon';
 import TelePhoneIcon from '../menu/icons/telephone';
@@ -64,7 +62,7 @@ const VendorQuotesUpdate = () => {
   const [pageDisable, setPageDisabale] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const { mutate: updateOneVendorQuotes } = updateVendorQuotes();
+  const { mutate: updateOneVendorQuotes } = useUpdateVendorQuotes();
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
@@ -273,7 +271,7 @@ const VendorQuotesUpdate = () => {
     tempObj = {
       ...tableData[index],
       [event.target.name]: Number(event.target.value),
-      'total_cost':
+      total_cost:
         tableData[index].purchase_requested_quantity *
         Number(event.target.value),
     };

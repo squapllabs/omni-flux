@@ -17,8 +17,8 @@ import {
   getByProjectId,
 } from '../../hooks/project-hooks';
 import {
-  updateStockOutWard,
-  getByStockOutWardId,
+  useUpdateStockOutWard,
+  useGetByStockOutWardId,
 } from '../../hooks/stock-outward';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -108,7 +108,7 @@ const StoreOutwardEdit = () => {
 
   const { data: getSiteEngineerData } = getUserDataProjectRolebased(Obj);
   const { data: getProjectData } = getByProjectId(projectId);
-  const { mutate: updateOneStockOutWard } = updateStockOutWard();
+  const { mutate: updateOneStockOutWard } = useUpdateStockOutWard();
   const validationSchema = getStockOutwardCreationYupschema(Yup);
 
   const formik = useFormik({

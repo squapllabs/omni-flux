@@ -6,7 +6,7 @@ import DeleteIcon from '../../menu/icons/deleteIcon';
 import Button from '../../ui/Button';
 import { useCreateBulkBom } from '../../../hooks/bom-hooks';
 import { useGetAllItemsDrops } from '../../../hooks/item-hooks';
-import { useGetAllUomDrop, getUomByType } from '../../../hooks/uom-hooks';
+import { useGetAllUomDrop, useGetUomByType } from '../../../hooks/uom-hooks';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
 import { bomErrorMessages } from '../../../helper/constants/bom-constants';
@@ -48,7 +48,7 @@ const BomRawMaterials: React.FC = (props: any) => {
   const [reload, setReload] = useState(false);
   const [bomIndex, setBomIndex] = useState<any>();
   const { data: getAllItemDrop } = useGetAllItemsDrops();
-  const { data: getAllUomDrop } = getUomByType('RAWMT');
+  const { data: getAllUomDrop } = useGetUomByType('RAWMT');
 
   useEffect(() => {
     if (props.bomList.length === 0 && props.bomId) {

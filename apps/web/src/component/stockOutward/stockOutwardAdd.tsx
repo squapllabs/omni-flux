@@ -16,7 +16,7 @@ import {
   getUserDataProjectRolebased,
   getByProjectId,
 } from '../../hooks/project-hooks';
-import { createStockOutWard } from '../../hooks/stock-outward';
+import { useCreateStockOutWard } from '../../hooks/stock-outward';
 import { useNavigate } from 'react-router-dom';
 import {
   getStockOutwardCreationYupschema,
@@ -59,7 +59,7 @@ const StoreOutwardAdd = () => {
   };
   const { data: getSiteEngineerData = [] } = getUserDataProjectRolebased(Obj);
   const { data: getProjectData } = getByProjectId(projectId);
-  const { mutate: createNewStockOutWard } = createStockOutWard();
+  const { mutate: createNewStockOutWard } = useCreateStockOutWard();
 
   const validationSchema = getStockOutwardCreationYupschema(Yup);
 
@@ -142,7 +142,6 @@ const StoreOutwardAdd = () => {
           <form onSubmit={formik.handleSubmit}>
             <div className={Styles.fields_container}>
               <div className={Styles.fields_container_1}>
-
                 <div className={Styles.topHeading}>
                   <span className={Styles.heading}>Project Name</span>
                   <h3>{getProjectData?.project_name}</h3>
@@ -433,8 +432,7 @@ const ItemDetailsTable: React.FC = (props: {
                   style={{
                     cursor: 'pointer',
                   }}
-                >
-                </div>
+                ></div>
               </td>
             </tr>
           </tbody>

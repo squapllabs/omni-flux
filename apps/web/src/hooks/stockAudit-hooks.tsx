@@ -12,7 +12,7 @@ const useGetAllPaginatedStockAudit = (data: any) => {
   );
 };
 
-const getByFilterStockAudit = () => {
+const useGetByFilterStockAudit = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -40,7 +40,7 @@ const useDeleteStockAudit = () => {
   );
 };
 
-const createStockAudit = () => {
+const useCreateStockAudit = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -54,7 +54,7 @@ const createStockAudit = () => {
   );
 };
 
-const updateStockAudit = () => {
+const useUpdateStockAudit = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -68,9 +68,9 @@ const updateStockAudit = () => {
   );
 };
 
-const getByStockAuditId = (id: number) => {
+const useGetByStockAuditId = (id: number) => {
   return useQuery(
-    ['getByuserID', id],
+    ['getByStockAuditId', id],
     () => StockAuditService.getOneStockAuditById(id),
     {
       select: (data) => data.data,
@@ -95,7 +95,7 @@ const useGetAllStockAudits = () => {
   );
 };
 
-const getItemByProjectAndSite = (values : any) => {
+const useGetItemByProjectAndSite = (values: any) => {
   return useQuery(
     ['getItems', values],
     () => StockAuditService.getItems(values),
@@ -107,11 +107,11 @@ const getItemByProjectAndSite = (values : any) => {
 
 export {
   useGetAllPaginatedStockAudit,
-  getByFilterStockAudit,
+  useGetByFilterStockAudit,
   useDeleteStockAudit,
-  createStockAudit,
-  updateStockAudit,
-  getByStockAuditId,
+  useCreateStockAudit,
+  useUpdateStockAudit,
+  useGetByStockAuditId,
   useGetAllStockAudits,
-  getItemByProjectAndSite
+  useGetItemByProjectAndSite,
 };

@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/machinery.module.scss';
-import { getByUomType } from '../../hooks/uom-hooks';
+import { useGetByUomType } from '../../hooks/uom-hooks';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from '../ui/CustomDatePicker';
 import { getCreateValidateyup } from '../../helper/constants/machinery-constants';
@@ -19,7 +19,7 @@ import Select from '../ui/selectNew';
 import ProjectSubheader from '../project/projectSubheader';
 
 const AddMachinery = () => {
-  const { data: getAllUomList = [] } = getByUomType();
+  const { data: getAllUomList = [] } = useGetByUomType();
   const { mutate: createNewMachinery } = createMachinery();
   const { mutate: updateOneMachinery } = updateMachinery();
   const routeParams = useParams();

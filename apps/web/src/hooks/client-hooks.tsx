@@ -18,7 +18,7 @@ const useGetAllClientDrop = () => {
   });
 };
 
-const useGetByuserID = (id: number) => {
+const useGetByclinetID = (id: number) => {
   return useQuery(
     ['getOneClientyID', id],
     () => ClientService.getOneClientByID(id),
@@ -109,7 +109,7 @@ const useGetAllPaginatedClient = (data: any) => {
 
 export {
   useGetAllClient,
-  useGetByuserID,
+  useGetByclinetID,
   useCreateClient,
   useUpdateClient,
   useDeleteClient,

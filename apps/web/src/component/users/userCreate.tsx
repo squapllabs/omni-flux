@@ -3,7 +3,7 @@ import Styles from '../../styles/user.module.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { getUsercreationYupschema } from '../../helper/constants/user-constants';
-import { createUser } from '../../hooks/user-hooks';
+import { useCreateUser } from '../../hooks/user-hooks';
 import { useGetAllRole } from '../../hooks/userRole-hooks';
 import { useNavigate } from 'react-router';
 import Input from '../ui/Input';
@@ -60,7 +60,7 @@ const UserCreate = () => {
     setPasswordShown(!passwordShown);
   };
 
-  const { mutate: createNewusers } = createUser();
+  const { mutate: createNewusers } = useCreateUser();
   const { data: getAllRoles = [] } = useGetAllRole();
 
   const options = [

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
 import Styles from '../../styles/vendorView.module.scss';
 import CustomCard from '../ui/CustomCard';
-import { getByVendorId } from '../../hooks/vendor-hooks';
+import { useGetByVendorId } from '../../hooks/vendor-hooks';
 import BackArrowIcon from '../menu/icons/backArrow';
 import ProjectSubheader from '../project/projectSubheader';
 
@@ -12,7 +12,7 @@ const VendorView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   const VendorId = Number(routeParams?.id);
-  const { data: getOneVendor } = getByVendorId(VendorId);
+  const { data: getOneVendor } = useGetByVendorId(VendorId);
   return (
     <div>
       {/* <div className={Styles.title}>

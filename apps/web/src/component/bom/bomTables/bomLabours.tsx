@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import DeleteIcon from '../../menu/icons/deleteIcon';
 import Button from '../../ui/Button';
 import { useCreateBulkBom } from '../../../hooks/bom-hooks';
-import { useGetAllUomDrop, getUomByType } from '../../../hooks/uom-hooks';
+import { useGetAllUomDrop, useGetUomByType } from '../../../hooks/uom-hooks';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
 import { bomErrorMessages } from '../../../helper/constants/bom-constants';
@@ -73,7 +73,7 @@ const BomLabours: React.FC = (props: any) => {
   const [reload, setReload] = useState(false);
 
   const { data: getAllLabourDrop } = useGetAllLabourForDrop();
-  const { data: getAllUomDrop } = getUomByType('LABOR');
+  const { data: getAllUomDrop } = useGetUomByType('LABOR');
   const { mutate: bulkBomData, data: responseData } = useCreateBulkBom();
 
   const handleDeleteSiteExpense = (e: any, value: any) => {
@@ -171,7 +171,9 @@ const BomLabours: React.FC = (props: any) => {
                       return (
                         <tr key={index}>
                           <td>{rowIndex}</td>
-                          <td style={{textAlign:'left'}}>{items.bom_name}</td>
+                          <td style={{ textAlign: 'left' }}>
+                            {items.bom_name}
+                          </td>
                           {/* <td>
                       <Input
                         name="description"

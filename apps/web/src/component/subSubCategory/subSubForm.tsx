@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import {
-  createSubSubcategory,
-  updateSubSubcategory,
+  useCreateSubSubcategory,
+  useUpdateSubSubcategory,
 } from '../../hooks/subSubCategory-hooks';
 import {
   getUpdateValidateyup,
@@ -15,7 +15,7 @@ import Input from '../../component/ui/Input';
 import Button from '../ui/Button';
 import Select from '../ui/selectNew';
 import Styles from '../../styles/subSubCategoryList.module.scss';
-import CancelIcon from '../menu/icons/closeIcon'
+import CancelIcon from '../menu/icons/closeIcon';
 
 //Function for Sub Sub Category
 const SubSubCategoryForm: React.FC = (props: any) => {
@@ -24,8 +24,8 @@ const SubSubCategoryForm: React.FC = (props: any) => {
       ? getCreateValidateyup(Yup)
       : getUpdateValidateyup(Yup);
   const { data: getAllSubCategory = [] } = useGetAllSubcategoryDrop();
-  const { mutate: createNewSubSubCategory } = createSubSubcategory();
-  const { mutate: updateSubSubCategoryData } = updateSubSubcategory();
+  const { mutate: createNewSubSubCategory } = useCreateSubSubcategory();
+  const { mutate: updateSubSubCategoryData } = useUpdateSubSubcategory();
   const [initialValues, setInitialValues] = useState({
     sub_sub_category_id: '',
     name: '',
@@ -94,14 +94,19 @@ const SubSubCategoryForm: React.FC = (props: any) => {
   //Function for closing the popup
   const handleClose = () => {
     props.setOpenPopup(false);
-  }
+  };
 
   return (
     <div className={Styles.formContainer}>
       <form onSubmit={formik.handleSubmit}>
         <div className={Styles.header}>
-          <div><h4 className={Styles.titleStyle}>Edit Sub Sub Category</h4></div>
-          <div> <CancelIcon onClick={handleClose} /></div>
+          <div>
+            <h4 className={Styles.titleStyle}>Edit Sub Sub Category</h4>
+          </div>
+          <div>
+            {' '}
+            <CancelIcon onClick={handleClose} />
+          </div>
         </div>
         <div className={Styles.dividerStyle}></div>
         <div className={Styles.field}>
@@ -149,7 +154,12 @@ const SubSubCategoryForm: React.FC = (props: any) => {
         <div className={Styles.dividerStyle}></div>
         <div className={Styles.formButton}>
           <div>
-            <Button className={Styles.cancelButton} shape="rectangle" justify="center" onClick={handleClose}>
+            <Button
+              className={Styles.cancelButton}
+              shape="rectangle"
+              justify="center"
+              onClick={handleClose}
+            >
               Cancel
             </Button>
           </div>

@@ -5,7 +5,7 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/customaddabstract.module.scss';
 import {
-  createInstantSubcategory,
+  useCreateInstantSubcategory,
   updateSubcategory,
 } from '../../hooks/subCategory-hooks';
 import CustomPopup from '../ui/CustomPopupDialog';
@@ -40,7 +40,7 @@ const CustomSubCategoryAdd = (props: {
   // console.log('!!!!!!!!!!', selectedSubCategory);
 
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
-  const { mutate: createNewSubCategory } = createInstantSubcategory();
+  const { mutate: createNewSubCategory } = useCreateInstantSubcategory();
   const { mutate: updateSubcategoryData } = updateSubcategory();
   const [clientinitialValues, setclientInitialValues] = useState({
     name: '',

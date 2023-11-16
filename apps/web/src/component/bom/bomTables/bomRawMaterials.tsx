@@ -6,7 +6,7 @@ import DeleteIcon from '../../menu/icons/deleteIcon';
 import Button from '../../ui/Button';
 import { useCreateBulkBom } from '../../../hooks/bom-hooks';
 import { useGetAllItemsDrops } from '../../../hooks/item-hooks';
-import { useGetAllUomDrop, getUomByType } from '../../../hooks/uom-hooks';
+import { useGetAllUomDrop, useGetUomByType } from '../../../hooks/uom-hooks';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
 import { bomErrorMessages } from '../../../helper/constants/bom-constants';
@@ -73,7 +73,7 @@ const BomRawMaterials: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [reload, setReload] = useState(false);
   const { data: getAllItemDrop } = useGetAllItemsDrops();
-  const { data: getAllUomDrop } = getUomByType('RAWMT');
+  const { data: getAllUomDrop } = useGetUomByType('RAWMT');
 
   const handleDeleteSiteExpense = (e: any, value: any) => {
     setBomValue(value);
@@ -165,7 +165,7 @@ const BomRawMaterials: React.FC = (props: any) => {
                   return (
                     <tr>
                       <td>{rowIndex}</td>
-                      <td style={{textAlign:'left'}}>{items.bom_name}</td>
+                      <td style={{ textAlign: 'left' }}>{items.bom_name}</td>
                       {/* <td>
                       <Input
                         name="description"

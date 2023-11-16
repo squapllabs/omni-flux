@@ -208,7 +208,7 @@ const CategoryList = () => {
                 shape="rectangle"
                 justify="center"
                 size="small"
-                icon={<AddIcon color='white'/>}
+                icon={<AddIcon color="white" />}
                 onClick={() => {
                   navigate('/category-add');
                 }}

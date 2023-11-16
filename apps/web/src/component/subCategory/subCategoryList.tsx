@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/subCategoryList.module.scss';
 import {
   useDeleteSubcategory,
-  getBySearchCategroy,
+  useGetBySearchCategroy,
 } from '../../hooks/subCategory-hooks';
 import CategoryForm from './SubCategoryForm';
 import Button from '../ui/Button';
@@ -10,7 +10,7 @@ import Input from '../../component/ui/Input';
 import { useFormik } from 'formik';
 import { getCreateValidateyup } from '../../helper/constants/category/subcategory-constants';
 import * as Yup from 'yup';
-import { createSubcategory } from '../../hooks/subCategory-hooks';
+import { useCreateSubcategory } from '../../hooks/subCategory-hooks';
 import { useGetAllCategoryForDrop } from '../../hooks/category-hooks';
 import SearchIcon from '../menu/icons/search';
 import CustomLoader from '../ui/customLoader';
@@ -25,7 +25,6 @@ import AddIcon from '../menu/icons/addIcon';
 import { formatBudgetValue } from '../../helper/common-function';
 import { useNavigate } from 'react-router-dom';
 
-
 //Function for SubCategoryList
 const SubCategoryList = () => {
   const { mutate: getDeleteSubcategoryByID } = useDeleteSubcategory();
@@ -33,7 +32,7 @@ const SubCategoryList = () => {
     mutate: postDataForFilter,
     data: filterBasedData,
     isLoading: filterDataLoading,
-  } = getBySearchCategroy();
+  } = useGetBySearchCategroy();
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
@@ -147,11 +146,11 @@ const SubCategoryList = () => {
       ['search_by_name']: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
-    if(searchValue=== ''){
+    if (searchValue === '') {
       handleReset();
     }
   };
-  const startingIndex = (currentPage - 1) * rowsPerPage + 1 ;
+  const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
     <div>
       <CustomLoader loading={filterDataLoading} size={48} color="#333C44">
@@ -161,13 +160,15 @@ const SubCategoryList = () => {
               <h3>Add New Sub Categories</h3>
             </div>
             <div>
-            <Button
+              <Button
                 color="primary"
                 shape="rectangle"
                 justify="center"
                 size="small"
-                icon={<AddIcon color='white'/>}
-                onClick={() => {navigate('/subcategory-add')}}
+                icon={<AddIcon color="white" />}
+                onClick={() => {
+                  navigate('/subcategory-add');
+                }}
               >
                 Add Sub Category
               </Button>
@@ -253,10 +254,12 @@ const SubCategoryList = () => {
                               <td>{item.name}</td>
                               <td>{formatBudgetValue(item.budget)}</td>
                               <td>
-                              <span title={item.description}>
-                                {item.description?item.description.substring(0, 20) : '-'}
-                              </span>
-                            </td>
+                                <span title={item.description}>
+                                  {item.description
+                                    ? item.description.substring(0, 20)
+                                    : '-'}
+                                </span>
+                              </td>
                               {activeButton === 'AC' && (
                                 <td>
                                   <div className={Styles.tableIcon}>

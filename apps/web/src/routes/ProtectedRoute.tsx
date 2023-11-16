@@ -1,20 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { store, RootState } from '../redux/store';
 import { getToken } from '../redux/reducer';
 const ProtectedRoute: React.FC = (props: any) => {
   let encryptedData: { token: string } | null = null;
-  let loginToken: string | null;
+  // let loginToken: string | null;
+  const state: RootState = store.getState();
+  encryptedData = getToken(state, 'Data');
+  const loginTokenRef: any = useRef(null);
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
     const checkUserToken = () => {
-      const state: RootState = store.getState();
-      encryptedData = getToken(state, 'Data');
-      loginToken = encryptedData !== null ? encryptedData['token'] : null;
-      if (!loginToken || loginToken === 'undefined') {
+      const loginToken = encryptedData !== null ? encryptedData['token'] : null;
+      loginTokenRef.current = loginToken;
+      if (!loginTokenRef || loginTokenRef === 'undefined') {
         setIsLoggedIn(false);
         return navigate('/');
       }

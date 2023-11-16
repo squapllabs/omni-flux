@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-  getBycategoryIdInSub,
+  useGetBycategoryIdInSub,
   useDeleteSubcategory,
 } from '../../hooks/subCategory-hooks';
 import Styles from '../../styles/bomList.module.scss';
@@ -30,7 +30,7 @@ const BomItems = (props: {
     selectedCategory: selectedCategory,
     selectedBomConfig: selectedBomConfig,
   };
-  const { data: getAllData } = getBycategoryIdInSub(obj);
+  const { data: getAllData } = useGetBycategoryIdInSub(obj);
   const { mutate: getDeleteSubCategoryByID } = useDeleteSubcategory();
   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false);
   const [selectedSubCategoryId, setSelectedSubCategoryId] = useState();
@@ -38,7 +38,7 @@ const BomItems = (props: {
   const [message, setMessage] = useState('');
   const [isWarning, setIswarning] = useState(false);
   const [mode, setMode] = useState('');
-  const [reload,setReload] = useState(false);
+  const [reload, setReload] = useState(false);
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [value, setValue] = useState();
@@ -298,7 +298,7 @@ const BomItems = (props: {
                       navigate(`/bom/${items?.sub_category_id}`);
                     }}
                   >
-                    <AddIcon style={{ height: '15px', width: '15px'}} />
+                    <AddIcon style={{ height: '15px', width: '15px' }} />
                     <p className={Styles.addText}>Add Plan</p>
                   </div>
                   <div

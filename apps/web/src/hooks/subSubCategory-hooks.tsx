@@ -11,7 +11,7 @@ const useGetAllSubSubcategory = () => {
   );
 };
 
-const getBySubSubcategoryID = (id: number) => {
+const useGetBySubSubcategoryID = (id: number) => {
   return useQuery(
     ['getOneSubcategoryID', id],
     () => SubSubcategoryService.getOneSubSubcategoryByID(id),
@@ -21,7 +21,7 @@ const getBySubSubcategoryID = (id: number) => {
   );
 };
 
-const createSubSubcategory = () => {
+const useCreateSubSubcategory = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -35,7 +35,7 @@ const createSubSubcategory = () => {
   );
 };
 
-const updateSubSubcategory = () => {
+const useUpdateSubSubcategory = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -63,7 +63,7 @@ const useDeleteSubSubcategory = () => {
   );
 };
 
-const getBySearchSubSubCategroy = () => {
+const useGetBySearchSubSubCategroy = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -78,9 +78,9 @@ const getBySearchSubSubCategroy = () => {
 };
 export {
   useGetAllSubSubcategory,
-  getBySubSubcategoryID,
-  createSubSubcategory,
-  updateSubSubcategory,
+  useGetBySubSubcategoryID,
+  useCreateSubSubcategory,
+  useUpdateSubSubcategory,
   useDeleteSubSubcategory,
-  getBySearchSubSubCategroy,
+  useGetBySearchSubSubCategroy,
 };

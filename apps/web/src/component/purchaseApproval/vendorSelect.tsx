@@ -11,9 +11,9 @@ import CustomEditDialog from '../ui/customEditDialogBox';
 import vendorQuotesService from '../../service/vendorQuotes-service';
 import PurchaseRequestEdit from './purchaseRequestEdit';
 import {
-  updateVendorQuotes,
-  getByPRbasedVendorQuotes,
-  getVendorDetailsBasedONPR,
+  useUpdateVendorQuotes,
+  useGetByPRbasedVendorQuotes,
+  useGetVendorDetailsBasedONPR,
 } from '../../hooks/vendorQuotes-hooks';
 import CustomSnackBar from '../ui/customSnackBar';
 import ProjectSubheader from '../project/projectSubheader';
@@ -29,13 +29,13 @@ const VendorSelect = () => {
   const indentId = location.state.indent_id;
   const projectId = location.state.project_id;
   const navigate = useNavigate();
-  const { mutate: updateOneVendorQuotes } = updateVendorQuotes();
+  const { mutate: updateOneVendorQuotes } = useUpdateVendorQuotes();
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userID: number = encryptedData.userId;
   const prID = Number(routeParams?.id);
   const { data: getVendorList = [], isLoading: vendorLoading } =
-    getVendorDetailsBasedONPR(prID);
+    useGetVendorDetailsBasedONPR(prID);
   const [tableData, setTableData] = useState<any>([]);
   const [totalBudget, setTotalBudget] = useState<any>();
   const [Id, setID] = useState<any>([]);
@@ -135,7 +135,7 @@ const VendorSelect = () => {
     data: getVendorQuotes,
     isLoading: loading,
     refetch,
-  } = getByPRbasedVendorQuotes(vendorData);
+  } = useGetByPRbasedVendorQuotes(vendorData);
   useEffect(() => {
     const initialSiteId =
       vendorLoading === false ? getVendorList[0]?.value : null;
@@ -186,7 +186,7 @@ const VendorSelect = () => {
     tempObj = {
       ...tableData[index],
       [event.target.name]: Number(event.target.value),
-      'total_cost':
+      total_cost:
         tableData[index].purchase_requested_quantity *
         Number(event.target.value),
     };
@@ -224,7 +224,7 @@ const VendorSelect = () => {
   };
   const isAvilable = () => {
     return getVendorQuotes?.content?.some(
-      (obj:any) => obj.quotation_status === 'Approved'
+      (obj: any) => obj.quotation_status === 'Approved'
     );
   };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;

@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/machinery.module.scss';
-import { getByUomType } from '../../hooks/uom-hooks';
+import { useGetByUomType } from '../../hooks/uom-hooks';
 import DatePicker from '../ui/CustomDatePicker';
 import { getCreateValidateyup } from '../../helper/constants/machinery-constants';
 import { store, RootState } from '../../redux/store';
@@ -20,7 +20,7 @@ const InstantMachineryAdd = (props: {
   setOpenSnack: any;
 }) => {
   const { onAction, setMessage, setOpenSnack } = props;
-  const { data: getAllUomList = [] } = getByUomType();
+  const { data: getAllUomList = [] } = useGetByUomType();
   const { mutate: createNewMachinery } = createInstantMachinery();
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
@@ -51,7 +51,7 @@ const InstantMachineryAdd = (props: {
     initialValues,
     validationSchema,
     enableReinitialize: true,
-    onSubmit: (values,{resetForm}) => {
+    onSubmit: (values, { resetForm }) => {
       const Object: any = {
         machinery_name: values.machinery_name,
         machinery_type: values.machinery_type,

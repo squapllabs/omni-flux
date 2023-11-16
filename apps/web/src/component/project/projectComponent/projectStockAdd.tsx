@@ -7,12 +7,11 @@ import DatePicker from '../../ui/CustomDatePicker';
 import { format } from 'date-fns';
 import Checkbox from '../../ui/Checkbox';
 import Button from '../../ui/Button';
-import { createStockAudit } from '../../../hooks/stockAudit-hooks';
+import { useCreateStockAudit } from '../../../hooks/stockAudit-hooks';
 import CustomSnackBar from '../../ui/customSnackBar';
 import StockAuditService from '../../../service/stockaudit-service';
 
 const ProjectStockAdd: React.FC = (props: any) => {
-
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
@@ -32,9 +31,8 @@ const ProjectStockAdd: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
 
-
   const { mutate: postStockData, isLoading: stockpostLoading } =
-    createStockAudit();
+    useCreateStockAudit();
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
@@ -129,7 +127,7 @@ const ProjectStockAdd: React.FC = (props: any) => {
             </div>
           </div>
         </div>
-        <div >
+        <div>
           <div className={Styles.tableContainer}>
             <table className={Styles.scrollable_table}>
               <thead>
@@ -208,4 +206,3 @@ const ProjectStockAdd: React.FC = (props: any) => {
 };
 
 export default ProjectStockAdd;
-

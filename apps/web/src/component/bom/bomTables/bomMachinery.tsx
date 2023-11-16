@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import DeleteIcon from '../../menu/icons/deleteIcon';
 import Button from '../../ui/Button';
 import { useCreateBulkBom } from '../../../hooks/bom-hooks';
-import { useGetAllUomDrop, getUomByType } from '../../../hooks/uom-hooks';
+import { useGetAllUomDrop, useGetUomByType } from '../../../hooks/uom-hooks';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
 import { bomErrorMessages } from '../../../helper/constants/bom-constants';
@@ -88,7 +88,7 @@ const BomMachinery: React.FC = (props: any) => {
     fetchData();
   }, [reload]);
   const { data: getAllMachineDrop } = useGetAllMachineryForDrop();
-  const { data: getAllUomDrop } = getUomByType('LABOR');
+  const { data: getAllUomDrop } = useGetUomByType('LABOR');
   const rawMaterialTotalCalulate = async () => {
     const sumOfRates = await bomList.reduce(
       (accumulator: any, currentItem: any) => {
@@ -191,7 +191,7 @@ const BomMachinery: React.FC = (props: any) => {
                   return (
                     <tr>
                       <td>{rowIndex}</td>
-                      <td style={{textAlign:'left'}}>{items.bom_name}</td>
+                      <td style={{ textAlign: 'left' }}>{items.bom_name}</td>
                       {/* <td>
                       <Input
                         name="description"

@@ -14,7 +14,7 @@ import {
 } from '../../helper/constants/bom-constants';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getBySubcategoryID } from '../../hooks/subCategory-hooks';
+import { useGetBySubcategoryID } from '../../hooks/subCategory-hooks';
 import { formatBudgetValue } from '../../helper/common-function';
 import BomLabours from './boqTables/boqLabours';
 import BomRawMaterials from './boqTables/boqRawMaterials';
@@ -29,7 +29,7 @@ import InstantMachineryAdd from '../ui/CustomMachineryAdd';
 
 const Bom: React.FC = (props: any) => {
   const subCategoryId = Number(props.subCategoryId);
-  const subCategory = props.subCategory
+  const subCategory = props.subCategory;
   const params = useParams();
   const navigate = useNavigate();
   const [bomList, setBomList] = useState<any[]>([]);
@@ -50,8 +50,8 @@ const Bom: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [errors, setErrors] = useState<any>();
   const [openDialog, setOpenDialog] = useState(false);
-  const { data: getSubCategoryData } = getBySubcategoryID(subCategoryId);
-  const [bomTotal , setBomTotal]=useState<number>(0)
+  const { data: getSubCategoryData } = useGetBySubcategoryID(subCategoryId);
+  const [bomTotal, setBomTotal] = useState<number>(0);
   useEffect(() => {
     const fetchData = async () => {
       const getData = await BomService.getBOMbySubCatID(subCategoryId);
@@ -106,27 +106,22 @@ const Bom: React.FC = (props: any) => {
     fetchData();
   }, [activeButton, reload]);
 
-
-
-  useEffect(()=>{
-    let total_value = 0
-    if(bomList.length){
-      bomList.forEach((element)=>{
+  useEffect(() => {
+    let total_value = 0;
+    if (bomList.length) {
+      bomList.forEach((element) => {
         const rate = Number(element.rate);
         const quantity = Number(element.quantity);
         const is_delete = element.is_delete;
-        if(rate && quantity && !is_delete){
-          total_value = total_value + (rate * quantity)
+        if (rate && quantity && !is_delete) {
+          total_value = total_value + rate * quantity;
         }
-      })
-     
+      });
     }
-    setBomTotal(total_value)
-  },[bomList,activeButton, reload])
+    setBomTotal(total_value);
+  }, [bomList, activeButton, reload]);
 
   const { mutate: bulkBomData, data: responseData } = useCreateBulkBom();
-
-
 
   const validationSchema = Yup.array().of(
     Yup.object()
@@ -134,10 +129,12 @@ const Bom: React.FC = (props: any) => {
         uom_id: Yup.string().trim().required('UOM is required'),
         rate: Yup.number()
           .required('Rate is required')
-          .typeError('Numbers only allowed').min(1),
+          .typeError('Numbers only allowed')
+          .min(1),
         quantity: Yup.number()
           .required('Quantity is required')
-          .typeError('Numbers only allowed').min(1),
+          .typeError('Numbers only allowed')
+          .min(1),
         item_id: Yup.string()
           .trim()
           .nullable()
@@ -265,7 +262,7 @@ const Bom: React.FC = (props: any) => {
   );
 
   const handleBulkBomAdd = () => {
-    bomList
+    bomList;
     validationSchema
       .validate(bomList, { abortEarly: false })
       .then(() => {
@@ -294,7 +291,7 @@ const Bom: React.FC = (props: any) => {
           ...errorObj,
         });
       });
-  };  
+  };
 
   const handleClose = () => {
     props.setOpen(false);
@@ -338,46 +335,51 @@ const Bom: React.FC = (props: any) => {
               justifyContent: 'space-between',
             }}
           >
-            <div style={{paddingLeft:'10px'}}>
+            <div style={{ paddingLeft: '10px' }}>
               <CustomGroupButton
                 labels={buttonLabels}
                 onClick={handleGroupButtonClick}
                 activeButton={activeButton}
               />
             </div>
-            <div className={Styles.countContent}
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              gap:'2rem'
-            }}
+            <div
+              className={Styles.countContent}
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                gap: '2rem',
+              }}
             >
-              <div
-              >
-              <h3>
-                {formatBudgetValue(
-                  subCategory?.estimated_budget
-                )}
-              </h3>
-              <span className={Styles.countContentTitle}>Estimated Budget</span>
+              <div>
+                <h3>{formatBudgetValue(subCategory?.estimated_budget)}</h3>
+                <span className={Styles.countContentTitle}>
+                  Estimated Budget
+                </span>
               </div>
               <div
-              className={subCategory?.estimated_budget < bomTotal ?'danger':''}
-              
+                className={
+                  subCategory?.estimated_budget < bomTotal ? 'danger' : ''
+                }
               >
-              <h3
-              style={{color:subCategory?.estimated_budget < bomTotal ?'red':''}}
-              >
-                {formatBudgetValue(
-                  bomTotal
-                )}
-              </h3>
-              <span  
-              style={{color:subCategory?.estimated_budget < bomTotal ?'red':''}}
-              className={Styles.countContentTitle}>Total Amount</span>
+                <h3
+                  style={{
+                    color:
+                      subCategory?.estimated_budget < bomTotal ? 'red' : '',
+                  }}
+                >
+                  {formatBudgetValue(bomTotal)}
+                </h3>
+                <span
+                  style={{
+                    color:
+                      subCategory?.estimated_budget < bomTotal ? 'red' : '',
+                  }}
+                  className={Styles.countContentTitle}
+                >
+                  Total Amount
+                </span>
               </div>
-             
             </div>
           </div>
           <div className={Styles.mainBody}>

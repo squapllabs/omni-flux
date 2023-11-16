@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { createuom, updateUom } from '../../hooks/uom-hooks';
+import { useCreateuom, useUpdateUom } from '../../hooks/uom-hooks';
 import {
   getuomCreateValidateyup,
   getuomUpdateValidateyup,
@@ -35,8 +35,8 @@ const UomForm: React.FC = (props: any) => {
       if (props.mode === 'EDIT') fetchOne();
     }
   }, [props.uomId, props.mode]);
-  const { mutate: createNewuom } = createuom();
-  const { mutate: updateuom } = updateUom();
+  const { mutate: createNewuom } = useCreateuom();
+  const { mutate: updateuom } = useUpdateUom();
   const formik = useFormik({
     initialValues,
     validationSchema,

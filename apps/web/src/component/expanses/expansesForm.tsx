@@ -10,8 +10,8 @@ import { getBymasertDataType } from '../../hooks/masertData-hook';
 import PopupExpense from './popupExpanse';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import {
-  createsiteExpense,
-  updatesiteExpense,
+  useCreatesiteExpense,
+  useUpdatesiteExpense,
 } from '../../hooks/siteExpanse-hooks';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
@@ -82,9 +82,9 @@ const ExpansesForm = () => {
   const { data: getAllpurpose } = getBymasertDataType('SITP');
   const { data: getAlldesignation } = getBymasertDataType('SITDG');
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
-    createsiteExpense();
+    useCreatesiteExpense();
   const { mutate: updateSiteExpenseData, isLoading: updateLoader } =
-    updatesiteExpense();
+    useUpdatesiteExpense();
 
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
@@ -368,7 +368,9 @@ const ExpansesForm = () => {
               justify="center"
               color="primary"
               icon={<KeyboardBackspaceIcon />}
-              onClick={() => {navigate('/settings')}}
+              onClick={() => {
+                navigate('/settings');
+              }}
             >
               Back
             </Button>

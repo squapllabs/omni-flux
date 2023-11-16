@@ -7,9 +7,9 @@ import {
   getUpdateValidateyup,
 } from '../../helper/constants/category/subsubcategory-constants';
 import {
-  createSubSubcategory,
-  updateSubSubcategory,
-  getBySubSubcategoryID,
+  useCreateSubSubcategory,
+  useUpdateSubSubcategory,
+  useGetBySubSubcategoryID,
 } from '../../hooks/subSubCategory-hooks';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
@@ -26,14 +26,14 @@ import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 
 const SubsubCategoryAdd = () => {
   const { data: getAllSubCategory = [] } = useGetAllSubcategoryDrop();
-  const { mutate: createNewSubSubCategory } = createSubSubcategory();
-  const { mutate: updateSubSubCategory } = updateSubSubcategory();
+  const { mutate: createNewSubSubCategory } = useCreateSubSubcategory();
+  const { mutate: updateSubSubCategory } = useUpdateSubSubcategory();
   const routeParams = useParams();
   const validationSchema =
     routeParams?.id === undefined
       ? getCreateValidateyup(Yup)
       : getUpdateValidateyup(Yup);
-  // const { data: getOneSubSubCategoryData } = getBySubSubcategoryID(
+  // const { data: getOneSubSubCategoryData } = useGetBySubSubcategoryID(
   //   Number(routeParams?.id)
   // );
   const [openSnack, setOpenSnack] = useState(false);
