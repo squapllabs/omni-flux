@@ -47,6 +47,7 @@ const InputContainer = styled.div<StyledInputProps>`
     `0 ${props.hassuffixicon ? '32px' : '12px'} 0 ${
       props.hasprefixicon ? '32px' : '12px'
     }`};
+
   border: 1px solid ${(props: any) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
   background-color: ${(props) =>
