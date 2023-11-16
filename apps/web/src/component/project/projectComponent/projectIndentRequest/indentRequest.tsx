@@ -164,9 +164,9 @@ const IndentRequest: React.FC = (props: any) => {
                 try {
                   const dummy: any = [];
                   const allIds = indentRequestDetailsList.map((item: any) => {
-                    if (item.is_delete === 'N') {
-                      item.bom_detail_id;
-                    }
+                    // if (item.is_delete === 'N') {
+                    //   item.bom_detail_id;
+                    // }
                     if (item.is_delete === false)
                       dummy.push(item.bom_detail_id);
                   });

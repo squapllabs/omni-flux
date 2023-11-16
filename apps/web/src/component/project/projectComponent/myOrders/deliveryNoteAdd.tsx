@@ -224,7 +224,7 @@ const MyOrderView = () => {
       );
       const arr: any = [];
       data?.map((items: any, index: any) => {
-        let obj = {
+        const obj = {
           ...items,
           currently_received_quantity: 0,
         };
