@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Styles from '../../styles/vendorSelect.module.scss';
 import { useFormik } from 'formik';
 import CustomSnackBar from '../ui/customSnackBar';
 import CustomChip from '../ui/CustomChips';
-import { formatBudgetValue } from '../../helper/common-function';
 import AddIcon from '../menu/icons/addIcon';
 import Button from '../ui/Button';
 import * as yup from 'yup';
 import PreviousPageIcon from '../menu/icons/previousPageIcon';
-// import { useGetAllVendors } from '../../hooks/vendor-hooks';
 import { createPurchaseRequest } from '../../hooks/purchaseRequest-hooks';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
@@ -43,8 +41,6 @@ const VendorChooseModule = () => {
   const indentId = location.state.indentId;
   const projectId = location.state.projectId;
   const [tableValue, setTableValue] = useState(transformedArray);
-  //   const { data: getAllVendorsData = [], isLoading: dropLoading } =
-  //     useGetAllVendors();
   const { mutate: createNewPurchaseRequest } = createPurchaseRequest();
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
@@ -96,7 +92,6 @@ const VendorChooseModule = () => {
       };
       arr.push(obj);
     });
-    // console.log('arr', arr);
     setInitialVendorData(arr);
     setDynamicVendorData(arr);
   };
@@ -218,7 +213,6 @@ const VendorChooseModule = () => {
                           placeholder="Select from options"
                           mandatory
                           onSelect={(value) => {
-                            console.log('value velavan', value);
                             formik.setFieldValue('vendor_id', value);
                           }}
                           addLabel="Add Vendor"
@@ -297,7 +291,7 @@ const VendorChooseModule = () => {
                       ) : (
                         tableValue?.map((item: any, index: any) => {
                           return (
-                            <tr>
+                            <tr  key={item?.indent_request_details_id}>
                               <td>{index + 1}</td>
                               <td>{item?.item_name}</td>
                               <td>{item?.uom_name}</td>

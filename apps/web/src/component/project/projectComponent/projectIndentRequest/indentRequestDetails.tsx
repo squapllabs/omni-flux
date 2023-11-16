@@ -1,24 +1,18 @@
-import React, { useState, ReactNode, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Styles from '../../../../styles/newStyles/indentRequest.module.scss';
 import { useFormik } from 'formik';
 import Input from '../../../ui/Input';
-import Select from '../../../ui/selectNew';
-import DatePicker from '../../../ui/CustomDatePicker';
-import TextArea from '../../../ui/CustomTextArea';
 import Button from '../../../ui/Button';
 import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
 import { useGetBOMbyProjectandType } from '../../../../hooks/bom-hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import DeleteIcon from '../../../menu/icons/deleteIcon';
-import EditIcon from '../../../menu/icons/editIcon';
 import CustomDelete from '../../../ui/customDeleteDialogBox';
 import * as yup from 'yup';
-import { formatBudgetValue } from '../../../../helper/common-function';
 import AddIcon from '../../../menu/icons/addIcon';
 
 const IndentRequestDetails: React.FC = (props: any) => {
   const routeParams = useParams();
-  const navigate = useNavigate();
   let rowIndex = 0;
   const [initialValues, setInitialValues] = useState({
     indent_request_details_id: '',
@@ -43,7 +37,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
       ]);
     }
   }, [props.indent_id]);
-  const [indentDetails, setIndentDetails] = useState<any>();
   const [indentDetailIndex, setIndentDetailIndex] = useState<any>();
   const [openDelete, setOpenDelete] = useState(false);
   const bomPostData: any = {
@@ -159,7 +152,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
             async function (value, { parent }: yup.TestContext) {
               const isDelete = false;
               try {
-                let dummy: any = [];
+                const dummy: any = [];
                 const allIds = props.indentRequestDetailsList.map(
                   (item: any) => {
                     if (item.is_delete === 'N') {
@@ -227,7 +220,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
         [event.target.name]: event.target.value,
       };
     }
-    let tempArry = [...props.indentRequestDetailsList];
+    const tempArry = [...props.indentRequestDetailsList];
     tempArry[index] = tempObj;
     props.setIndentRequestDetailsList(tempArry);
   };
@@ -242,8 +235,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
               <th className={Styles.tableHeading}>Item</th>
               <th className={Styles.tableHeading}>UOM</th>
               <th className={Styles.tableHeading}>Quantity</th>
-              {/* <th className={Styles.tableHeading}>Per Item Cost</th>
-              <th className={Styles.tableHeading}>Total Cost</th> */}
               <th className={Styles.tableHeading}>Action</th>
             </tr>
           </thead>
@@ -297,25 +288,12 @@ const IndentRequestDetails: React.FC = (props: any) => {
                       />
                     </td>
                     <td>
-                      {/* <Input
-                        width="180px"
-                        name="uom_name"
-                        mandatory={true}
-                        value={items?.uom_name}
-                        disabled={true}
-                        onChange={(e) => handleListChange(e, index)}
-                        // error={
-                        //   // formik.touched.bom_detail_id && formik.errors.bom_detail_id
-                        //   props.errors?.[`[${index}].uom_name`] ? true : false
-                        // }
-                      /> */}
                       {items?.uom_name}
                     </td>
                     <td>
                       <Input
                         width="180px"
                         name="indent_requested_quantity"
-                        // mandatory={true}
                         value={items?.indent_requested_quantity}
                         onChange={(e) => {
                           handleFieldChange(e, index);
@@ -327,12 +305,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         }
                       />
                     </td>
-                    {/* <td>
-                      {props.disabled
-                        ? items.total / items?.quantity
-                        : items.per_item_cost}
-                    </td>
-                    <td>{items.total}</td> */}
                     <td>
                       <div>
                         <DeleteIcon

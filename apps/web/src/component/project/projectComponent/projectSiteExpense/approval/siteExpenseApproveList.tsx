@@ -392,7 +392,7 @@ const ExpenseApprove = () => {
                     }
                   });
                   return (
-                    <tr>
+                    <tr key={index}>
                       <td>{rowIndex}</td>
                       <td>{items?.expense_code}</td>
                       <td>{items?.project_data?.project_name}</td>

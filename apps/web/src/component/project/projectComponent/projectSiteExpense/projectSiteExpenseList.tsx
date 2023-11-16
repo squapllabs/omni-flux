@@ -273,7 +273,7 @@ const ProjectSiteExpenseList = () => {
                             </thead>
                             <tbody>
                               {getExpenseList?.content?.length === 0 ? (
-                                <tr>
+                                <tr >
                                   <td colSpan="7" style={{ textAlign: 'center' }}>
                                     No data found
                                   </td>
@@ -286,7 +286,7 @@ const ProjectSiteExpenseList = () => {
                                   if (items.is_delete != true) {
                                     rowIndex = rowIndex + 1;
                                     return (
-                                      <tr>
+                                      <tr key={items?.expense_id}>
                                         <td>{rowIndex}</td>
                                         <td>{items?.expense_code}</td>
                                         <td>{items?.employee_name}</td>

@@ -76,7 +76,6 @@ const getOnePurchaseOrderTableDataByID = async (values: number) => {
       inward_remaining_quantity:value.inward_remaining_quantity,
       unit_price:value.unit_price
     }))
-    console.log("fffff",response.data);
     return output;
   } catch (error) {
     console.log('Error in getOnePurchaseOrderDataByID :', error);
@@ -114,7 +113,6 @@ const getPoData = async (values: JSON) => {
       `${environment.apiUrl}/purchase-order/search`,
       values
     );
-
     return response.data;
   } catch (error) {
     console.log('Error in getPoData filter :', error);
@@ -128,7 +126,6 @@ const getMyOrdersData = async (values: JSON) => {
       `${environment.apiUrl}/purchase-order/my-orders`,
       values
     );
-
     return response.data;
   } catch (error) {
     console.log('Error in myorders filter :', error);
@@ -173,7 +170,7 @@ const purchaseDetailData = async (values: any) => {
 };
 
 const purchseOrderGetAll = async (values: any) => {
-  try {
+  try {    
     const response = await axiosinterceptor.post(
       `${environment.apiUrl}/purchase-order/get-all`,
       values

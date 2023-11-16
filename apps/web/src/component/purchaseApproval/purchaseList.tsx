@@ -4,15 +4,11 @@ import Button from '../ui/Button';
 import { getByUserRoleIndent } from '../../hooks/indent-approval-hooks';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
-import Pagination from '../menu/pagination';
-import ViewIcon from '../menu/icons/newViewIcon';
 import CustomLoader from '../ui/customLoader';
-import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import { useGetAllProjectDrop } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useNavigate } from 'react-router-dom';
-import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/pdfReport/invoice';
 import CustomPagination from '../menu/CustomPagination';
 import ProjectSubheader from '../project/projectSubheader';
@@ -47,7 +43,6 @@ const PurchaseList = () => {
     data: getIndentData,
     isLoading: FilterLoading,
   } = getByUserRoleIndent();
-  console.log('yyyy', getIndentData);
 
   const handleReset = async () => {
     const userData: any = {
@@ -130,8 +125,6 @@ const PurchaseList = () => {
   ) => {
     const searchValue = event.target.value;
     const selectedPriority = event.target.value;
-    console.log('searchValue', searchValue);
-
     setFilterValues({
       ...filterValues,
       ['priority']: searchValue,
@@ -167,12 +160,18 @@ const PurchaseList = () => {
                 defaultLabel="Select from options"
                 placeholder="Select from options"
                 value={selectedValue}
+                mandatory={false}
+                showClearIcon={false}
                 onChange={() => handleProjectDropdownChange}
                 onSelect={(value) => {
                   setSelectedValue(value);
                   setIsResetDisabled(false);
                 }}
                 optionList={getAllmasterDataForDrop}
+                onAddClick={function (e: string): void {
+                  throw new Error('Function not implemented.');
+                }}
+                addLabel={''}
               />
               <Select
                 width="180px"
@@ -184,26 +183,13 @@ const PurchaseList = () => {
                 onChange={(e) => handleDropdownChange(e)}
               >
                 {options?.map((item: any, index: any) => {
-                  return <option value={item.value}>{item.label}</option>;
+                  return (
+                    <option key={index} value={item.value}>
+                      {item.label}
+                    </option>
+                  );
                 })}
               </Select>
-              {/* <AutoCompleteSelect
-                name="priority"
-                label="Priority"
-                defaultLabel="Select from options"
-                placeholder="Select from options"
-                value={filterValues?.priority}
-                onChange={() => handleDropdownChange}
-                onSelect={(value) => {
-                  setFilterValues({
-                    ...filterValues,
-                    ['priority']: value,
-                  });
-                  setPriorityValue(value);
-                  setIsResetDisabled(false);
-                }}
-                optionList={options}
-              /> */}
               <Input
                 width="260px"
                 prefixIcon={<SearchIcon />}
@@ -213,7 +199,7 @@ const PurchaseList = () => {
                 onChange={(e) => {
                   setFilterValues({
                     ...filterValues,
-                    ['search_by_code']: e.target.value,
+                    search_by_code: e.target.value,
                   });
                   setCurrentPage(1);
                   setIsResetDisabled(false);
@@ -242,13 +228,6 @@ const PurchaseList = () => {
                 </Button>
               </div>
             </div>
-            {/* <div>
-              <CustomGroupButton
-                labels={buttonLabels}
-                onClick={handleGroupButtonClick}
-                activeButton={activeButton}
-              />
-            </div> */}
           </div>
           <div className={Styles.dividerStyle}></div>
         </div>
@@ -265,7 +244,6 @@ const PurchaseList = () => {
                     Expected Delivery Date
                   </th>
                   <th className={Styles.tableHeading}>Priority</th>
-                  {/* <th className={Styles.tableHeading}>Cost</th> */}
                   <th className={Styles.tableHeading}>Approved By</th>
                   <th className={Styles.tableHeading}>Approved Date</th>
                   <th className={Styles.tableHeading}>Actions</th>
@@ -307,8 +285,10 @@ const PurchaseList = () => {
                     },
                   ];
                   return (
-                    <tr key={data?.indent_request_id}>
-                      <td>{startingIndex + index}</td>
+                    <tr key={data.indent_request_code}>
+                      <td key={data.indent_request_code}>
+                        {startingIndex + index}
+                      </td>
                       <td>{data?.indent_request_code}</td>
                       <td>{data?.project_data?.project_name}</td>
                       <td>
@@ -330,11 +310,6 @@ const PurchaseList = () => {
                       >
                         {data?.priority}
                       </td>
-                      {/* <td>
-                        {formatBudgetValue(
-                          data?.total_cost ? data?.total_cost : 0
-                        )}
-                      </td> */}
                       <td>
                         {data?.approver_user_data?.first_name +
                           ' ' +
@@ -344,42 +319,11 @@ const PurchaseList = () => {
                         {' '}
                         {format(new Date(data?.approved_date), 'MMM dd, yyyy')}
                       </td>
-                      {/* <td>
-                        <div
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '10px',
-                          }}
-                        >
-                          <div className={Styles.tablerow}>
-                            <ViewIcon
-                              onClick={() =>
-                                handleView(
-                                  data?.indent_request_id,
-                                  data?.project_id
-                                )
-                              }
-                            />
-                          </div>
-                          <div
-                            className={Styles.tablerow}
-                            style={{ color: 'green' }}
-                          >
-                            <span
-                              onClick={() =>
-                                navigate(
-                                  `/purchase-request-list/${data.indent_request_id}`
-                                )
-                              }
-                            >
-                              PR
-                            </span>
-                          </div>
-                        </div>
-                      </td> */}
                       <td>
-                        <CustomMenu actions={actions} name={"ApproveIndentList"}/>
+                        <CustomMenu
+                          actions={actions}
+                          name={'ApproveIndentList'}
+                        />
                       </td>
                     </tr>
                   );

@@ -87,13 +87,6 @@ const PurchaseOrderView = () => {
           </div>
         </div>
         <div className={Styles.dividerStyle}></div>
-        {/* <div>
-          <ProjectSubheader
-            navigation={'/purchase-order'}
-            description={description}
-            title={title}
-          />
-        </div> */}
       </CustomLoader>
 
       {/* values for order data */}
@@ -155,17 +148,6 @@ const PurchaseOrderView = () => {
               Preview
             </Button>
           )}
-          {/* <Button
-            shape="rectangle"
-            justify="center"
-            size="small"
-            color="primary"
-            onClick={() => {
-              setOpen(true);
-            }}
-          >
-            Preview
-          </Button> */}
         </div>
       </div>
 
@@ -242,7 +224,7 @@ const PurchaseOrderView = () => {
                           getOnePurchaseOrderView?.vendor_data
                         );
                         return (
-                          <div key={document.code}>
+                          <div key={getOnePurchaseOrderView?.purchase_order_id}>
                             <a
                               href={document.path}
                               target="_blank"
@@ -325,7 +307,7 @@ const PurchaseOrderView = () => {
               ) : (
                 tableData?.map((item: any, index: any) => {
                   return (
-                    <tr>
+                    <tr key={item?.item}>
                       <td>{index + 1}</td>
                       <td>{item?.item_data?.item_name}</td>
                       <td>

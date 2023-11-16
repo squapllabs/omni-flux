@@ -20,7 +20,7 @@ const SiteNavigateIcon: FC<SiteNavigateIconProps> = ({
       height={height}
       style={style}
       fill={color}
-      class="bi bi-geo-alt"
+      className="bi bi-geo-alt"
       viewBox="0 0 16 16"
     >
       {' '}

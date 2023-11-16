@@ -150,7 +150,7 @@ const MyOrderList = () => {
                     getAllData?.content?.map((data: any, index: any) => {
                       return (
                         <>
-                          <tr key={data.purchase_order_id}>
+                          <tr key={data?.purchase_order_id}>
                             <td>
                               <div
                                 onClick={() => {
@@ -206,7 +206,7 @@ const MyOrderList = () => {
                           </tr>
                           {data.purchase_order_id ===
                             poID.purchase_order_id && (
-                              <tr>
+                              <tr key={data?.purchase_order_id}>
                                 <td colSpan="8" style={{ paddingRight: 28 }}>
                                   <div className={Styles.subTableContainer}>
                                     <table

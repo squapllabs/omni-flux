@@ -7,7 +7,6 @@ const vendorQuotesData = async (values: JSON) => {
       `${environment.apiUrl}/vendor-quotes/search`,
       values
     );
-    // console.log("response.data",response.data);
     return response.data;
   } catch (error) {
     console.log('Error in vendor-quotes search :', error);
@@ -53,8 +52,6 @@ const getVendorquotesBYventorquotesID = async (values: number) => {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/vendor-quotation-details/get-by-vendor-quotes-id/${values}`
     );
-    console.log(' response.data', response.data);
-
     return response.data;
   } catch (error) {
     console.log(

@@ -65,7 +65,7 @@ const createsiteExpense = async (values: JSON) => {
 const createGlobalExpense = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.post(
-      `${environment.apiUrl}/expense/addIndependentExpense/`,
+      `${environment.apiUrl}/expense/add-independent-expense/`,
       values
     );
     return response.data;
@@ -90,7 +90,7 @@ const updatesiteExpense = async (values: JSON) => {
 const updateGlobalExpense = async (values: JSON) => {
   try {
     const response = await axiosinterceptor.put(
-      `${environment.apiUrl}/expense/updateIndependentExpense/`,
+      `${environment.apiUrl}/expense/update-independent-expense/`,
       values
     );
     return response.data;

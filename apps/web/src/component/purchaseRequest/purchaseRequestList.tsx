@@ -216,7 +216,7 @@ const PurchaseRequestList = () => {
           <div className={Styles.cardBox}>
             {getPRbasedOnIndent?.content?.map((items: any, index: number) => {
               return (
-                <div className={Styles.cardContainer}>
+                <div className={Styles.cardContainer} key={index}>
                   <div>
                     <div>
                       <span>#{index + 1}</span>
@@ -271,6 +271,7 @@ const PurchaseRequestList = () => {
                               (vendors: any, vendorIndex: number) => {
                                 return (
                                   <li
+                                    key={vendorIndex}
                                     className={`${Styles.vendorLinks} ${
                                       items?.selected_vendor_data?.vendor_id ===
                                       vendors?.vendor_data?.vendor_id

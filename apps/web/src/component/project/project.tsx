@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import CustomGroupButton from '../ui/CustomGroupButton';
-import Button from '../ui/Button';
 import Styles from '../../styles/newStyles/project.module.scss';
 import ProjectGeneralDetails from './projectComponent/projectGeneralDetails';
 import ProjectDashboard from './projectComponent/projectDashboard';
@@ -8,18 +6,13 @@ import ProjectBomConfig from './projectComponent/projectBomConfig';
 import ProjectSiteConfig from './projectComponent/projectSiteConfig';
 import CustomLoader from '../ui/customLoader';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getByProjectId } from '../../hooks/project-hooks';
 import projectService from '../../service/project-service';
 import ProjectSettings from './projectComponent/projectSettings';
 import ProjectDocument from './projectComponent/projectDocument';
-import IndentRequest from './projectComponent/projectIndentRequest/indentRequest';
 import ProjectIndentRequestList from './projectComponent/projectIndentRequest/projectIndentRequestList';
 import ProjectStockmanagement from './projectComponent/projectStockmanagement';
-import SiteExpenseList from '../expanses/siteExpenseList';
 import ProjectStockOutward from '../stockOutward/stockOutwardList';
 import ProjectMasterData from './projectComponent/projectMasterData';
-import KeyboardBackspaceIcon from '../menu/icons/backArrow';
-import FirstPageIcon from '../menu/icons/firstPageIcon';
 import PreviousPageIcon from '../menu/icons/previousPageIcon';
 import SideNav from '../ui/sideNav';
 import ProjectSiteExpenseList from './projectComponent/projectSiteExpense/projectSiteExpenseList';
@@ -27,7 +20,6 @@ import { useDispatch } from 'react-redux';
 import { setToken, getToken } from '../../redux/reducer';
 import { store, RootState } from '../../redux/store';
 import MyOrders from './projectComponent/myOrders/myOrdersList';
-import LocalPurchaseList from './projectComponent/localPurchase/localPurchaseList';
 import Store from './project-inventory';
 
 const Project = () => {
@@ -36,8 +28,7 @@ const Project = () => {
   const dispatch = useDispatch();
   const state: RootState = store.getState();
   const projectMenuID = getToken(state, 'projectMenuID');
-  // const projectMenuID: any = encryptedData;
-  console.log('projectMenuID', projectMenuID);
+
 
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Dashboard', value: 'PDB' },
