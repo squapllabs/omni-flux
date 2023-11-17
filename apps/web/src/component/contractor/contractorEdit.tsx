@@ -12,6 +12,7 @@ import { useUpdateSite, useGetBySiteId } from '../../hooks/site-hooks';
 import { useParams } from 'react-router-dom';
 import ProjectSubheader from '../project/projectSubheader';
 
+/* Function for contractor Edit */
 const ContractorForm = () => {
   const routeParams = useParams();
   const { data: getOneSiteData, isLoading } = useGetBySiteId(
@@ -59,6 +60,8 @@ const ContractorForm = () => {
   };
 
   const validationSchema = editCreateValidateyup(Yup);
+
+  /* Function to update contractor data */
   const formik = useFormik({
     initialValues,
     validationSchema,

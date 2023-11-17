@@ -16,10 +16,10 @@ import {
   useGetAllPaginatedMachinery,
 } from '../../hooks/machinery-hooks';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
-import { handleSortByColumn } from './../../helper/common-function'
+import { handleSortByColumn } from './../../helper/common-function';
 
+/* Function for machinery list */
 const MachineryList = () => {
-
   const { mutate: getDeleteMachineryByID } = useDeleteMachinery();
   const navigate = useNavigate();
   const [activeButton, setActiveButton] = useState<string | null>('AC');
@@ -44,6 +44,7 @@ const MachineryList = () => {
     status: activeButton,
   };
 
+  /* Function to get all machinery data */
   const {
     data: getFilterData,
     isLoading: FilterLoading,
@@ -53,7 +54,6 @@ const MachineryList = () => {
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton, sortColumn, sortOrder]);
-
 
   useEffect(() => {
     const handleSearch = setTimeout(() => {
@@ -123,7 +123,7 @@ const MachineryList = () => {
                       onChange={(e) => {
                         setFilterValues({
                           ...filterValues,
-                          ['search_by_name']: e.target.value,
+                          'search_by_name': e.target.value,
                         });
                         setCurrentPage(1);
                       }}
@@ -138,19 +138,35 @@ const MachineryList = () => {
                       <tr>
                         <th>#</th>
                         <th
-                          onClick={() => handleSortByColumn('machinery_name', sortOrder, setSortOrder, setSortColumn)}
+                          onClick={() =>
+                            handleSortByColumn(
+                              'machinery_name',
+                              sortOrder,
+                              setSortOrder,
+                              setSortColumn
+                            )
+                          }
                         >
                           <div className={Styles.headingRow}>
-                            <div>Machinery Name</div><div>
+                            <div>Machinery Name</div>
+                            <div>
                               <FilterOrderIcon />
                             </div>
                           </div>
                         </th>
                         <th
-                          onClick={() => handleSortByColumn('rate', sortOrder, setSortOrder, setSortColumn)}
+                          onClick={() =>
+                            handleSortByColumn(
+                              'rate',
+                              sortOrder,
+                              setSortOrder,
+                              setSortColumn
+                            )
+                          }
                         >
                           <div className={Styles.headingRow}>
-                            <div>Rate</div><div>
+                            <div>Rate</div>
+                            <div>
                               <FilterOrderIcon />
                             </div>
                           </div>
@@ -172,36 +188,42 @@ const MachineryList = () => {
                       ) : (
                         ''
                       )}
-                      {getFilterData?.content?.map((data: any, index: number) => (
-                        <tr key={data.machinery_id}>
-                          <td>{startingIndex + index}</td>
-                          <td>
-                            <span title={data.machinery_name}>
-                              {data.machinery_name
-                                ? data.machinery_name.substring(0, 50)
-                                : '-'}
-                            </span>
-                          </td>
-                          <td>{formatBudgetValue(data.rate || '-')}</td>
-                          <td>{data.uom_data.name}</td>
-                          <td><span title={data.operational_status}>
-                            {data.operational_status
-                              ? data.operational_status.substring(0, 50)
-                              : '-'}
-                          </span></td>
-                          {activeButton === 'AC' && (
+                      {getFilterData?.content?.map(
+                        (data: any, index: number) => (
+                          <tr key={data.machinery_id}>
+                            <td>{startingIndex + index}</td>
                             <td>
-                              <div className={Styles.tablerow}>
-                                <EditIcon
-                                  onClick={() =>
-                                    navigate(`/edit-machinery/${data.machinery_id}`)
-                                  }
-                                />
-                              </div>
+                              <span title={data.machinery_name}>
+                                {data.machinery_name
+                                  ? data.machinery_name.substring(0, 50)
+                                  : '-'}
+                              </span>
                             </td>
-                          )}
-                        </tr>
-                      ))}
+                            <td>{formatBudgetValue(data.rate || '-')}</td>
+                            <td>{data.uom_data.name}</td>
+                            <td>
+                              <span title={data.operational_status}>
+                                {data.operational_status
+                                  ? data.operational_status.substring(0, 50)
+                                  : '-'}
+                              </span>
+                            </td>
+                            {activeButton === 'AC' && (
+                              <td>
+                                <div className={Styles.tablerow}>
+                                  <EditIcon
+                                    onClick={() =>
+                                      navigate(
+                                        `/edit-machinery/${data.machinery_id}`
+                                      )
+                                    }
+                                  />
+                                </div>
+                              </td>
+                            )}
+                          </tr>
+                        )
+                      )}
                     </tbody>
                   </table>
                 </div>
@@ -219,8 +241,7 @@ const MachineryList = () => {
             </div>
           ) : (
             <div>
-              <div className={Styles.subHeading}>
-              </div>
+              <div className={Styles.subHeading}></div>
               <div className={Styles.emptyDataHandling}>
                 <div>
                   <img
@@ -234,7 +255,9 @@ const MachineryList = () => {
                   <h5>Machineries list is Empty</h5>
                 </div>
                 <div className={Styles.contentGap}>
-                  <span className={Styles.spanContent}>Go ahead, add new Machineries</span>
+                  <span className={Styles.spanContent}>
+                    Go ahead, add new Machineries
+                  </span>
                 </div>
                 <div>
                   <Button

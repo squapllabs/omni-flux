@@ -19,6 +19,7 @@ import MasterDataIcon from '../menu/icons/masterDataIcon';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
 import { handleSortByColumn } from './../../helper/common-function'
 
+/* Function to list masterData */
 const MaterData = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
@@ -47,6 +48,8 @@ const MaterData = () => {
     status: activeButton,
     global_search: filterValues?.search_by_name,
   };
+
+  /* Function to get all master Data */
   const {
     isLoading: getAllLoadingPaginated,
     data: initialData,
@@ -84,12 +87,15 @@ const MaterData = () => {
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
+
+  /* Function to delete MasterData */
   const deleteCategory = () => {
     getDeleteMasterDataID(value);
     handleCloseDelete();
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
+  
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   const handleCloseMasterForm = () => {

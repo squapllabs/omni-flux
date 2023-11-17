@@ -12,6 +12,7 @@ import Button from '../ui/Button';
 import Styles from '../../styles/newStyles/uomForm.module.scss';
 import TextArea from '../ui/CustomTextArea';
 
+/* Function for HSN Code */
 const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
   const [initialValues, setInitialValues] = useState({
     hsn_code_id: '',
@@ -32,12 +33,16 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
       fetchOne();
     }
   }, [props.hsnCodeId, props.mode]);
+
   const validationSchema =
     props.mode === 'ADD'
       ? gethsnCreateValidateyup(Yup)
       : gethsnUpdateValidateyup(Yup);
+
   const { mutate: createNewHsnCode } = useCreateHsnCode();
   const { mutate: updateHsnById } = useUpdateHsnCode();
+
+  /* Function to create and edit hsn code details */
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -64,7 +69,6 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
           code: values.code,
           description: values.description,
         };
-
         updateHsnById(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.mesage === 'success') {

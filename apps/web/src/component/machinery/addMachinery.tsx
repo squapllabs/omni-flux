@@ -18,6 +18,7 @@ import { format } from 'date-fns';
 import Select from '../ui/selectNew';
 import ProjectSubheader from '../project/projectSubheader';
 
+/* Function for machinery add */
 const AddMachinery = () => {
   const { data: getAllUomList = [] } = useGetByUomType();
   const { mutate: createNewMachinery } = useCreateMachinery();
@@ -38,6 +39,7 @@ const AddMachinery = () => {
       return formattedDate;
     }
   };
+
   const [initialValues, setInitialValues] = useState({
     machinery_name: '',
     machinery_type: '',
@@ -53,6 +55,7 @@ const AddMachinery = () => {
     created_by: '',
   });
 
+  /* Functio to get one machinery data */
   useEffect(() => {
     if (Number(routeParams?.id)) {
       const fetchOne = async () => {
@@ -78,6 +81,7 @@ const AddMachinery = () => {
     }
   }, [routeParams?.id]);
 
+  /* Function to create and update machinery */
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -144,12 +148,6 @@ const AddMachinery = () => {
 
   return (
     <div>
-      {/* <div className={Styles.box}>
-        <div>
-          <h3>{routeParams.id ? 'Machinery Edit' : 'Machinery Add'}</h3>
-        </div>
-      </div>
-      <div className={Styles.dividerStyle}></div> */}
       <div>
         <ProjectSubheader
           title={routeParams.id ? 'MACHINERY EDIT' : 'NEW MACHINERY'}
@@ -309,19 +307,6 @@ const AddMachinery = () => {
               </div>
             </div>
             <div className={Styles.buttonFields}>
-              {/* <div>
-                <Button
-                  color="secondary"
-                  shape="rectangle"
-                  justify="center"
-                  size="small"
-                  onClick={() => {
-                    navigate('/settings');
-                  }}
-                >
-                  Back
-                </Button>
-              </div> */}
               <div>
                 <Button
                   color="primary"

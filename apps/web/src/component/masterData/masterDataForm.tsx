@@ -6,7 +6,7 @@ import {
   useUpdatemasterData,
 } from '../../hooks/masertData-hook';
 import {
-  getCreateValidateyup,
+  getMasterCreateValidateyup,
   getUpdateValidateyup,
 } from '../../helper/constants/master-constants';
 import MasterService from '../../service/masterData-service';
@@ -26,19 +26,16 @@ const MasterDataForm: React.FC = (props: any) => {
     parent_master_data_id: '',
   });
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  //   const [disable, setDisable] = useState(false);
-  //   if (props.mode === 'Edit') {
-  //     setDisable(true);
-  //   }
   const { data: getAllmasterDataForDrop = [], isLoading: dropLoading } =
     useGetAllParentmasertDataDrop();
   const { mutate: postMasterData } = useCreatemasterData();
   const { mutate: updateMasterData } = useUpdatemasterData();
   const validationSchema =
     props.mode === 'Add'
-      ? getCreateValidateyup(Yup)
+      ? getMasterCreateValidateyup(Yup)
       : getUpdateValidateyup(Yup);
 
+  /*Function to get one masterData by ID */
   useEffect(() => {
     const fetchOne = async () => {
       const data = await MasterService.getOnemasertDataByID(props.masterID);
@@ -53,6 +50,7 @@ const MasterDataForm: React.FC = (props: any) => {
     if (props.mode === 'Edit') fetchOne();
   }, [props.masterID, props.mode]);
 
+  /* Function to create and edit masterData */
   const formik = useFormik({
     initialValues,
     validationSchema,

@@ -6,27 +6,23 @@ import AddIcon from '../menu/icons/addIcon';
 import EditIcon from '../menu/icons/newEditIcon';
 import SearchIcon from '../menu/icons/search';
 import CustomDelete from '../ui/customDeleteDialogBox';
-import {
-  useDeleteLabour,
-  useGetAllLabour,
-} from '../../hooks/labour-hooks';
+import { useDeleteLabour, useGetAllLabour } from '../../hooks/labour-hooks';
 import CustomLoader from '../ui/customLoader';
 import Pagination from '../menu/CustomPagination';
 import { formatBudgetValue } from '../../helper/common-function';
 import CustomPopup from '../ui/CustomSidePopup';
 import CustomLabourAddPopup from './labourAdd';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
-import { handleSortByColumn } from './../../helper/common-function'
+import { handleSortByColumn } from './../../helper/common-function';
 
+/* Function to list labour */
 const LabourList = () => {
   const [activeButton, setActiveButton] = useState<string | null>('AC');
-  const [dataShow, setDataShow] = useState(false);
   const [filterValues, setFilterValues] = useState({
     global_search: '',
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [reload, setReload] = useState(false);
   const [open, setOpen] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
@@ -55,13 +51,14 @@ const LabourList = () => {
 
   const handleAddLabourData = () => {
     setOpen(true);
-    setMode('ADD')
-  }
+    setMode('ADD');
+  };
+
   const handleEdit = (value: any) => {
     setLabourId(value);
     setOpen(true);
     setMode('EDIT');
-  }
+  };
 
   useEffect(() => {
     refetch();
@@ -81,7 +78,7 @@ const LabourList = () => {
 
   const handleClosePopup = () => {
     setOpen(false);
-  }
+  };
 
   /* Function for changing no of rows in pagination */
   const handleRowsPerPageChange = (
@@ -102,18 +99,13 @@ const LabourList = () => {
     handleCloseDelete();
     setMessage('Successfully deleted');
     setOpenSnack(true);
-    // handleSearch();
   };
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   return (
     <div className={Styles.container}>
-      <CustomLoader
-        loading={getAllLoadingLabourData}
-        size={48}
-        color="#333C44"
-      >
+      <CustomLoader loading={getAllLoadingLabourData} size={48} color="#333C44">
         {initialData?.is_available ? (
           <div>
             <div className={Styles.topHeading}>
@@ -144,9 +136,9 @@ const LabourList = () => {
                     onChange={(e) => {
                       setFilterValues({
                         ...filterValues,
-                        ['global_search']: e.target.value,
+                        global_search: e.target.value,
                       });
-                      setCurrentPage(1)
+                      setCurrentPage(1);
                     }}
                   />
                 </div>
@@ -159,17 +151,37 @@ const LabourList = () => {
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th onClick={() => handleSortByColumn('labour_type', sortOrder, setSortOrder, setSortColumn)}>
+                        <th
+                          onClick={() =>
+                            handleSortByColumn(
+                              'labour_type',
+                              sortOrder,
+                              setSortOrder,
+                              setSortColumn
+                            )
+                          }
+                        >
                           <div className={Styles.headingRow}>
-                            <div>Labour Type</div><div>
+                            <div>Labour Type</div>
+                            <div>
                               <FilterOrderIcon />
                             </div>
                           </div>
                         </th>
                         <th>UOM Type</th>
-                        <th onClick={() => handleSortByColumn('rate', sortOrder, setSortOrder, setSortColumn)}>
+                        <th
+                          onClick={() =>
+                            handleSortByColumn(
+                              'rate',
+                              sortOrder,
+                              setSortOrder,
+                              setSortColumn
+                            )
+                          }
+                        >
                           <div className={Styles.headingRow}>
-                            <div>Rate</div><div>
+                            <div>Rate</div>
+                            <div>
                               <FilterOrderIcon />
                             </div>
                           </div>
@@ -178,36 +190,7 @@ const LabourList = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {dataShow ? (
-                        initialData?.total_count === 0 ? (
-                          <tr>
-                            <td></td>
-                            <td></td>
-                            <td>No data found</td>
-                            {activeButton === 'AC' && <td></td>}
-                          </tr>
-                        ) : (
-                          initialData?.content?.map(
-                            (data: any, index: number) => (
-                              <tr key={data.labour_id}>
-                                <td>{startingIndex + index}</td>
-                                <td>{data.labour_type}</td>
-                                <td>{data.uom?.name}</td>
-                                <td>{formatBudgetValue(data.rate)}</td>
-                                {activeButton === 'AC' && (
-                                  <td>
-                                    <div className={Styles.tableIcon}>
-                                      <EditIcon
-                                        onClick={() => handleEdit(data?.labour_id)}
-                                      />
-                                    </div>
-                                  </td>
-                                )}
-                              </tr>
-                            )
-                          )
-                        )
-                      ) : initialData?.total_count === 0 ? (
+                      {initialData?.total_count === 0 ? (
                         <tr>
                           <td></td>
                           <td></td>
@@ -215,26 +198,30 @@ const LabourList = () => {
                           {activeButton === 'AC' && <td></td>}
                         </tr>
                       ) : (
-                        initialData?.content?.map((item: any, index: number) => (
-                          <tr key={item.labour_id}>
-                            <td>{startingIndex + index}</td>
-                            <td>{item.labour_type}</td>
-                            <td>{item.uom?.name}</td>
-                            <td>{formatBudgetValue(item.rate)}</td>
+                        initialData?.content?.map(
+                          (item: any, index: number) => (
+                            <tr key={item.labour_id}>
+                              <td>{startingIndex + index}</td>
+                              <td>{item.labour_type}</td>
+                              <td>{item.uom?.name}</td>
+                              <td>{formatBudgetValue(item.rate)}</td>
 
-                            {activeButton === 'AC' && (
-                              <td>
-                                <div className={Styles.tableIcon}>
-                                  <div>
-                                    <EditIcon
-                                      onClick={() => handleEdit(item?.labour_id)}
-                                    />
+                              {activeButton === 'AC' && (
+                                <td>
+                                  <div className={Styles.tableIcon}>
+                                    <div>
+                                      <EditIcon
+                                        onClick={() =>
+                                          handleEdit(item?.labour_id)
+                                        }
+                                      />
+                                    </div>
                                   </div>
-                                </div>
-                              </td>
-                            )}
-                          </tr>
-                        ))
+                                </td>
+                              )}
+                            </tr>
+                          )
+                        )
                       )}
                     </tbody>
                   </table>
@@ -254,8 +241,7 @@ const LabourList = () => {
           </div>
         ) : (
           <div>
-            <div className={Styles.subHeading}>
-            </div>
+            <div className={Styles.subHeading}></div>
             <div className={Styles.emptyDataHandling}>
               <div>
                 <img
@@ -269,7 +255,9 @@ const LabourList = () => {
                 <h5>The Labours list is empty</h5>
               </div>
               <div className={Styles.contentGap}>
-                <span className={Styles.spanContent}>Go ahead, add new labour list</span>
+                <span className={Styles.spanContent}>
+                  Go ahead, add new labour list
+                </span>
               </div>
               <div>
                 <Button
@@ -296,7 +284,7 @@ const LabourList = () => {
         handleConfirm={deleteLabour}
       />
       <CustomPopup
-        title={mode === 'ADD' ? "NEW LABOUR" : "EDIT LABOUR"}
+        title={mode === 'ADD' ? 'NEW LABOUR' : 'EDIT LABOUR'}
         open={open}
         handleClose={handleClosePopup}
         content={
@@ -305,7 +293,6 @@ const LabourList = () => {
             open={open}
             mode={mode}
             labourId={labourId}
-            setReload={setReload}
             setOpenSnack={setOpenSnack}
             setMessage={setMessage}
           />

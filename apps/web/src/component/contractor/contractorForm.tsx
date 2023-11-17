@@ -11,6 +11,7 @@ import { getCreateValidateyup } from '../../helper/constants/contractor-constant
 import { useCreateSite } from '../../hooks/site-hooks';
 import ProjectSubheader from '../project/projectSubheader';
 
+/* Function to create a new contractor */
 const ContractorForm = () => {
   const { mutate: createNewSite } = useCreateSite();
   const [message, setMessage] = useState('');
@@ -36,6 +37,8 @@ const ContractorForm = () => {
   };
 
   const validationSchema = getCreateValidateyup(Yup);
+
+  /* Function to create a new contractor */
   const formik = useFormik({
     initialValues,
     validationSchema,

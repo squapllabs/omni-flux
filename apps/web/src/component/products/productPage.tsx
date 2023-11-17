@@ -18,8 +18,8 @@ import addProduct from '../../service/add-product';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
 import { handleSortByColumn } from './../../helper/common-function'
 
+/* Function to list items */
 const ProductPage = () => {
-
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -37,6 +37,7 @@ const ProductPage = () => {
     status: activeButton,
     global_search: filterValues.search_by_name,
   };
+  /* Function to get all item data */
   const {
     isLoading: searchLoader,
     data: getFilterData,
@@ -65,6 +66,7 @@ const ProductPage = () => {
     setCurrentPage(1);
   };
 
+  /* Function to convert the json data to csv format */
   const convertToCSV = (data: any[]) => {
     const header = ['Code', 'Description', 'GST', 'Rate', 'HSN Code', 'UOM'];
     const csvRows = [header.join(',')];
@@ -82,6 +84,7 @@ const ProductPage = () => {
     return csvRows.join('\n');
   };
 
+  /* Function to get all item data */
   const fetchAllData = async () => {
     const itemData: any = {
       limit: getFilterData.total_count,
@@ -95,6 +98,7 @@ const ProductPage = () => {
     return response.content;
   };
 
+  /* Function to download all items data as excel */
   const handleDownload = async () => {
     const allData = await fetchAllData();
     const csvContent = convertToCSV(allData);
@@ -166,7 +170,7 @@ const ProductPage = () => {
                     onChange={(e) => {
                       setFilterValues({
                         ...filterValues,
-                        ['search_by_name']: e.target.value,
+                        'search_by_name': e.target.value,
                       });
                       setCurrentPage(1);
                     }}
@@ -201,7 +205,6 @@ const ProductPage = () => {
                       </div>
                     </th>
                     <th>Action</th>
-                    {/* {activeButton === 'AC' && <th></th>} */}
                   </tr>
                 </thead>
                 <tbody>
