@@ -22,6 +22,7 @@ import {
 } from '../../helper/constants/item-constants';
 import ProjectSubheader from '../project/projectSubheader';
 
+/* Function for items */
 const ProductAdd = () => {
   const { data: getAllItemTypeList = [] } = useGetBymasertDataType('IMTY');
   const { data: getAllGstList = [] } = useGetAllGstForDrop();
@@ -56,6 +57,7 @@ const ProductAdd = () => {
     rate: '',
   });
 
+  /* Function to get one item data by ID */
   useEffect(() => {
     if (Number(routeParams?.id)) {
       const fetchOne = async () => {
@@ -77,6 +79,7 @@ const ProductAdd = () => {
     }
   }, [routeParams?.id]);
 
+  /* Function to add or edit item data */
   const formik = useFormik({
     initialValues,
     validationSchema,

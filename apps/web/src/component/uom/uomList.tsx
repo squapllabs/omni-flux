@@ -4,7 +4,6 @@ import EditIcon from '../menu/icons/newEditIcon';
 import CustomSnackBar from '../ui/customSnackBar';
 import {
   useDeleteUom,
-  useGetByUom,
   useGetAllPaginatedUomData,
 } from '../../hooks/uom-hooks';
 import UomForm from './uomForm';
@@ -21,12 +20,6 @@ import { handleSortByColumn } from './../../helper/common-function';
 
 /* Function for Unit of Measurement */
 const UomList = () => {
-  const {
-    mutate: postDataForFilter,
-    data: getFilterData,
-    isLoading: searchLoader,
-  } = useGetByUom();
-
   const { mutate: getDeleteuomByID } = useDeleteUom();
   const [openDelete, setOpenDelete] = useState(false);
   const [uomId, setUomID] = useState();
@@ -37,11 +30,9 @@ const UomList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [value, setValue] = useState();
-  const [dataShow, setDataShow] = useState(false);
   const [openUomForm, setOpenUomForm] = useState(false);
   const [sortColumn, setSortColumn] = useState('');
   const [sortOrder, setSortOrder] = useState('desc');
-
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
@@ -52,6 +43,7 @@ const UomList = () => {
     order_by_direction: sortOrder,
     global_search: filterValues.search_by_name,
   };
+  /* Function to get all uom data */
   const {
     isLoading: getAllLoadingPaginated,
     data: initialData,
@@ -110,7 +102,7 @@ const UomList = () => {
     <div>
       <div>
         <CustomLoader
-          loading={searchLoader ? searchLoader : getAllLoadingPaginated}
+          loading={getAllLoadingPaginated}
           size={48}
           color="#333C44"
         >
@@ -147,7 +139,7 @@ const UomList = () => {
                       onChange={(e) => {
                         setFilterValues({
                           ...filterValues,
-                          ['search_by_name']: e.target.value,
+                          search_by_name: e.target.value,
                         });
                         setCurrentPage(1);
                       }}
@@ -184,34 +176,7 @@ const UomList = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {dataShow ? (
-                          getFilterData?.total_count === 0 ? (
-                            <tr>
-                              <td></td>
-                              <td></td>
-                              <td>No data found</td>
-                              <td></td>
-                            </tr>
-                          ) : (
-                            getFilterData?.content?.map(
-                              (data: any, index: number) => (
-                                <tr key={data.uom_id}>
-                                  <td>{startingIndex + index}</td>
-                                  <td>{data.name}</td>
-                                  <td>{data.description}</td>
-
-                                  <td>
-                                    <div className={Styles.tablerow}>
-                                      <EditIcon
-                                        onClick={() => handleEdit(data.uom_id)}
-                                      />
-                                    </div>
-                                  </td>
-                                </tr>
-                              )
-                            )
-                          )
-                        ) : initialData?.total_count === 0 ? (
+                        {initialData?.total_count === 0 ? (
                           <tr>
                             <td></td>
                             <td></td>
@@ -244,16 +209,8 @@ const UomList = () => {
                 <div className={Styles.pagination}>
                   <Pagination
                     currentPage={currentPage}
-                    totalPages={
-                      dataShow
-                        ? getFilterData?.total_page
-                        : initialData?.total_page
-                    }
-                    totalCount={
-                      dataShow
-                        ? getFilterData?.total_count
-                        : initialData?.total_count
-                    }
+                    totalPages={initialData?.total_page}
+                    totalCount={initialData?.total_count}
                     rowsPerPage={rowsPerPage}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}

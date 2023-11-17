@@ -5,20 +5,19 @@ import Input from '../ui/Input';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import Button from '../ui/Button';
 import CustomSnackBar from '../ui/customSnackBar';
-// import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
   useGetLabourUomForDrop,
   useCreateLabour,
   useUpdateLabour
 } from '../../hooks/labour-hooks';
-// import { useParams } from 'react-router-dom';
 import LabourService from '../../service/labour-service';
 import {
   getLabourCreationYupschema,
   getLabourUpdateYupschema
 } from '../../helper/constants/labour-constants';
 
+/* Function for labour */
 const LabourAddForm = (props : any) => {  
 
   const [initialValues, setInitialValues] = useState({
@@ -29,14 +28,11 @@ const LabourAddForm = (props : any) => {
   });
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-  // const navigate = useNavigate();
-  // const routeParams = useParams();
   const { mutate: createNewLabour } = useCreateLabour();
   const { mutate: updateOneLabour } = useUpdateLabour();
   const { data: getLaboursUom = [], isLoading: dropLoading } = useGetLabourUomForDrop();
 
-
-
+  /* Function to get one labour data by ID */
   useEffect(() => {
     if (props?.mode === 'EDIT') {
       const fetchOne = async () => {
@@ -67,6 +63,7 @@ const LabourAddForm = (props : any) => {
       ? getLabourCreationYupschema(Yup)
       : getLabourUpdateYupschema(Yup);
 
+  /* Function to create and edit labour data */
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -98,7 +95,6 @@ const LabourAddForm = (props : any) => {
           uom_id: values.uom_id,
           rate: Number(values.rate)
         };
-
         createNewLabour(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {

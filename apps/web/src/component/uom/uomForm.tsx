@@ -12,6 +12,7 @@ import Button from '../ui/Button';
 import Styles from '../../styles/newStyles/uomForm.module.scss';
 import TextArea from '../ui/CustomTextArea';
 
+/* Function for uom */
 const UomForm: React.FC = (props: any) => {
   const validationSchema =
     props.mode === 'ADD'
@@ -22,6 +23,7 @@ const UomForm: React.FC = (props: any) => {
     name: '',
     description: '',
   });
+  /* Function to get one uom data */
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {
@@ -37,6 +39,7 @@ const UomForm: React.FC = (props: any) => {
   }, [props.uomId, props.mode]);
   const { mutate: createNewuom } = useCreateuom();
   const { mutate: updateuom } = useUpdateUom();
+  /* Function to create and edit uom */
   const formik = useFormik({
     initialValues,
     validationSchema,

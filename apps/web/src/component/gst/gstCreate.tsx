@@ -7,11 +7,10 @@ import gstService from '../../service/gst-service';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/gstList.module.scss';
-import CancelIcon from '../menu/icons/closeIcon'
 
 const validationSchema = getGstcreationYupschema(Yup);
 
-//Function fOR GST Form
+/* Function fOR GST Form */
 const GstCreate: React.FC = (props: any) => {
   const { mutate: createNewGst } = useCreateGst();
   const { mutate: updateGstById } = useUpdateGst();
@@ -33,7 +32,7 @@ const GstCreate: React.FC = (props: any) => {
     }
   }, []);
 
-  //Function for updating and adding gst form data
+  // Function for updating and adding gst form data
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -48,7 +47,6 @@ const GstCreate: React.FC = (props: any) => {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
               props.setOpen(false);
-              props.setReload(true);
               props.setMessage('Gst created successfully');
               props.setOpenSnack(true);
             }
@@ -72,6 +70,7 @@ const GstCreate: React.FC = (props: any) => {
       }
     },
   });
+
   //Function for closiing popup
   const handleClose = () => {
     props.setOpen(false);
@@ -80,11 +79,6 @@ const GstCreate: React.FC = (props: any) => {
   return (
     <div >
       <form onSubmit={formik.handleSubmit}>
-        {/* <div className={Styles.header}>
-          <div><h4 className={Styles.titleStyle}>Edit GST</h4></div>
-          <div> <CancelIcon onClick={handleClose} /></div>
-        </div>
-        <div className={Styles.dividerStyle}></div> */}
         <div className={Styles.field}>
           <Input
             label="Gst Rate"

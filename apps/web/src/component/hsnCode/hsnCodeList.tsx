@@ -3,7 +3,6 @@ import Styles from '../../styles/newStyles/hsnList.module.scss';
 import {
   useDeleteHsnCode,
   useUploadHsnCode,
-  useGetByCode,
   useGetAllPaginatedHsnCodeData,
 } from '../../hooks/hsnCode-hooks';
 import CustomSnackBar from '../ui/customSnackBar';
@@ -12,7 +11,6 @@ import HsnForm from './hsnCodeCreate';
 import Button from '../ui/Button';
 import Button1 from '../menu/button';
 import Input from '../ui/Input';
-import { useCreateHsnCode } from '../../hooks/hsnCode-hooks';
 import * as XLSX from 'xlsx';
 import SearchIcon from '../menu/icons/search';
 import CustomLoader from '../ui/customLoader';
@@ -26,22 +24,17 @@ import AddIcon from '../menu/icons/addIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
-import { handleSortByColumn } from './../../helper/common-function'
+import { handleSortByColumn } from './../../helper/common-function';
 
 const FileUploadValidationSchema = Yup.object().shape({
   file: Yup.mixed().required('Please upload a file'),
 });
+
 /* Function for HSN CODE */
 const HsnCodeList = () => {
   const state: RootState = store.getState();
-  const {
-    mutate: postDataForFilter,
-    data: getFilterData,
-    isLoading: searchLoader,
-  } = useGetByCode();
   const { mutate: getDeleteHsnCodeByID } = useDeleteHsnCode();
   const { mutate: uploadJsonData } = useUploadHsnCode();
-  const { mutate: createNewHsnCode } = useCreateHsnCode();
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [reload, setReload] = useState(false);
@@ -49,7 +42,6 @@ const HsnCodeList = () => {
   const [hsnCodeId, setHsnCodeId] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [dataShow, setDataShow] = useState(false);
   const [openHsnForm, setOpenHsnForm] = useState(false);
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
@@ -75,6 +67,7 @@ const HsnCodeList = () => {
     status: activeButton,
     global_search: filterValues.search_by_name,
   };
+  /* Function to get all hsn code */
   const {
     isLoading: getAllLoadingPaginated,
     data: initialData,
@@ -143,6 +136,7 @@ const HsnCodeList = () => {
       reader.readAsArrayBuffer(file);
     }
   };
+
   /* Function for converting the excel data into json format */
   const transformDatatoJson = async (workbook: any) => {
     const sheetName = workbook.SheetNames[0];
@@ -158,6 +152,7 @@ const HsnCodeList = () => {
     };
     return jsonData;
   };
+
   /* Function for uploading the excel file */
   const handleUpload = () => {
     if (!selectedFile) {
@@ -216,6 +211,7 @@ const HsnCodeList = () => {
       description: 'Sample Data 3 - Details',
     },
   ];
+
   /* Fuunction for downloading sample data */
   const handleDownload = () => {
     const csvContent = convertToCSV(staticData);
@@ -238,7 +234,7 @@ const HsnCodeList = () => {
     <div>
       <div>
         <CustomLoader
-          loading={searchLoader ? searchLoader : getAllLoadingPaginated}
+          loading={getAllLoadingPaginated}
           size={48}
           color="#333C44"
         >
@@ -275,7 +271,7 @@ const HsnCodeList = () => {
                       onChange={(e) => {
                         setFilterValues({
                           ...filterValues,
-                          ['search_by_name']: e.target.value,
+                          search_by_name: e.target.value,
                         });
                         setCurrentPage(1);
                       }}
@@ -348,10 +344,18 @@ const HsnCodeList = () => {
                         <tr>
                           <th>#</th>
                           <th
-                            onClick={() => handleSortByColumn('code', sortOrder, setSortOrder, setSortColumn)}
+                            onClick={() =>
+                              handleSortByColumn(
+                                'code',
+                                sortOrder,
+                                setSortOrder,
+                                setSortColumn
+                              )
+                            }
                           >
                             <div className={Styles.headingRow}>
-                              <div>HSN code</div><div>
+                              <div>HSN code</div>
+                              <div>
                                 <FilterOrderIcon />
                               </div>
                             </div>
@@ -361,49 +365,7 @@ const HsnCodeList = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {dataShow ? (
-                          getFilterData?.total_count === 0 ? (
-                            <tr>
-                              <td></td>
-                              <td></td>
-                              <td>No data found</td>
-                              {activeButton === 'AC' && <td></td>}
-                            </tr>
-                          ) : (
-                            getFilterData?.content?.map(
-                              (data: any, index: number) => (
-                                <tr key={data.hsn_code_id}>
-                                  <td>{startingIndex + index}</td>
-                                  <td>{data.code}</td>
-                                  <td>
-                                    <span
-                                      className={Styles.truncatedStyle}
-                                      title={data.description}
-                                    >
-                                      {data.description
-                                        ? data.description.length > 30
-                                          ? data.description.substring(0, 30) +
-                                          '...'
-                                          : data.description
-                                        : '-'}
-                                    </span>
-                                  </td>
-                                  {activeButton === 'AC' && (
-                                    <td>
-                                      <div className={Styles.tablerow}>
-                                        <EditIcon
-                                          onClick={() =>
-                                            editHscCodeHandler(data.hsn_code_id)
-                                          }
-                                        />
-                                      </div>
-                                    </td>
-                                  )}
-                                </tr>
-                              )
-                            )
-                          )
-                        ) : initialData?.total_count === 0 ? (
+                        {initialData?.total_count === 0 ? (
                           <tr>
                             <td></td>
                             <td></td>
@@ -424,7 +386,7 @@ const HsnCodeList = () => {
                                     {data.description
                                       ? data.description.length > 30
                                         ? data.description.substring(0, 30) +
-                                        '...'
+                                          '...'
                                         : data.description
                                       : '-'}
                                   </span>
@@ -451,16 +413,8 @@ const HsnCodeList = () => {
                 <div className={Styles.pagination}>
                   <Pagination
                     currentPage={currentPage}
-                    totalPages={
-                      dataShow
-                        ? getFilterData?.total_page
-                        : initialData?.total_page
-                    }
-                    totalCount={
-                      dataShow
-                        ? getFilterData?.total_count
-                        : initialData?.total_count
-                    }
+                    totalPages={initialData?.total_page}
+                    totalCount={initialData?.total_count}
                     rowsPerPage={rowsPerPage}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}

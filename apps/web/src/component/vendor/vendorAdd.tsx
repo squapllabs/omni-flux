@@ -19,6 +19,7 @@ import { useCreateVendor, useUpdateVendor } from '../../hooks/vendor-hooks';
 import vendorService from '../../service/vendor-service';
 import ProjectSubheader from '../project/projectSubheader';
 
+/* Function for vendor */
 const AddVendor = () => {
   const navigate = useNavigate();
   const routeParams = useParams();
@@ -74,7 +75,7 @@ const AddVendor = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
+  /* Function to get one vendor data */
   useEffect(() => {
     if (Number(routeParams?.id)) {
       const fetchOne = async () => {
@@ -117,7 +118,7 @@ const AddVendor = () => {
       fetchOne();
     }
   }, [routeParams?.id, userData.user_id]);
-
+  /* Functon to create and edit vendor data */
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -195,10 +196,10 @@ const AddVendor = () => {
           navigation={
             currentPath === '/vendor-list' ? '/vendor-list' : '/settings'
           }
+          description=''
         />
       </div>
       <div className={Styles.box}></div>
-      {/* <div className={Styles.dividerStyle}></div> */}
       <div className={Styles.form}>
         <form onSubmit={formik.handleSubmit}>
           <div className={Styles.box1}>
@@ -351,7 +352,6 @@ const AddVendor = () => {
                 }
               />
             </div>
-
             <div className={Styles.box1}>
               <h4>Bank and Payment Details</h4>
             </div>

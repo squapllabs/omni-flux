@@ -37,6 +37,7 @@ const UserList = () => {
   const [sortColumn, setSortColumn] = useState('');
   const [sortOrder, setSortOrder] = useState('desc');
   const navigate = useNavigate();
+  
   const userData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
@@ -45,11 +46,13 @@ const UserList = () => {
     global_search: filterValues?.search_by_name,
     status: activeButton,
   };
+
   const {
     isLoading: getAllLoadingPaginated,
     data: initialData,
     refetch,
   } = useGetAllPaginatedUser(userData);
+
   const deleteUserHandler = (id: any) => {
     setValue(id);
     setOpen(true);
@@ -76,6 +79,7 @@ const UserList = () => {
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton, sortColumn, sortOrder]);
+
   useEffect(() => {
     const handleSearch = setTimeout(() => {
       refetch();
@@ -134,7 +138,7 @@ const UserList = () => {
                       onChange={(e) => {
                         setFilterValues({
                           ...filterValues,
-                          ['search_by_name']: e.target.value,
+                          'search_by_name': e.target.value,
                         });
                         setCurrentPage(1);
                       }}

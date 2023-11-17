@@ -18,6 +18,7 @@ const ClientForm: React.FC = (props: any) => {
     contact_details: '',
     client_id: '',
   });
+  //Function to get a particular client data by ID
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {

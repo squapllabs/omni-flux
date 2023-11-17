@@ -19,6 +19,7 @@ import ProjectSubheader from '../project/projectSubheader';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
 import { handleSortByColumn } from './../../helper/common-function';
 
+/* Function for vendor list */
 const VendorList = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,7 +31,6 @@ const VendorList = () => {
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [dataShow, setDataShow] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState();
@@ -46,27 +46,26 @@ const VendorList = () => {
     status: activeButton,
     global_search: filterValues.search_by_name,
   };
+  /* Function to get all vendor data */
   const {
     isLoading: getAllLoadingPaginated,
     data: initialData,
     refetch,
   } = useGetAllPaginatedVendor(vendorData);
-
+  /* Function to change page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-
+  /* Function to delete vendor */
   const deleteVendor = () => {
     getDeleteVendorByID(value);
     handleCloseDelete();
@@ -76,27 +75,20 @@ const VendorList = () => {
   const handleSnackBarClose = () => {
     setOpenDeleteSnack(false);
   };
-
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton, sortColumn, sortOrder]);
-
   useEffect(() => {
     const handleSearch = setTimeout(() => {
       refetch();
     }, 1000);
     return () => clearTimeout(handleSearch);
   }, [filterValues]);
-
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   return (
     <div>
-      <CustomLoader
-        loading={getAllLoadingPaginated}
-        size={48}
-        color="#333C44"
-      >
+      <CustomLoader loading={getAllLoadingPaginated} size={48} color="#333C44">
         {initialData?.is_available ? (
           <div>
             {currentPath === '/vendor-list' && (
@@ -142,7 +134,7 @@ const VendorList = () => {
                   onChange={(e) => {
                     setFilterValues({
                       ...filterValues,
-                      ['search_by_name']: e.target.value,
+                      search_by_name: e.target.value,
                     });
                     setCurrentPage(1);
                   }}
@@ -227,22 +219,15 @@ const VendorList = () => {
                         )}
                       </tr>
                     ))
-                  )
-                  }
+                  )}
                 </tbody>
               </table>
             </div>
             <div className={Styles.pagination}>
               <Pagination
                 currentPage={currentPage}
-                totalPages={
-                  dataShow ? getFilterData?.total_page : initialData?.total_page
-                }
-                totalCount={
-                  dataShow
-                    ? getFilterData?.total_count
-                    : initialData?.total_count
-                }
+                totalPages={initialData?.total_page}
+                totalCount={initialData?.total_count}
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
