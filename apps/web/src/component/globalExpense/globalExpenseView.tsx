@@ -39,9 +39,9 @@ const GlobalExpensesView = (props: any) => {
             </div>
             {documentURL ?
                 (fileType === "image" ?
-                    < img src={documentURL} style={{ maxWidth: "700px", height: "auto" }} >
+                    < img src={documentURL} alt="documentImg" style={{ maxWidth: "700px", height: "auto" }} >
                     </img>
-                    : <iframe src={documentURL} style={{ width: "800px", height: "400px" }} >
+                    : <iframe src={documentURL} title="Document Viewer" style={{ width: "800px", height: "400px" }} >
                     </iframe>)
                 : "No Document Found"}
         </div >

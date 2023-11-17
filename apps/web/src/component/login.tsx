@@ -200,7 +200,7 @@ const Login = () => {
           </div>
           <div className={Styles.imgContainer}>
             {/* <div className={Styles.imagediv}> */}
-              <img src='/ERP.jpg' className={Styles.imagediv}/>
+              <img src='/ERP.jpg' alt="erp" className={Styles.imagediv}/>
             {/* </div> */}
           </div>
         </div>

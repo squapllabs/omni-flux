@@ -251,7 +251,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         defaultLabel="Select from options"
                         placeholder="Select from options"
                         mandatory={true}
-                        optionList={getBOMList != undefined ? getBOMList : []}
+                        optionList={getBOMList !== undefined ? getBOMList : []}
                         // optionList={getBOMList}
                         // disabled
                         disabled={props.indent_request_id ? true : false}

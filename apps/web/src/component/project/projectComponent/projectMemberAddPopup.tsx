@@ -163,7 +163,7 @@ const ProjectMemberAddPopup = (props: any) => {
             </div>
           </div>
           <div>
-            <img src="/add-member.png" className={Styles.image}></img>
+            <img src="/add-member.png" alt="member" className={Styles.image}></img>
           </div>
         </div>
 

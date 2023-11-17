@@ -115,7 +115,7 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
       // console.log('values', values);
-      if (props?.mode == 'ADD') {
+      if (props?.mode === 'ADD') {
         postProjectSite(values, {
           onSuccess(data, variables, context) {
             // console.log('data', data);

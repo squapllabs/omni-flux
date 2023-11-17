@@ -53,7 +53,7 @@ const ProductSale: React.FC = (props: any) => {
   const [editProduct, setEditProduct] = useState();
   const [appendedValue, setAppendedValue] = useState('');
   const [disable, setDisable] = useState(
-    props?.leadEnquireId != undefined ? true : false
+    props?.leadEnquireId !== undefined ? true : false
   );
   const [openDelete, setOpenDelete] = useState(false);
   const [open, setOpen] = useState(false);
@@ -152,7 +152,7 @@ const ProductSale: React.FC = (props: any) => {
       );
       setProductItems(product);
     };
-    if (props.leadEnquireId != undefined) fetchData();
+    if (props.leadEnquireId !== undefined) fetchData();
     if (props.leadEnquireId === undefined) fetchLeadID();
   }, []);
   const { data: getAllClient = [] } = useGetAllClientDrop();

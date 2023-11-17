@@ -145,7 +145,7 @@ const ProjectDocument: React.FC = (props: any) => {
       setProjectDocs(getData?.data?.project_documents);
       setDataCount(getData?.data?.project_documents.length);
     };
-    if (routeParams?.id != undefined) fetchData();
+    if (routeParams?.id !== undefined) fetchData();
   }, [reload]);
   const handleDocuments = async (files: File[], code: string) => {
     try {
@@ -350,7 +350,7 @@ const ProjectDocument: React.FC = (props: any) => {
         <div>
           <div className={Styles.emptyDataHandling}>
             <div className={Styles.image}>
-              <img src="/document-add.png" width="70%" height="20%" />
+              <img src="/document-add.png" alt="document" width="70%" height="20%" />
             </div>
             <div>
               <h5 className={Styles.textmax}>

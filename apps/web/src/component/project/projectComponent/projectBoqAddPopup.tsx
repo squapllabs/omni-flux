@@ -171,7 +171,7 @@ const ProjectBoqAddPopup = (props: any) => {
                         </div>
                     </div>
                     <div >
-                        <img src="/boq-add.png" className={Styles.imageBoQ}></img>
+                        <img src="/boq-add.png" alt="boq"className={Styles.imageBoQ}></img>
                     </div>
 
                 </div>

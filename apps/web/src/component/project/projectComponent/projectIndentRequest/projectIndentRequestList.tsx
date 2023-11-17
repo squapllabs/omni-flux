@@ -62,7 +62,7 @@ const ProjectIndentRequestList = () => {
   }, [currentPage, rowsPerPage, filterValues]);
 
   useEffect(() => {
-    if (filterValues?.search_by_code != '') {
+    if (filterValues?.search_by_code !== '') {
       const handleSearch = setTimeout(() => {
         refetch();
       }, 1000);
@@ -359,7 +359,7 @@ const ProjectIndentRequestList = () => {
             </div>
             <div className={Styles.emptyDataHandling}>
               <div className={Styles.image}>
-                <img src="/boq-add.png" width="100%" height="150px" />
+                <img src="/boq-add.png" alt="boq" width="100%" height="150px" />
               </div>
               <div>
                 <h5 className={Styles.textmax}>

@@ -180,7 +180,7 @@ const BomRawMaterials: React.FC = (props: any) => {
                           name="uom_id"
                           mandatory={true}
                           optionList={
-                            getAllUomDrop != undefined ? getAllUomDrop : []
+                            getAllUomDrop !== undefined ? getAllUomDrop : []
                           }
                           value={items.uom_id}
                           onChange={(e) => handleListChange(e, index)}
