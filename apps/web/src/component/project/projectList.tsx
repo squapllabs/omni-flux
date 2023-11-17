@@ -179,7 +179,7 @@ const ProjectList = () => {
                 onChange={(e) => {
                   setFilterValues({
                     ...filterValues,
-                    ['search_by_name']: e.target.value,
+                    [filterValues?.search_by_name]: e.target.value,
                   });
                   setCurrentPage(1);
                 }}

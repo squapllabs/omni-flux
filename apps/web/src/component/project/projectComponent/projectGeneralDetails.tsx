@@ -106,7 +106,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
       setBomConfig(getData?.data?.bom_configuration);
       setSiteConfigData(getData?.data?.project_site);
     };
-    if (routeParams?.id != undefined) fetchData();
+    if (routeParams?.id !== undefined) fetchData();
   }, [routeParams?.id]);
 
   const handleSnackBarClose = () => {

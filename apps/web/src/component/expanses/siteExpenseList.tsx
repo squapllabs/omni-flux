@@ -170,7 +170,7 @@ const SiteExpenseList = () => {
                 ''
               )}
               {getExpenseList?.content?.map((items: any, index: any) => {
-                if (items.is_delete != true) {
+                if (items.is_delete !== true) {
                   rowIndex = rowIndex + 1;
                   console.log('items', items);
                   const sumOfRates = items?.expense_details.reduce(

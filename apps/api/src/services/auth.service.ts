@@ -22,9 +22,10 @@ const forgetPassword = async (body: { email_id: string }) => {
         process.env.NEXT_PUBLIC_FORGETPASSWORD_TOKEN_SECRET_KEY,
         { expiresIn: '2h' }
       );
-      const link = `reset-password/${userId}/${token}/`;
-      // const link = `${process.env.REACT_DEV_URL}/reset-password/${userId}/${token}/`;
+      // const link = `reset-password/${userId}/${token}/`;
+      const link = `${process.env.REACT_APP_URL}/reset-password/${userId}/${token}/`;
       console.log('link ==>', link);
+      await mailService.forgotPasswordEmail(email_id, link);
       result = { message: 'success', status: true, link: link };
       return result;
     } else {

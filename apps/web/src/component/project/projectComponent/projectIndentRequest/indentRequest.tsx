@@ -101,7 +101,7 @@ const IndentRequest: React.FC = (props: any) => {
       });
       setIndentRequestDetailsList(indentData?.data?.indent_request_details);
     };
-    if (routeParams?.indentid != undefined) fetchData();
+    if (routeParams?.indentid !== undefined) fetchData();
   }, []);
   const priority: any = [
     { value: 'High', label: 'High' },
@@ -216,7 +216,7 @@ const IndentRequest: React.FC = (props: any) => {
               indent_request_details: indentRequestDetailsList,
               site_id: Number(formik.values.site_id),
             };
-            if (routeParams?.indentid != undefined) {
+            if (routeParams?.indentid !== undefined) {
               updateIndentData(obj, {
                 onSuccess(data, variables, context) {
                   if (data?.status === true) {

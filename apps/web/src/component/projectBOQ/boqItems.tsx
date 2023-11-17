@@ -754,7 +754,7 @@ const BomItems = (props: {
                           <tr
                             key={data.sub_category_id}
                             className={
-                              selectedSubCategoryId == data?.sub_category_id
+                              selectedSubCategoryId === data?.sub_category_id
                                 ? Styles.selectedRow
                                 : ''
                             }
@@ -881,7 +881,7 @@ const BomItems = (props: {
                                     }}
                                   >
                                     {subTaskView === false &&
-                                    selectedSubCategoryId ==
+                                    selectedSubCategoryId ===
                                       data.sub_category_id ? (
                                       <ExpandClose></ExpandClose>
                                     ) : (
@@ -901,7 +901,7 @@ const BomItems = (props: {
                             </td>
                           </tr>
                           {!subTaskView &&
-                            selectedSubCategoryId == data?.sub_category_id &&
+                            selectedSubCategoryId === data?.sub_category_id &&
                             subChildList?.map((item: any, subindex: any) => {
                               return (
                                 <SubBoqItems

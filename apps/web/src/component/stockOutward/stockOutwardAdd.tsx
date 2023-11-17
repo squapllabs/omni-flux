@@ -122,6 +122,7 @@ const StoreOutwardAdd = () => {
         label: site?.site_details?.name,
       };
       arr.push(obj);
+      return site;
     });
     setSiteData(arr);
   };
@@ -280,6 +281,7 @@ const ItemDetailsTable: React.FC = (props: {
         label: item?.item_data?.item_name,
       };
       arr.push(obj);
+      return obj;
     });
     setItemData(arr);
   };

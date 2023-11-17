@@ -222,7 +222,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
             </div>
             <div className={Styles.emptyDataHandling}>
               <div className={Styles.image}>
-                <img src="/siteAdd.png" width="70%" height="20%" />
+                <img src="/siteAdd.png" alt="sites" width="70%" height="20%" />
               </div>
               <div>
                 <h5 className={Styles.textmax}>

@@ -114,7 +114,7 @@ const AllPurchaseRequest = () => {
                   onChange={(e) => {
                     setFilterValues({
                       ...filterValue,
-                      ['search_by_code']: e.target.value,
+                      [filterValue?.search_by_code]: e.target.value,
                     });
                   }}
                   placeholder="Search by PR Code"
@@ -127,7 +127,7 @@ const AllPurchaseRequest = () => {
         {getPRbasedOnIndent?.content?.length === 0 && !loading ? (
           <div className={Styles.emptyDataHandling}>
             <div className={Styles.image}>
-              <img src="/boq-add.png" width="100%" height="150px" />
+              <img src="/boq-add.png" width="100%" height="150px" alt="logo" />
             </div>
             <div>
               <h5 className={Styles.textmax}>
@@ -309,7 +309,7 @@ const AllPurchaseRequest = () => {
                           {items?.status === 'Approved' &&
                           items?.purchase_order?.length === 0
                             ? 'Quotation Received'
-                            : items?.status != 'Approved'
+                            : items?.status !== 'Approved'
                             ? items?.status
                             : items?.status === 'Approved' &&
                               items?.purchase_order?.length > 0

@@ -111,7 +111,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
       );
       setBomConfig(arr);
     };
-    if (routeParams?.id != undefined) fetchData();
+    if (routeParams?.id !== undefined) fetchData();
   }, []);
 
   const handleClosePopup = () => {

@@ -122,7 +122,7 @@ const BomLabours: React.FC = (props: any) => {
       values['quantity'] = Number(formik.values.quantity);
       values['rate'] = Number(formik.values.rate);
       values['bom_configuration_id'] = Number(props.bomId);
-      console.log('values', values);
+      // console.log('values', values);
       let arr = [];
       arr = [...props.bomList, values];
       props.setBomList(arr);
@@ -161,7 +161,7 @@ const BomLabours: React.FC = (props: any) => {
               </tr>
             </thead>
             <tbody>
-              {props?.bomList?.length != 0
+              {props?.bomList?.length !== 0
                 ? props?.bomList?.map((items: any, index: any) => {
                     if (
                       items.is_delete === false &&
@@ -188,7 +188,7 @@ const BomLabours: React.FC = (props: any) => {
                               name="uom_id"
                               mandatory={true}
                               optionList={
-                                getAllUomDrop != undefined ? getAllUomDrop : []
+                                getAllUomDrop !== undefined ? getAllUomDrop : []
                               }
                               value={items.uom_id}
                               onChange={(e) => handleListChange(e, index)}

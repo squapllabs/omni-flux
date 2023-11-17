@@ -199,7 +199,7 @@ const ProjectTaskAdd: React.FC = (props: any) => {
             name="uom_id"
             label="Select UOM"
             mandatory={false}
-            optionList={getAllUomDrop != undefined ? getAllUomDrop : []}
+            optionList={getAllUomDrop !== undefined ? getAllUomDrop : []}
             value={formik.values.uom_id}
             onChange={formik.handleChange}
             onSelect={(e: string): void => {

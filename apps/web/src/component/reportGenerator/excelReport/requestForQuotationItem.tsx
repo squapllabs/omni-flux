@@ -34,7 +34,7 @@ const RequestForQuotationItem = async (data: any) => {
         'RFQ Date',
         'Approved Vendor',
         'Status',
-        'Requested By'
+        'Requested By',
     ];
 
     const itemHeader = [
@@ -44,16 +44,13 @@ const RequestForQuotationItem = async (data: any) => {
         'Contact Person',
         'Contact Person MobNo',
         'Quotation Status',
-    ]
-
+    ];
 
     let headerData: any = [];
     let itemsData: any = [];
     let headerAdded = false; // Track if the header row has been added
-
     if (data?.length > 1) {
         data?.forEach((itemdata: any, index: number) => {
-
             if (!headerAdded) {
                 worksheet.addRow(headers).eachCell((cell) => {
                     cell.style = headerStyle;
@@ -67,22 +64,23 @@ const RequestForQuotationItem = async (data: any) => {
                 itemdata?.project_data?.project_name,
                 itemdata?.purchase_request_code,
                 format(new Date(itemdata?.request_date), 'MM/dd/yyyy'),
-                itemdata?.selected_vendor_data?.vendor_name || "N/A",
+                itemdata?.selected_vendor_data?.vendor_name || 'N/A',
                 itemdata?.status,
-                itemdata?.requester_user_data?.first_name + " " + itemdata?.requester_user_data?.last_name
-            ]
-
+                itemdata?.requester_user_data?.first_name +
+                ' ' +
+                itemdata?.requester_user_data?.last_name,
+            ];
 
             itemsData = itemdata?.vendor_quotes?.map((data: any, index: any) => {
                 return {
                     '': '',
-                    'S No': (index + 1),
+                    'S No': index + 1,
                     'Vendor Name': data?.vendor_data?.vendor_name,
                     'Contact Person': data?.vendor_data?.contact_person,
                     'Contact MobileNumber': data?.vendor_data?.contact_phone_no,
                     'Quotation Status': data?.quotation_status,
-                }
-            })
+                };
+            });
 
             worksheet.addRow(headerData).eachCell((cell) => {
                 cell.style = borderStyle;
@@ -99,15 +97,15 @@ const RequestForQuotationItem = async (data: any) => {
             itemsData?.forEach((item: any) => {
                 const rowData = Object.values(item);
                 worksheet.addRow(rowData).eachCell((cell, colNumber) => {
-                    if (colNumber > 1) { // Skip the first column (A3)
+                    if (colNumber > 1) {
+                        // Skip the first column (A3)
                         cell.style = borderStyle;
                     }
                 });
             });
-
-        })
-    }
-    else {
+            return itemdata;
+        });
+    } else {
         worksheet.addRow(headers).eachCell((cell) => {
             cell.style = headerStyle;
         });
@@ -119,12 +117,13 @@ const RequestForQuotationItem = async (data: any) => {
                 itemdata?.project_data?.project_name,
                 itemdata?.purchase_request_code,
                 format(new Date(itemdata?.request_date), 'MM/dd/yyyy'),
-                itemdata?.selected_vendor_data?.vendor_name || "N/A",
+                itemdata?.selected_vendor_data?.vendor_name || 'N/A',
                 itemdata?.status,
-                itemdata?.requester_user_data?.first_name + " " + itemdata?.requester_user_data?.last_name
-            ]
-        })
-
+                itemdata?.requester_user_data?.first_name +
+                ' ' +
+                itemdata?.requester_user_data?.last_name,
+            ];
+        });
 
         worksheet.addRow(itemHeader).eachCell((cell, colNumber) => {
             if (colNumber > 1) {
@@ -148,18 +147,19 @@ const RequestForQuotationItem = async (data: any) => {
     const buffer = await workbook.xlsx.writeBuffer();
 
     // Create a Blob from the buffer
-    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const blob = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
 
     // Create a download link and trigger the download
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'RFQ_register_item.xlsx';
+    a.download = 'RFQ_item_register.xlsx';
     document.body.appendChild(a);
     a.click();
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
+};
 
-}
-
-export default RequestForQuotationItem
+export default RequestForQuotationItem;

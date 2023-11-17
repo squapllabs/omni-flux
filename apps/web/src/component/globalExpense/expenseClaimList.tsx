@@ -247,7 +247,7 @@ const ExpenseList = () => {
                             )}
                             {getExpenseList?.content?.map(
                               (items: any, index: any) => {
-                                if (items.is_delete != true) {
+                                if (items.is_delete !== true) {
                                   rowIndex = rowIndex + 1;
                                   return (
                                     <tr key={index}>
@@ -346,7 +346,7 @@ const ExpenseList = () => {
                     <div className={Styles.cardContainer}>
                       {getExpenseList?.content?.map(
                         (items: any, index: any) => {
-                          if (items.is_delete != true) {
+                          if (items.is_delete !== true) {
                             rowIndex = rowIndex + 1;
                             return (
                               <table className={Styles.cardTable}>

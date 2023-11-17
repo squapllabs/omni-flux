@@ -60,7 +60,7 @@ const Tender: React.FC = (props: any) => {
     lead_code: '',
   });
   const [disable, setDisable] = useState(
-    props?.leadEnquireId != undefined ? true : false
+    props?.leadEnquireId !== undefined ? true : false
   );
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
@@ -130,7 +130,7 @@ const Tender: React.FC = (props: any) => {
         lead_code: data?.data?.lead_code,
       });
     };
-    if (props.leadEnquireId != undefined) fetchData();
+    if (props.leadEnquireId !== undefined) fetchData();
     if (props.leadEnquireId === undefined) fetchLeadID();
   }, [props.leadEnquireId]);
   const fetchLeadID = async () => {

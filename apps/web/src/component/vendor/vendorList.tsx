@@ -25,7 +25,7 @@ const VendorList = () => {
   const location = useLocation();
   const currentPath = location.pathname;
   const { mutate: getDeleteVendorByID } = useDeleteVendor();
-  const [activeButton, setiveButton] = useState<string | null>('AC');
+  const [activeButton, setactiveButton] = useState<string | null>('AC');
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });

@@ -72,7 +72,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
   }, [screenSize]);
 
   useEffect(() => {
-    if (props?.mode != 'Edit' && props.expenseList.length === 0) {
+    if (props?.mode !== 'Edit' && props.expenseList.length === 0) {
       props.setExpenseList([...props.expenseList, initialValues]);
     }
   }, [props?.mode]);
@@ -84,7 +84,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
     //     item.is_delete === ExpenseValue?.is_delete
     // );
     if (props.expenseList[expenseIndex].expense_details_id != null) {
-      if (props.expenseList[expenseIndex].bill_details != '') {
+      if (props.expenseList[expenseIndex].bill_details !== '') {
         props.expenseList[expenseIndex] = {
           ...props.expenseList[expenseIndex],
           is_delete: true,
@@ -169,7 +169,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values, { resetForm }) => {
-      if (values.bill_number != '' && selectedFiles.length === 0) {
+      if (values.bill_number !== '' && selectedFiles.length === 0) {
         props.setMessage('Bill number is given but bill is not attached');
         props.setOpenSnack(true);
       } else {

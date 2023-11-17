@@ -1,10 +1,10 @@
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
-import { companyDetails } from '../../../helper/commonContent/companyDetails'; 
+import { companyDetails } from '../../../helper/commonContent/companyDetails';
 
 const InvoiceReportGenerator = (data: any) => {
-
+  
   const purchaseOrder = {
     companyName: companyDetails.companyName,
     companyAddress: companyDetails.companyAddress,
@@ -31,7 +31,9 @@ const InvoiceReportGenerator = (data: any) => {
   const itemsData = data?.purchase_order_data?.grn?.map((items: any) => {
     items?.grn_details.map((subItems: any) => {
       demoData.push(subItems);
+      return subItems;
     });
+    return items;
   });
 
 
@@ -145,7 +147,7 @@ const InvoiceReportGenerator = (data: any) => {
 
 
   // Save the PDF
-    pdf.save(`${purchaseOrder?.vendorName}_invoice.pdf`);
+  pdf.save(`${purchaseOrder?.vendorName}_invoice.pdf`);
 
   // const pdfDataUri = pdf.output('datauristring');
   // const previewWindow = window.open();

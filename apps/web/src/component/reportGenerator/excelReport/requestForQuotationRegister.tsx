@@ -33,7 +33,7 @@ const RequestForQuotationRegister = async (data: any) => {
         'RFQ Number',
         'RFQ Date',
         'Status',
-        'Requested By'
+        'Requested By',
     ];
 
     const itemHeader = [
@@ -41,7 +41,7 @@ const RequestForQuotationRegister = async (data: any) => {
         'S No',
         'Item Name',
         'UOM',
-    ]
+    ];
 
     let headerData: any = [];
     let itemsData: any = [];
@@ -58,25 +58,28 @@ const RequestForQuotationRegister = async (data: any) => {
             }
 
             headerData = [
-                (index + 1),
+                index + 1,
                 itemData?.project_data?.code,
                 itemData?.project_data?.project_name,
                 itemData?.purchase_request_code,
                 format(new Date(itemData?.request_date), 'MM/dd/yyyy'),
                 itemData?.status,
-                itemData?.requester_user_data?.first_name + " " + itemData?.requester_user_data?.last_name,
-
+                itemData?.requester_user_data?.first_name +
+                ' ' +
+                itemData?.requester_user_data?.last_name,
             ];
 
             if (itemData?.vendor_quotes && itemData?.vendor_quotes.length > 0) {
-                itemsData = itemData?.vendor_quotes[0]?.vendor_quotation_details?.map((item: any, index: number) => {
-                    return {
-                        '': '',
-                        'S No': (index + 1),
-                        'Item Name': item?.item_data?.item_name,
-                        'UOM': item?.item_data?.uom?.name,
+                itemsData = itemData?.vendor_quotes[0]?.vendor_quotation_details?.map(
+                    (item: any, index: number) => {
+                        return {
+                            '': '',
+                            'S No': index + 1,
+                            'Item Name': item?.item_data?.item_name,
+                            UOM: item?.item_data?.uom?.name,
+                        };
                     }
-                })
+                );
             }
 
             worksheet.addRow(headerData).eachCell((cell) => {
@@ -94,53 +97,58 @@ const RequestForQuotationRegister = async (data: any) => {
             itemsData?.forEach((item: any) => {
                 const rowData = Object.values(item);
                 worksheet.addRow(rowData).eachCell((cell, colNumber) => {
-                    if (colNumber > 1) { // Skip the first column (A3)
+                    if (colNumber > 1) {
+                        // Skip the first column (A3)
                         cell.style = borderStyle;
                     }
                 });
             });
-
+            return itemData;
         });
-
-    }
-    else {
-
+    } else {
         worksheet.addRow(headers).eachCell((cell) => {
             cell.style = headerStyle;
         });
 
         data?.map((headerData: any, index: number) => {
             const rowData = [
-                (index + 1),
+                index + 1,
                 headerData?.purchase_request_data?.project_data?.code,
                 headerData?.purchase_request_data?.project_data?.project_name,
                 headerData?.purchase_request_data?.purchase_request_code,
-                format(new Date(headerData?.purchase_request_data?.request_date), 'MM/dd/yyyy'),
+                format(
+                    new Date(headerData?.purchase_request_data?.request_date),
+                    'MM/dd/yyyy'
+                ),
                 headerData?.purchase_request_data?.status,
-                headerData?.purchase_request_data?.requester_user_data?.first_name + " " + headerData?.purchase_request_data?.requester_user_data?.last_name,
+                headerData?.purchase_request_data?.requester_user_data?.first_name +
+                ' ' +
+                headerData?.purchase_request_data?.requester_user_data?.last_name,
             ];
             headerData.push(rowData);
-        })
+        });
 
-        itemsData = data?.vendor_quotes[0]?.vendor_quotation_details?.map((item: any, index: number) => {
-            return {
-                '': '',
-                'S No': (index + 1),
-                'Item Name': item?.item_data?.item_name,
-                'UOM': item?.item_data?.uom?.name,
+        itemsData = data?.vendor_quotes[0]?.vendor_quotation_details?.map(
+            (item: any, index: number) => {
+                return {
+                    '': '',
+                    'S No': index + 1,
+                    'Item Name': item?.item_data?.item_name,
+                    UOM: item?.item_data?.uom?.name,
+                };
             }
-        })
+        );
 
         worksheet.addRow(headerData).eachCell((cell) => {
             cell.style = borderStyle;
         });
 
         worksheet.addRow(itemsData).eachCell((cell, colNumber) => {
-            if (colNumber > 1) { // Skip the first column (A3)
+            if (colNumber > 1) {
+                // Skip the first column (A3)
                 cell.style = borderStyle;
             }
         });
-
     }
     worksheet.columns.forEach((column) => {
         let maxLength = 0;
@@ -156,17 +164,19 @@ const RequestForQuotationRegister = async (data: any) => {
     const buffer = await workbook.xlsx.writeBuffer();
 
     // Create a Blob from the buffer
-    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const blob = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
 
     // Create a download link and trigger the download
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'RFQ_register.xlsx';
+    a.download = 'RFQ_supplier_register.xlsx';
     document.body.appendChild(a);
     a.click();
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
-}
+};
 
 export default RequestForQuotationRegister;

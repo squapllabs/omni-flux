@@ -39,7 +39,7 @@ const Project = () => {
       );
       setProjectData(getData);
     };
-    if (routeParams?.id != undefined) fetchData();
+    if (routeParams?.id !== undefined) fetchData();
   }, [loader]);
   const [selectedItem, setSelectedItem] = useState<number>(
     projectMenuID != null ? projectMenuID : 1

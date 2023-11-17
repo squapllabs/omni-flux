@@ -128,7 +128,7 @@ const SiteExpensesForm = () => {
         submitType: datas?.data?.status,
       });
     };
-    if (params?.id != undefined) fetchData();
+    if (params?.id !== undefined) fetchData();
   }, [reload]);
 
   const submitHandler = () => {
@@ -243,7 +243,7 @@ const SiteExpensesForm = () => {
                   name="site_id"
                   label="Site"
                   mandatory={true}
-                  optionList={getSiteList != undefined ? getSiteList : []}
+                  optionList={getSiteList !== undefined ? getSiteList : []}
                   value={formik.values.site_id}
                   onChange={formik.handleChange}
                   onSelect={(value) => {

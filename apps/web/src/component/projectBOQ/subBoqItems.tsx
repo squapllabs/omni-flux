@@ -275,14 +275,14 @@ const SubBoqItems: React.FC<SubBoqItemsProps> = ({
         selectedSubCategoryId === rowData?.sub_category_id &&
         subChildData?.map((items: any, index: any) => {
           return (
-            <>
+            <div>
               <SubBoqItems
                 key={index}
                 index={index}
                 rowData={items}
                 primaryIndex={`${primaryIndex}` + '.' + (index +1) }
               />
-            </>
+            </div>
           );
         })}
 
