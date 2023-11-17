@@ -75,10 +75,8 @@ const GlobalExpenseForm: React.FC = (props: any) => {
 
   const { data: getProjectList = [], isLoading: dropLoading } =
     useGetAllProjectDrop();
-
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
     useCreateGlobalExpense();
-
   const { mutate: updateSiteExpenseData, isLoading: updateLoader } =
     useUpdateGlobalExpense();
   const drafthandler = () => {
@@ -107,7 +105,7 @@ const GlobalExpenseForm: React.FC = (props: any) => {
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
     return formattedDate;
   };
-
+  /* Function to get all site names of a project */
   useEffect(() => {
     const fetchData = async () => {
       const getData = await projectService.getOneProjectSite(projectValue);
@@ -123,7 +121,7 @@ const GlobalExpenseForm: React.FC = (props: any) => {
     };
     if (projectValue !== undefined) fetchData();
   }, [projectValue]);
-
+  /* Function to get one expense data by ID */
   useEffect(() => {
     const fetchData = async () => {
       const postIds = {
@@ -200,6 +198,7 @@ const GlobalExpenseForm: React.FC = (props: any) => {
         })
       : '';
 
+  /* Function to create and edit expense claim */
   const formik = useFormik({
     initialValues,
     validationSchema,

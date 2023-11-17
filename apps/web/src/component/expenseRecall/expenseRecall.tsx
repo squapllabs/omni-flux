@@ -13,6 +13,7 @@ import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import { environment } from '../../environment/environment';
 
+/* Function for expense recall */
 const ExpenseRecall = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
@@ -31,6 +32,8 @@ const ExpenseRecall = () => {
   const currentDate = new Date();
 
   let rowindex = 0;
+
+  /* Function to search a expense based on the expense code */
   const handleSearch = async () => {
     const data = await siteExpenseService.getOnesiteExpenseByCode(value);
     if (data.message === 'success') {
@@ -45,6 +48,7 @@ const ExpenseRecall = () => {
     }
   };
 
+  /* Function to clear the value in the field */
   const handleClear = () => {
     setValue('');
     setTableData(null);
@@ -67,6 +71,7 @@ const ExpenseRecall = () => {
     setOpenSnack(false);
     setWarning(false);
   };
+  /* Function to approve the expense recall */
   const approveExpense = (comments: string) => {
     const object: any = {
       expense_details_id: expenseValue,
@@ -78,7 +83,6 @@ const ExpenseRecall = () => {
       created_by: userID,
       recall_date: currentDate.toISOString().slice(0, 10),
     };
-    // console.log('object', object);
     createExpenseRecallData(object, {
       onSuccess(data, variables, context) {
         if (data?.message === 'success') {
