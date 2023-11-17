@@ -2,6 +2,7 @@ import { format } from 'date-fns';
 import ExcelJS from 'exceljs';
 
 const AccountsProjectSummery = async (data: any) => {
+
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('Sheet1');
 
@@ -40,20 +41,16 @@ const AccountsProjectSummery = async (data: any) => {
   ];
 
   let headerData: any = [];
-  // let itemsData: any = [];
   let headerAdded = false; // Track if the header row has been added
+
   if (data?.length > 1) {
     data?.forEach((itemdata: any, index: number) => {
-      // console.log("itemdata 000009", itemdata);
-
       if (!headerAdded) {
         worksheet.addRow(headers).eachCell((cell) => {
           cell.style = headerStyle;
         });
         headerAdded = true;
       }
-
-      // data?.map?.((data: any, index: number) => {
       headerData = [
         index + 1,
         itemdata?.purchase_order_data?.purchase_request_data?.project_data
@@ -67,13 +64,13 @@ const AccountsProjectSummery = async (data: any) => {
         itemdata?.payment_mode || 'N/A',
         itemdata?.total_amount || 'N/A',
         itemdata?.requested_by_data?.first_name +
-          ' ' +
-          itemdata?.requested_by_data?.last_name || 'N/A',
+        ' ' +
+        itemdata?.requested_by_data?.last_name || 'N/A',
         itemdata?.paid_by_data === null
           ? 'N/A'
           : itemdata?.paid_by_data?.first_name +
-            ' ' +
-            itemdata?.paid_by_data?.last_name,
+          ' ' +
+          itemdata?.paid_by_data?.last_name,
       ];
 
       worksheet.addRow(headerData).eachCell((cell) => {
@@ -89,7 +86,7 @@ const AccountsProjectSummery = async (data: any) => {
       headerData = [
         index + 1,
         data?.purchase_order_data?.purchase_request_data?.project_data?.code ||
-          'N/A',
+        'N/A',
         data?.purchase_order_data?.purchase_request_data?.project_data
           ?.project_name || 'N/A',
         data?.invoice_number || 'N/A',
@@ -99,8 +96,8 @@ const AccountsProjectSummery = async (data: any) => {
         data?.payment_mode || 'N/A',
         data?.total_amount || 'N/A',
         data?.requested_by_data?.first_name +
-          ' ' +
-          data?.requested_by_data?.last_name || 'N/A',
+        ' ' +
+        data?.requested_by_data?.last_name || 'N/A',
         data?.paid_by || 'N/A',
       ];
     });

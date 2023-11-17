@@ -1,9 +1,10 @@
-// import React from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
+import { companyDetails } from '../../../helper/commonContent/companyDetails';
 
 const DeliveryNotes = (data: any, GRNData: any) => {
+
   const itemsData = GRNData?.tableData?.map((item: any) => ({
     itemName: item?.item_name,
     allocatedQuantity: item?.order_quantity,
@@ -12,127 +13,83 @@ const DeliveryNotes = (data: any, GRNData: any) => {
     currentlyReceivedQuantity: item?.currently_received_quantity,
   }));
 
-  // const itemsData = data?.purchaseOrder === "Head Office"
-  //     ? data?.purchase_request_data?.purchase_request_quotation_details?.map((item: any) => ({
-  //         itemName: item?.item_data?.item_name,
-  //         quantity: item?.purchase_requested_quantity,
-  //         unitPrice: item?.item_data?.rate,
-  //         total: item?.purchase_requested_quantity * item?.item_data?.rate
-  //     }))
-  //     : data?.purchase_request_data?.purchase_request_quotation_details?.map((item: any) => ({
-  //         itemName: item?.item_data?.item_name,
-  //         quantity: item?.purchase_requested_quantity,
-  //         unitPrice: item?.item_data?.rate,
-  //         total: item?.purchase_requested_quantity * item?.item_data?.rate
-  //     }));
-
-  // const overallTotal = itemsData?.reduce(
-  //   (accumulator: any, currentItem: any) => {
-  //     return accumulator + currentItem?.total;
-  //   },
-  //   0
-  // );
-  // const overallTotalQuantity = itemsData?.reduce(
-  //   (accumulator: any, currentItem: any) => {
-  //     return accumulator + currentItem?.quantity;
-  //   },
-  //   0
-  // );
-
-  // const purchaseOrder;
 
   const purchaseOrder =
     data?.purchaseOrder === 'Head Office'
       ? {
-          companyName: 'Eco Protection Engineers',
-          companyAddress: 'Plot No, 943, 54th St',
-          Line1: 'TVS Colony,Anna Nagar West Extension',
-          phoneNumber: '044 2654 5180',
-          emailAddress: 'mail@ecoprotection.in',
-          websiteURL: 'https://ecoprotection.in/',
-          orderNumber: data?.order_id,
-          orderType: data?.purchase_order_type,
-          orderDate: format(new Date(data?.order_date), 'MMM dd, yyyy'),
-          invoiceNumber: GRNData?.invoiceNumber,
-          notes: GRNData?.notes,
-          vendorName:
-            data?.purchase_request_data?.selected_vendor_data?.vendor_name ||
-            'N/A',
-          vendorAddress: `${
-            data?.purchase_request_data?.selected_vendor_data?.address
-              ?.street || ''
-          } ${
-            data?.purchase_request_data?.selected_vendor_data?.address?.city ||
-            ''
-          } ${
-            data?.purchase_request_data?.selected_vendor_data?.address?.state ||
-            ''
-          } ${
-            data?.purchase_request_data?.selected_vendor_data?.address
-              ?.country || ''
-          } ${
-            data?.purchase_request_data?.selected_vendor_data?.address
-              ?.pin_code || ''
+        companyName: companyDetails.companyName,
+        companyAddress: companyDetails.companyAddress,
+        Line1: companyDetails.Line1,
+        phoneNumber: companyDetails.phoneNumber,
+        emailAddress: companyDetails.emailAddress,
+        websiteURL: companyDetails.websiteURL,
+        orderNumber: data?.order_id,
+        orderType: data?.purchase_order_type,
+        orderDate: format(new Date(data?.order_date), 'MMM dd, yyyy'),
+        invoiceNumber: GRNData?.invoiceNumber,
+        notes: GRNData?.notes,
+        vendorName:
+          data?.purchase_request_data?.selected_vendor_data?.vendor_name ||
+          'N/A',
+        vendorAddress: `${data?.purchase_request_data?.selected_vendor_data?.address
+            ?.street || ''
+          } ${data?.purchase_request_data?.selected_vendor_data?.address?.city ||
+          ''
+          } ${data?.purchase_request_data?.selected_vendor_data?.address?.state ||
+          ''
+          } ${data?.purchase_request_data?.selected_vendor_data?.address
+            ?.country || ''
+          } ${data?.purchase_request_data?.selected_vendor_data?.address
+            ?.pin_code || ''
           }`,
-          vendorContact:
-            data?.purchase_request_data?.selected_vendor_data
-              ?.contact_phone_no || 'N/A',
-          siteName: data?.purchase_request_data?.site_data?.name || 'N/A',
-          siteAddress: `${
-            data?.purchase_request_data?.site_data?.address?.street || ''
-          } ${data?.purchase_request_data?.site_data?.address?.city || ''} ${
-            data?.purchase_request_data?.site_data?.address?.state || ''
-          } ${data?.purchase_request_data?.site_data?.address?.country || ''} ${
-            data?.purchase_request_data?.site_data?.address?.pin_code || ''
+        vendorContact:
+          data?.purchase_request_data?.selected_vendor_data
+            ?.contact_phone_no || 'N/A',
+        siteName: data?.purchase_request_data?.site_data?.name || 'N/A',
+        siteAddress: `${data?.purchase_request_data?.site_data?.address?.street || ''
+          } ${data?.purchase_request_data?.site_data?.address?.city || ''} ${data?.purchase_request_data?.site_data?.address?.state || ''
+          } ${data?.purchase_request_data?.site_data?.address?.country || ''} ${data?.purchase_request_data?.site_data?.address?.pin_code || ''
           }`,
-          siteContact:
-            data?.purchase_request_data?.site_data?.mobile_number || 'N/A',
-        }
+        siteContact:
+          data?.purchase_request_data?.site_data?.mobile_number || 'N/A',
+      }
       : {
-          companyName: 'Eco Protection Engineers',
-          companyAddress: 'Plot No, 943, 54th St',
-          Line1: 'TVS Colony,Anna Nagar West Extension',
-          phoneNumber: '044 2654 5180',
-          emailAddress: 'mail@ecoprotection.in',
-          websiteURL: 'https://ecoprotection.in/',
-          orderType: data?.purchase_order_type,
-          orderNumber: data?.order_id,
-          orderDate: format(new Date(data?.order_date), 'MMM dd, yyyy'),
-          invoiceNumber: GRNData?.invoiceNumber,
-          notes: GRNData?.notes,
-          vendorName:
-            data?.purchase_request_data?.selected_vendor_data?.vendor_name ||
-            'N/A',
-          vendorAddress: `${
-            data?.purchase_request_data?.selected_vendor_data?.address
-              ?.street || ''
-          } ${
-            data?.purchase_request_data?.selected_vendor_data?.address?.city ||
-            ''
-          } ${
-            data?.purchase_request_data?.selected_vendor_data?.address?.state ||
-            ''
-          } ${
-            data?.purchase_request_data?.selected_vendor_data?.address
-              ?.country || ''
-          } ${
-            data?.purchase_request_data?.selected_vendor_data?.address
-              ?.pin_code || ''
+        companyName: companyDetails.companyName,
+        companyAddress: companyDetails.companyAddress,
+        Line1: companyDetails.Line1,
+        phoneNumber: companyDetails.phoneNumber,
+        emailAddress: companyDetails.emailAddress,
+        websiteURL: companyDetails.websiteURL,
+        orderType: data?.purchase_order_type,
+        orderNumber: data?.order_id,
+        orderDate: format(new Date(data?.order_date), 'MMM dd, yyyy'),
+        invoiceNumber: GRNData?.invoiceNumber,
+        notes: GRNData?.notes,
+        vendorName:
+          data?.purchase_request_data?.selected_vendor_data?.vendor_name ||
+          'N/A',
+        vendorAddress: `${data?.purchase_request_data?.selected_vendor_data?.address
+            ?.street || ''
+          } ${data?.purchase_request_data?.selected_vendor_data?.address?.city ||
+          ''
+          } ${data?.purchase_request_data?.selected_vendor_data?.address?.state ||
+          ''
+          } ${data?.purchase_request_data?.selected_vendor_data?.address
+            ?.country || ''
+          } ${data?.purchase_request_data?.selected_vendor_data?.address
+            ?.pin_code || ''
           }`,
-          vendorContact:
-            data?.purchase_request_data?.selected_vendor_data
-              ?.contact_phone_no || 'N/A',
-          siteName: data?.indent_request_data?.site_data?.name || 'N/A',
-          siteAddress: `${
-            data?.indent_request_data?.site_data?.address?.street || ''
-          } ${data?.indent_request_data?.site_data?.address?.city || ''} ${
-            data?.indent_request_data?.site_data?.address?.state || ''
-          } ${data?.indent_request_data?.site_data?.address?.country || ''} ${
-            data?.indent_request_data?.site_data?.address?.pin_code || ''
+        vendorContact:
+          data?.purchase_request_data?.selected_vendor_data
+            ?.contact_phone_no || 'N/A',
+        siteName: data?.indent_request_data?.site_data?.name || 'N/A',
+        siteAddress: `${data?.indent_request_data?.site_data?.address?.street || ''
+          } ${data?.indent_request_data?.site_data?.address?.city || ''} ${data?.indent_request_data?.site_data?.address?.state || ''
+          } ${data?.indent_request_data?.site_data?.address?.country || ''} ${data?.indent_request_data?.site_data?.address?.pin_code || ''
           }`,
-          siteContact:
-            data?.indent_request_data?.site_data?.mobile_number || 'N/A',
-        };
+        siteContact:
+          data?.indent_request_data?.site_data?.mobile_number || 'N/A',
+      };
 
   // Create a new jsPDF instance
   const pdf = new jsPDF();
@@ -147,8 +104,6 @@ const DeliveryNotes = (data: any, GRNData: any) => {
   pdf.setFont('custom');
 
   const imageUrl = '/Ecologo-03.png'; // Replace with your image URL
-  //start which line  width height
-  // pdf.addImage(imageUrl, 'JPEG', 16, 10, 105, 15); //text to added in list of particals
   pdf.addImage(imageUrl, 'JPEG', 10, 5, 40, 10);
   // Title
   pdf.setFontSize(10);
@@ -280,13 +235,7 @@ const DeliveryNotes = (data: any, GRNData: any) => {
     margin: { top: 10, left: 13 },
   });
 
-  // Define summary table rows ₹
-  // const summaryRows = [
-  //     [{ content: 'Total Quantity:', styles: { fontStyle: 'bold' } }, overallTotalQuantity?.toLocaleString()],
-  //     [{ content: 'Total Amount:', styles: { fontStyle: 'bold' } }, overallTotal?.toLocaleString()],
-  // ];
 
-  // const totalPages = pdf.internal.getNumberOfPages();
   const totalPages = pdf.internal.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     pdf.setPage(i);
@@ -305,19 +254,6 @@ const DeliveryNotes = (data: any, GRNData: any) => {
   pdf.text('Remarks :', 14, summaryYStart + 20);
   pdf.setFont('Newsreader', 'normal');
   pdf.text(`${purchaseOrder?.notes}`, 16, summaryYStart + 25);
-  // console.log("summaryYStart",summaryYStart);
-  // pdf.autoTable({
-  //     body: summaryRows,
-  //     startY: summaryYStart, // Adjust the Y position as needed
-  //     bodyStyles: {
-  //         fontSize: 10, // Adjust the font size for the body
-  //         font: 'Newsreader', // Set the font family for the body
-  //         cellPadding: { top: 1, right: 5, bottom: 1, left: 2 }, // Adjust cell padding
-  //         textColor: [0, 0, 0], // Set text color for the body
-  //         rowPageBreak: 'avoid', // Avoid row page breaks
-  //     },
-  //     margin: { top: 10, left: 13 },
-  // });
 
   // Save the PDF
   pdf.save(`${purchaseOrder?.orderNumber}_delivery_notes.pdf`);

@@ -12,7 +12,7 @@ const RequestForQuotation = (data: any) => {
         total: item?.purchase_requested_quantity * item?.item_data?.rate || "N/A",
     }))
 
-    console.log("item", itemsData);
+    // console.log("item", itemsData);
 
 
     const vendorData = data?.status === "Approved" ? [{
@@ -79,9 +79,9 @@ const RequestForQuotation = (data: any) => {
         pdf.text('Head Office', 130, 44)
         pdf.text('CHENNAI', 130, 48)
         pdf.setFont('Newsreader', 'bold')
-        pdf.text('Dear Sir,', 13, 70)
+        pdf.text('Dear Sir,', 13, 72)
         pdf.setFont('Newsreader', 'normal')
-        pdf.text('Please send your most competitive offer/mentioning your Terms & Conditions before the due date. You can send the same to \nthe above mentioned e-mail/fax', 13, 77)
+        pdf.text('Please send your most competitive offer/mentioning your Terms & Conditions before the due date. You can send the same to \nthe above mentioned e-mail/fax', 13, 79)
         pdf.setFont('Newsreader', 'normal')
         pdf.setFontSize(10);
 
@@ -105,7 +105,7 @@ const RequestForQuotation = (data: any) => {
 
 
         pdf.setFont('Newsreader');
-        const itemDetailsYStart = 86;
+        const itemDetailsYStart = 88;
         pdf.autoTable({
             head: [itemDetailsHeaders],
             body: itemDetailsRows,
@@ -173,15 +173,16 @@ const RequestForQuotation = (data: any) => {
 
         // Generate the vendor-specific content
         pdf.setFont('Newsreader', 'bold');
-        pdf.text(`${vendor?.vendorName + " - " + vendor?.vendorAddress}`, 13, 44);
-        pdf.setFont('Newsreader', 'normal')
-        pdf.text(`P.O BOX : ${vendor?.vendorPinCode || "N/A"}`, 13, 48);
+        pdf.text(`${vendor?.vendorName}`, 13, 44);
+        pdf.text(`${vendor?.vendorAddress || "N/A"}`, 13, 48)
+        pdf.setFont('Newsreader', 'normal');
+        pdf.text(`P.O BOX : ${vendor?.vendorPinCode || "N/A"}`, 13, 52);
         pdf.setFont('Newsreader', 'bold')
-        pdf.text('Contact Person', 13, 52)
+        pdf.text('Contact Person', 13, 56)
         pdf.setFont('Newsreader', 'normal')
-        pdf.text(`${vendor?.contactPerson || "N/A"}`, 13, 56);
-        pdf.addImage(callImage, 'PNG', 13, 57, 3, 3);
-        pdf.text(`  ${vendor?.contactPersonMobNo || "N/A"}`, 16, 60);
+        pdf.text(`${vendor?.contactPerson || "N/A"}`, 13, 60);
+        pdf.addImage(callImage, 'PNG', 13, 61, 3, 3);
+        pdf.text(`  ${vendor?.contactPersonMobNo || "N/A"}`, 16, 64);
         generateCommonContent(pdf)
         pageFooter(pdf)
 
