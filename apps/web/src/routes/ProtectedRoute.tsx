@@ -25,7 +25,7 @@ const ProtectedRoute: React.FC = (props: any) => {
     checkUserToken();
   }, [isLoggedIn]);
 
-  return <React.Fragment>{isLoggedIn ? props.children : null}</React.Fragment>;
+  return <div>{isLoggedIn ? props.children : null}</div>;
 };
 
 export default ProtectedRoute;

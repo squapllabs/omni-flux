@@ -70,7 +70,7 @@ const ProjectEdit = () => {
     is_delete: 'N',
     address: '',
   };
-  const [value, setValue] = useState(valueObject);
+  const [value, setValue] = useState<any>(valueObject);
   const [errors, setErrors] = useState('');
   let rowIndex = 0;
   const [openConfirm, setOpenConfirm] = useState(false);

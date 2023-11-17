@@ -127,7 +127,7 @@ const PurchaseList = () => {
     const selectedPriority = event.target.value;
     setFilterValues({
       ...filterValues,
-      ['priority']: searchValue,
+      [filterValues?.priority]: searchValue,
     });
     setPriorityValue(selectedPriority);
     setIsResetDisabled(searchValue === '');

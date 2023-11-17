@@ -80,6 +80,7 @@ const PurchaseRequestAdd = () => {
         label: items?.item_name,
       };
       arr.push(obj);
+      return items;
     });
     setItemsValues(arr);
     setDynamicItemsValues(arr);

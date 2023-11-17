@@ -3,7 +3,6 @@ import 'jspdf-autotable';
 import { format } from 'date-fns';
 
 const InvoiceReportGenerator = (data: any) => {
-  console.log('InvoiceReportGenerator', data);
   const purchaseOrder = {
     companyName: 'Eco Protection Engineers',
     companyAddress: 'Plot No, 943, 54th St',
@@ -31,7 +30,9 @@ const InvoiceReportGenerator = (data: any) => {
   const itemsData = data?.purchase_order_data?.grn?.map((items: any) => {
     items?.grn_details.map((subItems: any) => {
       demoData.push(subItems);
+      return subItems;
     });
+    return items;
   });
 
   // console.log('demoData', demoData);

@@ -400,7 +400,6 @@ const VendorQuotesUpdate = () => {
                       {vendorQuoteDocument?.map((document: any, index: any) => {
                         const customQuotationName =
                           generateCustomQuotationName(vendorQuoteData);
-
                         if (document.is_delete === 'N')
                           return (
                             <div

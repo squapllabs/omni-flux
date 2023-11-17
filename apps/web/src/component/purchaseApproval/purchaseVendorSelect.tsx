@@ -91,6 +91,7 @@ const VendorChooseModule = () => {
         label: items?.vendor_name,
       };
       arr.push(obj);
+      return items;
     });
     setInitialVendorData(arr);
     setDynamicVendorData(arr);

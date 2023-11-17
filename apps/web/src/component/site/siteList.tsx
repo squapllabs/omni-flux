@@ -40,7 +40,7 @@ const ProjectWorkBreakList = () => {
     const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
-      ['search_by_name']: event.target.value,
+      [filterValues?.search_by_name]: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
     if (searchValue === '') {
