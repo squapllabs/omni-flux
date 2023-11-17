@@ -41,9 +41,6 @@ const RequestForQuotationRegister = async (data: any) => {
         'S No',
         'Item Name',
         'UOM',
-        // 'RFQ Quantity',
-        // 'Rate',
-        // 'Total Amount',
     ]
 
     let headerData: any = [];
@@ -60,7 +57,6 @@ const RequestForQuotationRegister = async (data: any) => {
                 headerAdded = true;
             }
 
-            // if (itemData?.purchase_order_type === "Head Office") {
             headerData = [
                 (index + 1),
                 itemData?.project_data?.code,

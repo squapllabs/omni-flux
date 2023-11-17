@@ -37,7 +37,6 @@ const RequestForQuotationItem = async (data: any) => {
         'Requested By'
     ];
 
-
     const itemHeader = [
         '',
         'S No',
@@ -48,10 +47,10 @@ const RequestForQuotationItem = async (data: any) => {
     ]
 
 
-
     let headerData: any = [];
     let itemsData: any = [];
     let headerAdded = false; // Track if the header row has been added
+
     if (data?.length > 1) {
         data?.forEach((itemdata: any, index: number) => {
 
@@ -113,7 +112,7 @@ const RequestForQuotationItem = async (data: any) => {
             cell.style = headerStyle;
         });
 
-        data?.map((itemdata:any,index:number)=>{
+        data?.map((itemdata: any, index: number) => {
             headerData = [
                 (index + 1).toString(),
                 itemdata?.project_data?.code,

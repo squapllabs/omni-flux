@@ -1,10 +1,7 @@
-import React from 'react'
 import { format } from 'date-fns';
 import ExcelJS from 'exceljs';
 
 const PurchaseRegister = async (data: any) => {
-    // console.log("dataaaaaa", data);
-
 
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Sheet1');
@@ -40,12 +37,6 @@ const PurchaseRegister = async (data: any) => {
         'Total Amount',
         'Requested By'
     ];
-
-    // if (data.some(item => item?.purchase_order_type === "Head Office")) {
-    //     // Include 'Vendor Name' header only if there is a "Head Office" purchase order type
-    //     headers.splice(6, 0, 'Vendor Name');
-    // }
-
 
     let headerData: any = [];
     if (data) {
@@ -87,9 +78,7 @@ const PurchaseRegister = async (data: any) => {
     headerData?.forEach((item: any) => {
         const rowData = Object.values(item);
         worksheet.addRow(rowData).eachCell((cell, colNumber) => {
-            // if (colNumber > 1) { // Skip the first column (A3)
             cell.style = borderStyle;
-            // }
         });
     });
 
