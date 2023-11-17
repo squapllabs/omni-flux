@@ -259,9 +259,126 @@ const purchaseRequestEmailForVendor = async (body) => {
     await transporter.transporter.sendMail({
       from: `${fromMailId}`,
       to: to_email_id,
-      /*  to: 'vijay.perumalsamy@aalamsoft.com', */
       subject:
         'Request for Quotation - New Purchase Request from Omni-Flux ERP',
+      html: template,
+    });
+
+    console.log('email sent sucessfully');
+  } catch (error) {
+    console.log(error, 'email not sent');
+  }
+};
+
+/**
+ * Method to Send Email for Forgot Password
+ */
+const forgotPasswordEmail = async (email_id: string, link: string) => {
+  try {
+    const fromMailId = process.env.EMAIL_FROM;
+    const resetPasswordLink = link;
+    const to_email_id = email_id;
+
+    const template = `<!DOCTYPE html>
+    <html>
+      <head>
+        <title>Forgot Password</title>
+      </head>
+    
+      <body
+        style="
+          font-family: 'Arial', sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #f5f5f5;
+        "
+      >
+        <table
+          role="presentation"
+          style="width: 100%; border-collapse: collapse; border: none"
+        >
+          <tr>
+            <td align="center" style="padding: 2rem">
+              <table
+                role="presentation"
+                style="
+                  max-width: 600px;
+                  width: 100%;
+                  border-collapse: collapse;
+                  border: none;
+                  text-align: center;
+                  background-color: #ffffff;
+                  border-radius: 8px;
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                "
+              >
+                <tr>
+                  <td style="padding: 40px 0">
+                    <div style="text-align: center">
+                      <h1
+                        style="
+                          margin: 0;
+                          font-size: 28px;
+                          font-weight: bold;
+                          color: #3498db;
+                        "
+                      >
+                        Forgot Your Password?
+                      </h1>
+                      <p
+                        style="
+                          padding: 16px 0 24px;
+                          font-size: 18px;
+                          color: #555555;
+                        "
+                      >
+                        We received a request to reset your password. Click the
+                        button below to reset it:
+                      </p>
+                      <a
+                        style="
+                          display: inline-block;
+                          background-color: #3498db;
+                          color: #ffffff;
+                          font-size: 18px;
+                          padding: 12px 24px;
+                          text-decoration: none;
+                          border-radius: 8px;
+                          cursor: pointer;
+                        "
+                        href=${resetPasswordLink}
+                      >
+                        Reset Password
+                      </a>
+                      <p style="padding: 24px 0; font-size: 18px; color: #555555">
+                        If you did not request a password reset, please disregard
+                        this email.
+                      </p>
+                      <p
+                        style="
+                          padding: 0;
+                          margin: 0;
+                          font-size: 16px;
+                          color: #888888;
+                        "
+                      >
+                        Best Regards,<br />
+                        The Omni-Flux ERP Team
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </body>
+    </html>`;
+
+    await transporter.transporter.sendMail({
+      from: `${fromMailId}`,
+      to: to_email_id,
+      subject: 'Secure Your Account: Reset Password for Omni-Flux ERP',
       html: template,
     });
 
@@ -274,4 +391,5 @@ const purchaseRequestEmailForVendor = async (body) => {
 export default {
   OTPEmail,
   purchaseRequestEmailForVendor,
+  forgotPasswordEmail,
 };
