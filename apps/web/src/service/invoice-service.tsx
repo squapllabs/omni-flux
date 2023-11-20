@@ -7,7 +7,6 @@ const getOnePurchaseOrderById = async (values: any) => {
     const response = await axiosinterceptor.get(
       `${environment.apiUrl}/purchase-order-invoice/get-by-po-id/${values}`
     );
-    console.log("//////kk",response.data)
     return response?.data;
   } catch (error) {
     console.log('Error in getOne getOnePurchaseOrderById :', error);

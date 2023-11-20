@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Styles from '../../styles/newStyles/globalExpense.module.scss';
 import Input from '../ui/Input';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
-import { getBymasertDataTypeDrop } from '../../hooks/masertData-hook';
+import { useGetBymasertDataTypeDrop } from '../../hooks/masertData-hook';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import DeleteIcon from '../menu/icons/newDeleteIcon';
@@ -30,7 +30,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
     bill_type: '',
     status: '',
   });
-  const options = [
+  const options: any = [
     { value: 'CASH', label: 'Cash' },
     { value: 'BILL', label: 'Bill' },
     { value: 'VOUCHER', label: 'Voucher' },
@@ -46,45 +46,36 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [display, setDisplay] = useState(props.mode === 'Add' ? true : false);
   const [fileMandatoryError, setFileMandatoryError] = useState('');
-  const { data: getSiteExpense } = getBymasertDataTypeDrop('SIEP');
+  const { data: getSiteExpense } = useGetBymasertDataTypeDrop('SIEP');
   const [expenseIndex, setExpenseIndex] = useState<any>();
   const [screenSize, setScreenSize] = useState(getCurrentDimension());
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-
   function getCurrentDimension() {
     return {
       width: window.innerWidth,
       height: window.innerHeight,
     };
   }
-
   useEffect(() => {
     const updateDimension = () => {
       setScreenSize(getCurrentDimension());
     };
     window.addEventListener('resize', updateDimension);
-
     return () => {
       window.removeEventListener('resize', updateDimension);
     };
   }, [screenSize]);
-
   useEffect(() => {
-    if (props?.mode != 'Edit' && props.expenseList.length === 0) {
+    if (props?.mode !== 'Edit' && props.expenseList.length === 0) {
       props.setExpenseList([...props.expenseList, initialValues]);
     }
   }, [props?.mode]);
-
+  /* Function to delete a row entry in the expense create screen */
   const deleteSiteExpense = (e: any, values: any) => {
-    // const itemIndex = props.expenseList.findIndex(
-    //   (item: any) =>
-    //     item.expense_data_id === ExpenseValue?.expense_data_id &&
-    //     item.is_delete === ExpenseValue?.is_delete
-    // );
     if (props.expenseList[expenseIndex].expense_details_id != null) {
-      if (props.expenseList[expenseIndex].bill_details != '') {
+      if (props.expenseList[expenseIndex].bill_details !== '') {
         props.expenseList[expenseIndex] = {
           ...props.expenseList[expenseIndex],
           is_delete: true,
@@ -106,14 +97,13 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
     } else {
       props.expenseList.splice(expenseIndex, 1);
     }
-
     props.setExpenseList([...props.expenseList]);
     rowIndex = rowIndex - 1;
     setOpenDelete(false);
     props.setMessage('Site expanse details has been deleted');
     props.setOpenSnack(true);
   };
-
+  /* Function for validating the form */
   const validationSchema = Yup.array().of(
     Yup.object().shape({
       is_delete: Yup.string().required(),
@@ -129,13 +119,11 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
       bill_number: Yup.string(),
     })
   );
-
   const handleListChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: any
   ) => {
     let tempObj = {};
-
     if (event.target.name === 'total') {
       tempObj = {
         ...props.expenseList[index],
@@ -150,8 +138,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
         expense_data_id: matchingObjects[0].value,
         site_expense_name: matchingObjects[0].label,
       };
-
-      let tempArry = [...props.expenseList];
+      const tempArry = [...props.expenseList];
       tempArry[index] = tempObj;
       props.setExpenseList(tempArry);
     } else {
@@ -160,16 +147,17 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
         [event.target.name]: event.target.value,
       };
     }
-    let tempArry = [...props.expenseList];
+    const tempArry = [...props.expenseList];
     tempArry[index] = tempObj;
     props.setExpenseList(tempArry);
   };
+  /* Function to add expense details in to state */
   const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values, { resetForm }) => {
-      if (values.bill_number != '' && selectedFiles.length === 0) {
+      if (values.bill_number !== '' && selectedFiles.length === 0) {
         props.setMessage('Bill number is given but bill is not attached');
         props.setOpenSnack(true);
       } else {
@@ -189,6 +177,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
       }
     },
   });
+  /* Function to give custom name to the bill uploaded in the ui */
   const generateCustomQuotationName = (data: any) => {
     if (data) {
       const vendorName =
@@ -211,12 +200,10 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
       fileInputRef_2.current.click();
     }
   };
-
   const viewDocumnet = (value: any) => {
     setOpenPdfpopup(true);
     setViewDocs(value);
   };
-
   const handleFileSelect = async (e: any) => {
     const files = e.target.files;
     props.setLoader(!props.loader);
@@ -270,12 +257,12 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
       } else {
         const selectedFilesArray: File[] = [];
         const selectedFileNamesArray: string[] = [];
-        let arr: any = [];
+        const arr: any = [];
         fileList.forEach(async (file) => {
           const code = 'SITEEXPENSE' + props.siteId;
           const response = await userService.documentUpload(file, code);
 
-          let obj = {
+          const obj = {
             ...response?.data[0],
             is_delete: 'N',
           };
@@ -288,7 +275,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
         tempObj = {
           ...props.expenseList[expenseIndex],
         };
-        let tempArry = [...props.expenseList];
+        const tempArry = [...props.expenseList];
         tempArry[expenseIndex] = tempObj;
         props.setExpenseList(tempArry);
         setSelectedFiles(selectedFilesArray);
@@ -324,11 +311,10 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
     tempObj = {
       ...props.expenseList[index],
     };
-    let tempArry = [...props.expenseList];
+    const tempArry = [...props.expenseList];
     tempArry[index] = tempObj;
     props.setExpenseList(tempArry);
   };
-
   const handleAddObject = async () => {
     const schema = Yup.array().of(
       Yup.object().shape({
@@ -344,7 +330,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
             'description-availability',
             '',
             async function (value, { parent }: Yup.TestContext) {
-              let bill_type = parent.bill_type;
+              const bill_type = parent.bill_type;
               if (bill_type === 'VOUCHER' && value > 5000) {
                 props.setMessage(
                   'In bill type voucher amount should not be more then 50000'
@@ -365,7 +351,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
             'description-availability',
             'Site Expense is already present',
             async function (value, { parent }: Yup.TestContext) {
-              let bill_details = parent.bill_details;
+              const bill_details = parent.bill_details;
               if (
                 bill_details?.length < 0 &&
                 bill_details[0]?.is_delete === 'Y'
@@ -392,7 +378,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
         props.setExpenseList([...props.expenseList, initialValues]);
       })
       .catch((e: any) => {
-        let errorObj = {};
+        const errorObj = {};
         e.inner?.map((error: any) => {
           return (errorObj[error.path] = error.message);
         });
@@ -430,7 +416,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
                     const customQuotationName =
                       generateCustomQuotationName(item);
                     return (
-                      <tr>
+                      <tr key={index}>
                         <td>{rowIndex}</td>
                         <td>
                           <Input
@@ -466,7 +452,9 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
                           >
                             {getSiteExpense?.map((item: any, index: any) => {
                               return (
-                                <option value={item.value}>{item.label}</option>
+                                <option value={item.value} key={item.value}>
+                                  {item.label}
+                                </option>
                               );
                             })}
                           </Select>
@@ -487,9 +475,11 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
                                 : false
                             }
                           >
-                            {options?.map((item, index) => {
+                            {options?.map((item: any, index: any) => {
                               return (
-                                <option value={item.value}>{item.label}</option>
+                                <option value={item.value} key={item.value}>
+                                  {item.label}
+                                </option>
                               );
                             })}
                           </Select>
@@ -615,11 +605,6 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
             </table>
           </div>
           <div className={Styles.addDataIcon}>
-            {/* <div onClick={formik.handleSubmit} className={Styles.iconContent}>
-            <NewAddCircleIcon />
-            <span>Add Claim</span>
-          </div> */}
-
             <div
               onClick={() => {
                 handleAddObject();
@@ -647,6 +632,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
                         generateCustomQuotationName(item);
                       return (
                         <tr
+                          key={index}
                           style={{ display: 'flex', flexDirection: 'column' }}
                         >
                           <div className={Styles.tableBody}>
@@ -832,20 +818,6 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
                                 </div>
                               )}
                             </div>
-                            {/* <td>
-                            <div className={Styles.buttons}>
-                              <div
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                  setExpenseValue(item);
-                                  setOpenDelete(true);
-                                  setExpenseIndex(index);
-                                }}
-                              >
-                                <DeleteIcon />
-                              </div>
-                            </div>
-                          </td> */}
                           </div>
                         </tr>
                       );
@@ -865,8 +837,8 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
         handleClose={handleCloseDelete}
         handleConfirm={deleteSiteExpense}
       />
+      {/* pdf viwer */}
       <Popup
-        // title="Pdf Viewer"
         openPopup={openPdfpopup}
         setOpenPopup={setOpenPdfpopup}
         content={

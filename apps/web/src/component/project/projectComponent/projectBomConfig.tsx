@@ -2,14 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Styles from '../../../styles/projectBomConfig.module.scss';
 import Button from '../../ui/Button';
 import AddIcon from '../../menu/icons/addIcon';
-import {
-  getByMasterDataProjectIdDrop,
-} from '../../../hooks/masertData-hook';
+import { useGetByMasterDataProjectIdDrop } from '../../../hooks/masertData-hook';
 import { useFormik } from 'formik';
 import {
-  createProject,
-  getByProjectId,
-  updateProject,
+  useCreateProject,
+  useGetByProjectId,
+  useUpdateProject,
 } from '../../../hooks/project-hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import projectService from '../../../service/project-service';
@@ -18,7 +16,7 @@ import CustomLoader from '../../ui/customLoader';
 import Pagination from '../../menu/CustomPagination';
 import CustomPopup from '../../ui/CustomSidePopup';
 import ProjectBoqAddPopup from './projectBoqAddPopup';
-import { getBySearchBoQProject } from '../../../hooks/bom-hooks';
+import { useGetBySearchBoQProject } from '../../../hooks/bom-hooks';
 import CustomMenu from '../../ui/NewCustomMenu';
 
 const ProjectBomConfig: React.FC = (props: any) => {
@@ -44,10 +42,10 @@ const ProjectBomConfig: React.FC = (props: any) => {
   const [mode, setMode] = useState('');
   const [boqId, setBoQId] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const { data: getBomType = [] } = getByMasterDataProjectIdDrop(
+  const { data: getBomType = [] } = useGetByMasterDataProjectIdDrop(
     Number(routeParams?.id)
   );
-  const { data: projectDatas } = getByProjectId(Number(routeParams?.id));
+  const { data: projectDatas } = useGetByProjectId(Number(routeParams?.id));
 
   const truncateString = (str: any, maxLength: number) => {
     if (projectDatas?.project_name.length > maxLength) {
@@ -58,8 +56,8 @@ const ProjectBomConfig: React.FC = (props: any) => {
 
   const truncatedString = truncateString(projectDatas?.project_name, 30);
 
-  const { mutate: createNewProjectData } = createProject();
-  const { mutate: updateProjectData } = updateProject();
+  const { mutate: createNewProjectData } = useCreateProject();
+  const { mutate: updateProjectData } = useUpdateProject();
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   const object: any = {
@@ -76,7 +74,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
     isLoading: getAllLoadingBoQProjectData,
     data: initialData,
     refetch,
-  } = getBySearchBoQProject(object);
+  } = useGetBySearchBoQProject(object);
 
   const handleAddBoQData = () => {
     setOpen(true);
@@ -93,13 +91,13 @@ const ProjectBomConfig: React.FC = (props: any) => {
         Number(routeParams?.id)
       );
       setProjectData(getData?.data);
-      let arr: any = [];
+      const arr: any = [];
       const bomConfigurationRows = getData?.data?.bom_configuration.map(
         (items: any) => {
           const matchingObjects = getBomType.filter(
             (obj: any) => Number(obj.value) === Number(items?.bom_type_id)
           );
-          let obj = {
+          const obj = {
             bom_name: items?.bom_name,
             bom_description: items?.bom_description,
             bom_type_id: items?.bom_type_id,
@@ -113,9 +111,8 @@ const ProjectBomConfig: React.FC = (props: any) => {
       );
       setBomConfig(arr);
     };
-    if (routeParams?.id != undefined) fetchData();
+    if (routeParams?.id !== undefined) fetchData();
   }, []);
-
 
   const handleClosePopup = () => {
     setOpen(false);
@@ -231,7 +228,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
                     </thead>
                     <tbody>
                       {initialData?.total_count === 0 ? (
-                        <tr>
+                        <tr key={initialData?.total_count}>
                           <td colSpan="8" style={{ textAlign: 'center' }}>
                             No data found
                           </td>
@@ -258,17 +255,8 @@ const ProjectBomConfig: React.FC = (props: any) => {
                             return (
                               <tr key={data?.bom_configuration_id}>
                                 <td>{startingIndex + index}</td>
-                                <td
-                                  onClick={() => {
-                                    console.log('initialData', initialData)
-                                    console.log('data', data)
-                                  }}
-                                >{data?.bom_description}
-
-                                </td>
-                                <td>
-                                  {data?.bom_type_data?.master_data_name}
-                                </td>
+                                <td>{data?.bom_description}</td>
+                                <td>{data?.bom_type_data?.master_data_name}</td>
                                 <td>{data?.abstract_count}</td>
                                 <td>{data?.task_count}</td>
                                 <td>
@@ -286,12 +274,8 @@ const ProjectBomConfig: React.FC = (props: any) => {
                 <div>
                   <Pagination
                     currentPage={currentPage}
-                    totalPages={
-                      initialData?.total_page
-                    }
-                    totalCount={
-                      initialData?.total_count
-                    }
+                    totalPages={initialData?.total_page}
+                    totalCount={initialData?.total_count}
                     rowsPerPage={rowsPerPage}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
@@ -307,7 +291,12 @@ const ProjectBomConfig: React.FC = (props: any) => {
               </div>
               <div className={Styles.emptyDataHandling}>
                 <div className={Styles.imageAdd}>
-                  <img src="/boq-add.png" alt="aa" width="100%" height="150px" />
+                  <img
+                    src="/boq-add.png"
+                    alt="aa"
+                    width="100%"
+                    height="150px"
+                  />
                 </div>
                 <div>
                   <h5 className={Styles.textmax}>

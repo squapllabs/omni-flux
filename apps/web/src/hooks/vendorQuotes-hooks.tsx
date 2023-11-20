@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import vendorQuotesService from '../service/vendorQuotes-service';
 
-const updateVendorQuotes = () => {
+const useUpdateVendorQuotes = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -16,7 +16,7 @@ const updateVendorQuotes = () => {
   );
 };
 
-const getByQuoteVendorId = (id: number) => {
+const useGetByQuoteVendorId = (id: number) => {
   return useQuery(
     ['getByuserID', id],
     () => vendorQuotesService.getOneVendorQuotesById(id),
@@ -25,7 +25,7 @@ const getByQuoteVendorId = (id: number) => {
     }
   );
 };
-const getVendorQuotesbyPRIDDrop = (id: number) => {
+const useGetVendorQuotesbyPRIDDrop = (id: number) => {
   return useQuery(
     ['getVendorQuotesbyPRID', id],
     () => vendorQuotesService.getVendorQuotesBasedONPR(id),
@@ -34,9 +34,9 @@ const getVendorQuotesbyPRIDDrop = (id: number) => {
     }
   );
 };
-const getVendorDetailsBasedONPR = (id: number) => {
+const useGetVendorDetailsBasedONPR = (id: number) => {
   return useQuery(
-    ['getVendorDetailsBasedONPR', id],
+    ['useGetVendorDetailsBasedONPR', id],
     () => vendorQuotesService.getVendorDetailsBasedONPR(id),
     {
       select: (data) =>
@@ -49,9 +49,9 @@ const getVendorDetailsBasedONPR = (id: number) => {
   );
 };
 
-const getByPRbasedVendorQuotes = (data: any) => {
+const useGetByPRbasedVendorQuotes = (data: any) => {
   return useQuery(
-    ['getByPRbasedVendorQuotes'],
+    ['useGetByPRbasedVendorQuotes'],
     () => vendorQuotesService.vendorQuotesData(data),
     {
       select: (data) => data,
@@ -59,9 +59,9 @@ const getByPRbasedVendorQuotes = (data: any) => {
     }
   );
 };
-const getVendorquotesBYventorquotesID = (data: any) => {
+const useGetVendorquotesBYventorquotesID = (data: any) => {
   return useQuery(
-    ['getVendorquotesBYventorquotesID'],
+    ['useGetVendorquotesBYventorquotesID'],
     () => vendorQuotesService.getVendorquotesBYventorquotesID(data),
     {
       select: (data) => data,
@@ -70,10 +70,10 @@ const getVendorquotesBYventorquotesID = (data: any) => {
   );
 };
 export {
-  updateVendorQuotes,
-  getByQuoteVendorId,
-  getByPRbasedVendorQuotes,
-  getVendorQuotesbyPRIDDrop,
-  getVendorDetailsBasedONPR,
-  getVendorquotesBYventorquotesID,
+  useUpdateVendorQuotes,
+  useGetByQuoteVendorId,
+  useGetByPRbasedVendorQuotes,
+  useGetVendorQuotesbyPRIDDrop,
+  useGetVendorDetailsBasedONPR,
+  useGetVendorquotesBYventorquotesID,
 };

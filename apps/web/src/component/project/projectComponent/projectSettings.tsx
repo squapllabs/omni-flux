@@ -5,7 +5,7 @@ import AddIcon from '../../menu/icons/addIcon';
 import CustomGroupButton from '../../ui/CustomGroupButton';
 import { useParams } from 'react-router-dom';
 import {
-  getBySearchProjectMembers,
+  useGetBySearchProjectMembers,
   useGetAllPaginatedProjectMember,
   useDeleteProjectMember,
 } from '../../../hooks/projectSettings-hook';
@@ -95,8 +95,7 @@ const ProjectSettings: React.FC = (props: any) => {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: FilterLoading,
-  } = getBySearchProjectMembers();
-
+  } = useGetBySearchProjectMembers();
 
   /* Function for group button (Active and Inactive status) */
   const handleGroupButtonClick = (value: string) => {
@@ -129,10 +128,9 @@ const ProjectSettings: React.FC = (props: any) => {
 
   useEffect(() => {
     if (modalOpen === true) {
-      document.body.style.overflow = 'hidden'
-    }
-    else {
-      document.body.style.overflow = 'auto'
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
     }
   }, [modalOpen]);
 
@@ -229,9 +227,9 @@ const ProjectSettings: React.FC = (props: any) => {
                                   {data?.access_end_date == null
                                     ? '-'
                                     : format(
-                                      new Date(data?.access_end_date),
-                                      'MMM dd, yyyy'
-                                    )}
+                                        new Date(data?.access_end_date),
+                                        'MMM dd, yyyy'
+                                      )}
                                 </td>
                                 {activeButton === 'AC' && (
                                   <td>
@@ -287,9 +285,9 @@ const ProjectSettings: React.FC = (props: any) => {
                                 {data?.access_end_date == null
                                   ? '-'
                                   : format(
-                                    new Date(data?.access_end_date),
-                                    'MMM dd, yyyy'
-                                  )}
+                                      new Date(data?.access_end_date),
+                                      'MMM dd, yyyy'
+                                    )}
                               </td>
                               {activeButton === 'AC' && (
                                 <td>

@@ -56,6 +56,49 @@ export const getCreateValidateyup = (yup: any,projectId:string) => {
     parent_master_data_id: yup.string().typeError().notRequired(),
   });
 };
+export const getMasterCreateValidateyup = (yup: any) => {
+  return yup.object().shape({
+    master_data_name: yup
+      .string()
+      .max(20, masterErrorMessages.MAX_NAME)
+      .min(3, masterErrorMessages.MIN_NAME)
+      .typeError(masterErrorMessages.ENTER_NAME)
+      .required(masterErrorMessages.ENTER_NAME),
+    master_data_type: yup
+      .string()
+      .typeError(masterErrorMessages.ENTER_CODE)
+      .required(masterErrorMessages.ENTER_CODE)
+      .min(3, masterErrorMessages.MIN_CODE)
+      .max(15, masterErrorMessages.MAX_CODE)
+      .test(
+        'code-availability',
+        masterErrorMessages.CODE_EXIST,
+        async (value: any,  { parent } : yup.TestContext) => {
+          const id = parent.parent_master_data_id;
+          const object: any = {
+            name: value,
+            id: id === undefined ? null : Number(id),
+          };
+          if (value) {
+            const response = await masterDataService.checkDublicatemasertData(
+              object
+            );
+            if (response?.status === true) {
+              return false;
+            } else {
+              return true;
+            }
+          }
+        }
+      ),
+    master_data_description: yup
+      .string()
+      .trim()
+      .typeError(masterErrorMessages.ENTER_DESCRIPTION)
+      .required(masterErrorMessages.ENTER_DESCRIPTION),
+    parent_master_data_id: yup.string().typeError().notRequired(),
+  });
+};
 export const getUpdateValidateyup = (yup: any) => {
   return yup.object().shape({
     master_data_id: yup.string().trim().required(),

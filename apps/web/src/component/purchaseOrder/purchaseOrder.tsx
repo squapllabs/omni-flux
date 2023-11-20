@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   useGetAllPurchaseOrderData,
-  purchaseOrderGetAll,
+  usePurchaseOrderGetAll,
 } from '../../hooks/purchase-request-hooks';
 import Styles from '../../styles/purchaseRequestView.module.scss';
 import CustomLoader from '../ui/customLoader';
@@ -59,12 +59,12 @@ const OrderView = () => {
     data: getAllData,
     refetch,
   } = useGetAllPurchaseOrderData(getPoData);
-  
+
   const orderType = {
     purchase_order_type: 'Head Office',
   };
   const { isLoading: PODataLoading, data: POData } =
-    purchaseOrderGetAll(orderType);
+    usePurchaseOrderGetAll(orderType);
 
   const { data: getAllProjectDataForDrop = [], isLoading: dropLoading } =
     useGetAllProject();
@@ -104,6 +104,7 @@ const OrderView = () => {
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, selectedValue, activeButton]);
+
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   const generateCustomQuotationName = (data: any) => {
@@ -161,28 +162,8 @@ const OrderView = () => {
                   }
                 />
               </div>
-              {/* <Button
-                className={Styles.searchButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={handleSearch}
-              >
-                Search
-              </Button>
-              <Button
-                className={Styles.resetButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                disabled={isResetDisabled}
-                onClick={handleReset}
-              >
-                Reset
-              </Button> */}
             </div>
             <Button
-              // className={Styles.searchButton}
               shape="rectangle"
               justify="center"
               size="small"
@@ -212,7 +193,6 @@ const OrderView = () => {
                   <th className={Styles.tableHeading}>Amount</th>
                   <th className={Styles.tableHeading}>Quotation </th>
                   <th className={Styles.tableHeading}>Status</th>
-                  {/* <th className={Styles.tableHeading}>Invoice</th> */}
                   <th className={Styles.tableHeading}>Actions</th>
                 </tr>
               </thead>
@@ -233,7 +213,7 @@ const OrderView = () => {
                     const customQuotationName =
                       generateCustomQuotationName(data);
                     return (
-                      <tr>
+                      <tr key={data?.purchase_order_id}>
                         <td>{startingIndex + index}</td>
                         <td>{data?.vendor_data?.vendor_name}</td>
                         <td>
@@ -253,14 +233,18 @@ const OrderView = () => {
                               ?.purchase_request_documents?.length > 0 ? (
                               data?.purchase_request_data?.purchase_request_documents.map(
                                 (document: any, index: number) => (
-                                  <div key={document.code}>
+                                  <div
+                                    key={
+                                      data?.purchase_request_data
+                                        ?.purchase_request_id
+                                    }
+                                  >
                                     <a
                                       href={document.path}
                                       target="_blank"
                                       rel="noopener noreferrer"
                                     >
                                       {customQuotationName}
-                                      {/* Uploaded Document */}
                                     </a>
                                   </div>
                                 )
@@ -271,34 +255,8 @@ const OrderView = () => {
                           </div>
                         </td>
                         <td>{data.status}</td>
-                        {/* <td>
-                        <div>
-                          {data?.purchase_order_documents?.length > 0 ? (
-                            data?.purchase_order_documents.map(
-                              (document: any, index: number) => (
-                                <div key={document.code}>
-                                  <a
-                                    href={document.path}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    {customBillName}
-                                  </a>
-                                </div>
-                              )
-                            )
-                          ) : (
-                            <div>-</div>
-                          )}
-                        </div>
-                      </td> */}
                         <td>
                           <div className={Styles.tablerow}>
-                            {/* <EditIcon
-                              onClick={() =>
-                                handleEdit(Number(data.purchase_order_id))
-                              }
-                            /> */}
                             <ViewIcon
                               onClick={() =>
                                 navigate(

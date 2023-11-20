@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Styles from '../../../../styles/newStyles/projectIndentList.module.scss';
 import {
-  getIndentSearchPaginated,
+  useGetIndentSearchPaginated,
 } from '../../../../hooks/indentRequest-hooks';
 import { useNavigate, useParams } from 'react-router-dom';
 import EditIcon from '../../../menu/icons/newEditIcon';
@@ -55,14 +55,14 @@ const ProjectIndentRequestList = () => {
     isLoading: FilterLoading,
     data: getFilterData,
     refetch,
-  } = getIndentSearchPaginated(demo);
+  } = useGetIndentSearchPaginated(demo);
 
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, filterValues]);
 
   useEffect(() => {
-    if (filterValues?.search_by_code != '') {
+    if (filterValues?.search_by_code !== '') {
       const handleSearch = setTimeout(() => {
         refetch();
       }, 1000);
@@ -76,7 +76,7 @@ const ProjectIndentRequestList = () => {
   };
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
-    setFilterValues({ ...filterValues, ['approver_status']: value });
+    setFilterValues({ ...filterValues, 'approver_status': value });
   };
   /* Function for changing no of rows in pagination */
   const handleRowsPerPageChange = (
@@ -146,7 +146,7 @@ const ProjectIndentRequestList = () => {
                     onChange={(e) => {
                       setFilterValues({
                         ...filterValues,
-                        ['search_by_code']: e.target.value,
+                        'search_by_code': e.target.value,
                       });
                       setCurrentPage(1);
                     }}
@@ -359,7 +359,7 @@ const ProjectIndentRequestList = () => {
             </div>
             <div className={Styles.emptyDataHandling}>
               <div className={Styles.image}>
-                <img src="/boq-add.png" width="100%" height="150px" />
+                <img src="/boq-add.png" alt="boq" width="100%" height="150px" />
               </div>
               <div>
                 <h5 className={Styles.textmax}>

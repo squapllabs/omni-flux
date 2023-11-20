@@ -18,7 +18,7 @@ const useGetAllClientDrop = () => {
   });
 };
 
-const getByuserID = (id: number) => {
+const useGetByclinetID = (id: number) => {
   return useQuery(
     ['getOneClientyID', id],
     () => ClientService.getOneClientByID(id),
@@ -28,7 +28,7 @@ const getByuserID = (id: number) => {
   );
 };
 
-const createClient = () => {
+const useCreateClient = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -42,7 +42,7 @@ const createClient = () => {
   );
 };
 
-const instantcreateClient = () => {
+const useInstantcreateClient = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -56,7 +56,7 @@ const instantcreateClient = () => {
   );
 };
 
-const updateClient = () => {
+const useUpdateClient = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -83,18 +83,10 @@ const useDeleteClient = () => {
     }
   );
 };
-const getByClient = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return ClientService.filterClient(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+const useGetByClient = () => {
+  return useMutation((data: any) => {
+    return ClientService.filterClient(data);
+  });
 };
 
 const useGetAllPaginatedClient = (data: any) => {
@@ -110,12 +102,12 @@ const useGetAllPaginatedClient = (data: any) => {
 
 export {
   useGetAllClient,
-  getByuserID,
-  createClient,
-  updateClient,
+  useGetByclinetID,
+  useCreateClient,
+  useUpdateClient,
   useDeleteClient,
   useGetAllClientDrop,
-  getByClient,
-  instantcreateClient,
+  useGetByClient,
+  useInstantcreateClient,
   useGetAllPaginatedClient,
 };

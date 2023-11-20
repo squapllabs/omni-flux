@@ -2,15 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import Button from '../ui/Button';
-import CustomLoader from '../ui/customLoader';
-import { environment } from '../../environment/environment';
 import { formatBudgetValue } from '../../helper/common-function';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Styles from '../../styles/vendorSelect.module.scss';
 import ProjectSubheader from '../project/projectSubheader';
-import AutoCompleteSelect from '../ui/AutoCompleteSelect';
-import Select from '../ui/selectNew';
 import Input from '../ui/Input';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -19,14 +15,8 @@ import userService from '../../service/user-service';
 import CloseIcon from '../menu/icons/closeIcon';
 import TextArea from '../ui/CustomTextArea';
 import PageDisabled from '../ui/pageDisableComponent';
-import {
-  updateVendorQuotes,
-  getByPRbasedVendorQuotes,
-  getVendorDetailsBasedONPR,
-  getVendorquotesBYventorquotesID,
-} from '../../hooks/vendorQuotes-hooks';
+import { useUpdateVendorQuotes } from '../../hooks/vendorQuotes-hooks';
 import vendorQuotesService from '../../service/vendorQuotes-service';
-import MailIcon from '../menu/icons/mailIcon';
 import TelePhoneIcon from '../menu/icons/telephone';
 import PersonIcon from '../menu/icons/personIcon';
 import OutBoxIcon from '../menu/icons/outBox';
@@ -45,8 +35,6 @@ const VendorQuotesUpdate = () => {
   const vendorQuotesID = location.state.vendor_quotes_id;
   const vendorID = location.state.vendor_id;
   const vendorData = location.state.vendor;
-  console.log('vendorData', vendorData?.vendor_data);
-
   const [initialValues, setInitialValues] = useState({
     vendor_quotes_id: Number(vendorQuotesID),
     total_quotation_amount: '',
@@ -62,8 +50,6 @@ const VendorQuotesUpdate = () => {
     Number(vendorQuotesID)
   );
   const [vendorQuoteDocument, setVendorQuoteDocument] = useState<any>([]);
-  console.log('vendorQuoteDocument', vendorQuoteDocument);
-
   const [vendorQuoteData, setVendorQuoteData] = useState<any>({});
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -75,10 +61,11 @@ const VendorQuotesUpdate = () => {
   const [pageDisable, setPageDisabale] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const { mutate: updateOneVendorQuotes } = updateVendorQuotes();
+  const { mutate: updateOneVendorQuotes } = useUpdateVendorQuotes();
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+
   useEffect(() => {
     const fetchData = async () => {
       const vendorQuotesDetails =
@@ -118,6 +105,7 @@ const VendorQuotesUpdate = () => {
     };
     fetchData();
   }, [vendorQuoteID]);
+
   useEffect(() => {
     const isAvilable = async () => {
       const vendorpost: any = {
@@ -130,15 +118,14 @@ const VendorQuotesUpdate = () => {
         purchase_request_id: prID,
       };
       const getPR = await vendorQuotesService.vendorQuotesData(vendorpost);
-      let data = await getPR?.content?.some(
+      const data = await getPR?.content?.some(
         (obj: any) => obj.quotation_status === 'Approved'
       );
-      console.log('isAvilabledata', data);
-
       setPageDisabale(data);
     };
     isAvilable();
   }, []);
+
   useEffect(() => {
     if (tableData?.length > 0) {
       const sumOfRates = tableData.reduce(
@@ -152,24 +139,6 @@ const VendorQuotesUpdate = () => {
     }
   }, [tableData]);
 
-  //   useEffect(() => {
-  //     const initialSiteId =
-  //       vendorLoading == false ? getVendorList[0]?.value : null;
-
-  //     // const quotesData = getVendorQuotes?.content?.filter(
-  //     //   (obj: any) => obj.quotation_status === 'Approved'
-  //     // );
-  //     if (quotesData != undefined) {
-  //       const is_available = isAvilable();
-  //       setPageDisabale(is_available);
-  //       if (quotesData?.length > 0) {
-  //         setVendorQuoteID(quotesData[0].vendor_quotes_id);
-  //       } else {
-  //         setVendorQuoteID(initialSiteId);
-  //       }
-  //     }
-  //     // setVendorQuoteID(initialSiteId);
-  //   }, [!vendorLoading && !loading]);
   const generateCustomQuotationName = (data: any) => {
     if (data) {
       const vendorName =
@@ -191,23 +160,18 @@ const VendorQuotesUpdate = () => {
         'description-availability',
         'Please attach the bill',
         async function (value, { parent }: Yup.TestContext) {
-          let bill_details = parent.vendor_quotes_documents;
-          console.log('bill_detailsvalue', value);
-          console.log('bill_details', bill_details);
-          console.log('bill_detailslenght', bill_details.length);
+          const bill_details = parent.vendor_quotes_documents;
           if (bill_details?.length < 0) {
-            console.log('open');
             setMessage('Bill is Missing');
             setOpenSnack(true);
             return false;
           } else if (
-            bill_details?.length != 0 ? bill_details[0]?.is_delete === 'N' : ''
+            bill_details?.length !== 0 ? bill_details[0]?.is_delete === 'N' : ''
           ) {
             return true;
           } else if (
-            bill_details?.length != 0 ? bill_details[0]?.is_delete === 'Y' : ''
+            bill_details?.length !== 0 ? bill_details[0]?.is_delete === 'Y' : ''
           ) {
-            console.log('open');
             setMessage('Bill is Missing');
             setOpenSnack(true);
             return false;
@@ -237,7 +201,6 @@ const VendorQuotesUpdate = () => {
           if (data?.message === 'success') {
             setMessage('Vendor quotation Updated');
             setOpenSnack(true);
-
             navigate(`/purchase-request-list/${indentId}`, {
               state: { project_id: projectId },
             });
@@ -246,7 +209,6 @@ const VendorQuotesUpdate = () => {
       });
     },
   });
-  console.log('errorsss==>', formik.errors);
   const handleFileSelect = async (e: any) => {
     const files = e.target.files;
     if (files.length > 0) {
@@ -258,25 +220,20 @@ const VendorQuotesUpdate = () => {
         const oversizedFileNames = oversizedFiles
           .map((file) => file.name)
           .join(', ');
-        // props.setLoader(!props.loader);
         const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
         setFileSizeError(errorMessage);
         setMessage(errorMessage);
-        // props.setOpenSnack(true);
       } else {
         const selectedFilesArray: File[] = [];
         const selectedFileNamesArray: string[] = [];
-        let arr: any = [];
-        for (let file of fileList) {
+        const arr: any = [];
+        for (const file of fileList) {
           const code = 'PR' + prID;
           const response = await userService.documentUpload(file, code);
-          console.log('response', response?.data[0]);
-
-          let obj = {
+          const obj = {
             ...response?.data[0],
             is_delete: 'N',
           };
-          console.log('responseobj', obj);
           arr.push(obj);
           selectedFilesArray.push(file);
           selectedFileNamesArray.push(file.name);
@@ -286,13 +243,11 @@ const VendorQuotesUpdate = () => {
         setSelectedFiles(selectedFilesArray);
         setSelectedFileName(selectedFileNamesArray);
         setFileSizeError('');
-        // props.setLoader(false);
         setMessage('Document uploaded');
         setOpenSnack(true);
       }
     }
   };
-  console.log('formik.values.vendor_quotes_id', formik.values.vendor_quotes_id);
 
   const deleteFileinList = (index: any) => {
     let tempObj = {};
@@ -300,7 +255,7 @@ const VendorQuotesUpdate = () => {
     tempObj = {
       ...vendorQuoteDocument[index],
     };
-    let tempArry = [...vendorQuoteDocument];
+    const tempArry = [...vendorQuoteDocument];
     tempArry[index] = tempObj;
     setVendorQuoteDocument(tempArry);
   };
@@ -315,11 +270,11 @@ const VendorQuotesUpdate = () => {
     tempObj = {
       ...tableData[index],
       [event.target.name]: Number(event.target.value),
-      ['total_cost']:
+      total_cost:
         tableData[index].purchase_requested_quantity *
         Number(event.target.value),
     };
-    let tempArry = [...tableData];
+    const tempArry = [...tableData];
     tempArry[index] = tempObj;
     setTableData(tempArry);
   };
@@ -384,7 +339,7 @@ const VendorQuotesUpdate = () => {
                 <tbody>
                   {tableData?.map((items: any, index: number) => {
                     return (
-                      <tr>
+                      <tr key={index}>
                         <td>{index + 1}</td>
                         <td>{items?.item_data?.item_name}</td>
                         <td>{items?.indent_requested_quantity}</td>
@@ -445,7 +400,6 @@ const VendorQuotesUpdate = () => {
                       {vendorQuoteDocument?.map((document: any, index: any) => {
                         const customQuotationName =
                           generateCustomQuotationName(vendorQuoteData);
-
                         if (document.is_delete === 'N')
                           return (
                             <div

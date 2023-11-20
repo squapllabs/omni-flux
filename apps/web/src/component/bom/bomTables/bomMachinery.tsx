@@ -4,8 +4,8 @@ import AddIcon from '../../menu/icons/addIcon';
 import { useFormik } from 'formik';
 import DeleteIcon from '../../menu/icons/deleteIcon';
 import Button from '../../ui/Button';
-import { createBulkBom } from '../../../hooks/bom-hooks';
-import { useGetAllUomDrop, getUomByType } from '../../../hooks/uom-hooks';
+import { useCreateBulkBom } from '../../../hooks/bom-hooks';
+import { useGetAllUomDrop, useGetUomByType } from '../../../hooks/uom-hooks';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
 import { bomErrorMessages } from '../../../helper/constants/bom-constants';
@@ -33,7 +33,7 @@ const BomMachinery: React.FC = (props: any) => {
         'decimal-validation',
         bomErrorMessages.ITEM_EXIST,
         async function (value: number, { parent }: Yup.TestContext) {
-          let isDelete = parent.is_delete;
+          const isDelete = parent.is_delete;
           try {
             const isValuePresent = bomList.some((obj: any) => {
               return (
@@ -88,7 +88,7 @@ const BomMachinery: React.FC = (props: any) => {
     fetchData();
   }, [reload]);
   const { data: getAllMachineDrop } = useGetAllMachineryForDrop();
-  const { data: getAllUomDrop } = getUomByType('LABOR');
+  const { data: getAllUomDrop } = useGetUomByType('LABOR');
   const rawMaterialTotalCalulate = async () => {
     const sumOfRates = await bomList.reduce(
       (accumulator: any, currentItem: any) => {
@@ -129,7 +129,7 @@ const BomMachinery: React.FC = (props: any) => {
       };
     }
 
-    let tempArry = [...props.bomList];
+    const tempArry = [...props.bomList];
     tempArry[index] = tempObj;
     props.setBomList(tempArry);
     rawMaterialTotalCalulate();
@@ -191,7 +191,7 @@ const BomMachinery: React.FC = (props: any) => {
                   return (
                     <tr>
                       <td>{rowIndex}</td>
-                      <td style={{textAlign:'left'}}>{items.bom_name}</td>
+                      <td style={{ textAlign: 'left' }}>{items.bom_name}</td>
                       {/* <td>
                       <Input
                         name="description"
@@ -206,7 +206,7 @@ const BomMachinery: React.FC = (props: any) => {
                           name="uom_id"
                           mandatory={true}
                           optionList={
-                            getAllUomDrop != undefined ? getAllUomDrop : []
+                            getAllUomDrop !== undefined ? getAllUomDrop : []
                           }
                           value={items.uom_id}
                           onChange={(e) => handleListChange(e, index)}

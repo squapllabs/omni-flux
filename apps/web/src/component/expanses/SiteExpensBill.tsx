@@ -117,7 +117,7 @@ const SiteExpenseBill: React.FC = (props: any) => {
     }
   };
   const handleSubmit = async () => {
-    let code = 'SITEEXPENSE' + props.projectId;
+    const code = 'SITEEXPENSE' + props.projectId;
     const s3UploadUrl: any = await handleDocuments(
       selectedFiles,
       code.toUpperCase()
@@ -218,7 +218,9 @@ const SiteExpenseBill: React.FC = (props: any) => {
               <tbody>
                 {props.expenseBill?.length === 0 ? (
                   <tr>
-                    <td colSpan="4" style={{ textAlign: 'center' }}>No document found</td>
+                    <td colSpan="4" style={{ textAlign: 'center' }}>
+                      No document found
+                    </td>
                   </tr>
                 ) : (
                   ''

@@ -28,7 +28,6 @@ const NewCustomMenu = ({ actions, name }: any) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-  console.log('name', name);
 
   return (
     <div className={Styles.customMenu} ref={menuRef}>
@@ -60,7 +59,7 @@ const NewCustomMenu = ({ actions, name }: any) => {
               //     : ''
               // }`}
               className={
-                name === 'BoQItems' && action.disabled == true
+                name === 'BoQItems' && action.disabled === true
                   ? Styles.displayNone
                   : action.disabled
                   ? Styles.disabled

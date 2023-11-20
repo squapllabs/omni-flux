@@ -1,19 +1,15 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import Button from '../ui/Button';
 import Styles from '../../styles/projectInfo.module.scss';
 import CustomCard from '../ui/CustomCard';
-import { getByProjectId } from '../../hooks/project-hooks';
+import { useGetByProjectId } from '../../hooks/project-hooks';
 import { format } from 'date-fns';
-import BackArrow from '../menu/icons/backArrow';
 import ProjectSubheader from './projectSubheader';
 
 const ProjectView = () => {
   const routeParams = useParams();
-  const navigate = useNavigate();
   const ProjectId = Number(routeParams?.id);
-  const { data: getOneProject } = getByProjectId(ProjectId);
+  const { data: getOneProject } = useGetByProjectId(ProjectId);
 
   return (
     <div>

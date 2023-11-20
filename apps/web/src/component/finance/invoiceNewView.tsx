@@ -7,10 +7,7 @@ import { useGetOnePurchaseOrder } from '../../hooks/purchase-request-hooks';
 import { environment } from '../../environment/environment';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
-import Button from '../ui/Button';
-import AddIcon from '../menu/icons/addIcon';
-import ViewIcon from '../menu/icons/viewIcon';
-import { getByPurchaseOrderId } from '../../hooks/invoice-hooks';
+import { useGetByPurchaseOrderId } from '../../hooks/invoice-hooks';
 import EditIcon from '../menu/icons/newEditIcon';
 import CustomPopup from '../ui/CustomSidePopup';
 import CustomEditInvoicePopup from '../ui/CustomEditInvoicePopup';
@@ -30,12 +27,12 @@ const MyOrderView = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [invoiceId, setInvoiceId] = useState(false);
   const [reload, setReload] = useState(false);
-  const [invAmount,setInvAmount] = useState();
-  const[invDoc,setInvDoc]= useState();
+  const [invAmount, setInvAmount] = useState();
+  const [invDoc, setInvDoc] = useState();
   const { isLoading: dataLoading, data: getAllData = [] } =
-    getByPurchaseOrderId(purchaseOrderId);
-  // console.log('ooooooooopppppppp', getAllData);
+    useGetByPurchaseOrderId(purchaseOrderId);
 
+  /* Function to name Invoice in list */
   const generateCustomInvoice = (data: any) => {
     if (data) {
       const vendorName = data || '';
@@ -45,6 +42,7 @@ const MyOrderView = () => {
     }
     return '';
   };
+  /* Function to name quotation */
   const generateCustomQuotation = (data: any) => {
     if (data) {
       const vendorName = data || '';
@@ -55,32 +53,29 @@ const MyOrderView = () => {
     return '';
   };
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
-
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'dd-MM-yyyy');
     return formattedDate;
   };
-
-  const handleEdit = (value: any, invoice: any, invoiceId: any,invAmt:any,invDoc:any) => {
+  const handleEdit = (
+    value: any,
+    invoice: any,
+    invoiceId: any,
+    invAmt: any,
+    invDoc: any
+  ) => {
     setPurchaseId(value);
     setInvoiceNumber(invoice);
     setInvoiceId(invoiceId);
-    setInvAmount(invAmt)
-    setInvDoc(invDoc[0]?.path)
+    setInvAmount(invAmt);
+    setInvDoc(invDoc[0]?.path);
     setOpen(true);
-    console.log("invDoc",invDoc[0]?.path);
-    
   };
-
   const handleClosePopup = () => {
     setOpen(false);
   };
-
-  //   useEffect(() => {
-  //     refetch();
-  //   }, []);
-
+  /* Function for generating invoice report */
   const handleReportGenerator = async (data: any) => {
     const obj: any = {
       title: 'Invoice and Payments',
@@ -141,7 +136,6 @@ const MyOrderView = () => {
           </div>
         </div>
         <div className={Styles.dividerStyle}></div>
-        {/* main data */}
         <div className={Styles.secondData}>
           <div className={Styles.vendorSiteDetails}>
             <div className={Styles.allDatas}>
@@ -235,26 +229,6 @@ const MyOrderView = () => {
                       <div>-</div>
                     )}
                   </span>
-                  {/* <span>
-                    {getAllData[0]?.purchase_order_data?.purchase_request_data
-                      ?.purchase_request_documents?.length > 0 ? (
-                      getAllData[0]?.purchase_order_data?.purchase_request_data?.purchase_request_documents.map(
-                        (document: any, index: number) => (
-                          <div key={document.code}>
-                            <a
-                              href={document.path}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {customQuotationName}
-                            </a>
-                          </div>
-                        )
-                      )
-                    ) : (
-                      <div>-</div>
-                    )}
-                  </span> */}
                 </div>
               </div>
             </div>
@@ -332,7 +306,11 @@ const MyOrderView = () => {
                           {dateFormat(item?.grn_data?.goods_received_date)}
                         </td>
                         <td>{item?.invoice_number}</td>
-                        <td>{formatBudgetValue(item?.total_amount ? item?.total_amount : 0)}</td>
+                        <td>
+                          {formatBudgetValue(
+                            item?.total_amount ? item?.total_amount : 0
+                          )}
+                        </td>
                         <td>
                           <div>
                             {item?.invoice_document.map(

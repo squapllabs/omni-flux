@@ -4,8 +4,8 @@ import Button from '../ui/Button';
 import AddIcon from '../menu/icons/addIcon';
 import Styles from '../../styles/project.module.scss';
 // import Pagination from '../menu/pagination';
-import { getBySearchsiteExpense } from '../../hooks/expense-hook';
-import { getProjectSite } from '../../hooks/project-hooks';
+import { useGetBySearchsiteExpense } from '../../hooks/expense-hook';
+import { useGetProjectSite } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { format } from 'date-fns';
 import CustomLoader from '../ui/customLoader';
@@ -20,10 +20,10 @@ const SiteExpenseList = () => {
     mutate: postDataForFilter,
     data: getExpenseList,
     isLoading: fetchLoader,
-  } = getBySearchsiteExpense();
+  } = useGetBySearchsiteExpense();
   // console.log('getExpenseList', getExpenseList?.content);
 
-  const { data: getSiteList } = getProjectSite(Number(routeParams?.id));
+  const { data: getSiteList } = useGetProjectSite(Number(routeParams?.id));
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filterValue, setFilterValue] = useState<any>({});
@@ -117,7 +117,7 @@ const SiteExpenseList = () => {
                   optionList={getSiteList}
                   value={filterValue.site_id}
                   onSelect={(value) => {
-                    setFilterValue({ ...filterValue, ['site_id']: value });
+                    setFilterValue({ ...filterValue, 'site_id': value });
                   }}
                 />
               </div>
@@ -162,13 +162,15 @@ const SiteExpenseList = () => {
             <tbody>
               {getExpenseList?.content?.length === 0 ? (
                 <tr>
-                  <td colSpan="7" style={{textAlign:'center'}}>No data found</td>
+                  <td colSpan="7" style={{ textAlign: 'center' }}>
+                    No data found
+                  </td>
                 </tr>
               ) : (
                 ''
               )}
               {getExpenseList?.content?.map((items: any, index: any) => {
-                if (items.is_delete != true) {
+                if (items.is_delete !== true) {
                   rowIndex = rowIndex + 1;
                   console.log('items', items);
                   const sumOfRates = items?.expense_details.reduce(

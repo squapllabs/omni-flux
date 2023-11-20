@@ -4,11 +4,11 @@ import * as Yup from 'yup';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/customaddabstract.module.scss';
-// import { createAbstract } from '../../hooks/abstract-hooks';
+// import { useCreateAbstract } from '../../hooks/abstract-hooks';
 import {
-  createInstantCategory,
-  updateCategory,
-  useGetMasterAbstractStatusParentType
+  UseCreateInstantCategory,
+  useUpdateCategory,
+  useGetMasterAbstractStatusParentType,
 } from '../../hooks/category-hooks';
 import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
@@ -20,7 +20,6 @@ import CategoryService from '../../service/category-service';
 import { format } from 'date-fns';
 import Select from '../ui/selectNew';
 
-
 const CustomAbstractAdd = (props: {
   isVissible: any;
   onAction: any;
@@ -29,7 +28,7 @@ const CustomAbstractAdd = (props: {
   mode: any;
   categoryId: any;
   selectedBomConfig: any;
-  setMode:any;
+  setMode: any;
 }) => {
   const {
     isVissible,
@@ -37,18 +36,16 @@ const CustomAbstractAdd = (props: {
     selectedProject,
     setReload,
     mode,
-    categoryId,
     selectedBomConfig,
-    setMode,
   } = props;
-  console.log("props.mode---->",mode);
-  
+  // console.log("props.mode---->",mode);
+
   const validationSchemaAbstract = getAbstractValidateyup(Yup);
-  const { mutate: createNewAbstract } = createInstantCategory();
-  const { mutate: updateCategoryData } = updateCategory();
+  const { mutate: createNewAbstract } = UseCreateInstantCategory();
+  const { mutate: updateCategoryData } = useUpdateCategory();
   const { data: getAllAbstractStatusDatadrop = [] } =
-  useGetMasterAbstractStatusParentType();
-  
+    useGetMasterAbstractStatusParentType();
+
   const [clientinitialValues, setclientInitialValues] = useState({
     name: '',
     description: '',
@@ -57,7 +54,7 @@ const CustomAbstractAdd = (props: {
     end_date: '',
     category_id: '',
     selectedBomConfig: '',
-    progress_status:'',
+    progress_status: '',
     budget: '',
   });
 
@@ -82,14 +79,14 @@ const CustomAbstractAdd = (props: {
           start_date: dateFormat(data?.data?.start_date),
           end_date: dateFormat(data?.data?.end_date),
           category_id: data?.data?.category_id,
-          progress_status:data?.data?.progress_status,
-          budget:data?.data?.budget,
+          progress_status: data?.data?.progress_status,
+          budget: data?.data?.budget,
         });
         // console.log('dataaaa', data);
       };
       fetchOne();
     }
-  }, [props.mode, props.categoryId]);
+  }, [props.mode, props.categoryId, mode]);
 
   const formik = useFormik({
     initialValues: clientinitialValues,
@@ -106,7 +103,7 @@ const CustomAbstractAdd = (props: {
           end_date: values.end_date,
           category_id: values.category_id,
           bom_configuration_id: selectedBomConfig,
-          progress_status:values.progress_status
+          progress_status: values.progress_status,
         };
         updateCategoryData(Object, {
           onSuccess: (data, variables, context) => {
@@ -114,7 +111,7 @@ const CustomAbstractAdd = (props: {
               setMessage('Abstract edited');
               setOpenSnack(true);
               resetForm();
-              setclientInitialValues({})
+              setclientInitialValues({});
               setReload(true);
               handleCloseForm();
             }
@@ -148,7 +145,7 @@ const CustomAbstractAdd = (props: {
 
   const handleCloseForm = () => {
     formik.resetForm();
-    setclientInitialValues({})
+    setclientInitialValues({});
     onAction(false);
   };
 
@@ -165,7 +162,10 @@ const CustomAbstractAdd = (props: {
               <form onSubmit={formik.handleSubmit}>
                 <div className={Styles.header}>
                   <div>
-                    <h4> {mode === 'EDIT' ? 'Edit Abstract' : 'Add Abstract'}</h4>
+                    <h4>
+                      {' '}
+                      {mode === 'EDIT' ? 'Edit Abstract' : 'Add Abstract'}
+                    </h4>
                   </div>
                   <div>
                     <CloseIcon onClick={handleCloseForm} />

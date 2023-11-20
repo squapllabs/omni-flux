@@ -1,6 +1,6 @@
 import React from 'react';
 import Styles from '../styles/fortgetPassword.module.scss';
-import { forgetPassword } from '../hooks/auth-hooks';
+import { useForgetPassword } from '../hooks/auth-hooks';
 import CustomSnackBar from './ui/customSnackBar';
 import { useNavigate } from 'react-router';
 import CustomCard from './ui/CustomCard';
@@ -19,7 +19,7 @@ const ForgetPassword = () => {
   const [message, setMessage] = React.useState('');
   const [isWarning, setIswarning] = React.useState(false);
   const [open, setOpen] = React.useState(false);
-  const { mutate: passwordInstance } = forgetPassword();
+  const { mutate: passwordInstance } = useForgetPassword();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [event.target.name]: event.target.value });
   };

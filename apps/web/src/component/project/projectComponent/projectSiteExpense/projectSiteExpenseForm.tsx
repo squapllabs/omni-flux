@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import SiteExpensesForm from '../../../expanses/siteExpensesForm';
+// import SiteExpensesForm from '../../../expanses/siteExpensesForm';
 import Styles from '../../../../styles/newStyles/projectSiteExpense.module.scss';
-import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
+// import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
 import { useFormik } from 'formik';
 import {
-  createsiteExpense,
-  updatesiteExpense,
+  useCreatesiteExpense,
+  useUpdatesiteExpense,
 } from '../../../../hooks/expense-hook';
 import { format } from 'date-fns';
 import * as Yup from 'yup';
-import { getCreateValidateyup } from '../../../../helper/constants/siteExpanse-constants';
+// import { getCreateValidateyup } from '../../../../helper/constants/siteExpanse-constants';
 import { store, RootState } from '../../../../redux/store';
 import { getToken } from '../../../../redux/reducer';
-import { getProjectSite } from '../../../../hooks/project-hooks';
+import { useGetProjectSite } from '../../../../hooks/project-hooks';
 import DatePicker from '../../../ui/CustomDatePicker';
 import SiteExpensesDetails from './siteExpensesDetails';
-import Input from '../../../ui/Input';
-import TickIcon from '../../../menu/icons/tickIcon';
-import EnrichIcon from '../../../menu/icons/enrichIcon';
-import FlagIcon from '../../../menu/icons/flagIcon';
+// import Input from '../../../ui/Input';
+// import TickIcon from '../../../menu/icons/tickIcon';
+// import EnrichIcon from '../../../menu/icons/enrichIcon';
+// import FlagIcon from '../../../menu/icons/flagIcon';
 import Button from '../../../ui/Button';
-import Checkbox from '../../../ui/Checkbox';
+// import Checkbox from '../../../ui/Checkbox';
 import CustomConfirmDialogBox from '../../../ui/CustomConfirmDialogBox';
 import CustomDialogBox from '../../../ui/CustomDialog';
 import siteExpenseService from '../../../../service/expense-service';
@@ -74,11 +74,11 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
   const [totalAmount, setTotalAmount] = useState<any>();
   // const [checked, setChecked] = useState(false);
   const [tableView, setTableView] = useState(false);
-  const { data: getSiteList } = getProjectSite(Number(projectId));
+  const { data: getSiteList } = useGetProjectSite(Number(projectId));
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
-    createsiteExpense();
+    useCreatesiteExpense();
   const { mutate: updateSiteExpenseData, isLoading: updateLoader } =
-    updatesiteExpense();
+    useUpdatesiteExpense();
   const drafthandler = () => {
     formik.setFieldValue('submitType', 'Draft');
     formik.submitForm();
@@ -174,7 +174,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
               'description-availability',
               '',
               async function (value, { parent }: Yup.TestContext) {
-                let bill_type = parent.bill_type;
+                const bill_type = parent.bill_type;
                 console.log('bill_details', bill_type);
                 if (bill_type === 'VOUCHER' && value > 5000) {
                   setMessage(
@@ -195,7 +195,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
               'description-availability',
               'Site Expense is already present',
               async function (value, { parent }: Yup.TestContext) {
-                let bill_details = parent.bill_details;
+                const bill_details = parent.bill_details;
                 console.log('bill_details', bill_details);
                 console.log('bill_detailslenght', bill_details.length);
                 if (
@@ -319,7 +319,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
           }
         })
         .catch((e: any) => {
-          let errorObj = {};
+          const errorObj = {};
           e.inner?.map((error: any) => {
             console.log('error', e);
             return (errorObj[error.path] = error.message);

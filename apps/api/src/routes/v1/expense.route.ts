@@ -1,6 +1,10 @@
 import express from 'express';
 import authMiddleware from '../../middleware/auth';
-import { expenseUpdateValidator } from '../../validations/expense';
+import {
+  expenseUpdateValidator,
+  expenseCreateValidator,
+  expenseUpdateByUserIdValidator,
+} from '../../validations/expense';
 import {
   createExpense,
   deleteByExpenseId,
@@ -64,16 +68,17 @@ router.get(
 );
 
 router.post(
-  '/addIndependentExpense',
+  '/add-independent-expense',
   authMiddleware,
+  expenseCreateValidator,
   runValidation,
   addIndependentExpense
 );
 
 router.put(
-  '/updateIndependentExpense',
+  '/update-independent-expense',
   authMiddleware,
-  expenseUpdateValidator,
+  expenseUpdateByUserIdValidator,
   runValidation,
   updateIndependentExpense
 );

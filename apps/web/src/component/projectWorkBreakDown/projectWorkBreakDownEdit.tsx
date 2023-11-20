@@ -8,8 +8,8 @@ import Select from '../ui/selectNew';
 import Button from '../ui/Button';
 import {
   useGetAllParentProjectBreakDownDrop,
-  getByProjectWorkBreakDownId,
-  updateProjectBreakDown,
+  useGetByProjectWorkBreakDownId,
+  useUpdateProjectBreakDown,
 } from '../../hooks/projectBreakDown-hook';
 import { editCreateValidateyup } from '../../helper/constants/projectBreakdown-constants';
 import { useGetAllUomDrop } from '../../hooks/uom-hooks';
@@ -20,13 +20,13 @@ import { useParams } from 'react-router-dom';
 const ProjectWorkBreakEdit = () => {
   const routeParams = useParams();
   const { data: getOneProjectWorkBreakDownData, isLoading } =
-    getByProjectWorkBreakDownId(Number(routeParams?.id));
+    useGetByProjectWorkBreakDownId(Number(routeParams?.id));
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const { data: getAllParentDatadrop = [] } =
     useGetAllParentProjectBreakDownDrop();
   const { data: getAllUom = [] } = useGetAllUomDrop();
-  const { mutate: updateNewProjectBreakDown } = updateProjectBreakDown();
+  const { mutate: updateNewProjectBreakDown } = useUpdateProjectBreakDown();
   const [initialValues, setInitialValues] = useState({
     project_workbreak_down_name: '',
     project_workbreak_down_code: '',

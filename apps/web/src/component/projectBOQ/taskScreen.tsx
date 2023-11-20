@@ -6,7 +6,7 @@ import categoryService from '../../service/category-service';
 import { formatBudgetValue } from '../../helper/common-function';
 import ClipboardIcon from '../menu/icons/clipboardIcon';
 import BomItems from '../projectBOQ/boqItems';
-import { getByBOMDetails } from '../../hooks/category-hooks';
+import { useGetByBOMDetails } from '../../hooks/category-hooks';
 import CategoryService from '../../service/category-service';
 
 const BoqTaskListScreen : React.FC= ()=>{
@@ -30,7 +30,7 @@ const BoqTaskListScreen : React.FC= ()=>{
     const [reload, setReload] = useState(false);
 
 
-    const { data: getBomData } = getByBOMDetails(routeParamsObj);
+    const { data: getBomData } = useGetByBOMDetails(routeParamsObj);
 
     useEffect(() => {
       const fetchData = async () => {

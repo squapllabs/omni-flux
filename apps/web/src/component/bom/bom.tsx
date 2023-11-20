@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
-import { createBulkBom } from '../../hooks/bom-hooks';
+import { useCreateBulkBom } from '../../hooks/bom-hooks';
 import BomService from '../../service/bom-service';
 import {
   getBombulkValidateyup,
@@ -14,7 +14,7 @@ import {
 } from '../../helper/constants/bom-constants';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getBySubcategoryID } from '../../hooks/subCategory-hooks';
+import { useGetBySubcategoryID } from '../../hooks/subCategory-hooks';
 import { formatBudgetValue } from '../../helper/common-function';
 import BomLabours from './bomTables/bomLabours';
 import BomRawMaterials from './bomTables/bomRawMaterials';
@@ -39,7 +39,7 @@ const Bom: React.FC = (props: any) => {
   const [reload, setReload] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-  const { data: getSubCategoryData } = getBySubcategoryID(
+  const { data: getSubCategoryData } = useGetBySubcategoryID(
     Number(params?.subCategoryId)
   );
 
@@ -98,7 +98,7 @@ const Bom: React.FC = (props: any) => {
     };
     fetchData();
   }, [activeButton, reload]);
-  const { mutate: bulkBomData, data: responseData } = createBulkBom();
+  const { mutate: bulkBomData, data: responseData } = useCreateBulkBom();
   const handleBulkBomAdd = () => {
     bulkBomData(bomList, {
       onSuccess(data, variables, context) {

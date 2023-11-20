@@ -13,7 +13,7 @@ import TickIcon from '../menu/icons/tickIcon';
 import RejectIcon from '../menu/icons/cancelIcon';
 import ApproveDialogBox from '../ui/CustomApprovePopup';
 import RejectDialogBox from '../ui/CustomReject';
-import { updatesiteExpenseDetail } from '../../hooks/expense-hook';
+import { useUpdatesiteExpenseDetail } from '../../hooks/expense-hook';
 import { environment } from '../../environment/environment';
 import ProjectSubheader from '../project/projectSubheader';
 
@@ -42,7 +42,7 @@ const ExpenseDetailApprove = () => {
     updated_by: '',
   });
 
-  const { mutate: updateSiteExpenseDetailData } = updatesiteExpenseDetail();
+  const { mutate: updateSiteExpenseDetailData } = useUpdatesiteExpenseDetail();
 
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);

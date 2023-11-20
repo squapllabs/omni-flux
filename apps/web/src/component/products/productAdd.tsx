@@ -13,8 +13,8 @@ import { useGetAllBrandForDrop } from '../../hooks/item-type-hooks';
 import { useGetAllGstForDrop } from '../../hooks/gst-hooks';
 import { useGetAllUomDrop } from '../../hooks/uom-hooks';
 import { useGetAllHsnForDrop } from '../../hooks/hsnCode-hooks';
-import { createItem, updateItem } from '../../hooks/add-product-hooks';
-import { getBymasertDataType } from '../../hooks/masertData-hook';
+import { useCreateItem, useUpdateItem } from '../../hooks/add-product-hooks';
+import { useGetBymasertDataType } from '../../hooks/masertData-hook';
 import addProduct from '../../service/add-product';
 import {
   getCreateValidateyup,
@@ -22,14 +22,15 @@ import {
 } from '../../helper/constants/item-constants';
 import ProjectSubheader from '../project/projectSubheader';
 
+/* Function for items */
 const ProductAdd = () => {
-  const { data: getAllItemTypeList = [] } = getBymasertDataType('IMTY');
+  const { data: getAllItemTypeList = [] } = useGetBymasertDataType('IMTY');
   const { data: getAllGstList = [] } = useGetAllGstForDrop();
   const { data: getAllUomList = [] } = useGetAllUomDrop();
   const { data: getAllHsnList = [] } = useGetAllHsnForDrop();
   const { data: getAllBrandList = [] } = useGetAllBrandForDrop();
-  const { mutate: createNewItem } = createItem();
-  const { mutate: upateOneItem } = updateItem();
+  const { mutate: createNewItem } = useCreateItem();
+  const { mutate: upateOneItem } = useUpdateItem();
   const routeParams = useParams();
   const validationSchema =
     routeParams?.id === undefined
@@ -56,6 +57,7 @@ const ProductAdd = () => {
     rate: '',
   });
 
+  /* Function to get one item data by ID */
   useEffect(() => {
     if (Number(routeParams?.id)) {
       const fetchOne = async () => {
@@ -77,6 +79,7 @@ const ProductAdd = () => {
     }
   }, [routeParams?.id]);
 
+  /* Function to add or edit item data */
   const formik = useFormik({
     initialValues,
     validationSchema,

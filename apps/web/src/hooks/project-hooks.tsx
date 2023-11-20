@@ -22,19 +22,6 @@ const useGetDashboardDatasforPO = () => {
     ProjectService.getDashboardDatas()
   );
 };
-// const useGetAllProjectDrop = () => {
-//   return useQuery(
-//     ['useGetAllProjectDrop'],
-//     () => ProjectService.getAllProject(),
-//     {
-//       select: (data) =>
-//         data?.data?.map((project: any) => ({
-//           value: project.project_id,
-//           label: project.project_name,
-//         })),
-//     }
-//   );
-// };
 
 const useGetAllProjectDrop = () => {
   return useQuery(
@@ -50,7 +37,7 @@ const useGetAllProjectDrop = () => {
   );
 };
 
-const createProject = () => {
+const useCreateProject = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -58,40 +45,24 @@ const createProject = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries([]);
+        queryClient.invalidateQueries(['']);
       },
     }
   );
 };
 
-const getByProject = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return ProjectService.filterProject(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+const useGetByProject = () => {
+  return useMutation((data: any) => {
+    return ProjectService.filterProject(data);
+  });
 };
-const getMemberBasedProject = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return ProjectService.filterProjectmemberBased(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+const useGetMemberBasedProject = () => {
+  return useMutation((data: any) => {
+    return ProjectService.filterProjectmemberBased(data);
+  });
 };
 
-const getPaginatedMemberBasedProject = (data:any) => {
+const useGetPaginatedMemberBasedProject = (data: any) => {
   return useQuery(
     ['getPaginatedMemberBasedProject'],
     () => ProjectService.filterProjectmemberBased(data),
@@ -116,7 +87,7 @@ const useDeleteProjects = () => {
   );
 };
 
-const getByProjectId = (id: number) => {
+const useGetByProjectId = (id: number) => {
   return useQuery(
     ['getByuserID', id],
     () => ProjectService.getOneProjectById(id),
@@ -125,7 +96,7 @@ const getByProjectId = (id: number) => {
     }
   );
 };
-const getUserDataProjectRolebased = (value: any) => {
+const useGetUserDataProjectRolebased = (value: any) => {
   return useQuery(
     ['getUserDataroleAndProjectBased', value],
     () => ProjectService.getUserDataRolebasedandProjectBased(value),
@@ -142,7 +113,7 @@ const getUserDataProjectRolebased = (value: any) => {
   );
 };
 
-const getUserIDProjectRolebased = (value: any) => {
+const useGetUserIDProjectRolebased = (value: any) => {
   return useQuery(
     ['getUserIdroleAndProjectBased', value],
     () => ProjectService.getProjectDataBasedOnUserandRole(value),
@@ -156,7 +127,7 @@ const getUserIDProjectRolebased = (value: any) => {
   );
 };
 
-const getUserIDBasedProject = (value: any) => {
+const useGetUserIDBasedProject = (value: any) => {
   return useQuery(
     ['getUserIDBasedProject', value],
     () => ProjectService.getProjectDataBasedOnUser(value),
@@ -170,18 +141,10 @@ const getUserIDBasedProject = (value: any) => {
   );
 };
 
-const updateProject = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return ProjectService.updateProjectData(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+const useUpdateProject = () => {
+  return useMutation((data: any) => {
+    return ProjectService.updateProjectData(data);
+  });
 };
 
 const useGetMasterProjectParentType = () => {
@@ -209,7 +172,7 @@ const useGetAllProjectManagers = () => {
   );
 };
 
-const getProjectSite = (id: number) => {
+const useGetProjectSite = (id: number) => {
   return useQuery(
     ['getProjectSite', id],
     () => ProjectService.getOneProjectSite(id),
@@ -226,19 +189,19 @@ const getProjectSite = (id: number) => {
 export {
   useGetAllProject,
   useGetAllProjectStatus,
-  createProject,
-  getByProject,
+  useCreateProject,
+  useGetByProject,
   useDeleteProjects,
-  getByProjectId,
-  updateProject,
+  useGetByProjectId,
+  useUpdateProject,
   useGetMasterProjectParentType,
   useGetAllProjectManagers,
   useGetAllProjectDrop,
-  getMemberBasedProject,
-  getPaginatedMemberBasedProject,
-  getUserDataProjectRolebased,
-  getProjectSite,
-  getUserIDProjectRolebased,
-  getUserIDBasedProject,
-  useGetDashboardDatasforPO
+  useGetMemberBasedProject,
+  useGetPaginatedMemberBasedProject,
+  useGetUserDataProjectRolebased,
+  useGetProjectSite,
+  useGetUserIDProjectRolebased,
+  useGetUserIDBasedProject,
+  useGetDashboardDatasforPO,
 };

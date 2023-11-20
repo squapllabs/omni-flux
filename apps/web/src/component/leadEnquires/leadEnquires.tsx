@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 const LeadEnquires = () => {
   const routeprops = useParams();
   const [selectedValue, setSelectedValue] = useState(
-    routeprops.type != undefined ? routeprops.type : 'Product'
+    routeprops.type !== undefined ? routeprops.type : 'Product'
   );
   const navigate = useNavigate();
   const leadType = [
@@ -57,7 +57,7 @@ const LeadEnquires = () => {
                   onChange={handleDropdownChange}
                   value={selectedValue}
                   helperText="Depending on selected Lead Type below form will change"
-                  disabled={routeprops.type != undefined ? true : false}
+                  disabled={routeprops.type !== undefined ? true : false}
                 >
                   {leadType.map((option: any) => (
                     <option key={option.value} value={option.value}>

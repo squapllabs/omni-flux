@@ -17,7 +17,7 @@ const DashboardIcon: React.FC<DashboardIconProps> = ({
     height={height}
     width={width}
     fill="currentColor"
-    class="bi bi-columns-gap"
+    className="bi bi-columns-gap"
     viewBox="0 0 16 16"
   >
     {' '}

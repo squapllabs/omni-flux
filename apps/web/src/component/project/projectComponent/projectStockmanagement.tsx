@@ -7,7 +7,7 @@ import { useGetAllPaginatedStockAudit } from '../../../hooks/stockAudit-hooks';
 import CustomLoader from '../../ui/customLoader';
 import { format } from 'date-fns';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
-import { getProjectSite } from '../../../hooks/project-hooks';
+import { useGetProjectSite } from '../../../hooks/project-hooks';
 import ViewIcon from '../../menu/icons/newViewIcon';
 import CustomPagination from '../../menu/CustomPagination';
 import StockIcon from '../../menu/icons/stockIcon';
@@ -22,7 +22,7 @@ const ProjectStockmanagement = () => {
   const navigate = useNavigate();
   let rowIndex = 0;
 
-  const { data: getSiteList, isLoading: siteLoading } = getProjectSite(
+  const { data: getSiteList, isLoading: siteLoading } = useGetProjectSite(
     Number(routeParams?.id)
   );
 
@@ -238,10 +238,14 @@ const ProjectStockmanagement = () => {
                 />
               </div>
               <div>
-                <h5 className={Styles.textmax}>This project has no Stock Details</h5>
+                <h5 className={Styles.textmax}>
+                  This project has no Stock Details
+                </h5>
               </div>
               <div>
-                <p className={Styles.textmin}>Manage Stock Audit details to this project now</p>
+                <p className={Styles.textmin}>
+                  Manage Stock Audit details to this project now
+                </p>
               </div>
               <div className={Styles.emptyButton}>
                 <Button

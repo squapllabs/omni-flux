@@ -9,7 +9,7 @@ const PageDisabled: React.FC<DisabledProps> = ({ disabled, children }) => {
   if (disabled) {
     return <div style={{ pointerEvents: 'none' }}>{children}</div>;
   }
-  return <>{children}</>;
+  return <div>{children}</div>;
 };
 
 export default PageDisabled;

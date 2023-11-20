@@ -5,8 +5,8 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/customaddabstract.module.scss';
 import {
-  createInstantSubcategory,
-  updateSubcategory,
+  useCreateInstantSubcategory,
+  useUpdateSubcategory,
 } from '../../hooks/subCategory-hooks';
 import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
@@ -32,7 +32,6 @@ const CustomSubCategoryAdd = (props: {
     onAction,
     selectedCategoryId,
     selectedProject,
-    mode,
     selectedSubCategory,
     setMode,
     selectedBomConfig,
@@ -40,8 +39,8 @@ const CustomSubCategoryAdd = (props: {
   // console.log('!!!!!!!!!!', selectedSubCategory);
 
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
-  const { mutate: createNewSubCategory } = createInstantSubcategory();
-  const { mutate: updateSubcategoryData } = updateSubcategory();
+  const { mutate: createNewSubCategory } = useCreateInstantSubcategory();
+  const { mutate: updateSubcategoryData } = useUpdateSubcategory();
   const [clientinitialValues, setclientInitialValues] = useState({
     name: '',
     description: '',
@@ -79,7 +78,7 @@ const CustomSubCategoryAdd = (props: {
       };
       fetchOne();
     }
-  }, [props.mode, selectedSubCategory]);
+  }, [props.mode, selectedSubCategory, selectedBomConfig]);
 
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);

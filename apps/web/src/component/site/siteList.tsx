@@ -5,7 +5,7 @@ import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Pagination from '../menu/pagination';
 import CustomLoader from '../ui/customLoader';
-import { getBySearchSiteData, useDeleteSite } from '../../hooks/site-hooks';
+import { useGetBySearchSiteData, useDeleteSite } from '../../hooks/site-hooks';
 import AddIcon from '../menu/icons/addIcon';
 import { useNavigate } from 'react-router';
 import EditIcon from '../menu/icons/editIcon';
@@ -33,17 +33,17 @@ const ProjectWorkBreakList = () => {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: FilterLoading,
-  } = getBySearchSiteData();
+  } = useGetBySearchSiteData();
   const navigate = useNavigate();
 
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
-      ['search_by_name']: event.target.value,
+      [filterValues?.search_by_name]: event.target.value,
     });
     setIsResetDisabled(searchValue === '');
-    if(searchValue=== ''){
+    if (searchValue === '') {
       handleReset();
     }
   };

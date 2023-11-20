@@ -17,6 +17,7 @@ import CustomPagination from '../menu/CustomPagination';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
 import { handleSortByColumn } from './../../helper/common-function'
 
+/* FFunction to list contractors */
 const ContractorList = () => {
   const { mutate: getDeleteContractorById } = useDeleteSite();
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -42,6 +43,8 @@ const ContractorList = () => {
     global_search: filterValues.search_by_name,
     type: 'Contractor',
   };
+
+  /* Function for getting all contractor data */
   const {
     isLoading: FilterLoading,
     data: getFilterData,
@@ -74,6 +77,7 @@ const ContractorList = () => {
     setOpenDelete(false);
   };
 
+  /* Function to delete contractor */
   const deleteSiteConform = () => {
     getDeleteContractorById(value);
     handleCloseDelete();
@@ -120,7 +124,7 @@ const ContractorList = () => {
                       onChange={(e) => {
                         setFilterValues({
                           ...filterValues,
-                          ['search_by_name']: e.target.value,
+                          'search_by_name': e.target.value,
                         });
                         setCurrentPage(1)
                       }}

@@ -3,7 +3,7 @@ import Styles from '../../../styles/projectDashboard.module.scss';
 import { formatBudgetValue } from '../../../helper/common-function';
 import DashboardIcon from '../../menu/icons/dashboardIcon';
 import { useParams } from 'react-router-dom';
-import { getByProjectId } from '../../../hooks/project-hooks';
+import { useGetByProjectId } from '../../../hooks/project-hooks';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -31,12 +31,10 @@ ChartJS.register(
   ...registerables
 );
 
-
 const ProjectDashboard = () => {
   const routeParams = useParams();
   const projectId = Number(routeParams?.id);
-  const { data: getProjectData } = getByProjectId(projectId);
-
+  const { data: getProjectData } = useGetByProjectId(projectId);
 
   const startDate = new Date(getProjectData?.date_started);
   const endDate = new Date(getProjectData?.date_ended);
@@ -50,7 +48,9 @@ const ProjectDashboard = () => {
   const timeDifferenceInMilliseconds = currentDate - startDate;
 
   // Calculate the completed days count by dividing the time difference by the number of milliseconds in a day
-  const completedDaysCount = Math.floor(timeDifferenceInMilliseconds / (1000 * 60 * 60 * 24));
+  const completedDaysCount = Math.floor(
+    timeDifferenceInMilliseconds / (1000 * 60 * 60 * 24)
+  );
 
   const progress = currentDate - startDate;
   const progressInDays = progress / (1000 * 60 * 60 * 24);
@@ -58,10 +58,7 @@ const ProjectDashboard = () => {
     ((progressInDays / totalDays) * 100).toFixed(2) + '%';
 
   const data = {
-    labels: [
-      'Total Days',
-      'So Far'
-    ],
+    labels: ['Total Days', 'So Far'],
     datasets: [
       {
         label: 'total',
@@ -75,7 +72,7 @@ const ProjectDashboard = () => {
     indexAxis: 'y',
     plugins: {
       legend: {
-        display: false
+        display: false,
       },
     },
 
@@ -92,9 +89,7 @@ const ProjectDashboard = () => {
           display: false, // Hide X-axis gridlines
         },
       },
-
     },
-
   };
 
   return (
@@ -104,8 +99,7 @@ const ProjectDashboard = () => {
         <h3>DASHBOARD</h3>
       </div>
       <div className={Styles.dashBoardcontainer}>
-        <div className={Styles.headingContainer}>
-        </div>
+        <div className={Styles.headingContainer}></div>
         <div className={Styles.cardDiv}>
           <div>
             <div className={Styles.card}>
@@ -139,13 +133,8 @@ const ProjectDashboard = () => {
           <div className={Styles.projectProgress}>
             <span>PROJECT PROGRESS</span>
           </div>
-          <div >
-            <Bar
-              width={80}
-              height={15}
-              data={data}
-              options={options}
-            />
+          <div>
+            <Bar width={80} height={15} data={data} options={options} />
           </div>
           <div>
             <span>BUDGET</span>

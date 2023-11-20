@@ -12,15 +12,15 @@ import { store, RootState } from '../../../../redux/store';
 import { getToken } from '../../../../redux/reducer';
 import CustomConfirm from '../../../ui/CustomConfirmDialogBox';
 import {
-  createIndentRequest,
-  updateIndentRequest,
+  useCreateIndentRequest,
+  useUpdateIndentRequest,
 } from '../../../../hooks/indentRequest-hooks';
 import IndentRequestService from '../../../../service/indentRequest-service';
 import { format } from 'date-fns';
 import * as yup from 'yup';
 import { formatBudgetValue } from '../../../../helper/common-function';
 import CustomSnackBar from '../../../ui/customSnackBar';
-import { getProjectSite } from '../../../../hooks/project-hooks';
+import { useGetProjectSite } from '../../../../hooks/project-hooks';
 import ProjectSubheader from '../../projectSubheader';
 import CustomDialogBox from '../../../ui/CustomDialog';
 
@@ -80,7 +80,7 @@ const IndentRequest: React.FC = (props: any) => {
       } else {
         setDisabled(true);
       }
-      let obj: any = {
+      const obj: any = {
         ...indentData?.data,
         expected_delivery_date: dateFormat(
           indentData?.data?.expected_delivery_date
@@ -101,7 +101,7 @@ const IndentRequest: React.FC = (props: any) => {
       });
       setIndentRequestDetailsList(indentData?.data?.indent_request_details);
     };
-    if (routeParams?.indentid != undefined) fetchData();
+    if (routeParams?.indentid !== undefined) fetchData();
   }, []);
   const priority: any = [
     { value: 'High', label: 'High' },
@@ -113,10 +113,10 @@ const IndentRequest: React.FC = (props: any) => {
   //   { value: 'Head Office', label: 'Head Office Purchase' },
   // ];
   const { mutate: postIndentData, isLoading: PostindentLoading } =
-    createIndentRequest();
+    useCreateIndentRequest();
   const { mutate: updateIndentData, isLoading: updateindentLoading } =
-    updateIndentRequest();
-  const { data: getAllProjectSiteDatadrop = [] } = getProjectSite(
+    useUpdateIndentRequest();
+  const { data: getAllProjectSiteDatadrop = [] } = useGetProjectSite(
     Number(routeParams?.id)
   );
   const handleDraft = (e: any) => {
@@ -162,11 +162,11 @@ const IndentRequest: React.FC = (props: any) => {
               'Already exist',
               async function (value, { parent }: yup.TestContext) {
                 try {
-                  let dummy: any = [];
+                  const dummy: any = [];
                   const allIds = indentRequestDetailsList.map((item: any) => {
-                    if (item.is_delete === 'N') {
-                      item.bom_detail_id;
-                    }
+                    // if (item.is_delete === 'N') {
+                    //   item.bom_detail_id;
+                    // }
                     if (item.is_delete === false)
                       dummy.push(item.bom_detail_id);
                   });
@@ -216,7 +216,7 @@ const IndentRequest: React.FC = (props: any) => {
               indent_request_details: indentRequestDetailsList,
               site_id: Number(formik.values.site_id),
             };
-            if (routeParams?.indentid != undefined) {
+            if (routeParams?.indentid !== undefined) {
               updateIndentData(obj, {
                 onSuccess(data, variables, context) {
                   if (data?.status === true) {
@@ -364,7 +364,8 @@ const IndentRequest: React.FC = (props: any) => {
                         rows={4}
                         maxCharacterCount={400}
                         error={
-                          formik.touched.description && formik.errors.description
+                          formik.touched.description &&
+                          formik.errors.description
                         }
                       />
                     </div>

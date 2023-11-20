@@ -8,12 +8,12 @@ const useGetAlluom = () => {
   });
 };
 
-const getByuserID = (id: number) => {
+const useGetOneUomByID = (id: number) => {
   return useQuery(['getOneUomByID', id], () => uomService.getOneUomByID(id), {
     select: (data) => data.data,
   });
 };
-const getUomByType = (type: any) => {
+const useGetUomByType = (type: any) => {
   return useQuery(
     ['getUomByTypeID', type],
     () => uomService.getUomByType(type),
@@ -28,7 +28,7 @@ const getUomByType = (type: any) => {
   );
 };
 
-const createuom = () => {
+const useCreateuom = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -42,7 +42,7 @@ const createuom = () => {
   );
 };
 
-const updateUom = () => {
+const useUpdateUom = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -69,18 +69,10 @@ const useDeleteUom = () => {
     }
   );
 };
-const getByUom = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return uomService.filterUom(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+const useGetByUom = () => {
+  return useMutation((data: any) => {
+    return uomService.filterUom(data);
+  });
 };
 
 const useGetAllUomDrop = () => {
@@ -100,7 +92,7 @@ const useGetAllPaginatedUomData = (data: any) => {
   });
 };
 
-const getByUomType = () => {
+const useGetByUomType = () => {
   return useQuery(
     ['getOnemasertDataType'],
     () => uomService.getOneUomByType(),
@@ -111,8 +103,18 @@ const getByUomType = () => {
   );
 };
 
-
-export { useGetAlluom, getByuserID, createuom, updateUom, useDeleteUom,useGetAllUomDrop,getByUom,useGetAllPaginatedUomData,getByUomType,getUomByType };
+export {
+  useGetAlluom,
+  useGetOneUomByID,
+  useCreateuom,
+  useUpdateUom,
+  useDeleteUom,
+  useGetAllUomDrop,
+  useGetByUom,
+  useGetAllPaginatedUomData,
+  useGetByUomType,
+  useGetUomByType,
+};
 
 // export {
 //   useGetAlluom,

@@ -12,26 +12,25 @@ import AddIcon from '../menu/icons/addIcon';
 import Styles from '../../styles/vendor.module.scss';
 import {
   useGetAllPaginatedVendor,
-  getByFilterVendor,
   useDeleteVendor,
 } from '../../hooks/vendor-hooks';
 import CustomSnackbar from '../ui/customSnackBar';
 import ProjectSubheader from '../project/projectSubheader';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
-import { handleSortByColumn } from './../../helper/common-function'
+import { handleSortByColumn } from './../../helper/common-function';
 
+/* Function for vendor list */
 const VendorList = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;
   const { mutate: getDeleteVendorByID } = useDeleteVendor();
-  const [activeButton, setActiveButton] = useState<string | null>('AC');
+  const [activeButton, setactiveButton] = useState<string | null>('AC');
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [dataShow, setDataShow] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState();
@@ -47,33 +46,26 @@ const VendorList = () => {
     status: activeButton,
     global_search: filterValues.search_by_name,
   };
+  /* Function to get all vendor data */
   const {
     isLoading: getAllLoadingPaginated,
     data: initialData,
     refetch,
   } = useGetAllPaginatedVendor(vendorData);
-
-  const {
-    mutate: postDataForFilter,
-    data: getFilterData,
-    isLoading: searchLoader,
-  } = getByFilterVendor();
-
+  /* Function to change page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-
+  /* Function to delete vendor */
   const deleteVendor = () => {
     getDeleteVendorByID(value);
     handleCloseDelete();
@@ -83,27 +75,20 @@ const VendorList = () => {
   const handleSnackBarClose = () => {
     setOpenDeleteSnack(false);
   };
-
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton, sortColumn, sortOrder]);
-
   useEffect(() => {
     const handleSearch = setTimeout(() => {
       refetch();
     }, 1000);
     return () => clearTimeout(handleSearch);
   }, [filterValues]);
-
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   return (
     <div>
-      <CustomLoader
-        loading={searchLoader ? searchLoader : getAllLoadingPaginated}
-        size={48}
-        color="#333C44"
-      >
+      <CustomLoader loading={getAllLoadingPaginated} size={48} color="#333C44">
         {initialData?.is_available ? (
           <div>
             {currentPath === '/vendor-list' && (
@@ -132,7 +117,9 @@ const VendorList = () => {
                     justify="center"
                     size="small"
                     icon={<AddIcon color="white" />}
-                    onClick={() => navigate('/vendor-add', { state: { path: currentPath } })}
+                    onClick={() =>
+                      navigate('/vendor-add', { state: { path: currentPath } })
+                    }
                   >
                     Add Vendor
                   </Button>
@@ -147,7 +134,7 @@ const VendorList = () => {
                   onChange={(e) => {
                     setFilterValues({
                       ...filterValues,
-                      ['search_by_name']: e.target.value,
+                      search_by_name: e.target.value,
                     });
                     setCurrentPage(1);
                   }}
@@ -159,16 +146,36 @@ const VendorList = () => {
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th onClick={() => handleSortByColumn('vendor_name', sortOrder, setSortOrder, setSortColumn)}>
+                    <th
+                      onClick={() =>
+                        handleSortByColumn(
+                          'vendor_name',
+                          sortOrder,
+                          setSortOrder,
+                          setSortColumn
+                        )
+                      }
+                    >
                       <div className={Styles.headingRow}>
-                        <div>Vendor Name</div><div>
+                        <div>Vendor Name</div>
+                        <div>
                           <FilterOrderIcon />
                         </div>
                       </div>
                     </th>
-                    <th onClick={() => handleSortByColumn('contact_person', sortOrder, setSortOrder, setSortColumn)}>
+                    <th
+                      onClick={() =>
+                        handleSortByColumn(
+                          'contact_person',
+                          sortOrder,
+                          setSortOrder,
+                          setSortColumn
+                        )
+                      }
+                    >
                       <div className={Styles.headingRow}>
-                        <div>Contact Person Name</div><div>
+                        <div>Contact Person Name</div>
+                        <div>
                           <FilterOrderIcon />
                         </div>
                       </div>
@@ -178,38 +185,7 @@ const VendorList = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {dataShow ? (
-                    getFilterData?.total_count === 0 ? (
-                      <tr>
-                        <td></td>
-                        <td></td>
-                        <td>No data found</td>
-                        {activeButton === 'AC' && <td></td>}
-                      </tr>
-                    ) : (
-                      getFilterData?.content?.map(
-                        (data: any, index: number) => (
-                          <tr key={data.vendor_id}>
-                            <td>{startingIndex + index}</td>
-                            <td>{data.vendor_name}</td>
-                            <td>{data.contact_person}</td>
-                            <td>{data.contact_phone_no}</td>
-                            {activeButton === 'AC' && (
-                              <td>
-                                <div className={Styles.tablerow}>
-                                  <EditIcon
-                                    onClick={() =>
-                                      navigate(`/vendor-edit/${data.vendor_id}`)
-                                    }
-                                  />
-                                </div>
-                              </td>
-                            )}
-                          </tr>
-                        )
-                      )
-                    )
-                  ) : initialData?.total_count === 0 ? (
+                  {initialData?.total_count === 0 ? (
                     <tr>
                       <td></td>
                       <td></td>
@@ -228,7 +204,9 @@ const VendorList = () => {
                             <div className={Styles.tablerow}>
                               <EditIcon
                                 onClick={() =>
-                                  navigate(`/vendor-edit/${data.vendor_id}`, { state: { path: currentPath } })
+                                  navigate(`/vendor-edit/${data.vendor_id}`, {
+                                    state: { path: currentPath },
+                                  })
                                 }
                               />
                               <ViewIcon
@@ -248,12 +226,8 @@ const VendorList = () => {
             <div className={Styles.pagination}>
               <Pagination
                 currentPage={currentPage}
-                totalPages={
-                  dataShow ? getFilterData?.total_page : initialData?.total_page
-                }
-                totalCount={
-                  dataShow ? getFilterData?.total_count : initialData?.total_count
-                }
+                totalPages={initialData?.total_page}
+                totalCount={initialData?.total_count}
                 rowsPerPage={rowsPerPage}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
@@ -262,8 +236,7 @@ const VendorList = () => {
           </div>
         ) : (
           <div>
-            <div className={Styles.subHeading}>
-            </div>
+            <div className={Styles.subHeading}></div>
             <div className={Styles.emptyDataHandling}>
               <div>
                 <img
@@ -278,7 +251,9 @@ const VendorList = () => {
                 <h5>Vendors List is Empty</h5>
               </div>
               <div className={Styles.contentGap}>
-                <span className={Styles.spanContent}>Go ahead, add new vendors</span>
+                <span className={Styles.spanContent}>
+                  Go ahead, add new vendors
+                </span>
               </div>
               <div>
                 <Button
@@ -295,7 +270,6 @@ const VendorList = () => {
             </div>
           </div>
         )}
-
       </CustomLoader>
       <CustomDelete
         open={openDelete}

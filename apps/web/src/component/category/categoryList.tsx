@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Styles from '../../styles/categoryList.module.scss';
 import {
   useDeleteCategory,
-  getBySearchCategroy,
+  useGetBySearchCategroy,
 } from '../../hooks/category-hooks';
 import CategoryForm from './categoryForm';
 import Button from '../ui/Button';
@@ -32,7 +32,7 @@ const CategoryList = () => {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: FilterLoading,
-  } = getBySearchCategroy();
+  } = useGetBySearchCategroy();
   const { mutate: getDeleteCategoryByID } = useDeleteCategory();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -64,7 +64,7 @@ const CategoryList = () => {
     const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
-      ['search_by_name']: event.target.value,
+      'search_by_name': event.target.value,
     });
     setIsResetDisabled(searchValue === '');
     if (searchValue === '') {
@@ -208,7 +208,7 @@ const CategoryList = () => {
                 shape="rectangle"
                 justify="center"
                 size="small"
-                icon={<AddIcon color='white'/>}
+                icon={<AddIcon color="white" />}
                 onClick={() => {
                   navigate('/category-add');
                 }}

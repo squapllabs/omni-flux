@@ -12,7 +12,7 @@ const useGetAllsiteExpense = () => {
   );
 };
 
-const getBysiteExpenseID = (id: number) => {
+const useGetBysiteExpenseID = (id: number) => {
   return useQuery(
     ['getOnesiteExpenseID', id],
     () => siteExpenseService.getOnesiteExpenseByID(id),
@@ -22,7 +22,7 @@ const getBysiteExpenseID = (id: number) => {
   );
 };
 
-const createsiteExpense = () => {
+const useCreatesiteExpense = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -36,7 +36,7 @@ const createsiteExpense = () => {
   );
 };
 
-const updatesiteExpense = () => {
+const useUpdatesiteExpense = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -64,18 +64,10 @@ const useDeletesiteExpense = () => {
   );
 };
 
-const getBySearchsiteExpense = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return siteExpenseService.filtersiteExpense(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+const useGetBySearchsiteExpense = () => {
+  return useMutation((data: any) => {
+    return siteExpenseService.filtersiteExpense(data);
+  });
 };
 const useBulkuploadSiteExpanse = () => {
   const queryClient = useQueryClient();
@@ -92,10 +84,10 @@ const useBulkuploadSiteExpanse = () => {
 };
 export {
   useGetAllsiteExpense,
-  getBysiteExpenseID,
-  createsiteExpense,
-  updatesiteExpense,
+  useGetBysiteExpenseID,
+  useCreatesiteExpense,
+  useUpdatesiteExpense,
   useDeletesiteExpense,
-  getBySearchsiteExpense,
+  useGetBySearchsiteExpense,
   useBulkuploadSiteExpanse,
 };

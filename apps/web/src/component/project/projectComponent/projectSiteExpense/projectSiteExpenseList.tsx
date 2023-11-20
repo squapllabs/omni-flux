@@ -3,13 +3,13 @@ import Button from '../../../ui/Button';
 import AddIcon from '../../../menu/icons/addIcon';
 import CustomSidePopup from '../../../ui/CustomSidePopup';
 import ProjectSiteExpenseForm from './projectSiteExpenseForm';
-import { useNavigate, useParams } from 'react-router-dom';
+import {  useParams } from 'react-router-dom';
 import Styles from '../../../../styles/newStyles/siteExpenseList.module.scss';
 import MoneyIcon from '../../../menu/icons/moneyIcon';
-import { getProjectSite } from '../../../../hooks/project-hooks';
+import { useGetProjectSite } from '../../../../hooks/project-hooks';
 import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
 import CustomGroupButton from '../../../ui/CustomGroupButton';
-import { getBySearchsiteExpense } from '../../../../hooks/expense-hook';
+import { useGetBySearchsiteExpense } from '../../../../hooks/expense-hook';
 import EditIcon from '../../../menu/icons/newEditIcon';
 import CustomLoader from '../../../ui/customLoader';
 import CustomPagination from '../../../menu/CustomPagination';
@@ -20,7 +20,7 @@ import ExpenseDetailApprove from './approval/siteExpenseDetailApprove';
 const ProjectSiteExpenseList = () => {
   const routeParams = useParams();
   let rowIndex = 0;
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [expenseOpen, setExpenseOpen] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>('All');
@@ -38,7 +38,7 @@ const ProjectSiteExpenseList = () => {
     { label: 'Completed', value: 'Completed' },
   ]);
 
-  const { data: getSiteList, isLoading: siteLoading } = getProjectSite(
+  const { data: getSiteList, isLoading: siteLoading } = useGetProjectSite(
     Number(routeParams?.id)
   );
   const initialSiteId =
@@ -49,7 +49,7 @@ const ProjectSiteExpenseList = () => {
     mutate: postDataForFilter,
     data: getExpenseList,
     isLoading: fetchLoader,
-  } = getBySearchsiteExpense();
+  } = useGetBySearchsiteExpense();
 
   const handleSearch = async () => {
     const demo: any = {
@@ -82,7 +82,7 @@ const ProjectSiteExpenseList = () => {
   };
   const handleExpenseClose = () => {
     setExpenseOpen(false);
-  }
+  };
   const handleEditExpense = (e: any, expenseId: any) => {
     setMode('Edit');
     setOpen(true);
@@ -105,10 +105,10 @@ const ProjectSiteExpenseList = () => {
     const updateDimension = () => {
       setScreenSize(getCurrentDimension());
     };
-    window.addEventListener("resize", updateDimension);
+    window.addEventListener('resize', updateDimension);
 
     return () => {
-      window.removeEventListener("resize", updateDimension);
+      window.removeEventListener('resize', updateDimension);
     };
   }, [screenSize]);
 
@@ -183,7 +183,7 @@ const ProjectSiteExpenseList = () => {
             </div>
             <div>
               {getExpenseList?.total_count !== 0 ||
-                getExpenseList?.expense_statistics?.total_expenses !== 0 ? (
+              getExpenseList?.expense_statistics?.total_expenses !== 0 ? (
                 <div>
                   <div className={Styles.cards}>
                     <div className={Styles.amountCards}>
@@ -193,7 +193,7 @@ const ProjectSiteExpenseList = () => {
                           <p>
                             {getExpenseList?.expense_statistics?.total_expenses
                               ? getExpenseList?.expense_statistics
-                                ?.total_expenses
+                                  ?.total_expenses
                               : 0}
                           </p>
                         </div>
@@ -208,7 +208,7 @@ const ProjectSiteExpenseList = () => {
                               getExpenseList?.expense_statistics
                                 ?.completed_expenses
                                 ? getExpenseList?.expense_statistics
-                                  ?.completed_expenses
+                                    ?.completed_expenses
                                 : 0
                             )}
                           </p>
@@ -224,7 +224,7 @@ const ProjectSiteExpenseList = () => {
                               getExpenseList?.expense_statistics
                                 ?.inprogress_expenses
                                 ? getExpenseList?.expense_statistics
-                                  ?.inprogress_expenses
+                                    ?.inprogress_expenses
                                 : 0
                             )}
                           </p>
@@ -240,7 +240,7 @@ const ProjectSiteExpenseList = () => {
                               getExpenseList?.expense_statistics
                                 ?.pending_expenses
                                 ? getExpenseList?.expense_statistics
-                                  ?.pending_expenses
+                                    ?.pending_expenses
                                 : 0
                             )}
                           </p>
@@ -248,7 +248,7 @@ const ProjectSiteExpenseList = () => {
                       </div>
                     </div>
                   </div>
-                  {screenSize.width > 750 && (                      //For Desktop View
+                  {screenSize.width > 750 && ( //For Desktop View
                     <div>
                       <div className={Styles.tableContainer}>
                         <div className={Styles.grpButtons}>
@@ -263,8 +263,12 @@ const ProjectSiteExpenseList = () => {
                             <thead>
                               <tr>
                                 <th className={Styles.tableHeading}>#</th>
-                                <th className={Styles.tableHeading}>Expense Code</th>
-                                <th className={Styles.tableHeading}>Added By</th>
+                                <th className={Styles.tableHeading}>
+                                  Expense Code
+                                </th>
+                                <th className={Styles.tableHeading}>
+                                  Added By
+                                </th>
                                 <th className={Styles.tableHeading}>Site</th>
                                 <th className={Styles.tableHeading}>Status</th>
                                 <th className={Styles.tableHeading}>Amount</th>
@@ -274,7 +278,10 @@ const ProjectSiteExpenseList = () => {
                             <tbody>
                               {getExpenseList?.content?.length === 0 ? (
                                 <tr>
-                                  <td colSpan="7" style={{ textAlign: 'center' }}>
+                                  <td
+                                    colSpan="7"
+                                    style={{ textAlign: 'center' }}
+                                  >
                                     No data found
                                   </td>
                                 </tr>
@@ -283,30 +290,33 @@ const ProjectSiteExpenseList = () => {
                               )}
                               {getExpenseList?.content?.map(
                                 (items: any, index: any) => {
-                                  if (items.is_delete != true) {
+                                  if (items.is_delete !== true) {
                                     rowIndex = rowIndex + 1;
                                     return (
-                                      <tr>
+                                      <tr key={items?.expense_id}>
                                         <td>{rowIndex}</td>
                                         <td>{items?.expense_code}</td>
                                         <td>{items?.employee_name}</td>
                                         <td>{items?.site_data?.name}</td>
                                         <td>
                                           <span
-                                            className={`${Styles.status} ${items?.status === 'Pending'
-                                              ? Styles.pendingStatus
-                                              : items?.status === 'InProgress'
+                                            className={`${Styles.status} ${
+                                              items?.status === 'Pending'
+                                                ? Styles.pendingStatus
+                                                : items?.status === 'InProgress'
                                                 ? Styles.rejectedStatus
                                                 : items?.status === 'Approved'
-                                                  ? Styles.approvedStatus
-                                                  : items?.status === 'Draft'
-                                                    ? Styles.draftStatus
-                                                    : items?.status === 'Completed'
-                                                      ? Styles.approvedStatus
-                                                      : ''
-                                              }`}
+                                                ? Styles.approvedStatus
+                                                : items?.status === 'Draft'
+                                                ? Styles.draftStatus
+                                                : items?.status === 'Completed'
+                                                ? Styles.approvedStatus
+                                                : ''
+                                            }`}
                                           >
-                                            {items?.status === 'Pending' ? "Waiting for Approval" : (items?.status)}
+                                            {items?.status === 'Pending'
+                                              ? 'Waiting for Approval'
+                                              : items?.status}
                                           </span>
                                         </td>
                                         <td>
@@ -333,7 +343,9 @@ const ProjectSiteExpenseList = () => {
                                             <div
                                               style={{ cursor: 'pointer' }}
                                               onClick={(e) => {
-                                                handleViewExpense(items.expense_id);
+                                                handleViewExpense(
+                                                  items.expense_id
+                                                );
                                               }}
                                             >
                                               <ViewIcon />
@@ -361,58 +373,69 @@ const ProjectSiteExpenseList = () => {
                       </div>
                     </div>
                   )}
-                  {screenSize.width <= 750 && (                             //For Mobile Table View
-                    <div className={Styles.mobileTableContainer} >
+                  {screenSize.width <= 750 && ( //For Mobile Table View
+                    <div className={Styles.mobileTableContainer}>
                       <div className={Styles.cardContainer}>
                         {getExpenseList?.content?.map(
                           (items: any, index: any) => {
-                            if (items.is_delete != true) {
+                            if (items.is_delete !== true) {
                               rowIndex = rowIndex + 1;
                               return (
                                 <table className={Styles.cardTable}>
                                   <tr>
-                                    <th className={Styles.cardHeader} >EXPENSE CODE</th>
+                                    <th className={Styles.cardHeader}>
+                                      EXPENSE CODE
+                                    </th>
                                   </tr>
                                   <tr>
                                     <td>{items?.expense_code}</td>
                                   </tr>
                                   <tr>
-                                    <th className={Styles.cardHeader} >ADDED BY</th>
+                                    <th className={Styles.cardHeader}>
+                                      ADDED BY
+                                    </th>
                                   </tr>
                                   <tr>
                                     <td>{items?.employee_name}</td>
                                   </tr>
                                   <tr>
-                                    <th className={Styles.cardHeader} >SITE</th>
+                                    <th className={Styles.cardHeader}>SITE</th>
                                   </tr>
                                   <tr>
                                     <td>{items?.site_data?.name}</td>
                                   </tr>
                                   <tr>
-                                    <th className={Styles.cardHeader} >STATUS</th>
+                                    <th className={Styles.cardHeader}>
+                                      STATUS
+                                    </th>
                                   </tr>
                                   <tr>
                                     <td>
                                       <span
-                                        className={`${Styles.status} ${items?.status === 'Pending'
-                                          ? Styles.pendingStatus
-                                          : items?.status === 'InProgress'
+                                        className={`${Styles.status} ${
+                                          items?.status === 'Pending'
+                                            ? Styles.pendingStatus
+                                            : items?.status === 'InProgress'
                                             ? Styles.rejectedStatus
                                             : items?.status === 'Approved'
-                                              ? Styles.approvedStatus
-                                              : items?.status === 'Draft'
-                                                ? Styles.draftStatus
-                                                : items?.status === 'Completed'
-                                                  ? Styles.approvedStatus
-                                                  : ''
-                                          }`}
+                                            ? Styles.approvedStatus
+                                            : items?.status === 'Draft'
+                                            ? Styles.draftStatus
+                                            : items?.status === 'Completed'
+                                            ? Styles.approvedStatus
+                                            : ''
+                                        }`}
                                       >
-                                        {items?.status === 'Pending' ? "Waiting for Approval" : (items?.status)}
+                                        {items?.status === 'Pending'
+                                          ? 'Waiting for Approval'
+                                          : items?.status}
                                       </span>
                                     </td>
                                   </tr>
                                   <tr>
-                                    <th className={Styles.cardHeader} >AMOUNT</th>
+                                    <th className={Styles.cardHeader}>
+                                      AMOUNT
+                                    </th>
                                   </tr>
                                   <tr>
                                     <td>
@@ -424,7 +447,9 @@ const ProjectSiteExpenseList = () => {
                                     </td>
                                   </tr>
                                   <tr>
-                                    <th className={Styles.cardHeader} >ACTION</th>
+                                    <th className={Styles.cardHeader}>
+                                      ACTION
+                                    </th>
                                   </tr>
                                   <tr>
                                     <td>
@@ -453,7 +478,7 @@ const ProjectSiteExpenseList = () => {
                                     </td>
                                   </tr>
                                 </table>
-                              )
+                              );
                             }
                           }
                         )}
@@ -529,7 +554,7 @@ const ProjectSiteExpenseList = () => {
             </div>
             <div className={Styles.emptyDataHandling}>
               <div className={Styles.image}>
-                <img src="/siteAdd.png" width="70%" height="20%" />
+                <img src="/siteAdd.png" alt="site" width="70%" height="20%" />
               </div>
               <div>
                 <h5 className={Styles.textmax}>

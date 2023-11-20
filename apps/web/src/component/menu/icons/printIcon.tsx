@@ -23,7 +23,7 @@ const PrintIcon: FC<PrintIconProps> = ({
       width={width}
       height={height}
       fill={color}
-      class="bi bi-printer"
+      className="bi bi-printer"
       viewBox="0 0 16 16"
     >
       <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />

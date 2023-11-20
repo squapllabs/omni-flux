@@ -8,13 +8,11 @@ import DatePicker from '../../ui/CustomDatePicker';
 import ProjectDetailsIcon from '../../menu/icons/projectDetailsIcon';
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import { useGetAllClientDrop } from '../../../hooks/client-hooks';
+import { useGetUserbyRole } from '../../../hooks/user-hooks';
 import {
-  getUserbyRole,
-} from '../../../hooks/user-hooks';
-import {
-  createProject,
+  useCreateProject,
   useGetMasterProjectParentType,
-  updateProject,
+  useUpdateProject,
 } from '../../../hooks/project-hooks';
 import CustomClientAdd from '../../ui/CustomClientAdd';
 import TextArea from '../../ui/CustomTextArea';
@@ -65,13 +63,14 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   const [bomConfig, setBomConfig] = useState<any>([]);
   const [siteConfigData, setSiteConfigData] = useState<any[]>([]);
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
-  const { data: getProjectManagerList = [] } = getUserbyRole('Project Manager');
+  const { data: getProjectManagerList = [] } =
+    useGetUserbyRole('Project Manager');
   const { data: getProjectApproverList = [] } =
-    getUserbyRole('Planning Engineer');
+    useGetUserbyRole('Planning Engineer');
   const { data: getAllProjectTypeDatadrop = [] } =
     useGetMasterProjectParentType();
-  const { mutate: createNewProjectData } = createProject();
-  const { mutate: updateProjectData } = updateProject();
+  const { mutate: createNewProjectData } = useCreateProject();
+  const { mutate: updateProjectData } = useUpdateProject();
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
@@ -107,9 +106,8 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
       setBomConfig(getData?.data?.bom_configuration);
       setSiteConfigData(getData?.data?.project_site);
     };
-    if (routeParams?.id != undefined) fetchData();
+    if (routeParams?.id !== undefined) fetchData();
   }, [routeParams?.id]);
-
 
   const handleSnackBarClose = () => {
     setOpenSnack(false);

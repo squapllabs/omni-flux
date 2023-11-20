@@ -6,10 +6,10 @@ import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
 import UploadIcon from '../menu/icons/cloudUpload';
 import CustomSnackBar from '../ui/customSnackBar';
-import { updatePurchseOrderBillStatus } from '../../hooks/purchase-request-hooks';
+import { useUpdatePurchseOrderBillStatus } from '../../hooks/purchase-request-hooks';
 import Select from '../ui/selectNew';
 import PurchaseRequestService from '../../service/purchase-request.service';
-import { getBymasertDataType } from '../../hooks/masertData-hook';
+import { useGetBymasertDataType } from '../../hooks/masertData-hook';
 
 const CustomEditPoPopup = (props: {
   isVissible: any;
@@ -19,8 +19,8 @@ const CustomEditPoPopup = (props: {
   const { isVissible, onAction, selectedPurchaseOrder } = props;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { data: getAllBillStatusTypeDatadrop = [] } =
-    getBymasertDataType('POS');
-  const { mutate: updatePoBillStatus } = updatePurchseOrderBillStatus();
+    useGetBymasertDataType('POS');
+  const { mutate: updatePoBillStatus } = useUpdatePurchseOrderBillStatus();
   const [initialValues, setInitialValues] = useState({
     bill_status: '',
   });

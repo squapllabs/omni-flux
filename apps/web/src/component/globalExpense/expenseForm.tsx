@@ -3,8 +3,8 @@ import Styles from '../../styles/newStyles/globalExpense.module.scss';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useFormik } from 'formik';
 import {
-  createGlobalExpense,
-  updateGlobalExpense,
+  useCreateGlobalExpense,
+  useUpdateGlobalExpense,
 } from '../../hooks/expense-hook';
 import { format } from 'date-fns';
 import * as Yup from 'yup';
@@ -73,13 +73,12 @@ const GlobalExpenseForm: React.FC = (props: any) => {
   const [siteData, setSiteData] = useState<any>();
   const [tableView, setTableView] = useState(false);
 
-  const { data: getProjectList = [], isLoading: dropLoading} = useGetAllProjectDrop();
-
+  const { data: getProjectList = [], isLoading: dropLoading } =
+    useGetAllProjectDrop();
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
-    createGlobalExpense();
-
+    useCreateGlobalExpense();
   const { mutate: updateSiteExpenseData, isLoading: updateLoader } =
-    updateGlobalExpense();
+    useUpdateGlobalExpense();
   const drafthandler = () => {
     formik.setFieldValue('submitType', 'Draft');
     formik.submitForm();
@@ -106,7 +105,7 @@ const GlobalExpenseForm: React.FC = (props: any) => {
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
     return formattedDate;
   };
-
+  /* Function to get all site names of a project */
   useEffect(() => {
     const fetchData = async () => {
       const getData = await projectService.getOneProjectSite(projectValue);
@@ -122,7 +121,7 @@ const GlobalExpenseForm: React.FC = (props: any) => {
     };
     if (projectValue !== undefined) fetchData();
   }, [projectValue]);
-
+  /* Function to get one expense data by ID */
   useEffect(() => {
     const fetchData = async () => {
       const postIds = {
@@ -199,6 +198,7 @@ const GlobalExpenseForm: React.FC = (props: any) => {
         })
       : '';
 
+  /* Function to create and edit expense claim */
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -221,7 +221,7 @@ const GlobalExpenseForm: React.FC = (props: any) => {
               'description-availability',
               '',
               async function (value, { parent }: Yup.TestContext) {
-                let bill_type = parent.bill_type;
+                const bill_type = parent.bill_type;
                 if (bill_type === 'VOUCHER' && value > 5000) {
                   setMessage(
                     'In bill type voucher amount should not be more then 5000'
@@ -241,7 +241,7 @@ const GlobalExpenseForm: React.FC = (props: any) => {
               'description-availability',
               'Site Expense is already present',
               async function (value, { parent }: Yup.TestContext) {
-                let bill_details = parent.bill_details;
+                const bill_details = parent.bill_details;
                 if (
                   bill_details?.length < 0 &&
                   bill_details[0]?.is_delete === 'Y'
@@ -394,7 +394,7 @@ const GlobalExpenseForm: React.FC = (props: any) => {
           }
         })
         .catch((e: any) => {
-          let errorObj = {};
+          const errorObj = {};
           e.inner?.map((error: any) => {
             console.log('error', e);
             return (errorObj[error.path] = error.message);

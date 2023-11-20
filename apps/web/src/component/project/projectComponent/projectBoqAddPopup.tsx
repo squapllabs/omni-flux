@@ -8,12 +8,12 @@ import CustomSnackBar from '../../ui/customSnackBar';
 import * as yup from 'yup';
 import TextArea from '../../ui/CustomTextArea';
 import {
-    getByMasterDataProjectIdDrop,
+    useGetByMasterDataProjectIdDrop,
 } from '../../../hooks/masertData-hook';
 import {
     getCreateBoQValidateyup,
 } from '../../../helper/constants/boq-constants';
-import { createBoQ,updateBoQ } from '../../../hooks/bom-hooks';
+import { useCreateBoQ,useUpdateBoQ } from '../../../hooks/bom-hooks';
 import BOMService from '../../../service/bom-service';
 
 
@@ -31,9 +31,9 @@ const ProjectBoqAddPopup = (props: any) => {
     });
     const [openSnack, setOpenSnack] = useState(false);
     const [message, setMessage] = useState('');
-    const { mutate: createNewProjectBoQ } = createBoQ();
-    const { mutate: updateNewProjectBoQ } = updateBoQ();
-    const { data: getBomType = [] } = getByMasterDataProjectIdDrop(props?.projectId);
+    const { mutate: createNewProjectBoQ } = useCreateBoQ();
+    const { mutate: updateNewProjectBoQ } = useUpdateBoQ();
+    const { data: getBomType = [] } = useGetByMasterDataProjectIdDrop(props?.projectId);
     const validationSchema = getCreateBoQValidateyup(yup);
 
     const handleSnackBarClose = () => {
@@ -171,7 +171,7 @@ const ProjectBoqAddPopup = (props: any) => {
                         </div>
                     </div>
                     <div >
-                        <img src="/boq-add.png" className={Styles.imageBoQ}></img>
+                        <img src="/boq-add.png" alt="boq"className={Styles.imageBoQ}></img>
                     </div>
 
                 </div>

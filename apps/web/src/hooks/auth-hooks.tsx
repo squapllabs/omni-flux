@@ -1,43 +1,43 @@
 import { useMutation, useQuery } from 'react-query';
 import authService from '../service/auth-service';
 
-const forgetPassword = () => {
+const useForgetPassword = () => {
   return useMutation({
     mutationFn: authService.forgetPassword,
   });
 };
 
-const generateOTP = () => {
+const useGenerateOTP = () => {
   return useMutation({
     mutationFn:authService.generateOTP,
   });
 };
 
-const verifyOTP = () => {
+const useVerifyOTP = () => {
   return useMutation({
     mutationFn:authService.verifyOTP,
   });
 };
 
-const loginAuth = () => {
+const useLoginAuth = () => {
   return useMutation({
     mutationFn: authService.loginAuth,
   });
 };
 
-const resetPassword = () => {
+const useResetPassword = () => {
   return useMutation({
     mutationFn: authService.restePassword,
   });
 };
 
-const setTwoFA = () => {
+const useSetTwoFA = () => {
   return useMutation({
     mutationFn: authService.setTwoFA,
   })
 }
 
-const userlogout = () => {
+const useUserlogout = () => {
   return useQuery([], () => authService.logout());
 };
-export { forgetPassword, loginAuth, resetPassword, userlogout,generateOTP ,verifyOTP,setTwoFA};
+export { useForgetPassword, useLoginAuth, useResetPassword, useUserlogout,useGenerateOTP ,useVerifyOTP,useSetTwoFA};

@@ -5,7 +5,7 @@ import PurchaseIcon from '../../../menu/icons/purchaseIcon';
 import Input from '../../../ui/Input';
 import SearchIcon from '../../../menu/icons/search';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getIndentSearchPaginated } from '../../../../hooks/indentRequest-hooks';
+import { useGetIndentSearchPaginated } from '../../../../hooks/indentRequest-hooks';
 import { format } from 'date-fns';
 import { formatBudgetValue } from '../../../../helper/common-function';
 import CustomPagination from '../../../menu/CustomPagination';
@@ -40,7 +40,7 @@ const LocalPurchaseList = () => {
     isLoading: dataLoading,
     data: initialData,
     refetch,
-  } = getIndentSearchPaginated(indentData);
+  } = useGetIndentSearchPaginated(indentData);
 
   useEffect(() => {
     refetch();

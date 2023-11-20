@@ -4,8 +4,8 @@ import { Button, Card, TextField } from '@mui/material';
 import Styles from '../../styles/fortgetPassword.module.scss';
 import * as yup from 'yup';
 import { getForgetPasswordYupSchema } from '../../helper/constants/user-constants';
-import {getByuserID} from '../../hooks/user-hooks'
-import {resetPassword,setTwoFA} from '../../hooks/auth-hooks'
+import { useGetByuserID } from '../../hooks/user-hooks';
+import { useResetPassword, useSetTwoFA } from '../../hooks/auth-hooks';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router';
 import { IconButton, InputAdornment } from '@mui/material';
@@ -16,9 +16,9 @@ const ResetPassword = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   const userId = Number(routeParams?.id);
-  const { data: getuserData } = getByuserID(userId);
-  const { mutate: restPassword, isLoading } = resetPassword();
-  const { mutate: setTwofa } = setTwoFA();
+  const { data: getuserData } = useGetByuserID(userId);
+  const { mutate: restPassword, isLoading } = useResetPassword();
+  const { mutate: setTwofa } = useSetTwoFA();
   const errorObject: any = {};
   const valueObject: any = {
     new_password: '',
@@ -165,7 +165,6 @@ const ResetPassword = () => {
                           <VisibilityOff
                             onClick={togglePassword}
                             className={Styles.colour}
-                            
                           />
                         )}
                       </IconButton>

@@ -2,21 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   useGetAllPurchaseOrderData,
-  getBySearchPoData,
+  useGetBySearchPoData,
 } from '../../hooks/purchase-request-hooks';
 import Styles from '../../styles/purchaseRequestView.module.scss';
 import CustomLoader from '../ui/customLoader';
-import EditIcon from '../menu/icons/newEditIcon';
 import CustomEditInvoicePopup from '../ui/CustomEditInvoicePopup';
 import { formatBudgetValue } from '../../helper/common-function';
-import Pagination from '../menu/pagination';
 import Button from '../ui/Button';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { useGetAllProjectDrop } from '../../hooks/project-hooks';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import ViewIcon from '../menu/icons/newViewIcon';
-import { format } from 'date-fns';
-import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/pdfReport/invoice';
 import CustomPagination from '../menu/CustomPagination';
 import ProjectSubheader from '../project/projectSubheader';
@@ -25,7 +21,6 @@ import CustomPopup from '../ui/CustomSidePopup';
 
 const OrderView = () => {
   const navigate = useNavigate();
-  const [showEditPopUp, setShowEditPopUp] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [purchaseId, setPurchaseId] = useState();
@@ -57,50 +52,28 @@ const OrderView = () => {
     project_id: selectedValue,
     purchase_order_type: 'Head Office',
   };
+  /* Function to get all invoice data */
   const {
     isLoading: dataLoading,
     data: getAllData,
     refetch,
   } = useGetAllPurchaseOrderData(getPoData);
-  // console.log('initial', getAllData);
   const { data: getAllProjectDataForDrop = [], isLoading: dropLoading } =
     useGetAllProjectDrop();
-  // console.log("getAllProjectDataForDrop",getAllProjectDataForDrop);
-
   const {
     mutate: postDataForFilter,
     data: getFilterData,
     isLoading: searchLoader,
-  } = getBySearchPoData();
-  // console.log('rrrr', getFilterData);
-
-  const handleEdit = (value: any, invoice: any) => {
-    setPurchaseId(value);
-    setInvoiceNumber(invoice);
-    // setShowEditPopUp(true);
-    setOpen(true);
-    // alert(invoice)
-  };
-
-  const handleReportGenerator = () => {
-    const data: any = {
-      title: 'Invoice and Payments',
-      name: 'invoice',
-    };
-    ReportGenerator(data);
-  };
-
+  } = useGetBySearchPoData();
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
   const handleDropdownChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -109,7 +82,7 @@ const OrderView = () => {
     setSelectedValue(selectedProjectId);
     setIsResetDisabled(searchValue === '');
   };
-
+  /* Function to search thriugh users input */
   const handleSearch = async () => {
     const poData: any = {
       offset: (currentPage - 1) * rowsPerPage,
@@ -124,7 +97,7 @@ const OrderView = () => {
     postDataForFilter(poData);
     setDataShow(true);
   };
-
+  /* Function to reset the search operation */
   const handleReset = async () => {
     const poData: any = {
       offset: (currentPage - 1) * rowsPerPage,
@@ -142,17 +115,13 @@ const OrderView = () => {
     setSelectedValue('');
     setIsResetDisabled(true);
   };
-
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
-
   const handleClosePopup = () => {
     setOpen(false);
   };
-
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
-
   const generateCustomBillName = (data: any) => {
     if (data) {
       const vendorName = data.vendor_data?.vendor_name || '';
@@ -246,8 +215,9 @@ const OrderView = () => {
                 </tr>
               </thead>
               <tbody>
-                {dataShow
-                  ? getFilterData?.content?.map((data: any, index: number) => {
+                {dataShow ? (
+                  getFilterData?.content?.length > 0 ? (
+                    getFilterData?.content?.map((data: any, index: number) => {
                       const customBillName = generateCustomBillName(data);
                       return (
                         <tr>
@@ -277,35 +247,50 @@ const OrderView = () => {
                         </tr>
                       );
                     })
-                  : getAllData?.content?.map((data: any, index: number) => {
-                      const customBillName = generateCustomBillName(data);
-                      return (
-                        <tr>
-                          <td>{startingIndex + index}</td>
-                          <td>{data?.order_id}</td>
-                          <td>
-                            {data?.vendor_data?.vendor_name ||
-                              nullLableNameFromEnv}
-                          </td>
-                          <td>
-                            {data?.purchase_request_data?.project_data
-                              ?.project_name || nullLableNameFromEnv}
-                          </td>
-                          <td>{formatBudgetValue(data?.total_cost)}</td>
-                          <td>
-                            <ViewIcon
-                              onClick={
-                                () =>
-                                  navigate(
-                                    `/view-invoice/${data.purchase_order_id}`
-                                  )
-                                // navigate(`/invoice-view/${data.purchase_order_id}`)
-                              }
-                            />
-                          </td>
-                        </tr>
-                      );
-                    })}
+                  ) : (
+                    <tr>
+                      <td colSpan="6" style={{ textAlign: 'center' }}>
+                        No data found
+                      </td>
+                    </tr>
+                  )
+                ) : getAllData?.content?.length > 0 ? (
+                  getAllData?.content?.map((data: any, index: number) => {
+                    const customBillName = generateCustomBillName(data);
+                    return (
+                      <tr>
+                        <td>{startingIndex + index}</td>
+                        <td>{data?.order_id}</td>
+                        <td>
+                          {data?.vendor_data?.vendor_name ||
+                            nullLableNameFromEnv}
+                        </td>
+                        <td>
+                          {data?.purchase_request_data?.project_data
+                            ?.project_name || nullLableNameFromEnv}
+                        </td>
+                        <td>{formatBudgetValue(data?.total_cost)}</td>
+                        <td>
+                          <ViewIcon
+                            onClick={
+                              () =>
+                                navigate(
+                                  `/view-invoice/${data.purchase_order_id}`
+                                )
+                              // navigate(`/invoice-view/${data.purchase_order_id}`)
+                            }
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan="6" style={{ textAlign: 'center' }}>
+                      No data found
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -325,11 +310,6 @@ const OrderView = () => {
           />
         </div>
       </CustomLoader>
-      {/* <CustomEditInvoicePopup
-        isVissible={showEditPopUp}
-        onAction={setShowEditPopUp}
-        selectedPurchaseOrder={purchaseId}
-      /> */}
       <CustomPopup
         title="Edit Payment Details"
         open={open}

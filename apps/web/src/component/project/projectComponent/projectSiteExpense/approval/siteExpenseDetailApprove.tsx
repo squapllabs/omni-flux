@@ -11,8 +11,8 @@ import ApproveDialogBox from '../../../../ui/CustomApprovePopup';
 import RejectDialogBox from '../../../../ui/CustomReject';
 import CustomConfirm from '../../../../ui/CustomConfirmDialogBox';
 import {
-  updatesiteExpenseStatus,
-  updatesiteExpenseDetail,
+  useUpdatesiteExpenseStatus,
+  useUpdatesiteExpenseDetail,
 } from '../../../../../hooks/expense-hook';
 import { environment } from '../../../../../environment/environment';
 import ProjectSubheader from '../../../../project/projectSubheader';
@@ -45,7 +45,7 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [reload, setReload] = useState(false);
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
-  const { mutate: updateSiteExpenseData } = updatesiteExpenseStatus();
+  const { mutate: updateSiteExpenseData } = useUpdatesiteExpenseStatus();
   const [initialValues, setInitialValues] = useState({
     expense_details_id: '',
     status: '',
@@ -55,7 +55,7 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
     updated_by: '',
   });
 
-  const { mutate: updateSiteExpenseDetailData } = updatesiteExpenseDetail();
+  const { mutate: updateSiteExpenseDetailData } = useUpdatesiteExpenseDetail();
 
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);

@@ -15,6 +15,7 @@ import {
 } from '../../../hooks/projectSite-hooks';
 import CustomPagination from '../../menu/CustomPagination';
 import CustomLoader from '../../ui/customLoader';
+import { formatBudgetValue } from '../../../helper/common-function';
 
 const ProjectSiteConfig: React.FC = (props: any) => {
   const routeParams = useParams();
@@ -174,10 +175,10 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                             </div>
                           </td>
                           <td>
-                            <span>{row?.estimated_budget}</span>
+                            <span>{formatBudgetValue(row?.estimated_budget ? row?.estimated_budget : 0)}</span>
                           </td>
                           <td>
-                            <span>{row.actual_budget}</span>
+                            <span>{formatBudgetValue(row?.actual_budget ? row?.actual_budget : 0)}</span>
                           </td>
                           <td>
                             <span>
@@ -222,7 +223,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
             </div>
             <div className={Styles.emptyDataHandling}>
               <div className={Styles.image}>
-                <img src="/siteAdd.png" width="70%" height="20%" />
+                <img src="/siteAdd.png" alt="sites" width="70%" height="20%" />
               </div>
               <div>
                 <h5 className={Styles.textmax}>

@@ -4,50 +4,54 @@ import * as Yup from 'yup';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/customaddabstract.module.scss';
-import {createSubSubcategory} from '../../hooks/subSubCategory-hooks';
+import { useCreateSubSubcategory } from '../../hooks/subSubCategory-hooks';
 import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
 import { getSubCategoryValidateyup } from '../../helper/constants/abstract-constants';
 import CustomSnackBar from '../ui/customSnackBar';
 import TextArea from '../ui/CustomTextArea';
 
-const CustomSubCategoryAdd = (props: { isVissible: any; onAction: any,selectedCategoryId:any }) => {
-  const { isVissible, onAction,selectedCategoryId } = props;
-  console.log("id in popup==>",selectedCategoryId);
+const CustomSubCategoryAdd = (props: {
+  isVissible: any;
+  onAction: any;
+  selectedCategoryId: any;
+}) => {
+  const { isVissible, onAction, selectedCategoryId } = props;
+  console.log('id in popup==>', selectedCategoryId);
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
-  const { mutate: createNewSubSubCategory } = createSubSubcategory();
+  const { mutate: createNewSubSubCategory } = useCreateSubSubcategory();
   const [clientinitialValues, setclientInitialValues] = useState({
     name: '',
     description: '',
-    project_id:'',
-    category_id:''
+    project_id: '',
+    category_id: '',
   });
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const formik = useFormik({
     initialValues: clientinitialValues,
     validationSchema: validationSchemaSubCategory,
-    enableReinitialize: true,    
-    onSubmit: (values,{ resetForm }) => {
+    enableReinitialize: true,
+    onSubmit: (values, { resetForm }) => {
       const Object: any = {
         name: values.name,
         description: values.description,
-        project_id : 62,
-        budget:0,
-        category_id:selectedCategoryId
+        project_id: 62,
+        budget: 0,
+        category_id: selectedCategoryId,
       };
-      console.log("abstract from",Object);
+      console.log('abstract from', Object);
       createNewSubSubCategory(Object, {
-          onSuccess: (data, variables, context) => {
-            console.log("samlpe data==>",data);
-            if (data?.success === true)  {
-              setMessage('Sub Sub Category created');
-              setOpenSnack(true);
-              handleCloseForm();
-              resetForm();
-            }
-          },
-        });
+        onSuccess: (data, variables, context) => {
+          console.log('samlpe data==>', data);
+          if (data?.success === true) {
+            setMessage('Sub Sub Category created');
+            setOpenSnack(true);
+            handleCloseForm();
+            resetForm();
+          }
+        },
+      });
     },
   });
 
@@ -147,4 +151,3 @@ const CustomSubCategoryAdd = (props: { isVissible: any; onAction: any,selectedCa
 };
 
 export default CustomSubCategoryAdd;
-

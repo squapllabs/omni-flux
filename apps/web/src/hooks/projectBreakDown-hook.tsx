@@ -15,57 +15,45 @@ const useGetAllParentProjectBreakDownDrop = () => {
   );
 };
 
-const createProjectBreakDownData = () => {
-    const queryClient = useQueryClient();
-    return useMutation(
-      (data: any) => {
-        return projectBreakDownService.createProjectBreakDownData(data);
+const useCreateProjectBreakDownData = () => {
+  const queryClient = useQueryClient();
+  return useMutation(
+    (data: any) => {
+      return projectBreakDownService.createProjectBreakDownData(data);
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['']);
       },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries([]);
-        },
-      }
-    );
-  };
+    }
+  );
+};
 
-  const getBySearchProjectWorkBreakDownData = () => {
-    const queryClient = useQueryClient();
-    return useMutation(
-      (data: any) => {
-        return projectBreakDownService.filterProjectWorkBreakDownData(data);
-      },
-      {
-        onSuccess: (response) => {
-          response;
-        },
-      }
-    );
-  };
+const useGetBySearchProjectWorkBreakDownData = () => {
+  return useMutation((data: any) => {
+    return projectBreakDownService.filterProjectWorkBreakDownData(data);
+  });
+};
 
-  const getByProjectWorkBreakDownId = (id: number) => {
-    return useQuery(['getByuserID', id], () => projectBreakDownService.getOneProjectWorkBreakDownById(id), {
+const useGetByProjectWorkBreakDownId = (id: number) => {
+  return useQuery(
+    ['getByuserID', id],
+    () => projectBreakDownService.getOneProjectWorkBreakDownById(id),
+    {
       select: (data) => data.data,
-    });
-  };
-  
-  const updateProjectBreakDown = () => {
-    const queryClient = useQueryClient();
-    return useMutation(
-      (data: any) => {
-        return projectBreakDownService.updateProjectBreakDownData(data);
-      },
-      {
-        onSuccess: (response) => {
-          response;
-        },
-      }
-    );
-  };
+    }
+  );
+};
+
+const useUpdateProjectBreakDown = () => {
+  return useMutation((data: any) => {
+    return projectBreakDownService.updateProjectBreakDownData(data);
+  });
+};
 export {
-    useGetAllParentProjectBreakDownDrop,
-    createProjectBreakDownData,
-    getBySearchProjectWorkBreakDownData,
-    getByProjectWorkBreakDownId,
-    updateProjectBreakDown
+  useGetAllParentProjectBreakDownDrop,
+  useCreateProjectBreakDownData,
+  useGetBySearchProjectWorkBreakDownData,
+  useGetByProjectWorkBreakDownId,
+  useUpdateProjectBreakDown,
 };

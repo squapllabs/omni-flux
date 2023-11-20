@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { updatemasertData } from '../../hooks/masertData-hook';
+import { useUpdatemasterData } from '../../hooks/masertData-hook';
 import { getUpdateValidateyup } from '../../helper/constants/master-constants';
 import MasterService from '../../service/masterData-service';
 import * as Yup from 'yup';
@@ -28,7 +28,7 @@ const MasterDataEditForm: React.FC = (props: any) => {
     };
     fetchOne();
   }, []);
-  const { mutate: updateMasterData } = updatemasertData();
+  const { mutate: updateMasterData } = useUpdatemasterData();
 
   const formik = useFormik({
     initialValues,

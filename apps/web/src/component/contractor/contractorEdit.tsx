@@ -8,16 +8,17 @@ import { useNavigate } from 'react-router';
 import CustomSnackBar from '../ui/customSnackBar';
 import TextArea from '../ui/CustomTextArea';
 import { editCreateValidateyup } from '../../helper/constants/site-constants';
-import { updateSite, getBySiteId } from '../../hooks/site-hooks';
+import { useUpdateSite, useGetBySiteId } from '../../hooks/site-hooks';
 import { useParams } from 'react-router-dom';
 import ProjectSubheader from '../project/projectSubheader';
 
+/* Function for contractor Edit */
 const ContractorForm = () => {
   const routeParams = useParams();
-  const { data: getOneSiteData, isLoading } = getBySiteId(
+  const { data: getOneSiteData, isLoading } = useGetBySiteId(
     Number(routeParams?.id)
   );
-  const { mutate: updateNewSite } = updateSite();
+  const { mutate: updateNewSite } = useUpdateSite();
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const navigate = useNavigate();
@@ -59,6 +60,8 @@ const ContractorForm = () => {
   };
 
   const validationSchema = editCreateValidateyup(Yup);
+
+  /* Function to update contractor data */
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -170,9 +173,7 @@ const ContractorForm = () => {
                 rows={4}
                 mandatory={true}
                 maxCharacterCount={100}
-                error={
-                  formik.touched.description && formik.errors.description
-                }
+                error={formik.touched.description && formik.errors.description}
               />
             </div>
           </div>

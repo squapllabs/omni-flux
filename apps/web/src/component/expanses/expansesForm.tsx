@@ -6,12 +6,12 @@ import DatePicker from '../ui/CustomDatePicker';
 import Button from '../ui/Button';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import { useFormik } from 'formik';
-import { getBymasertDataType } from '../../hooks/masertData-hook';
+import { useGetBymasertDataType } from '../../hooks/masertData-hook';
 import PopupExpense from './popupExpanse';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import {
-  createsiteExpense,
-  updatesiteExpense,
+  useCreatesiteExpense,
+  useUpdatesiteExpense,
 } from '../../hooks/siteExpanse-hooks';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
@@ -77,14 +77,14 @@ const ExpansesForm = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-  const { data: getAllDiscription } = getBymasertDataType('SEDT');
-  const { data: getAllSiteDepartment } = getBymasertDataType('SITD');
-  const { data: getAllpurpose } = getBymasertDataType('SITP');
-  const { data: getAlldesignation } = getBymasertDataType('SITDG');
+  const { data: getAllDiscription } = useGetBymasertDataType('SEDT');
+  const { data: getAllSiteDepartment } = useGetBymasertDataType('SITD');
+  const { data: getAllpurpose } = useGetBymasertDataType('SITP');
+  const { data: getAlldesignation } = useGetBymasertDataType('SITDG');
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
-    createsiteExpense();
+    useCreatesiteExpense();
   const { mutate: updateSiteExpenseData, isLoading: updateLoader } =
-    updatesiteExpense();
+    useUpdatesiteExpense();
 
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
@@ -368,7 +368,9 @@ const ExpansesForm = () => {
               justify="center"
               color="primary"
               icon={<KeyboardBackspaceIcon />}
-              onClick={() => {navigate('/settings')}}
+              onClick={() => {
+                navigate('/settings');
+              }}
             >
               Back
             </Button>

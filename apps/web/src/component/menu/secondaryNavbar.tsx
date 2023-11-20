@@ -104,7 +104,7 @@ const SecondaryNavbar = () => {
                   More <DropdownIcon color="#1B92EB" />
                 </div>
               }
-              onClick={() => {}}
+              // onClick={() => {}}
               backgroundColor="white"
               textColor="black"
               style={{ border: '1px solid grey' }}
@@ -119,7 +119,7 @@ const SecondaryNavbar = () => {
             }
             width="30%"
             fontSize={16}
-            onClick={() => {}}
+            // onClick={() => {}}
           />
           <div className={Styles.toggleButton}>
             <ToggleSwitch onChange={handleToggleSwitch} />

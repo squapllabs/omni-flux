@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 import expenseRecallService from '../service/expense-recall-service';
 
-const createExpenseRecall = () => {
+const useCreateExpenseRecall = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -15,4 +15,4 @@ const createExpenseRecall = () => {
   );
 };
 
-export { createExpenseRecall };
+export { useCreateExpenseRecall };

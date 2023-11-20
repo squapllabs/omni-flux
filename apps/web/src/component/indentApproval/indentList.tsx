@@ -3,8 +3,8 @@ import Styles from '../../styles/indentList.module.scss';
 import Button from '../ui/Button';
 import Select from '../ui/selectNew';
 import {
-  getAllIndentbyUserRole,
-  getByUserRoleIndent,
+  useGetAllIndentbyUserRole,
+  useGetByUserRoleIndent,
 } from '../../hooks/indent-approval-hooks';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
@@ -13,7 +13,7 @@ import CustomLoader from '../ui/customLoader';
 import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router';
-import { getBymasertDataTypeDrop } from '../../hooks/masertData-hook';
+import { useGetBymasertDataTypeDrop } from '../../hooks/masertData-hook';
 import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/pdfReport/invoice';
 import CustomPagination from '../menu/CustomPagination';
@@ -47,16 +47,15 @@ const IndentList = () => {
     priority: selectedValueType,
     indent_request_code: filterValues?.search_by_code,
   };
+  /* Function to get all indent data */
   const {
     data: getIndentData,
     isLoading: FilterLoading,
     refetch,
-  } = getAllIndentbyUserRole(userData);
-  // console.log('userData', userData);
-  // console.log('getIndentData', getIndentData);
+  } = useGetAllIndentbyUserRole(userData);
 
   const { data: getPriorityType = [], isLoading: dropLoading } =
-    getBymasertDataTypeDrop('PRTYPE');
+    useGetBymasertDataTypeDrop('PRTYPE');
 
   const SampleOption: any = [
     { label: 'Low', value: 'Low' },
@@ -68,36 +67,12 @@ const IndentList = () => {
     { label: 'Approved', value: 'Approved' },
     { label: 'Rejected', value: 'Rejected' },
   ]);
-
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
-  const handleReset = async () => {
-    setIsResetDisabled(true);
-    setSelectedValueType('');
-    setActiveButton('Pending');
-    refetch();
-    // const userData: any = {
-    //   limit: rowsPerPage,
-    //   offset: (currentPage - 1) * rowsPerPage,
-    //   order_by_column: 'updated_date',
-    //   order_by_direction: 'desc',
-    //   status: 'AC',
-    //   approver_status: 'Pending',
-    //   project_approver_id: userID,
-    //   priority: '',
-    // };
-    // postDataForFilter(userData);
-  };
-  /* Function for searching a user in the table */
-  const handleSearch = async () => {
-    refetch();
-  };
-
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
@@ -119,7 +94,6 @@ const IndentList = () => {
     };
     ReportGenerator(data);
   };
-
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton, selectedValueType]);
@@ -129,9 +103,9 @@ const IndentList = () => {
     }, 1000);
     return () => clearTimeout(handlefilter);
   }, [filterValues]);
-
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
+
   return (
     <div className={Styles.container}>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
@@ -141,12 +115,6 @@ const IndentList = () => {
             navigation={`/home`}
             title={'Indent List'}
           />
-          {/* <div className={Styles.textContent}>
-            <h3>Indent List</h3>
-            <span className={Styles.content}>
-              Indent list based on projects.
-            </span>
-          </div> */}
           <div className={Styles.searchField}>
             <div className={Styles.inputFilter}>
               <div>
@@ -155,9 +123,6 @@ const IndentList = () => {
                   label="Project Type"
                   name="project_type"
                   onChange={handleDropdownChangePriorityType}
-                  // onChange={()=>{
-                  //   setSelectedValueType()
-                  // }}
                   value={selectedValueType}
                   defaultLabel="Select from options"
                   placeholder="Select from priority"
@@ -179,32 +144,13 @@ const IndentList = () => {
                   onChange={(e) => {
                     setFilterValues({
                       ...filterValues,
-                      ['search_by_code']: e.target.value,
+                      search_by_code: e.target.value,
                     });
                     setCurrentPage(1);
                   }}
                   placeholder="Search"
                 />
               </div>
-              {/* <Button
-                className={Styles.searchButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                onClick={handleSearch}
-              >
-                Search
-              </Button>
-              <Button
-                className={Styles.resetButton}
-                shape="rectangle"
-                justify="center"
-                size="small"
-                disabled={isResetDisabled}
-                onClick={handleReset}
-              >
-                Reset
-              </Button> */}
             </div>
             <div>
               <CustomGroupButton
@@ -254,7 +200,7 @@ const IndentList = () => {
                         {data?.requester_user_data?.first_name +
                           ' ' +
                           data?.requester_user_data?.last_name}
-                      </td> 
+                      </td>
                       <td>{data?.priority}</td>
                       <td>
                         {format(
@@ -281,9 +227,6 @@ const IndentList = () => {
                               )
                             }
                           />
-                          {/* <PdfDownloadIcon
-                            onClick={() => handleReportGenerator()}
-                          /> */}
                         </div>
                       </td>
                     </tr>

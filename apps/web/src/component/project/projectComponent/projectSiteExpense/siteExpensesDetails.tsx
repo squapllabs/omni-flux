@@ -1,8 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Styles from '../../../../styles/newStyles/projectSiteExpense.module.scss';
 import Input from '../../../ui/Input';
-import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
-import { getBymasertDataTypeDrop } from '../../../../hooks/masertData-hook';
+import { useGetBymasertDataTypeDrop } from '../../../../hooks/masertData-hook';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import DeleteIcon from '../../../menu/icons/newDeleteIcon';
@@ -12,9 +11,7 @@ import FileUploadIcon from '../../../menu/icons/fileUploadIcon';
 import userService from '../../../../service/user-service';
 import Popup from '../../../ui/CustomPdfPopup';
 import SiteExpensesView from './siteExpensesView';
-import ViewIcon from '../../../menu/icons/newViewIcon';
 import CloseIcon from '../../../menu/icons/closeIcon';
-import CloudUploadIcon from '../../../menu/icons/cloudUpload';
 import Select from '../../../ui/selectNew';
 
 const SiteExpensesDetails: React.FC = (props: any) => {
@@ -44,9 +41,9 @@ const SiteExpensesDetails: React.FC = (props: any) => {
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [display, setDisplay] = useState(props.mode === 'Add' ? true : false);
+  // const [display, setDisplay] = useState(props.mode === 'Add' ? true : false);
   const [fileMandatoryError, setFileMandatoryError] = useState('');
-  const { data: getSiteExpense } = getBymasertDataTypeDrop('SIEP');
+  const { data: getSiteExpense } = useGetBymasertDataTypeDrop('SIEP');
   const [expenseIndex, setExpenseIndex] = useState<any>();
   const [screenSize, setScreenSize] = useState(getCurrentDimension());
   const handleCloseDelete = () => {
@@ -64,28 +61,22 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     const updateDimension = () => {
       setScreenSize(getCurrentDimension());
     };
-    window.addEventListener("resize", updateDimension);
+    window.addEventListener('resize', updateDimension);
 
     return () => {
-      window.removeEventListener("resize", updateDimension);
+      window.removeEventListener('resize', updateDimension);
     };
   }, [screenSize]);
 
-
   useEffect(() => {
-    if (props?.mode != 'Edit' && props.expenseList.length === 0) {
+    if (props?.mode !== 'Edit' && props.expenseList.length === 0) {
       props.setExpenseList([...props.expenseList, initialValues]);
     }
   }, [props?.mode]);
 
   const deleteSiteExpense = (e: any, values: any) => {
-    // const itemIndex = props.expenseList.findIndex(
-    //   (item: any) =>
-    //     item.expense_data_id === ExpenseValue?.expense_data_id &&
-    //     item.is_delete === ExpenseValue?.is_delete
-    // );
-    if (props.expenseList[expenseIndex].expense_details_id != null) {
-      if (props.expenseList[expenseIndex].bill_details != '') {
+    if (props.expenseList[expenseIndex].expense_details_id !== null) {
+      if (props.expenseList[expenseIndex].bill_details !== '') {
         props.expenseList[expenseIndex] = {
           ...props.expenseList[expenseIndex],
           is_delete: true,
@@ -152,7 +143,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         site_expense_name: matchingObjects[0].label,
       };
 
-      let tempArry = [...props.expenseList];
+      const tempArry = [...props.expenseList];
       tempArry[index] = tempObj;
       props.setExpenseList(tempArry);
     } else {
@@ -161,7 +152,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         [event.target.name]: event.target.value,
       };
     }
-    let tempArry = [...props.expenseList];
+    const tempArry = [...props.expenseList];
     tempArry[index] = tempObj;
     props.setExpenseList(tempArry);
   };
@@ -170,7 +161,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values, { resetForm }) => {
-      if (values.bill_number != '' && selectedFiles.length === 0) {
+      if (values.bill_number !== '' && selectedFiles.length === 0) {
         props.setMessage('Bill number is given but bill is not attached');
         props.setOpenSnack(true);
       } else {
@@ -271,12 +262,12 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       } else {
         const selectedFilesArray: File[] = [];
         const selectedFileNamesArray: string[] = [];
-        let arr: any = [];
+        const arr: any = [];
         fileList.forEach(async (file) => {
           const code = 'SITEEXPENSE' + props.siteId;
           const response = await userService.documentUpload(file, code);
 
-          let obj = {
+          const obj = {
             ...response?.data[0],
             is_delete: 'N',
           };
@@ -289,7 +280,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         tempObj = {
           ...props.expenseList[expenseIndex],
         };
-        let tempArry = [...props.expenseList];
+        const tempArry = [...props.expenseList];
         tempArry[expenseIndex] = tempObj;
         props.setExpenseList(tempArry);
         setSelectedFiles(selectedFilesArray);
@@ -325,7 +316,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     tempObj = {
       ...props.expenseList[index],
     };
-    let tempArry = [...props.expenseList];
+    const tempArry = [...props.expenseList];
     tempArry[index] = tempObj;
     props.setExpenseList(tempArry);
   };
@@ -345,7 +336,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
             'description-availability',
             '',
             async function (value, { parent }: Yup.TestContext) {
-              let bill_type = parent.bill_type;
+              const bill_type = parent.bill_type;
               if (bill_type === 'VOUCHER' && value > 5000) {
                 props.setMessage(
                   'In bill type voucher amount should not be more then 50000'
@@ -366,7 +357,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
             'description-availability',
             'Site Expense is already present',
             async function (value, { parent }: Yup.TestContext) {
-              let bill_details = parent.bill_details;
+              const bill_details = parent.bill_details;
               if (
                 bill_details?.length < 0 &&
                 bill_details[0]?.is_delete === 'Y'
@@ -393,7 +384,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         props.setExpenseList([...props.expenseList, initialValues]);
       })
       .catch((e: any) => {
-        let errorObj = {};
+        const errorObj = {};
         e.inner?.map((error: any) => {
           return (errorObj[error.path] = error.message);
         });
@@ -428,8 +419,8 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                 {props.expenseList?.map((item: any, index: any) => {
                   if (item.is_delete === false) {
                     rowIndex = rowIndex + 1;
-                    const customQuotationName = generateCustomQuotationName(item);
-                    console.log('props.expenseList==>', props.expenseList);
+                    const customQuotationName =
+                      generateCustomQuotationName(item);
                     return (
                       <tr>
                         <td>{rowIndex}</td>
@@ -443,8 +434,8 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                               props.errors?.[`[${index}].description`]
                                 ? true
                                 : props.errors?.[`[${index}].bill_details`]
-                                  ? true
-                                  : false
+                                ? true
+                                : false
                             }
                           />
                         </td>
@@ -461,8 +452,8 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                               props.errors?.[`[${index}].expense_data_id`]
                                 ? true
                                 : props.errors?.[`[${index}].bill_details`]
-                                  ? true
-                                  : false
+                                ? true
+                                : false
                             }
                           >
                             {getSiteExpense?.map((item: any, index: any) => {
@@ -484,13 +475,13 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                               props.errors?.[`[${index}].bill_type`]
                                 ? true
                                 : props.errors?.[`[${index}].bill_details`]
-                                  ? true
-                                  : false
+                                ? true
+                                : false
                             }
                           >
                             {options?.map((item, index) => {
                               return (
-                                  <option value={item.value} >{item.label}</option>
+                                <option value={item.value}>{item.label}</option>
                               );
                             })}
                           </Select>
@@ -518,14 +509,14 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                               props.errors?.[`[${index}].total`]
                                 ? true
                                 : props.errors?.[`[${index}].bill_details`]
-                                  ? true
-                                  : false
+                                ? true
+                                : false
                             }
                           />
                         </td>
                         <td>
                           {item.bill_details?.length > 0 &&
-                            item.bill_details[0].is_delete === 'N' ? (
+                          item.bill_details[0].is_delete === 'N' ? (
                             item.bill_details.map(
                               (document: any, billIndex: number) => {
                                 if (document.is_delete === 'N')
@@ -565,7 +556,9 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                                   name="upload_photo"
                                   type="file"
                                   style={{ display: 'none' }}
-                                  onChange={(e) => handleFileSelectRow(e, index)}
+                                  onChange={(e) =>
+                                    handleFileSelectRow(e, index)
+                                  }
                                   error={
                                     formik.touched.bill_number &&
                                     formik.errors.bill_number
@@ -614,11 +607,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
             </table>
           </div>
           <div className={Styles.addDataIcon}>
-            {/* <div onClick={formik.handleSubmit} className={Styles.iconContent}>
-            <NewAddCircleIcon />
-            <span>Add Claim</span>
-          </div> */}
-
             <div
               onClick={() => {
                 handleAddObject();
@@ -642,9 +630,12 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                   {props.expenseList?.map((item: any, index: any) => {
                     if (item.is_delete === false) {
                       rowIndex = rowIndex + 1;
-                      const customQuotationName = generateCustomQuotationName(item);
+                      const customQuotationName =
+                        generateCustomQuotationName(item);
                       return (
-                        <tr style={{ display: 'flex', flexDirection: 'column' }}>
+                        <tr
+                          style={{ display: 'flex', flexDirection: 'column' }}
+                        >
                           <div className={Styles.tableBody}>
                             <div>
                               <Input
@@ -658,8 +649,8 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                                   props.errors?.[`[${index}].description`]
                                     ? true
                                     : props.errors?.[`[${index}].bill_details`]
-                                      ? true
-                                      : false
+                                    ? true
+                                    : false
                                 }
                               />
                             </div>
@@ -677,15 +668,19 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                                   props.errors?.[`[${index}].expense_data_id`]
                                     ? true
                                     : props.errors?.[`[${index}].bill_details`]
-                                      ? true
-                                      : false
+                                    ? true
+                                    : false
                                 }
                               >
-                                {getSiteExpense?.map((item: any, index: any) => {
-                                  return (
-                                    <option value={item.value}>{item.label}</option>
-                                  );
-                                })}
+                                {getSiteExpense?.map(
+                                  (item: any, index: any) => {
+                                    return (
+                                      <option value={item.value}>
+                                        {item.label}
+                                      </option>
+                                    );
+                                  }
+                                )}
                               </Select>
                             </div>
                             <div>
@@ -702,13 +697,15 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                                   props.errors?.[`[${index}].bill_type`]
                                     ? true
                                     : props.errors?.[`[${index}].bill_details`]
-                                      ? true
-                                      : false
+                                    ? true
+                                    : false
                                 }
                               >
                                 {options?.map((item, index) => {
                                   return (
-                                    <option value={item.value}>{item.label}</option>
+                                    <option value={item.value}>
+                                      {item.label}
+                                    </option>
                                   );
                                 })}
                               </Select>
@@ -740,14 +737,14 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                                   props.errors?.[`[${index}].total`]
                                     ? true
                                     : props.errors?.[`[${index}].bill_details`]
-                                      ? true
-                                      : false
+                                    ? true
+                                    : false
                                 }
                               />
                             </div>
                             <div>
                               {item.bill_details?.length > 0 &&
-                                item.bill_details[0].is_delete === 'N' ? (
+                              item.bill_details[0].is_delete === 'N' ? (
                                 item.bill_details.map(
                                   (document: any, billIndex: number) => {
                                     if (document.is_delete === 'N')
@@ -772,7 +769,9 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                                           <CloseIcon
                                             width={5}
                                             height={10}
-                                            onClick={() => deleteFileinList(index)}
+                                            onClick={() =>
+                                              deleteFileinList(index)
+                                            }
                                           />
                                         </div>
                                       );
@@ -782,7 +781,8 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                                 <div>
                                   <div title="Attach document">
                                     <div style={{ paddingBottom: '10px' }}>
-                                      <label>Document</label> <span style={{ color: 'red' }}>*</span>
+                                      <label>Document</label>{' '}
+                                      <span style={{ color: 'red' }}>*</span>
                                     </div>
                                     <input
                                       ref={fileInputRef_2}
@@ -790,7 +790,9 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                                       name="upload_photo"
                                       type="file"
                                       style={{ display: 'none' }}
-                                      onChange={(e) => handleFileSelectRow(e, index)}
+                                      onChange={(e) =>
+                                        handleFileSelectRow(e, index)
+                                      }
                                       error={
                                         formik.touched.bill_number &&
                                         formik.errors.bill_number
@@ -817,20 +819,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
                                 </div>
                               )}
                             </div>
-                            {/* <td>
-                            <div className={Styles.buttons}>
-                              <div
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                  setExpenseValue(item);
-                                  setOpenDelete(true);
-                                  setExpenseIndex(index);
-                                }}
-                              >
-                                <DeleteIcon />
-                              </div>
-                            </div>
-                          </td> */}
                           </div>
                         </tr>
                       );
@@ -851,7 +839,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         handleConfirm={deleteSiteExpense}
       />
       <Popup
-        // title="Pdf Viewer"
         openPopup={openPdfpopup}
         setOpenPopup={setOpenPdfpopup}
         content={

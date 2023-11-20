@@ -3,7 +3,7 @@ import Styles from '../../styles/user.module.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { getUsercreationYupschema } from '../../helper/constants/user-constants';
-import { createUser } from '../../hooks/user-hooks';
+import { useCreateUser } from '../../hooks/user-hooks';
 import { useGetAllRole } from '../../hooks/userRole-hooks';
 import { useNavigate } from 'react-router';
 import Input from '../ui/Input';
@@ -18,7 +18,6 @@ import ProjectSubheader from '../project/projectSubheader';
 import DatePicker from '../ui/CustomDatePicker';
 import CloseIcon from '../menu/icons/closeIcon';
 
-
 const validationSchema = getUsercreationYupschema(Yup);
 const UserCreate = () => {
   const navigate = useNavigate();
@@ -26,7 +25,6 @@ const UserCreate = () => {
   const [isWarning, setIsWarning] = useState(false);
   const [message, setMessage] = useState('');
   const [passwordShown, setPasswordShown] = useState(false);
-  const [selectedValue, setSelectedValue] = useState('');
   const [selectedGenderValue, setSelectedGenderValue] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [userImage, setUserImage] = useState();
@@ -61,7 +59,7 @@ const UserCreate = () => {
     setPasswordShown(!passwordShown);
   };
 
-  const { mutate: createNewusers } = createUser();
+  const { mutate: createNewusers } = useCreateUser();
   const { data: getAllRoles = [] } = useGetAllRole();
 
   const options = [
@@ -262,24 +260,16 @@ const UserCreate = () => {
             <div className={Styles.fieldsOne}>
               <div className={Styles.dateArea}>
                 <span className={Styles.projectHeading}>Date of Birth</span>
-                {/* <div className={Styles.dateField}>
-                  <input
-                    type="date"
-                    placeholder="Date of Birth"
-                    name="date_of_birth"
-                    onChange={formik.handleChange}
-                    value={formik.values.date_of_birth}
-                    className={Styles.datePicker}
-                    error={formik.touched.date_of_birth && formik.errors.date_of_birth}
-                  />
-                </div> */}
                 <div className={Styles.dateField}>
-                <DatePicker
+                  <DatePicker
                     name="date_of_birth"
                     onChange={formik.handleChange}
                     value={formik.values.date_of_birth}
                     className={Styles.datePicker}
-                    error={formik.touched.date_of_birth && formik.errors.date_of_birth}
+                    error={
+                      formik.touched.date_of_birth &&
+                      formik.errors.date_of_birth
+                    }
                   />
                 </div>
               </div>
@@ -291,7 +281,8 @@ const UserCreate = () => {
                   value={formik.values.address.street}
                   onChange={formik.handleChange}
                   error={
-                    formik.touched.address?.street && formik.errors.address?.street
+                    formik.touched.address?.street &&
+                    formik.errors.address?.street
                   }
                 />
               </div>
@@ -315,7 +306,8 @@ const UserCreate = () => {
                   value={formik.values.address.state}
                   onChange={formik.handleChange}
                   error={
-                    formik.touched.address?.state && formik.errors.address?.state
+                    formik.touched.address?.state &&
+                    formik.errors.address?.state
                   }
                 />
               </div>
@@ -362,11 +354,11 @@ const UserCreate = () => {
                         <CloseIcon onClick={handleRemoveFile} />
                       </button>
                     </span>
-                  ): ('')}
+                  ) : (
+                    ''
+                  )}
                   <label htmlFor="upload-photo">
-                    {!userImage ? (
-                      <AddIcon /> 
-                    ): ('')}
+                    {!userImage ? <AddIcon /> : ''}
                     Upload Image
                   </label>
                   <input

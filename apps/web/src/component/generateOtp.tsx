@@ -3,7 +3,7 @@ import Styles from '../styles/generateOtp.module.scss';
 import CustomCard from './ui/CustomCard';
 import Input from './ui/Input';
 import Button from './ui/Button';
-import { verifyOTP } from '../hooks/auth-hooks';
+import { useVerifyOTP } from '../hooks/auth-hooks';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router';
 import { getValidateOTPYupSchema } from '../helper/constants/user-constants';
@@ -13,7 +13,7 @@ const GenerateOtp = (props: any) => {
   const [message, setMessage] = React.useState('');
   const location = useLocation();
   const email = location.state?.email;
-  const { mutate: otpData } = verifyOTP();
+  const { mutate: otpData } = useVerifyOTP();
   const navigate = useNavigate();
   const errorObject: any = {};
   const valueObject: any = {
