@@ -15,22 +15,22 @@ pipeline {
             }
 		}
 
-     stage('SonarQube Analysis') { 
-         def scannerHome = tool 'erpsonarqupe'
-           withSonarQubeEnv('ErpSonarqupe') {
-           sh """/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/erpsonarqupe/bin/sonar-scanner \
-          -D sonar.projectVersion=1.0-SNAPSHOT \
-            -D sonar.login=admin \
-           -D sonar.password=A@lam@159753 \
-           -D sonar.projectBaseDir=/var/lib/jenkins/workspace/ERP / \
-             -D sonar.projectkey=my-app \
-             -D sonar.sourceEncoding=UTF-8
-             -D sonar.lanuage=java \
-             -D sonar.sources=project/src/main \
-             -D sonar.tects=project/src/test \
-             -D sonar.host.url=http://192.168.2.29:9000/"""
-              }
-           }
+stage('SonarQube Analysis') { 
+    def scannerHome = tool 'erpsonarqupe'
+      withSonarQubeEnv('ErpSonarqupe') {
+      sh """/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/erpsonarqupe/bin/sonar-scanner \
+     -D sonar.projectVersion=1.0-SNAPSHOT \
+       -D sonar.login=admin \
+       -D sonar.password=A@lam@159753 \
+       -D sonar.projectBaseDir=/var/lib/jenkins/workspace/ERP / \
+       -D sonar.projectkey=my-app \
+       -D sonar.sourceEncoding=UTF-8
+       -D sonar.lanuage=java \
+       -D sonar.sources=project/src/main \
+       -D sonar.tects=project/src/test \
+       -D sonar.host.url=http://192.168.2.29:9000/"""
+        }
+      }
    }
 }
 
