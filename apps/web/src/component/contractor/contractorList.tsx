@@ -124,7 +124,7 @@ const ContractorList = () => {
                       onChange={(e) => {
                         setFilterValues({
                           ...filterValues,
-                          ['search_by_name']: e.target.value,
+                          'search_by_name': e.target.value,
                         });
                         setCurrentPage(1)
                       }}

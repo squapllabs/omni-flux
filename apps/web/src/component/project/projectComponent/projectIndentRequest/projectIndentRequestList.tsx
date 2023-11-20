@@ -76,7 +76,7 @@ const ProjectIndentRequestList = () => {
   };
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
-    setFilterValues({ ...filterValues, ['approver_status']: value });
+    setFilterValues({ ...filterValues, 'approver_status': value });
   };
   /* Function for changing no of rows in pagination */
   const handleRowsPerPageChange = (
@@ -146,7 +146,7 @@ const ProjectIndentRequestList = () => {
                     onChange={(e) => {
                       setFilterValues({
                         ...filterValues,
-                        ['search_by_code']: e.target.value,
+                        'search_by_code': e.target.value,
                       });
                       setCurrentPage(1);
                     }}

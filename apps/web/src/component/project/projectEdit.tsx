@@ -772,7 +772,7 @@ const ProjectEdit = () => {
                                   onSelect={(value) => {
                                     setValue({
                                       ...siteConfigData,
-                                      ['site_id']: Number(value),
+                                      'site_id': Number(value),
                                     });
                                   }}
                                   optionList={getAllSite}
@@ -871,7 +871,7 @@ const ProjectEdit = () => {
                                 onSelect={(value) => {
                                   setValue({
                                     ...siteConfigData,
-                                    ['approvar_id']: Number(value),
+                                    'approvar_id': Number(value),
                                   });
                                 }}
                                 onChange={(e) =>
@@ -1022,7 +1022,7 @@ const ProjectEdit = () => {
                               placeholder="Select from options"
                               value={value.approvar_id}
                               onSelect={(datas) => {
-                                setValue({ ...value, ['approvar_id']: datas });
+                                setValue({ ...value, 'approvar_id': datas });
                               }}
                               optionList={getAllUsersDatadrop}
                               error={errors?.approvar_id}

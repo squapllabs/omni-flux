@@ -294,7 +294,7 @@ const ExpenseApprove = () => {
                   optionList={dropLoading === true ? [] : getProjectList}
                   value={filterValue.project_id}
                   onSelect={(value) => {
-                    setFilterValue({ ['project_id']: value });
+                    setFilterValue({ 'project_id': value });
                     fetchProjectSiteData(value);
                     fetchMemberData(value);
                     setCurrentPage(1);

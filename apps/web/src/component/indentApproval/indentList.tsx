@@ -177,7 +177,7 @@ const IndentList = () => {
                   onChange={(e) => {
                     setFilterValues({
                       ...filterValues,
-                      ['search_by_code']: e.target.value,
+                      'search_by_code': e.target.value,
                     });
                     setCurrentPage(1);
                   }}

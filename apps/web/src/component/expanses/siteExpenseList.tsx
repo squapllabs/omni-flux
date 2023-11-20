@@ -117,7 +117,7 @@ const SiteExpenseList = () => {
                   optionList={getSiteList}
                   value={filterValue.site_id}
                   onSelect={(value) => {
-                    setFilterValue({ ...filterValue, ['site_id']: value });
+                    setFilterValue({ ...filterValue, 'site_id': value });
                   }}
                 />
               </div>

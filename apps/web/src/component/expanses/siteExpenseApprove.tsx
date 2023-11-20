@@ -267,7 +267,7 @@ const ExpenseApprove = () => {
                   optionList={getProjectList}
                   value={filterValue.project_id}
                   onSelect={(value) => {
-                    setFilterValue({ ...filterValue, ['project_id']: value });
+                    setFilterValue({ ...filterValue, 'project_id': value });
                   }}
                 />
               </div>

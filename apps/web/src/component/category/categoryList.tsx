@@ -64,7 +64,7 @@ const CategoryList = () => {
     const searchValue = event.target.value;
     setFilterValues({
       ...filterValues,
-      ['search_by_name']: event.target.value,
+      'search_by_name': event.target.value,
     });
     setIsResetDisabled(searchValue === '');
     if (searchValue === '') {
