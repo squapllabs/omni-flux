@@ -12,11 +12,11 @@ import {
   getUpdateValidateyup,
 } from '../../helper/constants/category/subcategory-constants';
 import {
-  createSubcategory,
-  updateSubcategory,
+  useCreateSubcategory,
+  useUpdateSubcategory,
 } from '../../hooks/subCategory-hooks';
 import { useGetAllCategoryForDrop } from '../../hooks/category-hooks';
-import Select from '../ui/selectNew';
+// import Select from '../ui/selectNew';
 import Styles from '../../styles/categoryForm.module.scss';
 import SubcategoryService from '../../service/subCategory-service';
 import { formatBudgetValue } from '../../helper/common-function';
@@ -25,8 +25,8 @@ import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 
 const SubCategoryAdd = () => {
   const { data: getAllCategoryDrop = [] } = useGetAllCategoryForDrop();
-  const { mutate: createNewSubcategory } = createSubcategory();
-  const { mutate: updateOneSubcategory } = updateSubcategory();
+  const { mutate: createNewSubcategory } = useCreateSubcategory();
+  const { mutate: updateOneSubcategory } = useUpdateSubcategory();
   const routeParams = useParams();
 
   const validationSchema =
@@ -53,23 +53,23 @@ const SubCategoryAdd = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    if(Number(routeParams?.id)) {
-    const fetchOne = async () => {
-      const data = await SubcategoryService.getOneSubcategoryByID(
-        Number(routeParams?.id)
-      );
-      setInitialValues({
-        sub_category_id: data?.data?.sub_category_id,
-        name: data?.data?.name,
-        budget: data?.data?.budget,
-        description: data?.data?.description,
-        category_id: data?.data?.category_id,
-      });
-      const budgetData = formatBudgetValue(Number(data?.data?.budget))
-      setAppendedValue(budgetData)
-    };
-    fetchOne();
-  }
+    if (Number(routeParams?.id)) {
+      const fetchOne = async () => {
+        const data = await SubcategoryService.getOneSubcategoryByID(
+          Number(routeParams?.id)
+        );
+        setInitialValues({
+          sub_category_id: data?.data?.sub_category_id,
+          name: data?.data?.name,
+          budget: data?.data?.budget,
+          description: data?.data?.description,
+          category_id: data?.data?.category_id,
+        });
+        const budgetData = formatBudgetValue(Number(data?.data?.budget));
+        setAppendedValue(budgetData);
+      };
+      fetchOne();
+    }
   }, [routeParams?.id]);
 
   const formik = useFormik({
@@ -90,7 +90,9 @@ const SubCategoryAdd = () => {
             if (data?.success === true) {
               setMessage('Sub Category Edited');
               setOpenSnack(true);
-              setTimeout(() => {navigate('/settings')},1000);
+              setTimeout(() => {
+                navigate('/settings');
+              }, 1000);
             }
           },
         });
@@ -106,8 +108,9 @@ const SubCategoryAdd = () => {
             if (data?.success === true) {
               setMessage('Sub category created');
               setOpenSnack(true);
-              setTimeout(() => {navigate('/settings')},1000);
-              
+              setTimeout(() => {
+                navigate('/settings');
+              }, 1000);
             }
           },
         });
@@ -138,22 +141,22 @@ const SubCategoryAdd = () => {
       <div className={Styles.form}>
         <form onSubmit={formik.handleSubmit}>
           <div className={Styles.formFields}>
-          <div className={Styles.fieldRow}>
-            <div>
-              <Input
-                name="name"
-                label="Sub Category Name"
-                placeholder="Enter sub category name"
-                value={formik.values.name}
-                mandatory={true}
-                onChange={formik.handleChange}
-                error={formik.touched.name && formik.errors.name}
-                width="250px"
-                disabled={disable}
-              />
-            </div>
-            <div>
-              <AutoCompleteSelect
+            <div className={Styles.fieldRow}>
+              <div>
+                <Input
+                  name="name"
+                  label="Sub Category Name"
+                  placeholder="Enter sub category name"
+                  value={formik.values.name}
+                  mandatory={true}
+                  onChange={formik.handleChange}
+                  error={formik.touched.name && formik.errors.name}
+                  width="250px"
+                  disabled={disable}
+                />
+              </div>
+              <div>
+                <AutoCompleteSelect
                   width="250px"
                   name="category_id"
                   label="Sub Category"
@@ -163,13 +166,15 @@ const SubCategoryAdd = () => {
                   value={formik.values.category_id}
                   onChange={formik.handleChange}
                   disabled={disable}
-                  error={formik.touched.category_id && formik.errors.category_id}
+                  error={
+                    formik.touched.category_id && formik.errors.category_id
+                  }
                   onSelect={(value) => {
                     formik.setFieldValue('category_id', value);
                   }}
                   optionList={getAllCategoryDrop}
                 />
-            </div>
+              </div>
             </div>
             <div className={Styles.fieldRow}>
               <div>
@@ -211,7 +216,7 @@ const SubCategoryAdd = () => {
             </div>
             <div className={Styles.buttonFields}>
               <div>
-              <Button
+                <Button
                   color="secondary"
                   shape="rectangle"
                   justify="center"

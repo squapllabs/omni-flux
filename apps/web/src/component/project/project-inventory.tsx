@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/projectInventory.module.scss';
 import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import { environment } from '../../environment/environment';
 import { formatBudgetValue } from '../../helper/common-function';
 import CustomLoader from '../ui/customLoader';
 import projectInventoryService from '../../service/projectInventory-service';
 import StoreIcon from '../menu/icons/newStoreIcon';
-
 
 const ProjectInventory = () => {
   const routeParams = useParams();
@@ -18,7 +16,7 @@ const ProjectInventory = () => {
   const [tableData, setTableData] = useState([]);
   const [dataLoading, setDataLoading] = useState(false);
 
-  const inventoryData = {
+  const inventoryData: any = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
     order_by_column: 'updated_date',
@@ -52,7 +50,6 @@ const ProjectInventory = () => {
   return (
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
-
         <div className={Styles.topHeading}>
           <div className={Styles.heading}>
             <div className={Styles.headingOne}>
@@ -102,7 +99,6 @@ const ProjectInventory = () => {
               </tbody>
             </table>
           </div>
-
         </div>
       </CustomLoader>
     </div>

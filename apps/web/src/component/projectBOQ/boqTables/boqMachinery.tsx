@@ -4,8 +4,8 @@ import AddIcon from '../../menu/icons/addIcon';
 import { useFormik } from 'formik';
 import DeleteIcon from '../../menu/icons/deleteIcon';
 import Button from '../../ui/Button';
-import { createBulkBom } from '../../../hooks/bom-hooks';
-import { useGetAllUomDrop, getUomByType } from '../../../hooks/uom-hooks';
+import { useCreateBulkBom } from '../../../hooks/bom-hooks';
+import { useGetAllUomDrop, useGetUomByType } from '../../../hooks/uom-hooks';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
 import { bomErrorMessages } from '../../../helper/constants/bom-constants';
@@ -35,7 +35,7 @@ const BomMachinery: React.FC = (props: any) => {
         'decimal-validation',
         'Already Exists',
         async function (value, { parent }: Yup.TestContext) {
-          let isDelete = parent.is_delete;
+          const isDelete = parent.is_delete;
           try {
             const isValuePresent = bomList.some((obj: any) => {
               return (
@@ -102,7 +102,7 @@ const BomMachinery: React.FC = (props: any) => {
     fetchData();
   }, [reload]);
   const { data: getAllMachineDrop } = useGetAllMachineryForDrop();
-  const { data: getAllUomDrop } = getUomByType('LABOR');
+  const { data: getAllUomDrop } = useGetUomByType('LABOR');
   const rawMaterialTotalCalulate = async () => {
     const sumOfRates = await bomList.reduce(
       (accumulator: any, currentItem: any) => {
@@ -151,7 +151,7 @@ const BomMachinery: React.FC = (props: any) => {
         [event.target.name]: event.target.value,
       };
     }
-    let tempArry = [...props.bomList];
+    const tempArry = [...props.bomList];
     tempArry[index] = tempObj;
     props.setBomList(tempArry);
     rawMaterialTotalCalulate();
@@ -181,7 +181,8 @@ const BomMachinery: React.FC = (props: any) => {
       Yup.object().shape({
         quantity: Yup.number()
           .required('Quantity is required')
-          .typeError('Numbers only allowed').min(1),
+          .typeError('Numbers only allowed')
+          .min(1),
         machinery_id: Yup.string()
           .trim()
           .nullable()
@@ -194,11 +195,11 @@ const BomMachinery: React.FC = (props: any) => {
                   const bOMType = parent.bom_type;
                   if (bOMType === 'MCNRY') {
                     // return true;
-                    let dummy: any = [];
+                    const dummy: any = [];
                     const allIds = props.bomList.map((item: any) => {
-                      if (item.is_delete === 'N') {
-                        item.machinery_id;
-                      }
+                      // if (item.is_delete === 'N') {
+                      //   item.machinery_id;
+                      // }
                       if (item.is_delete === false) {
                         dummy.push(item.machinery_id);
                       }
@@ -223,7 +224,8 @@ const BomMachinery: React.FC = (props: any) => {
         uom_id: Yup.string().trim().required('UOM is required'),
         rate: Yup.number()
           .required('Rate is required')
-          .typeError('Numbers only allowed').min(1),
+          .typeError('Numbers only allowed')
+          .min(1),
       })
     );
     await schema
@@ -314,7 +316,7 @@ const BomMachinery: React.FC = (props: any) => {
                             if (!value) {
                               tempObj.rate = '';
                             }
-                            let tempArry = [...props.bomList];
+                            const tempArry = [...props.bomList];
                             tempArry[index] = tempObj;
                             props.setBomList(tempArry);
                           }}

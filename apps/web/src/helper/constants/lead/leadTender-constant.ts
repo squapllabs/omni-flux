@@ -1,4 +1,4 @@
-import LeadEnquiresServices from 'apps/web/src/service/leadEnquires-services';
+import LeadEnquiresServices from '../../../service/leadEnquires-services';
 
 export const leadProductErrorMessages = {
   SELECT_CLIENT: 'Client is required',

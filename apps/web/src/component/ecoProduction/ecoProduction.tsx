@@ -48,7 +48,7 @@ const EcoProduction = () => {
       </div>
       <div className={Styles.container}>
         <div>
-          <img src="founder.jpeg" className={Styles.images} />
+          <img src="founder.jpeg" alt ="founder" className={Styles.images} />
         </div>
         <div className={Styles.overview}>
           <h2 className={Styles.heading2}>Overview</h2>

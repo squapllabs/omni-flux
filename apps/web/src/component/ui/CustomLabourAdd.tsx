@@ -4,12 +4,12 @@ import { useFormik } from 'formik';
 import Input from '../ui/Input';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import Button from '../ui/Button';
-import CustomSnackBar from '../ui/customSnackBar';
-import { useNavigate } from 'react-router-dom';
+// import CustomSnackBar from '../ui/customSnackBar';
+// import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
   useGetLabourUomForDrop,
-  createInstantLabour,
+  useCreateInstantLabour,
 } from '../../hooks/labour-hooks';
 import { getLabourCreationYupschema } from '../../helper/constants/labour-constants';
 
@@ -26,7 +26,7 @@ const InstantLabourAdd = (props: {
     uom_id: '',
     rate: '',
   });
-  const { mutate: createNewLabour } = createInstantLabour();
+  const { mutate: createNewLabour } = useCreateInstantLabour();
   const { data: getLaboursUom = [], isLoading: dropLoading } =
     useGetLabourUomForDrop();
   const validationSchema = getLabourCreationYupschema(Yup);

@@ -6,22 +6,26 @@ import categoryService from '../../service/category-service';
 import { formatBudgetValue } from '../../helper/common-function';
 import BomList from './projectBoqList';
 import ClipboardIcon from '../menu/icons/clipboardIcon';
-import { getByBOMDetails } from '../../hooks/category-hooks';
-const projectAbstract = () => {
+import { useGetByBOMDetails } from '../../hooks/category-hooks';
+
+const ProjectAbstract = () => {
   const navigate = useNavigate();
-  const routeParams = useParams();
-  const [overallAbstractValue ,setOverallAbstractValue] = useState<any>(0)
+  const routeparams = useParams();
+  // const [overallAbstractValue, setOverallAbstractValue] = useState<any>(0);
   // const [reload, setReload] = useState(false);
   const obj: any = {
-    projectId: Number(routeParams?.projectId),
-    boQId: Number(routeParams?.bomconfigId),
+    projectId: Number(routeparams?.projectId),
+    boQId: Number(routeparams?.bomconfigId),
   };
-  const { data: getBomData } = getByBOMDetails(obj);
+  const { data: getBomData } = useGetByBOMDetails({
+    projectId: Number(routeparams?.projectId),
+    boQId: Number(routeparams?.bomconfigId),
+  });
 
-const getOverallAbsctractValue = (data)=>{
-  setOverallAbstractValue(data)
-}
-  
+  // const getOverallAbsctractValue = (data) => {
+  //   setOverallAbstractValue(data);
+  // };
+
   return (
     <div>
       <div className={Styles.container}>
@@ -30,7 +34,7 @@ const getOverallAbsctractValue = (data)=>{
             <div
               className={Styles.logo}
               onClick={() => {
-                navigate(`/project-edit/${routeParams?.projectId}`);
+                navigate(`/project-edit/${routeparams?.projectId}`);
               }}
             >
               <PreviousPageIcon width={15} height={15} color="#7f56d9" />
@@ -64,7 +68,7 @@ const getOverallAbsctractValue = (data)=>{
             </div>
             <div className={Styles.countContent}>
               {/* <h3>{getBomData?.abstract_count}</h3> */}
-              <h3 >{getBomData?.bom_configuration_data?.bom_description}</h3>
+              <h3>{getBomData?.bom_configuration_data?.bom_description}</h3>
             </div>
             {/* <div className={Styles.lineStyles}>
               <div className={Styles.vertical}>
@@ -97,13 +101,11 @@ const getOverallAbsctractValue = (data)=>{
         </div>
         <div className={Styles.selected}></div>
         <div>
-          <BomList
-          bom_details={getBomData?.bom_configuration_data}
-          />
+          <BomList bom_details={getBomData?.bom_configuration_data} />
         </div>
       </div>
     </div>
   );
 };
 
-export default projectAbstract;
+export default ProjectAbstract;

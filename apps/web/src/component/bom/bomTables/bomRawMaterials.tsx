@@ -4,9 +4,9 @@ import AddIcon from '../../menu/icons/addIcon';
 import { useFormik } from 'formik';
 import DeleteIcon from '../../menu/icons/deleteIcon';
 import Button from '../../ui/Button';
-import { createBulkBom } from '../../../hooks/bom-hooks';
+import { useCreateBulkBom } from '../../../hooks/bom-hooks';
 import { useGetAllItemsDrops } from '../../../hooks/item-hooks';
-import { useGetAllUomDrop, getUomByType } from '../../../hooks/uom-hooks';
+import { useGetAllUomDrop, useGetUomByType } from '../../../hooks/uom-hooks';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
 import { bomErrorMessages } from '../../../helper/constants/bom-constants';
@@ -33,7 +33,7 @@ const BomRawMaterials: React.FC = (props: any) => {
         'decimal-validation',
         bomErrorMessages.ITEM_EXIST,
         async function (value: number, { parent }: Yup.TestContext) {
-          let isDelete = parent.is_delete;
+          const isDelete = parent.is_delete;
           try {
             const isValuePresent = bomList.some((obj: any) => {
               return (
@@ -73,7 +73,7 @@ const BomRawMaterials: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [reload, setReload] = useState(false);
   const { data: getAllItemDrop } = useGetAllItemsDrops();
-  const { data: getAllUomDrop } = getUomByType('RAWMT');
+  const { data: getAllUomDrop } = useGetUomByType('RAWMT');
 
   const handleDeleteSiteExpense = (e: any, value: any) => {
     setBomValue(value);
@@ -106,7 +106,7 @@ const BomRawMaterials: React.FC = (props: any) => {
       };
     }
 
-    let tempArry = [...props.bomList];
+    const tempArry = [...props.bomList];
     tempArry[index] = tempObj;
     props.setBomList(tempArry);
   };
@@ -165,7 +165,7 @@ const BomRawMaterials: React.FC = (props: any) => {
                   return (
                     <tr>
                       <td>{rowIndex}</td>
-                      <td style={{textAlign:'left'}}>{items.bom_name}</td>
+                      <td style={{ textAlign: 'left' }}>{items.bom_name}</td>
                       {/* <td>
                       <Input
                         name="description"
@@ -180,7 +180,7 @@ const BomRawMaterials: React.FC = (props: any) => {
                           name="uom_id"
                           mandatory={true}
                           optionList={
-                            getAllUomDrop != undefined ? getAllUomDrop : []
+                            getAllUomDrop !== undefined ? getAllUomDrop : []
                           }
                           value={items.uom_id}
                           onChange={(e) => handleListChange(e, index)}

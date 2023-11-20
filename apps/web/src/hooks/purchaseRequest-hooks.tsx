@@ -1,8 +1,7 @@
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import PurchaseRequestService from '../service/purchaseRequest-service';
 
-
-const createPurchaseRequest = () => {
+const useCreatePurchaseRequest = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -16,4 +15,4 @@ const createPurchaseRequest = () => {
   );
 };
 
-  export { createPurchaseRequest };
+export { useCreatePurchaseRequest };

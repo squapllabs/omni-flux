@@ -3,12 +3,12 @@ import Styles from '../../../styles/newStyles/purchaseRequestList.module.scss';
 import ProjectSubheader from '../../project/projectSubheader';
 import Input from '../../ui/Input';
 import SearchIcon from '../../menu/icons/search';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getBySearchPR } from '../../../hooks/purchase-request-hooks';
+import { Link, useNavigate } from 'react-router-dom';
+import { useGetBySearchPR } from '../../../hooks/purchase-request-hooks';
 import { format } from 'date-fns';
 import ReportGenerator from '../../reportGenerator/pdfReport/requestForQuotation';
 import PrintIcon from '../../menu/icons/printIcon';
-import SiteNavigateIcon from '../../menu/icons/siteNavigateIcon';
+// import SiteNavigateIcon from '../../menu/icons/siteNavigateIcon';
 import CustomLoader from '../../ui/customLoader';
 import CustomGroupButton from '../../ui/CustomGroupButton';
 
@@ -42,7 +42,7 @@ const AllPurchaseRequest = () => {
     isLoading: loading,
     refetch,
     isFetched,
-  } = getBySearchPR(purchaseData);
+  } = useGetBySearchPR(purchaseData);
   const handleReportGenerator = async (data: any) => {
     await ReportGenerator(data);
   };
@@ -114,7 +114,7 @@ const AllPurchaseRequest = () => {
                   onChange={(e) => {
                     setFilterValues({
                       ...filterValue,
-                      ['search_by_code']: e.target.value,
+                      [filterValue?.search_by_code]: e.target.value,
                     });
                   }}
                   placeholder="Search by PR Code"
@@ -127,7 +127,7 @@ const AllPurchaseRequest = () => {
         {getPRbasedOnIndent?.content?.length === 0 && !loading ? (
           <div className={Styles.emptyDataHandling}>
             <div className={Styles.image}>
-              <img src="/boq-add.png" width="100%" height="150px" />
+              <img src="/boq-add.png" width="100%" height="150px" alt="logo" />
             </div>
             <div>
               <h5 className={Styles.textmax}>
@@ -139,7 +139,7 @@ const AllPurchaseRequest = () => {
           <div className={Styles.cardBox}>
             {getPRbasedOnIndent?.content?.map((items: any, index: number) => {
               return (
-                <div className={Styles.cardContainer}>
+                <div className={Styles.cardContainer} key={index}>
                   <div>
                     <div>
                       <span>#{index + 1}</span>
@@ -197,6 +197,7 @@ const AllPurchaseRequest = () => {
                               (vendors: any, vendorIndex: number) => {
                                 return (
                                   <li
+                                    key={vendors?.vendor_data?.vendor_id}
                                     className={`${Styles.vendorLinks} ${
                                       items?.selected_vendor_data?.vendor_id ===
                                       vendors?.vendor_data?.vendor_id
@@ -308,7 +309,7 @@ const AllPurchaseRequest = () => {
                           {items?.status === 'Approved' &&
                           items?.purchase_order?.length === 0
                             ? 'Quotation Received'
-                            : items?.status != 'Approved'
+                            : items?.status !== 'Approved'
                             ? items?.status
                             : items?.status === 'Approved' &&
                               items?.purchase_order?.length > 0

@@ -3,10 +3,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Input from '../../ui/Input';
 import Button from '../../ui/Button';
-import {
-  createInstantSubcategory,
-  updateSubcategory,
-} from '../../../hooks/subCategory-hooks';
+import { useCreateInstantSubcategory } from '../../../hooks/subCategory-hooks';
 import { getSubCategoryValidateyup } from '../../../helper/constants/abstract-constants';
 import TextArea from '../../ui/CustomTextArea';
 import DatePicker from '../../ui/CustomDatePicker';
@@ -16,13 +13,14 @@ import Styles from '../../../styles/newStyles/project_abstractAdd.module.scss';
 import CheckListIcon from '../../menu/icons/checkListIcon';
 
 import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
-import { getUomByType } from '../../../hooks/uom-hooks';
+import { useGetUomByType } from '../../../hooks/uom-hooks';
 
 const ProjectTaskAdd: React.FC = (props: any) => {
   console.log('props', props?.isCollapsed);
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
-  const { mutate: createNewSubCategory } = createInstantSubcategory();
-  const { mutate: updateSubcategoryData } = updateSubcategory();
+  const { mutate: createNewSubCategory } = useCreateInstantSubcategory();
+  const { mutate: createInstantSubcategoryData } =
+    useCreateInstantSubcategory();
   const [initialValues, setInitialValues] = useState({
     name: '',
     description: '',
@@ -33,14 +31,14 @@ const ProjectTaskAdd: React.FC = (props: any) => {
     sub_category_id: '',
     actual_budget: '',
     parent_sub_category_id: '',
-    estimated_budget : 0,
+    estimated_budget: 0,
     uom_id: null,
-    rate : null,
-    quantity : null
+    rate: null,
+    quantity: null,
   });
 
   const DropfieldWidth = '150px';
-  const { data: getAllUomDrop } = getUomByType('RAWMT');
+  const { data: getAllUomDrop } = useGetUomByType('RAWMT');
 
   const dateFormat = (value: any) => {
     if (value !== null) {
@@ -66,10 +64,10 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           bom_configuration_id: props.selectedBomConfig,
           actual_budget: data?.data?.actual_budget,
           parent_sub_category_id: data?.data?.parent_sub_category_id,
-          estimated_budget : data?.data?.estimated_budget,
+          estimated_budget: data?.data?.estimated_budget,
           uom_id: data?.data?.uom_id,
-          rate:  data?.data?.rate, 
-          quantity:  data?.data?.quantity, 
+          rate: data?.data?.rate,
+          quantity: data?.data?.quantity,
         });
       };
       if (props.mode === 'EDIT') fetchOne();
@@ -92,14 +90,13 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           end_date: values.end_date,
           sub_category_id: values.sub_category_id,
           parent_sub_category_id: values.parent_sub_category_id,
-          estimated_budget :  values.estimated_budget,
-          uom_id : values.uom_id || null,
-          rate :  values.rate || null,
-          quantity :  values.quantity || null
-
+          estimated_budget: values.estimated_budget,
+          uom_id: values.uom_id || null,
+          rate: values.rate || null,
+          quantity: values.quantity || null,
         };
         console.log('abstract from', Object);
-        updateSubcategoryData(Object, {
+        createInstantSubcategoryData(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
               resetForm();
@@ -123,11 +120,11 @@ const ProjectTaskAdd: React.FC = (props: any) => {
           end_date: values.end_date,
           bom_configuration_id: props.selectedBomConfig,
           parent_sub_category_id:
-          props.mode === 'Sub Task' ? props.selectedSubCategory : null,
-          estimated_budget : values.estimated_budget,
-          uom_id : values.uom_id,
-          rate :  values.rate,
-          quantity :  values.quantity
+            props.mode === 'Sub Task' ? props.selectedSubCategory : null,
+          estimated_budget: values.estimated_budget,
+          uom_id: values.uom_id,
+          rate: values.rate,
+          quantity: values.quantity,
         };
         createNewSubCategory(Object, {
           onSuccess: (data, variables, context) => {
@@ -151,15 +148,16 @@ const ProjectTaskAdd: React.FC = (props: any) => {
     props.setOpen(false);
   };
 
-  const calculatebudget = () =>{
-    let estimated_budget = Number(formik.values.rate) * Number(formik.values.quantity);
+  const calculatebudget = () => {
+    let estimated_budget =
+      Number(formik.values.rate) * Number(formik.values.quantity);
 
-    if(Number.isNaN(estimated_budget)){
-      estimated_budget = 0
+    if (Number.isNaN(estimated_budget)) {
+      estimated_budget = 0;
     }
     formik.values.estimated_budget = estimated_budget;
     return estimated_budget;
-  }
+  };
 
   return (
     <div className={Styles.container}>
@@ -189,74 +187,71 @@ const ProjectTaskAdd: React.FC = (props: any) => {
               maxCharacterCount={1000}
             />
           </div>
-          
-          
         </div>
         <div className={Styles.icon}>
           <CheckListIcon width={50} height={50} />
         </div>
       </div>
       <div className={Styles.row_container}>
-          <div>
+        <div>
           <AutoCompleteSelect
-              width={DropfieldWidth}
-              name="uom_id"
-              label='Select UOM'
-              mandatory={false}
-              optionList={getAllUomDrop != undefined ? getAllUomDrop : []}
-              value={formik.values.uom_id}
-              onChange={formik.handleChange} 
-              onSelect={(e: string): void => {
-                formik.values.uom_id = e
-              }} 
-              defaultLabel='Select' 
-              placeholder='Select'
-            />  
-            {formik.touched.uom_id} 
-          </div>
-          <div className={Styles.field}>
-            <Input
-              label="Quantity"
-              placeholder="Enter Quantity"
-              name="quantity"
-              type="number"
-              mandatory={false}
-              value={formik.values.quantity}
-              onChange={formik.handleChange}
-              width={DropfieldWidth}
-              error={formik.touched.quantity && formik.errors.quantity}
-            />
-          </div>
-          <div className={Styles.field}>
-            <Input
-              label="Rate"
-              placeholder="Enter Rate"
-              name="rate"
-              type="number"
-              mandatory={false}
-              value={formik.values.rate}
-              onChange={formik.handleChange}
-              width={DropfieldWidth}
-              error={formik.touched.rate && formik.errors.rate}
-            />
-          </div> 
-          <div className={Styles.field}>
-            <Input
-              label="Estimated Budget"
-              placeholder=""
-              name="estimated_budget"
-              type="number"
-              mandatory={false}
-              value={calculatebudget()}
-              onChange={formik.handleChange}
-              width={DropfieldWidth}
-            />
-
-          </div> 
-          {/* <div className={Styles.total_budget}>
+            width={DropfieldWidth}
+            name="uom_id"
+            label="Select UOM"
+            mandatory={false}
+            optionList={getAllUomDrop !== undefined ? getAllUomDrop : []}
+            value={formik.values.uom_id}
+            onChange={formik.handleChange}
+            onSelect={(e: string): void => {
+              formik.values.uom_id = e;
+            }}
+            defaultLabel="Select"
+            placeholder="Select"
+          />
+          {formik.touched.uom_id}
+        </div>
+        <div className={Styles.field}>
+          <Input
+            label="Quantity"
+            placeholder="Enter Quantity"
+            name="quantity"
+            type="number"
+            mandatory={false}
+            value={formik.values.quantity}
+            onChange={formik.handleChange}
+            width={DropfieldWidth}
+            error={formik.touched.quantity && formik.errors.quantity}
+          />
+        </div>
+        <div className={Styles.field}>
+          <Input
+            label="Rate"
+            placeholder="Enter Rate"
+            name="rate"
+            type="number"
+            mandatory={false}
+            value={formik.values.rate}
+            onChange={formik.handleChange}
+            width={DropfieldWidth}
+            error={formik.touched.rate && formik.errors.rate}
+          />
+        </div>
+        <div className={Styles.field}>
+          <Input
+            label="Estimated Budget"
+            placeholder=""
+            name="estimated_budget"
+            type="number"
+            mandatory={false}
+            value={calculatebudget()}
+            onChange={formik.handleChange}
+            width={DropfieldWidth}
+          />
+        </div>
+        {/* <div className={Styles.total_budget}>
           Estimated Budget : {calculatebudget()}
         </div>       */}
-          {/* <div className={Styles.field}>
+        {/* <div className={Styles.field}>
             <DatePicker
               label="Start Date"
               name="start_date"

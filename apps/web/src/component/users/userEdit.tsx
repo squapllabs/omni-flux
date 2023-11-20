@@ -3,7 +3,7 @@ import Styles from '../../styles/user.module.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { getUsereditYupschema } from '../../helper/constants/user-constants';
-import { getByuserID, updateUser } from '../../hooks/user-hooks';
+import { useGetByuserID, useUpdateUser } from '../../hooks/user-hooks';
 import { useGetAllRoles } from '../../hooks/userRole-hooks';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router';
@@ -18,17 +18,16 @@ import CustomSnackbar from '../ui/customSnackBar';
 import CustomLoader from '../ui/customLoader';
 import ProjectSubheader from '../project/projectSubheader';
 import DatePicker from '../ui/CustomDatePicker';
-import CloseIcon from '../menu/icons/closeIcon';
 
 const validationSchema = getUsereditYupschema(Yup);
 const UserEdit = () => {
   const navigate = useNavigate();
   const routeParams = useParams();
-  const { data: getOneuserData, isLoading } = getByuserID(
+  const { data: getOneuserData, isLoading } = useGetByuserID(
     Number(routeParams?.id)
   );
 
-  const { mutate: updateUserData } = updateUser();
+  const { mutate: updateUserData } = useUpdateUser();
   const { data: getAllRoles = [] } = useGetAllRoles();
   const [OpenSnackbar, setOpenSnakBar] = useState(false);
   const [message, setMessage] = useState('');
@@ -176,7 +175,6 @@ const UserEdit = () => {
     },
   });
 
-
   return (
     <div>
       <div>
@@ -198,7 +196,9 @@ const UserEdit = () => {
                     name="first_name"
                     value={formik.values.first_name}
                     onChange={formik.handleChange}
-                    error={formik.touched.first_name && formik.errors.first_name}
+                    error={
+                      formik.touched.first_name && formik.errors.first_name
+                    }
                   />
                 </div>
                 <div className={Styles.inputField}>
@@ -218,7 +218,9 @@ const UserEdit = () => {
                     name="contact_no"
                     value={formik.values.contact_no}
                     onChange={formik.handleChange}
-                    error={formik.touched.contact_no && formik.errors.contact_no}
+                    error={
+                      formik.touched.contact_no && formik.errors.contact_no
+                    }
                     disabled="true"
                   />
                 </div>
@@ -242,7 +244,9 @@ const UserEdit = () => {
                     name="department"
                     value={formik.values.department}
                     onChange={formik.handleChange}
-                    error={formik.touched.department && formik.errors.department}
+                    error={
+                      formik.touched.department && formik.errors.department
+                    }
                   />
                 </div>
                 <div className={Styles.inputField}>
@@ -280,24 +284,18 @@ const UserEdit = () => {
               <div className={Styles.fieldsOne}>
                 <div className={Styles.inputField}>
                   <span className={Styles.projectHeading}>Date of Birth</span>
-                  {/* <div className={Styles.dateField}>
-                    <input
-                      type="date"
+                  <div className={Styles.dateField}>
+                    <DatePicker
                       name="date_of_birth"
                       onChange={formik.handleChange}
                       value={formik.values.date_of_birth}
                       className={Styles.datePicker}
+                      error={
+                        formik.touched.date_of_birth &&
+                        formik.errors.date_of_birth
+                      }
                     />
-                  </div> */}
-                  <div className={Styles.dateField}>
-                    <DatePicker
-                        name="date_of_birth"
-                        onChange={formik.handleChange}
-                        value={formik.values.date_of_birth}
-                        className={Styles.datePicker}
-                        error={formik.touched.date_of_birth && formik.errors.date_of_birth}
-                    />
-                </div>
+                  </div>
                 </div>
                 <div className={Styles.inputField}>
                   <Input
@@ -320,7 +318,8 @@ const UserEdit = () => {
                     value={formik.values.address.city}
                     onChange={formik.handleChange}
                     error={
-                      formik.touched.address?.city && formik.errors.address?.city
+                      formik.touched.address?.city &&
+                      formik.errors.address?.city
                     }
                   />
                 </div>
@@ -332,7 +331,8 @@ const UserEdit = () => {
                     value={formik.values.address.state}
                     onChange={formik.handleChange}
                     error={
-                      formik.touched.address?.state && formik.errors.address?.state
+                      formik.touched.address?.state &&
+                      formik.errors.address?.state
                     }
                   />
                 </div>

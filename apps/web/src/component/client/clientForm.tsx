@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
-import { createClient, updateClient } from '../../hooks/client-hooks';
+import { useCreateClient, useUpdateClient } from '../../hooks/client-hooks';
 import { getClientValidateyup, getUpdateClientValidateyup } from '../../helper/constants/client-constants';
 import clientService from '../../service/client-service';
 import * as Yup from 'yup';
@@ -10,14 +10,15 @@ import Styles from '../../styles/newStyles/uomForm.module.scss';
 
 //Function for client form
 const ClientForm: React.FC = (props: any) => {
-  const { mutate: createNewClient } = createClient();
-  const { mutate: updateClientDetails } = updateClient();
+  const { mutate: createNewClient } = useCreateClient();
+  const { mutate: updateClientDetails } = useUpdateClient();
   const validationSchema = props.mode === 'ADD' ? getClientValidateyup(Yup) : getUpdateClientValidateyup(Yup);
   const [initialValues, setInitialValues] = useState({
     name: '',
     contact_details: '',
     client_id: '',
   });
+  //Function to get a particular client data by ID
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {

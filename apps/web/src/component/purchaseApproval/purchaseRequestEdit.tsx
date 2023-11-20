@@ -8,7 +8,7 @@ import CancelIcon from '../menu/icons/closeIcon';
 import UploadIcon from '../menu/icons/cloudUpload';
 import Styles from '../../styles/purchaseEdit.module.scss';
 import vendorQuotesService from '../../service/vendorQuotes-service';
-import { updateVendorQuotes } from '../../hooks/vendorQuotes-hooks';
+import { useUpdateVendorQuotes } from '../../hooks/vendorQuotes-hooks';
 import * as Yup from 'yup';
 import { getCreateValidateyup } from '../../helper/constants/vendorSelect-constants';
 
@@ -18,7 +18,7 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
   const userID: number = encryptedData.userId;
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [fileSizeError, setFileSizeError] = useState<string>('');
-  const { mutate: updateOneVendorQuotes } = updateVendorQuotes();
+  const { mutate: updateOneVendorQuotes } = useUpdateVendorQuotes();
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [existingFileName, setExistingFileName] = useState<string[]>([]);
@@ -29,8 +29,7 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
     total_quotation_amount: '',
     purchase_request_id: '',
     vendor_id: '',
-    quotation_status:'',
-
+    quotation_status: '',
   });
   const validationSchema = getCreateValidateyup(Yup);
   useEffect(() => {
@@ -43,7 +42,7 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
         total_quotation_amount: data?.data?.total_quotation_amount,
         purchase_request_id: data?.data?.purchase_request_id,
         vendor_id: data?.data?.vendor_id,
-        quotation_status: data?.data?.quotation_status
+        quotation_status: data?.data?.quotation_status,
       });
       const existingFileNames = data?.data?.vendor_quotes_documents?.map(
         (document: any) => {
@@ -125,7 +124,11 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
     }
   };
 
-  const handleDocuments = async (files: File[], code: string, folder: string) => {
+  const handleDocuments = async (
+    files: File[],
+    code: string,
+    folder: string
+  ) => {
     try {
       const uploadPromises = files.map(async (file) => {
         const response = await vendorQuotesService.documentUpload(
@@ -141,18 +144,16 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
         ...obj,
         is_delete: false,
       }));
-      if (existingFileUrl?.length > 0 && selectedFiles?.length>0) {
+      if (existingFileUrl?.length > 0 && selectedFiles?.length > 0) {
         existingFileUrl.forEach((item) => {
           item.is_delete = true;
         });
         const combinedArray =
           modifiedArrayWithDeleteFlag.concat(existingFileUrl);
         return combinedArray;
-      }
-      else if(existingFileUrl?.length > 0) {
-        return existingFileUrl
-      }
-       else {
+      } else if (existingFileUrl?.length > 0) {
+        return existingFileUrl;
+      } else {
         return modifiedArrayWithDeleteFlag;
       }
     } catch (error) {
@@ -180,9 +181,10 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
         total_quotation_amount: Number(values.total_quotation_amount),
         purchase_request_id: values.purchase_request_id,
         vendor_id: values.vendor_id,
-        quotation_status:'Quotation Recieved',
-        vendor_quotes_documents: s3UploadUrl && s3UploadUrl.length > 0 ? s3UploadUrl : existingFileUrl,
-        updated_by: userID
+        quotation_status: 'Quotation Recieved',
+        vendor_quotes_documents:
+          s3UploadUrl && s3UploadUrl.length > 0 ? s3UploadUrl : existingFileUrl,
+        updated_by: userID,
       };
 
       updateOneVendorQuotes(Object, {
@@ -219,7 +221,10 @@ const PurchaseRequestEdit: React.FC = (props: any) => {
             value={formik.values.total_quotation_amount}
             onChange={formik.handleChange}
             width="100%"
-            error={formik.touched.total_quotation_amount && formik.errors.total_quotation_amount}
+            error={
+              formik.touched.total_quotation_amount &&
+              formik.errors.total_quotation_amount
+            }
           />
         </div>
         <div className={Styles.field}>

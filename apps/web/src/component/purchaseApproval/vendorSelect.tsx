@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import CustomLoader from '../ui/customLoader';
@@ -11,17 +11,15 @@ import CustomEditDialog from '../ui/customEditDialogBox';
 import vendorQuotesService from '../../service/vendorQuotes-service';
 import PurchaseRequestEdit from './purchaseRequestEdit';
 import {
-  updateVendorQuotes,
-  getByPRbasedVendorQuotes,
-  getVendorDetailsBasedONPR,
-  getVendorquotesBYventorquotesID,
+  useUpdateVendorQuotes,
+  useGetByPRbasedVendorQuotes,
+  useGetVendorDetailsBasedONPR,
 } from '../../hooks/vendorQuotes-hooks';
 import CustomSnackBar from '../ui/customSnackBar';
 import ProjectSubheader from '../project/projectSubheader';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import userService from '../../service/user-service';
-import TickIcon from '../menu/icons/tickIcon';
 import CustomConfirm from '../ui/CustomConfirmDialogBox';
 import FullStarIcon from '../menu/icons/fullStarIcon';
 
@@ -31,20 +29,16 @@ const VendorSelect = () => {
   const indentId = location.state.indent_id;
   const projectId = location.state.project_id;
   const navigate = useNavigate();
-  const { mutate: updateOneVendorQuotes } = updateVendorQuotes();
+  const { mutate: updateOneVendorQuotes } = useUpdateVendorQuotes();
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userID: number = encryptedData.userId;
   const prID = Number(routeParams?.id);
   const { data: getVendorList = [], isLoading: vendorLoading } =
-    getVendorDetailsBasedONPR(prID);
-  console.log('getVendorList', getVendorList);
-
-  // console.log('initialSiteId', initialSiteId);
-
+    useGetVendorDetailsBasedONPR(prID);
   const [tableData, setTableData] = useState<any>([]);
   const [totalBudget, setTotalBudget] = useState<any>();
-  const [Id, setID] = useState();
+  const [Id, setID] = useState<any>([]);
   const [mode, setMode] = useState('');
   const [open, setOpen] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
@@ -70,7 +64,6 @@ const VendorSelect = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [pageDisable, setPageDisabale] = useState(false);
   const [fileSizeError, setFileSizeError] = useState<string>('');
-  const [fileMandatoryError, setFileMandatoryError] = useState('');
   const [openConfirm, setOpenConfirm] = useState(false);
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
   const handleCloseConfirm = () => {
@@ -79,7 +72,6 @@ const VendorSelect = () => {
   };
   useEffect(() => {
     const fetchData = async () => {
-      console.log('vendorQuoteID', vendorQuoteID);
       const vendorQuotesDetails =
         await vendorQuotesService.getVendorquotesBYventorquotesID(
           vendorQuoteID
@@ -87,8 +79,6 @@ const VendorSelect = () => {
       const data = await vendorQuotesService.getOneVendorQuotesById(
         vendorQuoteID
       );
-      console.log('vendorQuoteIDData', data);
-
       setInitialValues({
         vendor_quotes_id: data?.data?.vendor_quotes_id
           ? data?.data?.vendor_quotes_id
@@ -131,7 +121,6 @@ const VendorSelect = () => {
       setTotalBudget(sumOfRates);
     }
   }, [tableData]);
-  console.log('tableData', tableData);
 
   const vendorData = {
     limit: rowsPerPage,
@@ -146,16 +135,14 @@ const VendorSelect = () => {
     data: getVendorQuotes,
     isLoading: loading,
     refetch,
-  } = getByPRbasedVendorQuotes(vendorData);
-  console.log('getVendorQuotes', getVendorQuotes);
+  } = useGetByPRbasedVendorQuotes(vendorData);
   useEffect(() => {
     const initialSiteId =
-      vendorLoading == false ? getVendorList[0]?.value : null;
-
+      vendorLoading === false ? getVendorList[0]?.value : null;
     const quotesData = getVendorQuotes?.content?.filter(
       (obj: any) => obj.quotation_status === 'Approved'
     );
-    if (quotesData != undefined) {
+    if (quotesData !== undefined) {
       const is_available = isAvilable();
       setPageDisabale(is_available);
       if (quotesData?.length > 0) {
@@ -165,8 +152,8 @@ const VendorSelect = () => {
       }
     }
     refetch();
-    // setVendorQuoteID(initialSiteId);
   }, [!vendorLoading && !loading]);
+
   const generateCustomQuotationName = (data: any) => {
     if (data) {
       const vendorName =
@@ -199,11 +186,11 @@ const VendorSelect = () => {
     tempObj = {
       ...tableData[index],
       [event.target.name]: Number(event.target.value),
-      ['total_cost']:
+      total_cost:
         tableData[index].purchase_requested_quantity *
         Number(event.target.value),
     };
-    let tempArry = [...tableData];
+    const tempArry = [...tableData];
     tempArry[index] = tempObj;
     setTableData(tempArry);
   };
@@ -237,7 +224,7 @@ const VendorSelect = () => {
   };
   const isAvilable = () => {
     return getVendorQuotes?.content?.some(
-      (obj) => obj.quotation_status === 'Approved'
+      (obj: any) => obj.quotation_status === 'Approved'
     );
   };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
@@ -254,23 +241,18 @@ const VendorSelect = () => {
         'description-availability',
         'Please attach the bill',
         async function (value, { parent }: Yup.TestContext) {
-          let bill_details = parent.vendor_quotes_documents;
-          console.log('bill_detailsvalue', value);
-          console.log('bill_details', bill_details);
-          console.log('bill_detailslenght', bill_details.length);
+          const bill_details = parent.vendor_quotes_documents;
           if (bill_details?.length < 0) {
-            console.log('open');
             setMessage('Bill is Missing');
             setOpenSnack(true);
             return false;
           } else if (
-            bill_details?.length != 0 ? bill_details[0]?.is_delete === 'N' : ''
+            bill_details?.length !== 0 ? bill_details[0]?.is_delete === 'N' : ''
           ) {
             return true;
           } else if (
-            bill_details?.length != 0 ? bill_details[0]?.is_delete === 'Y' : ''
+            bill_details?.length !== 0 ? bill_details[0]?.is_delete === 'Y' : ''
           ) {
-            console.log('open');
             setMessage('Bill is Missing');
             setOpenSnack(true);
             return false;
@@ -297,21 +279,16 @@ const VendorSelect = () => {
       };
       updateOneVendorQuotes(obj, {
         onSuccess: (data, variables, context) => {
-          console.log('updateOneVendorQuotes', data);
-
           if (data?.message === 'success') {
             setMessage('Vendor quotation Updated');
             setOpenSnack(true);
             refetch();
-            // navigate(`/purchase-request-list/${indentId}`, {
-            //   state: { project_id: projectId },
-            // });
           }
         },
       });
     },
   });
-  console.log('errorsss==>', formik.errors);
+
   const handleFileSelect = async (e: any) => {
     const files = e.target.files;
     if (files.length > 0) {
@@ -323,25 +300,20 @@ const VendorSelect = () => {
         const oversizedFileNames = oversizedFiles
           .map((file) => file.name)
           .join(', ');
-        // props.setLoader(!props.loader);
         const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
         setFileSizeError(errorMessage);
         setMessage(errorMessage);
-        // props.setOpenSnack(true);
       } else {
         const selectedFilesArray: File[] = [];
         const selectedFileNamesArray: string[] = [];
-        let arr: any = [];
+        const arr: any = [];
         fileList.forEach(async (file) => {
           const code = 'PR' + prID;
           const response = await userService.documentUpload(file, code);
-          console.log('response', response?.data[0]);
-
-          let obj = {
+          const obj = {
             ...response?.data[0],
             is_delete: 'N',
           };
-          console.log('responseobj', obj);
           arr.push(obj);
           selectedFilesArray.push(file);
           selectedFileNamesArray.push(file.name);
@@ -351,13 +323,11 @@ const VendorSelect = () => {
         setSelectedFiles(selectedFilesArray);
         setSelectedFileName(selectedFileNamesArray);
         setFileSizeError('');
-        // props.setLoader(false);
         setMessage('Document uploaded');
         setOpenSnack(true);
       }
     }
   };
-  console.log('formik.values.vendor_quotes_id', formik.values.vendor_quotes_id);
 
   const deleteFileinList = (index: any) => {
     let tempObj = {};
@@ -365,17 +335,13 @@ const VendorSelect = () => {
     tempObj = {
       ...vendorQuoteDocument[index],
     };
-    let tempArry = [...vendorQuoteDocument];
+    const tempArry = [...vendorQuoteDocument];
     tempArry[index] = tempObj;
     setVendorQuoteDocument(tempArry);
   };
   return (
     <div className={Styles.container}>
       <CustomLoader loading={loading} size={48} color="#333C44">
-        {/* <div className={Styles.textContent}>
-          <h3>Vendor Detail List</h3>
-          <span className={Styles.content}>Select the apt vendor</span>
-        </div> */}
         <div>
           <ProjectSubheader
             title="Allocated Vendor Detail List"
@@ -383,13 +349,11 @@ const VendorSelect = () => {
             navigation={`/purchase-request-list/${indentId}`}
           />
         </div>
-        {/* <div className={Styles.dividerStyle}></div> */}
         <div className={Styles.tableContainer}>
           <table className={Styles.scrollable_table}>
             <thead>
               <tr>
                 <th>S No</th>
-                {/* <th>Vendor ID</th> */}
                 <th>Vendor Name </th>
                 <th>No of Items</th>
                 <th>Quotation Budget</th>
@@ -407,10 +371,6 @@ const VendorSelect = () => {
                 const isQuotationRecived =
                   data.quotation_status === 'Quotation Received';
                 const isAvai = isAvilable();
-                console.log('isAvai', isAvai);
-                if (data.quotation_status === 'Approved') {
-                  console.log('dataApproved', data?.vendor_quotes_id);
-                }
                 const actions = [
                   {
                     label: 'Edit',
@@ -437,7 +397,6 @@ const VendorSelect = () => {
                 return (
                   <tr key={data.vendor_quotes_id}>
                     <td>{startingIndex + index}</td>
-                    {/* <td>{data.vendor_id || nullLableNameFromEnv}</td> */}
                     <td>{data.vendor_name || nullLableNameFromEnv}</td>
                     <td>
                       {data?.quotation_details?.length || nullLableNameFromEnv}
@@ -467,11 +426,10 @@ const VendorSelect = () => {
                           )}
                     </td>
                     <td>
-                      {/* {isAnyActionEnabled && <CustomMenu actions={actions} />} */}
                       <div
                         style={{
                           pointerEvents:
-                            isQuotationRecived && isAvai != true ? '' : 'none',
+                            isQuotationRecived && isAvai !== true ? '' : 'none',
                         }}
                       >
                         <div
@@ -497,10 +455,10 @@ const VendorSelect = () => {
                                 color="#7f56d9"
                                 strokeColor="#7f56d9"
                               />
-                            ) : isAvai != true && isQuotationRecived ? (
+                            ) : isAvai !== true && isQuotationRecived ? (
                               <div
                                 onClick={() => {
-                                  if (isQuotationRecived && isAvai != true) {
+                                  if (isQuotationRecived && isAvai !== true) {
                                     handleApprove(data.vendor_quotes_id);
                                   }
                                 }}
@@ -530,9 +488,6 @@ const VendorSelect = () => {
                               '--'
                             )}
                           </span>
-                          {/* {isAvai != true && isQuotationRecived
-                            ? 'Approve'
-                            : '--'} */}
                         </div>
                       </div>
                     </td>

@@ -22,7 +22,7 @@ const useGetAllCategoryByProjectId = (id: number) => {
   );
 };
 
-const createInstantCategory = () => {
+const UseCreateInstantCategory = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -30,7 +30,7 @@ const createInstantCategory = () => {
     },
     {
       onSuccess: (data, _v) => {
-        console.log('Test data', _v);
+        // console.log('Test data', _v);
         queryClient.invalidateQueries(['useGetAllCategoryByProject']);
         queryClient.invalidateQueries([
           'getBOMDetails',
@@ -55,7 +55,7 @@ const useGetAllCategoryForDrop = () => {
   );
 };
 
-const getByCategoryID = (id: number) => {
+const useGetByCategoryID = (id: number) => {
   return useQuery(
     ['getOnecategoryID', id],
     () => CategoryService.getOneCategoryByID(id),
@@ -64,7 +64,7 @@ const getByCategoryID = (id: number) => {
     }
   );
 };
-const getByBOMDetails = (value: any) => {
+const useGetByBOMDetails = (value: any) => {
   return useQuery(
     ['getBOMDetails', value],
     () => CategoryService.getBOMDetail(value),
@@ -74,7 +74,7 @@ const getByBOMDetails = (value: any) => {
   );
 };
 
-const createCategory = () => {
+const useCreateCategory = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -87,7 +87,7 @@ const createCategory = () => {
     }
   );
 };
-const createMultipleCategory = () => {
+const useCreateMultipleCategory = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -101,7 +101,7 @@ const createMultipleCategory = () => {
   );
 };
 
-const updateCategory = () => {
+const useUpdateCategory = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -128,18 +128,10 @@ const useDeleteCategory = () => {
     }
   );
 };
-const getBySearchCategroy = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return CategoryService.filterCategory(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+const useGetBySearchCategroy = () => {
+  return useMutation((data: any) => {
+    return CategoryService.filterCategory(data);
+  });
 };
 const useGetMasterAbstractStatusParentType = () => {
   return useQuery(
@@ -156,15 +148,15 @@ const useGetMasterAbstractStatusParentType = () => {
 };
 export {
   useGetAllCategory,
-  getByCategoryID,
-  createCategory,
-  updateCategory,
+  useGetByCategoryID,
+  useCreateCategory,
+  useUpdateCategory,
   useDeleteCategory,
   useGetAllCategoryForDrop,
-  getBySearchCategroy,
+  useGetBySearchCategroy,
   useGetAllCategoryByProjectId,
-  createInstantCategory,
+  UseCreateInstantCategory,
   useGetMasterAbstractStatusParentType,
-  getByBOMDetails,
-  createMultipleCategory
+  useGetByBOMDetails,
+  useCreateMultipleCategory,
 };

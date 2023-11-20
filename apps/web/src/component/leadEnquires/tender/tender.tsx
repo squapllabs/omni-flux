@@ -6,11 +6,11 @@ import DatePicker from '../../ui/CustomDatePicker';
 import Button from '../../ui/Button';
 import { useFormik } from 'formik';
 import {
-  createleadEnquiry,
-  updateleadEnquiry,
+  useCreateleadEnquiry,
+  useUpdateleadEnquiry,
 } from '../../../hooks/leadEnquires-hooks';
 import { useGetAllClientDrop } from '../../../hooks/client-hooks';
-import { getBymasertDataType } from '../../../hooks/masertData-hook';
+import { useGetBymasertDataType } from '../../../hooks/masertData-hook';
 import {
   getCreateValidateyup,
   getUpdateValidateyup,
@@ -60,17 +60,17 @@ const Tender: React.FC = (props: any) => {
     lead_code: '',
   });
   const [disable, setDisable] = useState(
-    props?.leadEnquireId != undefined ? true : false
+    props?.leadEnquireId !== undefined ? true : false
   );
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const [appendedValue, setAppendedValue] = useState('');
-  const { mutate: postleadEnquiry } = createleadEnquiry();
-  const { mutate: updatelead } = updateleadEnquiry();
+  const { mutate: postleadEnquiry } = useCreateleadEnquiry();
+  const { mutate: updatelead } = useUpdateleadEnquiry();
   const { data: getAllClient = [] } = useGetAllClientDrop();
-  const { data: getClientLevel = [] } = getBymasertDataType('CTLVL');
-  const { data: getAllIndustrySector = [] } = getBymasertDataType('INSEC');
-  const { data: getAllTenderType = [] } = getBymasertDataType('TDTE');
+  const { data: getClientLevel = [] } = useGetBymasertDataType('CTLVL');
+  const { data: getAllIndustrySector = [] } = useGetBymasertDataType('INSEC');
+  const { data: getAllTenderType = [] } = useGetBymasertDataType('TDTE');
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
@@ -130,7 +130,7 @@ const Tender: React.FC = (props: any) => {
         lead_code: data?.data?.lead_code,
       });
     };
-    if (props.leadEnquireId != undefined) fetchData();
+    if (props.leadEnquireId !== undefined) fetchData();
     if (props.leadEnquireId === undefined) fetchLeadID();
   }, [props.leadEnquireId]);
   const fetchLeadID = async () => {

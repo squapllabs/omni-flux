@@ -9,17 +9,13 @@ const useGetAllHsnCode = () => {
 };
 
 const useGetAllHsnForDrop = () => {
-  return useQuery(
-      ['useGetAllHsnDrop'],
-      () => hsnCodeService.getAllHsnCode(),
-      {
-          select: (data) =>
-              data?.data?.map((hsn: any) => ({
-                  value:hsn.hsn_code_id,
-                  label:hsn.code,
-              })),
-      }
-  );
+  return useQuery(['useGetAllHsnDrop'], () => hsnCodeService.getAllHsnCode(), {
+    select: (data) =>
+      data?.data?.map((hsn: any) => ({
+        value: hsn.hsn_code_id,
+        label: hsn.code,
+      })),
+  });
 };
 
 const useDeleteHsnCode = () => {
@@ -36,7 +32,7 @@ const useDeleteHsnCode = () => {
   );
 };
 
-const createHsnCode = () => {
+const useCreateHsnCode = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -50,9 +46,9 @@ const createHsnCode = () => {
   );
 };
 
-const uploadHsnCode = () => {
+const useUploadHsnCode = () => {
   const queryClient = useQueryClient();
-  return useMutation (
+  return useMutation(
     (data: any) => {
       return hsnCodeService.uploadHsnCode(data);
     },
@@ -62,9 +58,9 @@ const uploadHsnCode = () => {
       },
     }
   );
-}
+};
 
-const updateHsnCode = () => {
+const useUpdateHsnCode = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -77,19 +73,10 @@ const updateHsnCode = () => {
     }
   );
 };
-const getByCode = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return hsnCodeService.filterHsn(data);
-    },
-    {
-      onSuccess: (response) => {
-        
-        response;
-      },
-    }
-  );
+const useGetByCode = () => {
+  return useMutation((data: any) => {
+    return hsnCodeService.filterHsn(data);
+  });
 };
 
 const useGetAllPaginatedHsnCodeData = (data: any) => {
@@ -103,4 +90,13 @@ const useGetAllPaginatedHsnCodeData = (data: any) => {
   );
 };
 
-export { useGetAllHsnCode, useDeleteHsnCode, createHsnCode, updateHsnCode ,uploadHsnCode, getByCode, useGetAllPaginatedHsnCodeData,useGetAllHsnForDrop};
+export {
+  useGetAllHsnCode,
+  useDeleteHsnCode,
+  useCreateHsnCode,
+  useUpdateHsnCode,
+  useUploadHsnCode,
+  useGetByCode,
+  useGetAllPaginatedHsnCodeData,
+  useGetAllHsnForDrop,
+};

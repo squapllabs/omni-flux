@@ -16,8 +16,8 @@ import siteService from '../../service/site-service';
 import AddIcon from '../menu/icons/addIcon';
 import UploadIcon from '../menu/icons/cloudUpload';
 import {
-  updateProject,
-  getByProjectId,
+  useUpdateProject,
+  useGetByProjectId,
   useGetMasterProjectParentType,
 } from '../../hooks/project-hooks';
 import userService from '../../service/user-service';
@@ -33,13 +33,13 @@ import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import CustomLoader from '../ui/customLoader';
 const ProjectEdit = () => {
   const routeParams = useParams();
-  const { data: getOneProjectData, isLoading } = getByProjectId(
+  const { data: getOneProjectData, isLoading } = useGetByProjectId(
     Number(routeParams?.id)
   );
   const isStatusInProgress = getOneProjectData?.status === 'Inprogress';
 
   const [message, setMessage] = useState('');
-  const { mutate: updateProjectData } = updateProject();
+  const { mutate: updateProjectData } = useUpdateProject();
   const [openSnack, setOpenSnack] = useState(false);
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const { data: getAllClientDatadrop = [] } = useGetAllClientDrop();
@@ -70,7 +70,7 @@ const ProjectEdit = () => {
     is_delete: 'N',
     address: '',
   };
-  const [value, setValue] = useState(valueObject);
+  const [value, setValue] = useState<any>(valueObject);
   const [errors, setErrors] = useState('');
   let rowIndex = 0;
   const [openConfirm, setOpenConfirm] = useState(false);
@@ -772,7 +772,7 @@ const ProjectEdit = () => {
                                   onSelect={(value) => {
                                     setValue({
                                       ...siteConfigData,
-                                      ['site_id']: Number(value),
+                                      'site_id': Number(value),
                                     });
                                   }}
                                   optionList={getAllSite}
@@ -871,7 +871,7 @@ const ProjectEdit = () => {
                                 onSelect={(value) => {
                                   setValue({
                                     ...siteConfigData,
-                                    ['approvar_id']: Number(value),
+                                    'approvar_id': Number(value),
                                   });
                                 }}
                                 onChange={(e) =>
@@ -1022,7 +1022,7 @@ const ProjectEdit = () => {
                               placeholder="Select from options"
                               value={value.approvar_id}
                               onSelect={(datas) => {
-                                setValue({ ...value, ['approvar_id']: datas });
+                                setValue({ ...value, 'approvar_id': datas });
                               }}
                               optionList={getAllUsersDatadrop}
                               error={errors?.approvar_id}

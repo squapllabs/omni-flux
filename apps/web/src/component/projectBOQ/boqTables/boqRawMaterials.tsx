@@ -4,9 +4,9 @@ import AddIcon from '../../menu/icons/addIcon';
 import { useFormik } from 'formik';
 import DeleteIcon from '../../menu/icons/deleteIcon';
 import Button from '../../ui/Button';
-import { createBulkBom } from '../../../hooks/bom-hooks';
+import { useCreateBulkBom } from '../../../hooks/bom-hooks';
 import { useGetAllItemsDrops } from '../../../hooks/item-hooks';
-import { useGetAllUomDrop, getUomByType } from '../../../hooks/uom-hooks';
+import { useGetAllUomDrop, useGetUomByType } from '../../../hooks/uom-hooks';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
 import { bomErrorMessages } from '../../../helper/constants/bom-constants';
@@ -48,7 +48,7 @@ const BomRawMaterials: React.FC = (props: any) => {
   const [reload, setReload] = useState(false);
   const [bomIndex, setBomIndex] = useState<any>();
   const { data: getAllItemDrop } = useGetAllItemsDrops();
-  const { data: getAllUomDrop } = getUomByType('RAWMT');
+  const { data: getAllUomDrop } = useGetUomByType('RAWMT');
 
   useEffect(() => {
     if (props.bomList.length === 0 && props.bomId) {
@@ -92,7 +92,7 @@ const BomRawMaterials: React.FC = (props: any) => {
         [event.target.name]: event.target.value,
       };
     }
-    let tempArry = [...props.bomList];
+    const tempArry = [...props.bomList];
     tempArry[index] = tempObj;
     props.setBomList(tempArry);
   };
@@ -116,16 +116,16 @@ const BomRawMaterials: React.FC = (props: any) => {
             'decimal-validation',
             'Item already exists',
             async function (value, { parent }: Yup.TestContext) {
-              let isDelete = parent.is_delete;
+              const isDelete = parent.is_delete;
               if (value != null) {
                 try {
                   const bOMType = parent.bom_type;
                   if (bOMType === 'RAWMT') {
-                    let dummy: any = [];
+                    const dummy: any = [];
                     const allIds = props.bomList.map((item: any) => {
-                      if (item.is_delete === 'N') {
-                        item.item_id;
-                      }
+                      // if (item.is_delete === 'N') {
+                      //   item.item_id;
+                      // }
                       if (item.is_delete === false) {
                         dummy.push(item.item_id);
                       }
@@ -237,7 +237,7 @@ const BomRawMaterials: React.FC = (props: any) => {
                             if (!value) {
                               tempObj.rate = '';
                             }
-                            let tempArry = [...props.bomList];
+                            const tempArry = [...props.bomList];
                             tempArry[index] = tempObj;
                             props.setBomList(tempArry);
                           }}

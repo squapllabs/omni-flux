@@ -1,21 +1,21 @@
 import React from 'react';
-import { getByStockAuditId } from '../../../hooks/stockAudit-hooks';
+import { useGetByStockAuditId } from '../../../hooks/stockAudit-hooks';
 import { useParams, useNavigate } from 'react-router-dom';
 import Styles from '../../../styles/project.module.scss';
-import { format } from 'date-fns';
-import Button from '../../ui/Button';
+// import { format } from 'date-fns';
+// import Button from '../../ui/Button';
 import CustomLoader from '../../ui/customLoader';
-import BackArrow from '../../menu/icons/backArrow';
+// import BackArrow from '../../menu/icons/backArrow';
 import PreviousPageIcon from '../../menu/icons/previousPageIcon';
 
 const ProjectStockAuditView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   let rowIndex = 0;
-  const { data: getStockData, isLoading: dataLoading } = getByStockAuditId(
+  const { data: getStockData, isLoading: dataLoading } = useGetByStockAuditId(
     Number(routeParams?.id)
   );
-console.log("koko",getStockData);
+  console.log('koko', getStockData);
 
   return (
     <div className={Styles.container}>

@@ -5,11 +5,8 @@ import Styles from '../../../../styles/newStyles/localPurchase.module.scss';
 import indentApprovalRequestService from '../../../../service/indent-approval-request-service';
 import ProjectSubheader from '../../projectSubheader';
 import SiteNavigateIcon from '../../../menu/icons/siteNavigateIcon';
-// import CloseIcon from '../../../menu/icons/closeIcon';
-// import userService from '../../../../service/user-service';
-// import FileUploadIcon from '../../../menu/icons/fileUploadIcon';
 import Button from '../../../ui/Button';
-import { purchaseOrderRequest } from '../../../../hooks/purchase-request-hooks';
+import { usePurchaseOrderRequest } from '../../../../hooks/purchase-request-hooks';
 import CustomSnackBar from '../../../ui/customSnackBar';
 import ApproveDialogBox from '../../../ui/CustomApprovePopup';
 
@@ -22,22 +19,10 @@ const LocalPurchaseOrder = () => {
   const [indentRequestData, setIndentRequestData] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(50);
-  // const [purchaseOrderDocument, setPurchaseOrderDocument] = useState<any>([]);
-  // const [fileSizeError, setFileSizeError] = useState<string>('');
-  // const [fileMandatoryError, setFileMandatoryError] = useState('');
-  // const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
-  // const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  // const [fieldValue, setFieldValue] = useState<any>([]);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [openApprove, setOpenApprove] = useState(false);
-  // const fileInputRef = useRef<HTMLInputElement | null>(null);
-  // const onButtonClick = () => {
-  //   if (fileInputRef.current) {
-  //     fileInputRef.current.click();
-  //   }
-  // };
-  const { mutate: postDataForFilter } = purchaseOrderRequest();
+  const { mutate: postDataForFilter } = usePurchaseOrderRequest();
   const currentDate = new Date();
 
   const fetchData = async () => {
@@ -50,70 +35,6 @@ const LocalPurchaseOrder = () => {
   useEffect(() => {
     fetchData();
   }, [indentId]);
-
-  // const deleteFileinList = (index: any) => {
-  //   let tempObj = {};
-  //   purchaseOrderDocument[index].is_delete = 'Y';
-  //   tempObj = {
-  //     ...purchaseOrderDocument[index],
-  //   };
-  //   let tempArry = [...purchaseOrderDocument];
-  //   tempArry[index] = tempObj;
-  //   setPurchaseOrderDocument(tempArry);
-  // };
-
-  // const handleFileSelect = async (e: any) => {
-  //   const files = e.target.files;
-  //   if (files.length > 0) {
-  //     const fileList: File[] = Array.from(files);
-  //     const oversizedFiles = fileList.filter(
-  //       (file) => file.size > 10 * 1024 * 1024
-  //     );
-  //     if (oversizedFiles.length > 0) {
-  //       const oversizedFileNames = oversizedFiles
-  //         .map((file) => file.name)
-  //         .join(', ');
-  //       const errorMessage = `The following files exceed 10MB: ${oversizedFileNames}`;
-  //       setFileSizeError(errorMessage);
-  //       setMessage(errorMessage);
-  //     } else {
-  //       const selectedFilesArray: File[] = [];
-  //       const selectedFileNamesArray: string[] = [];
-  //       const arr: any = [];
-  //       for await (const file of fileList) {
-  //         const code = 'purchase-order-item-' + indentId;
-  //         const response = await userService.documentUpload(file, code);
-  //         const obj = {
-  //           ...response?.data[0],
-  //           is_delete: 'N',
-  //           code: code,
-  //           folder: 'purchase-order-item',
-  //         };
-  //         arr.push(obj);
-  //         selectedFilesArray.push(file);
-  //         selectedFileNamesArray.push(file?.name);
-  //       }
-  //       setPurchaseOrderDocument(arr);
-  //       setFieldValue({ ...fieldValue, vendor_quotes_documents: arr });
-  //       setSelectedFiles(selectedFilesArray);
-  //       setSelectedFileName(selectedFileNamesArray);
-  //       setFileSizeError('');
-  //       setMessage('Document uploaded');
-  //       setOpenSnack(true);
-  //     }
-  //   }
-  // };
-
-  // const generateCustomQuotationName = () => {
-  //   if (indentRequestData) {
-  //     const name = indentRequestData?.data?.indent_request_code;
-  //     const year = new Date().getFullYear();
-  //     const customBillName = `ALM-LP-${name.slice(-5)}-${year}`;
-  //     return customBillName.toUpperCase();
-  //   }
-  //   return '';
-  // };
-
   const handleConvertToPo = () => {
     const purchaseOrderItems: any = [];
     indentRequestData?.data?.indent_request_details?.forEach(

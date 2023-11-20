@@ -6,19 +6,18 @@ import Input from '../ui/Input';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import DatePicker from '../ui/CustomDatePicker';
 import Button from '../ui/Button';
-import AddIcon from '../menu/icons/addIcon';
 import Checkbox from '../ui/Checkbox';
 import { format } from 'date-fns';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import ProjectService from '../../service/project-service';
 import StockOutWardService from '../../service/stock-outward-service';
 import {
-  getUserDataProjectRolebased,
-  getByProjectId,
+  useGetUserDataProjectRolebased,
+  useGetByProjectId,
 } from '../../hooks/project-hooks';
 import {
-  updateStockOutWard,
-  getByStockOutWardId,
+  useUpdateStockOutWard,
+  // useGetByStockOutWardId,
 } from '../../hooks/stock-outward';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -38,8 +37,8 @@ const StoreOutwardEdit = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userData: any = encryptedData?.userData;
-  const siteEngineerName: any =
-    userData?.first_name + ' ' + userData?.last_name;
+  // const siteEngineerName: any =
+  //   userData?.first_name + ' ' + userData?.last_name;
   const siteEngineerId: any = userData?.user_id;
   const location = useLocation();
   const projectId = location.state?.projectId;
@@ -66,13 +65,14 @@ const StoreOutwardEdit = () => {
 
   const fetchProjectSite = async () => {
     const siteData = await ProjectService.getOneProjectSite(projectId);
-    let arr: any = [];
-    let siteValues = siteData?.data?.map((site: any) => {
-      let obj: any = {
+    const arr: any = [];
+    const siteValues = siteData?.data?.map((site: any) => {
+      const obj: any = {
         value: site?.site_id,
         label: site?.site_details?.name,
       };
       arr.push(obj);
+      return obj;
     });
     setSiteData(arr);
   };
@@ -100,15 +100,14 @@ const StoreOutwardEdit = () => {
   }, []);
 
   const navigate = useNavigate();
-  let rowIndex = 0;
-  let Obj: any = {
+  const Obj: any = {
     projectID: projectId,
     role: 'Site Engineer',
   };
 
-  const { data: getSiteEngineerData } = getUserDataProjectRolebased(Obj);
-  const { data: getProjectData } = getByProjectId(projectId);
-  const { mutate: updateOneStockOutWard } = updateStockOutWard();
+  const { data: getSiteEngineerData } = useGetUserDataProjectRolebased(Obj);
+  const { data: getProjectData } = useGetByProjectId(projectId);
+  const { mutate: updateOneStockOutWard } = useUpdateStockOutWard();
   const validationSchema = getStockOutwardCreationYupschema(Yup);
 
   const formik = useFormik({
@@ -116,7 +115,7 @@ const StoreOutwardEdit = () => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
-      let object: any = {
+      const object: any = {
         stock_outward_id: values.stock_outward_id,
         project_id: Number(projectId),
         site_id: values.site_id,
@@ -158,10 +157,10 @@ const StoreOutwardEdit = () => {
     setOpenSnack(false);
   };
 
-  const handleCheckBoxSiteChange = (e: any) => {
-    const CheckboxValue = e.target.checked;
-    setSiteChecked(CheckboxValue);
-  };
+  // const handleCheckBoxSiteChange = (e: any) => {
+  //   const CheckboxValue = e.target.checked;
+  //   setSiteChecked(CheckboxValue);
+  // };
 
   return (
     <div>
@@ -234,7 +233,7 @@ const StoreOutwardEdit = () => {
                     onSelect={(value) => {
                       formik.setFieldValue('site_id', value);
                     }}
-                    optionList={siteData != undefined ? siteData : []}
+                    optionList={siteData !== undefined ? siteData : []}
                     error={formik.touched.site_id && formik.errors.site_id}
                   />
                 </div>
@@ -252,7 +251,7 @@ const StoreOutwardEdit = () => {
                       formik.setFieldValue('site_engineer_id', value);
                     }}
                     optionList={
-                      getSiteEngineerData != undefined
+                      getSiteEngineerData !== undefined
                         ? getSiteEngineerData
                         : []
                     }
@@ -353,13 +352,14 @@ const ItemDetailsTable: React.FC = (props: {
       projectId
     );
     setItemDetails(itemData?.data);
-    let arr: any = [];
-    let itemValues = itemData?.data?.map((item: any) => {
-      let obj: any = {
+    const arr: any = [];
+    const itemValues = itemData?.data?.map((item: any) => {
+      const obj: any = {
         value: item?.item_id,
         label: item?.item_data?.item_name,
       };
       arr.push(obj);
+      return obj;
     });
     setItemData(arr);
   };

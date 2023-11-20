@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/stockOutwardList.module.scss';
 import Button from '../ui/Button';
-import { getAllPaginatedStockOutwardData } from '../../hooks/stock-outward';
+import { useGetAllPaginatedStockOutwardData } from '../../hooks/stock-outward';
 import CustomLoader from '../ui/customLoader';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router';
 import AddIcon from '../menu/icons/addIcon';
-import { getProjectSite } from '../../hooks/project-hooks';
+import { useGetProjectSite } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import ViewIcon from '../menu/icons/newViewIcon';
 import EditIcon from '../menu/icons/newEditIcon';
@@ -18,7 +18,7 @@ const StockOutwardList = () => {
   const navigate = useNavigate();
   const routeParams = useParams();
 
-  const { data: getSiteList, isLoading: siteLoading } = getProjectSite(
+  const { data: getSiteList, isLoading: siteLoading } = useGetProjectSite(
     Number(routeParams?.id)
   );
   const initialSiteId =
@@ -44,7 +44,7 @@ const StockOutwardList = () => {
     data: getStockData,
     isLoading: FilterLoading,
     refetch,
-  } = getAllPaginatedStockOutwardData(stockData);
+  } = useGetAllPaginatedStockOutwardData(stockData);
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -208,10 +208,14 @@ const StockOutwardList = () => {
                 <img src="/stock.jpg" alt="aa" width="100%" height="200px" />
               </div>
               <div>
-                <h5 className={Styles.textmax}>This project has no Stock Details</h5>
+                <h5 className={Styles.textmax}>
+                  This project has no Stock Details
+                </h5>
               </div>
               <div>
-                <p className={Styles.textmin}>Manage Stock Outward details to this project now </p>
+                <p className={Styles.textmin}>
+                  Manage Stock Outward details to this project now{' '}
+                </p>
               </div>
               <div className={Styles.emptyButton}>
                 <Button

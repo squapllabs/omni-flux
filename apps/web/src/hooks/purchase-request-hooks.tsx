@@ -41,7 +41,7 @@ const useGetOnePurchaseOrderTableData = (id: any) => {
   );
 };
 
-const purchaseOrderRequest = () => {
+const usePurchaseOrderRequest = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -80,7 +80,7 @@ const useGetMasterBillStatusParentType = () => {
   );
 };
 
-const updatePurchseOrderBillStatus = () => {
+const useUpdatePurchseOrderBillStatus = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -94,7 +94,7 @@ const updatePurchseOrderBillStatus = () => {
   );
 };
 
-const updatePurchseOrderStatus = () => {
+const useUpdatePurchseOrderStatus = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -130,33 +130,13 @@ const useGetAllMyOrderData = (data: any) => {
   );
 };
 
-const getBySearchPoData = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return purchaseRequestService.getPoData(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+const useGetBySearchPoData = () => {
+  return useMutation((data: any) => {
+    return purchaseRequestService.getPoData(data);
+  });
 };
-// const getBySearchPR = () => {
-//   const queryClient = useQueryClient();
-//   return useMutation(
-//     (data: any) => {
-//       return purchaseRequestService.purchaseDetailData(data);
-//     },
-//     {
-//       onSuccess: (response) => {
-//         response;
-//       },
-//     }
-//   );
-// };
-const getBySearchPR = (data: any) => {
+
+const useGetBySearchPR = (data: any) => {
   return useQuery(
     ['getAllPRbasedOnIndent'],
     () => purchaseRequestService.purchaseDetailData(data),
@@ -167,7 +147,7 @@ const getBySearchPR = (data: any) => {
   );
 };
 
-const purchaseOrderGetAll = (data: any) => {
+const usePurchaseOrderGetAll = (data: any) => {
   return useQuery(
     ['useGetAllpurchaseOrder'],
     () => purchaseRequestService.purchseOrderGetAll(data),
@@ -180,16 +160,16 @@ const purchaseOrderGetAll = (data: any) => {
 
 export {
   useGetOnePurchaseRequest,
-  purchaseOrderRequest,
+  usePurchaseOrderRequest,
   useGetOneOrderPurchaseRequest,
   useGetMasterBillStatusParentType,
-  updatePurchseOrderBillStatus,
+  useUpdatePurchseOrderBillStatus,
   useGetAllPurchaseOrderData,
-  getBySearchPoData,
+  useGetBySearchPoData,
   useGetOnePurchaseOrder,
-  getBySearchPR,
+  useGetBySearchPR,
   useGetOnePurchaseOrderTableData,
-  purchaseOrderGetAll,
+  usePurchaseOrderGetAll,
   useGetAllMyOrderData,
-  updatePurchseOrderStatus,
+  useUpdatePurchseOrderStatus,
 };

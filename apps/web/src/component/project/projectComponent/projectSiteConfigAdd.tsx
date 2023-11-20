@@ -3,7 +3,7 @@ import { useGetAllSiteDrops } from '../../../hooks/site-hooks';
 import {
   useGetAllUsersDrop,
   useGetAllUsers,
-  getUserbyRole,
+  useGetUserbyRole,
 } from '../../../hooks/user-hooks';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -12,8 +12,8 @@ import Styles from '../../../styles/newStyles/project_siteConfig.module.scss';
 import Input from '../../ui/Input';
 import Button from '../../ui/Button';
 import {
-  createprojectSite,
-  updateprojectSite,
+  useCreateprojectSite,
+  useUpdateprojectSite,
 } from '../../../hooks/projectSite-hooks';
 import projectSiteService from '../../../service/projectSite-service';
 
@@ -37,8 +37,8 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
   const handleClose = () => {
     props.setOpen(false);
   };
-  const { mutate: postProjectSite } = createprojectSite();
-  const { mutate: updateProjectSite } = updateprojectSite();
+  const { mutate: postProjectSite } = useCreateprojectSite();
+  const { mutate: updateProjectSite } = useUpdateprojectSite();
   useEffect(() => {
     const fetchData = async () => {
       const getData = await projectSiteService.getOneprojectSiteByID(
@@ -115,7 +115,7 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
       // console.log('values', values);
-      if (props?.mode == 'ADD') {
+      if (props?.mode === 'ADD') {
         postProjectSite(values, {
           onSuccess(data, variables, context) {
             // console.log('data', data);

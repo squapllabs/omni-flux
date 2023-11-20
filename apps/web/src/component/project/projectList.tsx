@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/projectlist.module.scss';
 import {
   useDeleteProjects,
-  getPaginatedMemberBasedProject,
+  useGetPaginatedMemberBasedProject,
 } from '../../hooks/project-hooks';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
@@ -43,9 +43,9 @@ const ProjectList = () => {
   const [buttonLabels, setButtonLabels] = useState([
     ...(roleName === 'PROJECT MANAGER' || roleName === 'ADMIN'
       ? [
-        { label: 'All', value: 'ALL' },
-        { label: 'Draft', value: 'Draft' },
-      ]
+          { label: 'All', value: 'ALL' },
+          { label: 'Draft', value: 'Draft' },
+        ]
       : []),
     { label: 'Inprogress', value: 'Inprogress' },
     { label: 'Completed', value: 'Completed' },
@@ -68,27 +68,27 @@ const ProjectList = () => {
     isFetched: getAllLoadingPaginated,
     data: getFilterData,
     refetch,
-  } = getPaginatedMemberBasedProject(
+  } = useGetPaginatedMemberBasedProject(
     activeButton === 'ALL'
       ? {
-        limit: rowsPerPage,
-        offset: (currentPage - 1) * rowsPerPage,
-        order_by_column: 'updated_date',
-        order_by_direction: 'desc',
-        global_search: filterValues?.search_by_name,
-        status: activeButton,
-      }
+          limit: rowsPerPage,
+          offset: (currentPage - 1) * rowsPerPage,
+          order_by_column: 'updated_date',
+          order_by_direction: 'desc',
+          global_search: filterValues?.search_by_name,
+          status: activeButton,
+        }
       : {
-        limit: rowsPerPage,
-        offset: (currentPage - 1) * rowsPerPage,
-        order_by_column: 'updated_date',
-        order_by_direction: 'desc',
-        global_search: filterValues?.search_by_name,
-        status: 'AC',
-        user_id: roleName === 'ADMIN' ? null : userID,
-        project_status: activeButton,
-        project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
-      }
+          limit: rowsPerPage,
+          offset: (currentPage - 1) * rowsPerPage,
+          order_by_column: 'updated_date',
+          order_by_direction: 'desc',
+          global_search: filterValues?.search_by_name,
+          status: 'AC',
+          user_id: roleName === 'ADMIN' ? null : userID,
+          project_status: activeButton,
+          project_manager_id: roleName === 'PROJECT MANAGER' ? true : false,
+        }
   );
 
   useEffect(() => {
@@ -179,7 +179,7 @@ const ProjectList = () => {
                 onChange={(e) => {
                   setFilterValues({
                     ...filterValues,
-                    ['search_by_name']: e.target.value,
+                    [filterValues?.search_by_name]: e.target.value,
                   });
                   setCurrentPage(1);
                 }}
@@ -222,14 +222,15 @@ const ProjectList = () => {
                           </td>
                           <td>
                             <span
-                              className={`${Styles.status} ${data?.status === 'Inprogress'
-                                ? Styles.inprogressStatus
-                                : data?.status === 'Completed'
+                              className={`${Styles.status} ${
+                                data?.status === 'Inprogress'
+                                  ? Styles.inprogressStatus
+                                  : data?.status === 'Completed'
                                   ? Styles.completedStatus
                                   : data?.status === 'Draft'
-                                    ? Styles.draftStatus
-                                    : ''
-                                }`}
+                                  ? Styles.draftStatus
+                                  : ''
+                              }`}
                             >
                               {data?.status}
                             </span>

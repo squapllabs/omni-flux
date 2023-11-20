@@ -1,4 +1,4 @@
-import { getByuserID } from '../../hooks/user-hooks';
+import { useGetByuserID } from '../../hooks/user-hooks';
 import Styles from '../../styles/userInfo.module.scss';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router';
@@ -9,7 +9,7 @@ const UserInformation = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   const userId = Number(routeParams?.id);
-  const { data: getOneUser } = getByuserID(userId);
+  const { data: getOneUser } = useGetByuserID(userId);
 
   return (
     <div>
@@ -79,7 +79,7 @@ const UserInformation = () => {
                     {getOneUser?.userProfileData?.address.country && (
                       <>{getOneUser?.userProfileData?.address.country}, </>
                     )}
-                     {getOneUser?.userProfileData?.address.pin_code}
+                    {getOneUser?.userProfileData?.address.pin_code}
                   </>
                 ) : (
                   'Address not available'

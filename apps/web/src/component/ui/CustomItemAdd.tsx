@@ -3,7 +3,7 @@ import Styles from '../../styles/addItem.module.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Button from '../ui/Button';
-import CustomSnackBar from '../ui/customSnackBar';
+// import CustomSnackBar from '../ui/customSnackBar';
 import TextArea from '../ui/CustomTextArea';
 import Input from '../ui/Input';
 import Select from '../ui/selectNew';
@@ -12,8 +12,8 @@ import { useGetAllBrandForDrop } from '../../hooks/item-type-hooks';
 import { useGetAllGstForDrop } from '../../hooks/gst-hooks';
 import { useGetAllUomDrop } from '../../hooks/uom-hooks';
 import { useGetAllHsnForDrop } from '../../hooks/hsnCode-hooks';
-import { instantCreateItem } from '../../hooks/item-hooks';
-import { getBymasertDataType } from '../../hooks/masertData-hook';
+import { useInstantCreateItem } from '../../hooks/item-hooks';
+import { useGetBymasertDataType } from '../../hooks/masertData-hook';
 import { getCreateValidateyup } from '../../helper/constants/item-constants';
 
 const InstantItemAdd = (props: {
@@ -23,12 +23,12 @@ const InstantItemAdd = (props: {
   setOpenSnack: any;
 }) => {
   const { onAction, setMessage, setOpenSnack } = props;
-  const { data: getAllItemTypeList = [] } = getBymasertDataType('IMTY');
+  const { data: getAllItemTypeList = [] } = useGetBymasertDataType('IMTY');
   const { data: getAllGstList = [] } = useGetAllGstForDrop();
   const { data: getAllUomList = [] } = useGetAllUomDrop();
   const { data: getAllHsnList = [] } = useGetAllHsnForDrop();
   const { data: getAllBrandList = [] } = useGetAllBrandForDrop();
-  const { mutate: createNewItem } = instantCreateItem();
+  const { mutate: createNewItem } = useInstantCreateItem();
   const validationSchema = getCreateValidateyup(Yup);
   const [initialValues, setInitialValues] = useState({
     item_id: '',

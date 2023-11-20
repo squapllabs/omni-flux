@@ -1,9 +1,9 @@
 import React from 'react';
 import {
   useGetAllUsers,
-  useDeleteUsers,
-  getByUser,
-  useGetAllPaginatedUser,
+  // useDeleteUsers,
+  // useGetByUser,
+  // useGetAllPaginatedUser,
 } from '../../hooks/user-hooks';
 
 const UserList = () => {

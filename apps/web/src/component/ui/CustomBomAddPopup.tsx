@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import Input from '../ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/customaddbom.module.scss';
-import { createBom } from '../../hooks/bom-hooks';
+import { useCreateBom } from '../../hooks/bom-hooks';
 import CustomPopup from '../ui/CustomPopupDialog';
 import CloseIcon from '../menu/icons/closeIcon';
 import { getBomValidateyup } from '../../helper/constants/bom-constants';
@@ -16,7 +16,7 @@ import { useGetAllItemsDrops } from '../../hooks/item-hooks';
 const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
   const { isVissible, onAction } = props;
   const validationSchemaBom = getBomValidateyup(Yup);
-  const { mutate: createNewBom } = createBom();
+  const { mutate: createNewBom } = useCreateBom();
   const [clientinitialValues, setclientInitialValues] = useState({
     bom_name: '',
     uom_id: '',
@@ -40,16 +40,15 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
         uom_id: Number(values.uom_id),
         item_id: Number(values.item_id),
       };
-      console.log(Object)
-    //   createNewBom(Object, {
-    //     onSuccess: (data, variables, context) => {
-    //       if (data?.success) {
-    //         setMessage('Bom created');
-    //         setOpenSnack(true);
-    //         handleCloseForm();
-    //       }
-    //     },
-    //   });
+      createNewBom(Object, {
+        onSuccess: (data, variables, context) => {
+          if (data?.success) {
+            setMessage('Bom created');
+            setOpenSnack(true);
+            handleCloseForm();
+          }
+        },
+      });
     },
   });
 

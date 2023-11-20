@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import BomService from '../service/bom-service';
 
-const createBom = () => {
+const useCreateBom = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -9,7 +9,6 @@ const createBom = () => {
     },
     {
       onSuccess: (response, _var) => {
-        response;
         queryClient.invalidateQueries([
           'getOneSubcategoryID',
           _var[0].sub_category_id,
@@ -18,7 +17,7 @@ const createBom = () => {
     }
   );
 };
-const createBulkBom = () => {
+const useCreateBulkBom = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -26,7 +25,6 @@ const createBulkBom = () => {
     },
     {
       onSuccess: (response) => {
-        console.log('response', response);
         queryClient.invalidateQueries([
           'getBOMDetails',
           {
@@ -35,13 +33,12 @@ const createBulkBom = () => {
               response?.data?.bom_configuration_details?.bom_configuration_id,
           },
         ]);
-        response;
       },
     }
   );
 };
 
-const getBOMbyProjectandType = (value: any) => {
+const useGetBOMbyProjectandType = (value: any) => {
   return useQuery(
     ['getBOMbyProjectandType', value],
     () => BomService.getBOMbyProjectandType(value),
@@ -59,7 +56,7 @@ const getBOMbyProjectandType = (value: any) => {
   );
 };
 
-const createBoQ = () => {
+const useCreateBoQ = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -73,7 +70,7 @@ const createBoQ = () => {
   );
 };
 
-const getBySearchBoQProject = (data: any) => {
+const useGetBySearchBoQProject = (data: any) => {
   return useQuery(
     ['useGetAllProjectBOQData'],
     () => BomService.getProjectBoQList(data),
@@ -84,7 +81,7 @@ const getBySearchBoQProject = (data: any) => {
   );
 };
 
-const updateBoQ = () => {
+const useUpdateBoQ = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -124,10 +121,10 @@ const updateBoQ = () => {
 // };
 
 export {
-  createBom,
-  createBulkBom,
-  getBOMbyProjectandType,
-  createBoQ,
-  getBySearchBoQProject,
-  updateBoQ,
+  useCreateBom,
+  useCreateBulkBom,
+  useGetBOMbyProjectandType,
+  useCreateBoQ,
+  useGetBySearchBoQProject,
+  useUpdateBoQ,
 };

@@ -35,10 +35,10 @@ const useGetAllInactiveUsers = () => {
   );
 };
 
-const getByloginID = (id: string) => {
+const useGetByloginID = (id: string) => {
   return useQuery(['getByLoginID', id], () => userService.getOneUser(id));
 };
-const getUserbyRole = (type: string) => {
+const useGetUserbyRole = (type: string) => {
   return useQuery(
     ['getUserbyRole', type],
     () => userService.getuserByRoleType(type),
@@ -52,12 +52,12 @@ const getUserbyRole = (type: string) => {
     }
   );
 };
-const getByuserID = (id: number) => {
+const useGetByuserID = (id: number) => {
   return useQuery(['getByuserID', id], () => userService.getOneUserbyID(id), {
     select: (data) => data.data,
   });
 };
-const createUser = () => {
+const useCreateUser = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -71,7 +71,7 @@ const createUser = () => {
   );
 };
 
-const updateUser = () => {
+const useUpdateUser = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -98,29 +98,21 @@ const useDeleteUsers = () => {
     }
   );
 };
-const getByUser = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return userService.filterUser(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+const useGetByUser = () => {
+  return useMutation((data: any) => {
+    return userService.filterUser(data);
+  });
 };
 export {
   useGetAllUsers,
-  getByloginID,
-  getByuserID,
-  createUser,
-  updateUser,
+  useGetByloginID,
+  useGetByuserID,
+  useCreateUser,
+  useUpdateUser,
   useDeleteUsers,
   useGetAllInactiveUsers,
   useGetAllUsersDrop,
-  getByUser,
+  useGetByUser,
   useGetAllPaginatedUser,
-  getUserbyRole,
+  useGetUserbyRole,
 };

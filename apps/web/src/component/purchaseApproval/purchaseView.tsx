@@ -3,19 +3,19 @@ import { useParams, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
 import Styles from '../../styles/purchaseView.module.scss';
-import { environment } from '../../environment/environment';
-import { formatBudgetValue } from '../../helper/common-function';
+// import { environment } from '../../environment/environment';
+// import { formatBudgetValue } from '../../helper/common-function';
 import CustomLoader from '../ui/customLoader';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import indentApprovalService from '../../service/indent-approval-request-service';
-import AddIcon from '../menu/icons/addIcon';
+// import AddIcon from '../menu/icons/addIcon';
 import purchaseRequestService from '../../service/purchaseRequest-service';
 import CustomPurchaseRequest from '../ui/CustomPurchaseRequestPopup';
-import CustomMenu from '../ui/CustomMenu';
+// import CustomMenu from '../ui/CustomMenu';
 import CustomSnackBar from '../ui/customSnackBar';
 import ProjectSubheader from '../project/projectSubheader';
-import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
+// import PdfDownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/pdfReport/requestForQuotation';
 import Checkbox from '../ui/Checkbox';
 
@@ -29,8 +29,6 @@ const PurchaseView = () => {
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [tableData, setTableData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
-  // console.log('tabled', tableData);
-  // console.log('selectedRows', selectedRows);
   const [purchaseTableData, setPurchaseTableData] = useState([]);
   const [dataCount, setDataCount] = useState(0);
   const [dataLoading, setDataLoading] = useState(false);
@@ -55,9 +53,9 @@ const PurchaseView = () => {
     indent_request_id: indentId,
   };
 
-  const handleReportGenerator = (data:any) => {
-    ReportGenerator(data);
-  };
+  // const handleReportGenerator = (data: any) => {
+  //   ReportGenerator(data);
+  // };
 
   useEffect(() => {
     const getAllData = async () => {
@@ -73,8 +71,6 @@ const PurchaseView = () => {
     };
     getAllData();
   }, []);
-
-  // console.log("tabled", tableData);
 
   const purchaseData = {
     limit: rowsPerPage,
@@ -98,9 +94,6 @@ const PurchaseView = () => {
     };
     getAllPurchaseData();
   }, [reload]);
-
-  console.log("purchasetable",purchaseTableData);
-  
 
   const handleSnackBarClose = () => {
     setOpenSnack(false);
@@ -127,7 +120,6 @@ const PurchaseView = () => {
   useEffect(() => {
     setSelectedRowCount(selectedRows.length);
   }, [selectedRows]);
-  // const nullLableNameFromEnv = `${environment.NULLVALUE}`;
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
@@ -188,7 +180,7 @@ const PurchaseView = () => {
               </thead>
               <tbody>
                 {tableData?.map((data: any, index: number) => (
-                  <tr key={data.indent_request_id}>
+                  <tr key={data.indent_request_details_id}>
                     <td>
                       <Checkbox
                         name="is_remember_me"
@@ -200,149 +192,13 @@ const PurchaseView = () => {
                     <td>{data?.bom_detail_data?.item_data?.item_name}</td>
                     <td>{data?.bom_detail_data?.uom_data?.name}</td>
                     <td>{data?.indent_requested_quantity}</td>
-                    {/* <td>
-                        {formatBudgetValue(
-                          data?.bom_detail_data?.rate
-                            ? data?.bom_detail_data?.rate
-                            : 0
-                        )}
-                      </td>
-                      <td>
-                        {formatBudgetValue(data?.total ? data?.total : 0)}
-                      </td> */}
                   </tr>
                 ))}
               </tbody>
             </table>
-            {/* </div> */}
           </div>
-          {/* <div className={Styles.approveButton}>
-            <div>
-              <Button
-                shape="rectangle"
-                justify="center"
-                size="small"
-                color="primary"
-                onClick={() => {
-                  navigate('/purchase-request-add', {
-                    state: { project_id: projectId, indent_id: indentId },
-                  });
-                }}
-              >
-                <AddIcon color="white" />
-                Create PR
-              </Button>
-            </div>
-          </div> */}
         </div>
       </CustomLoader>
-      {/* <div className={Styles.bottomTable}>
-        <div className={Styles.tableContainer}>
-          <div>
-            <div className={Styles.tableText}>
-              <h3>Purchase Request List</h3>
-            </div>
-            <table className={Styles.scrollable_table}>
-              <thead>
-                <tr>
-                  <th className={Styles.tableHeading}>#</th>
-                  <th className={Styles.tableHeading}>Purchase Request</th>
-                  <th className={Styles.tableHeading}>Vendor Name </th>
-                  <th className={Styles.tableHeading}>Quotation Budget</th>
-                  <th className={Styles.tableHeading}>No of Items</th>
-                  <th className={Styles.tableHeading}>Quotation Status</th>
-                  <th className={Styles.tableHeading}>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {dataCount === 0 ? (
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td>No data found</td>
-                    <td></td>
-                  </tr>
-                ) : (
-                  ''
-                )}
-                {purchaseTableData?.map((data: any, index: number) => {
-                  const itemData = data?.purchase_request_details;
-                  const isStatusApproved = data?.status === 'Approved';
-                  const isMarkEnabled = isStatusApproved;
-                  const actions = [
-                    {
-                      label: 'View Items',
-                      onClick: () => {
-                        navigate(`/request-items`, {
-                          state: {
-                            data: itemData,
-                            project_id: projectId,
-                            indent_id: indentId,
-                          },
-                        });
-                      },
-                    },
-                    {
-                      label: 'View Vendor',
-                      onClick: () => {
-                        navigate(
-                          `/vendor-select/${data?.purchase_request_id}`,
-                          {
-                            state: {
-                              project_id: projectId,
-                              indent_id: indentId,
-                            },
-                          }
-                        );
-                      },
-                    },
-                    {
-                      label: 'Move to PO',
-                      onClick: () => {
-                        if (isMarkEnabled) {
-                          navigate(
-                            `/purchase-request/${data?.purchase_request_id}`
-                          );
-                        }
-                      },
-                      disabled: !isMarkEnabled,
-                    },
-                  ];
-                  return (
-                    <tr key={data.purchase_request_id}>
-                      <td>{startingIndex + index}</td>
-                      <td>
-                        {data.indent_request_data.description ||
-                          nullLableNameFromEnv}
-                      </td>
-                      <td>
-                        {data?.selected_vendor_data?.vendor_name ||
-                          nullLableNameFromEnv}
-                      </td>
-                      <td>
-                        {data?.total_cost
-                          ? formatBudgetValue(data?.total_cost)
-                          : nullLableNameFromEnv}
-                      </td>
-                      <td>
-                        {data?.purchase_request_details?.length ||
-                          nullLableNameFromEnv}
-                      </td>
-                      <td>{data?.status || 'N.A'}</td>
-                      <td>
-                        <div style={{display:"flex",flexDirection:"row",gap:"10px",alignItems:"center"}}>
-                        <CustomMenu actions={actions} />
-                        <PdfDownloadIcon onClick={() => handleReportGenerator(data)} />
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div> */}
       <CustomPurchaseRequest
         isVissible={showPurchaseRequestForm}
         setReload={setReload}

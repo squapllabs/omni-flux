@@ -4,7 +4,6 @@ import EditIcon from '../menu/icons/newEditIcon';
 import CustomSnackBar from '../ui/customSnackBar';
 import {
   useDeleteUom,
-  getByUom,
   useGetAllPaginatedUomData,
 } from '../../hooks/uom-hooks';
 import UomForm from './uomForm';
@@ -17,16 +16,10 @@ import AddIcon from '../menu/icons/addIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
-import { handleSortByColumn } from './../../helper/common-function'
+import { handleSortByColumn } from './../../helper/common-function';
 
 /* Function for Unit of Measurement */
 const UomList = () => {
-  const {
-    mutate: postDataForFilter,
-    data: getFilterData,
-    isLoading: searchLoader,
-  } = getByUom();
-
   const { mutate: getDeleteuomByID } = useDeleteUom();
   const [openDelete, setOpenDelete] = useState(false);
   const [uomId, setUomID] = useState();
@@ -37,11 +30,9 @@ const UomList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [value, setValue] = useState();
-  const [dataShow, setDataShow] = useState(false);
   const [openUomForm, setOpenUomForm] = useState(false);
   const [sortColumn, setSortColumn] = useState('');
   const [sortOrder, setSortOrder] = useState('desc');
-
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
   });
@@ -52,6 +43,7 @@ const UomList = () => {
     order_by_direction: sortOrder,
     global_search: filterValues.search_by_name,
   };
+  /* Function to get all uom data */
   const {
     isLoading: getAllLoadingPaginated,
     data: initialData,
@@ -110,7 +102,7 @@ const UomList = () => {
     <div>
       <div>
         <CustomLoader
-          loading={searchLoader ? searchLoader : getAllLoadingPaginated}
+          loading={getAllLoadingPaginated}
           size={48}
           color="#333C44"
         >
@@ -147,7 +139,7 @@ const UomList = () => {
                       onChange={(e) => {
                         setFilterValues({
                           ...filterValues,
-                          ['search_by_name']: e.target.value,
+                          search_by_name: e.target.value,
                         });
                         setCurrentPage(1);
                       }}
@@ -162,9 +154,19 @@ const UomList = () => {
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th onClick={() => handleSortByColumn('name', sortOrder, setSortOrder, setSortColumn)}>
+                          <th
+                            onClick={() =>
+                              handleSortByColumn(
+                                'name',
+                                sortOrder,
+                                setSortOrder,
+                                setSortColumn
+                              )
+                            }
+                          >
                             <div className={Styles.headingRow}>
-                              <div>UOM Name</div><div>
+                              <div>UOM Name</div>
+                              <div>
                                 <FilterOrderIcon />
                               </div>
                             </div>
@@ -174,34 +176,7 @@ const UomList = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {dataShow ? (
-                          getFilterData?.total_count === 0 ? (
-                            <tr>
-                              <td></td>
-                              <td></td>
-                              <td>No data found</td>
-                              <td></td>
-                            </tr>
-                          ) : (
-                            getFilterData?.content?.map(
-                              (data: any, index: number) => (
-                                <tr key={data.uom_id}>
-                                  <td>{startingIndex + index}</td>
-                                  <td>{data.name}</td>
-                                  <td>{data.description}</td>
-
-                                  <td>
-                                    <div className={Styles.tablerow}>
-                                      <EditIcon
-                                        onClick={() => handleEdit(data.uom_id)}
-                                      />
-                                    </div>
-                                  </td>
-                                </tr>
-                              )
-                            )
-                          )
-                        ) : initialData?.total_count === 0 ? (
+                        {initialData?.total_count === 0 ? (
                           <tr>
                             <td></td>
                             <td></td>
@@ -209,21 +184,23 @@ const UomList = () => {
                             <td></td>
                           </tr>
                         ) : (
-                          initialData?.content?.map((data: any, index: number) => (
-                            <tr key={data.uom_id}>
-                              <td>{startingIndex + index}</td>
-                              <td>{data.name}</td>
-                              <td>{data.description}</td>
+                          initialData?.content?.map(
+                            (data: any, index: number) => (
+                              <tr key={data.uom_id}>
+                                <td>{startingIndex + index}</td>
+                                <td>{data.name}</td>
+                                <td>{data.description}</td>
 
-                              <td>
-                                <div className={Styles.tablerow}>
-                                  <EditIcon
-                                    onClick={() => handleEdit(data.uom_id)}
-                                  />
-                                </div>
-                              </td>
-                            </tr>
-                          ))
+                                <td>
+                                  <div className={Styles.tablerow}>
+                                    <EditIcon
+                                      onClick={() => handleEdit(data.uom_id)}
+                                    />
+                                  </div>
+                                </td>
+                              </tr>
+                            )
+                          )
                         )}
                       </tbody>
                     </table>
@@ -232,14 +209,8 @@ const UomList = () => {
                 <div className={Styles.pagination}>
                   <Pagination
                     currentPage={currentPage}
-                    totalPages={
-                      dataShow ? getFilterData?.total_page : initialData?.total_page
-                    }
-                    totalCount={
-                      dataShow
-                        ? getFilterData?.total_count
-                        : initialData?.total_count
-                    }
+                    totalPages={initialData?.total_page}
+                    totalCount={initialData?.total_count}
                     rowsPerPage={rowsPerPage}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
@@ -249,22 +220,18 @@ const UomList = () => {
             </div>
           ) : (
             <div>
-              <div className={Styles.subHeading}>
-              </div>
+              <div className={Styles.subHeading}></div>
               <div className={Styles.emptyDataHandling}>
                 <div>
-                  <img
-                    src="/UOM.jpg"
-                    alt="aa"
-                    width="100%"
-                    height="200px"
-                  />
+                  <img src="/UOM.jpg" alt="aa" width="100%" height="200px" />
                 </div>
                 <div>
                   <h5>UOM is Empty</h5>
                 </div>
                 <div className={Styles.contentGap}>
-                  <span className={Styles.spanContent}>Go ahead, add new Unit of Measure</span>
+                  <span className={Styles.spanContent}>
+                    Go ahead, add new Unit of Measure
+                  </span>
                 </div>
                 <div>
                   <Button
@@ -284,7 +251,6 @@ const UomList = () => {
               </div>
             </div>
           )}
-
         </CustomLoader>
         <CustomSidePopup
           open={openUomForm}

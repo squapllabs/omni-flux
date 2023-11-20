@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
+import { companyDetails } from '../../../helper/commonContent/companyDetails';
 
 const ReportGenerator = (data: any) => {
 
@@ -12,21 +12,7 @@ const ReportGenerator = (data: any) => {
         total: item?.purchase_requested_quantity * item?.item_data?.rate
     }))
 
-    // console.log("itemsData",itemsData);
 
-
-    // console.log("data?.purchase_request_data?.purchase_request_details",data?.purchase_request_data?.purchase_request_details);
-
-    // const itemsData = [];
-
-    // for (let i = 0; i < 150; i++) {
-    //     itemsData.push({
-    //         itemName: 'Water Tanks',
-    //         quantity: 22,
-    //         unitPrice: 1000,
-    //         total: 22 * 1000, // Calculate the total for each item
-    //     });
-    // }
 
     const overallTotal = itemsData?.reduce((accumulator: any, currentItem: any) => {
         return accumulator + currentItem?.total;
@@ -36,12 +22,12 @@ const ReportGenerator = (data: any) => {
     }, 0);
 
     const purchaseOrder = {
-        companyName: 'Eco Protection Engineers',
-        companyAddress: 'Plot No, 943, 54th St',
-        Line1: 'TVS Colony,Anna Nagar West Extension',
-        phoneNumber: '044 2654 5180',
-        emailAddress: 'mail@ecoprotection.in',
-        websiteURL: 'https://ecoprotection.in/',
+        companyName: companyDetails.companyName,
+        companyAddress: companyDetails.companyAddress,
+        Line1: companyDetails.Line1,
+        phoneNumber: companyDetails.phoneNumber,
+        emailAddress: companyDetails.emailAddress,
+        websiteURL: companyDetails.websiteURL,
         orderNumber: data?.order_id,
         orderDate: format(
             new Date(data?.order_date),
@@ -213,7 +199,7 @@ const ReportGenerator = (data: any) => {
 
     // Create summary table
     const summaryYStart = itemDetailsYStart + pdf.autoTable.previous;
-    // console.log("summaryYStart",summaryYStart);
+
     pdf.autoTable({
         body: summaryRows,
         startY: summaryYStart, // Adjust the Y position as needed

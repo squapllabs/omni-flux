@@ -4,8 +4,8 @@ import AddIcon from '../../menu/icons/addIcon';
 import { useFormik } from 'formik';
 import DeleteIcon from '../../menu/icons/deleteIcon';
 import Button from '../../ui/Button';
-import { createBulkBom } from '../../../hooks/bom-hooks';
-import { useGetAllUomDrop, getUomByType } from '../../../hooks/uom-hooks';
+import { useCreateBulkBom } from '../../../hooks/bom-hooks';
+import { useGetAllUomDrop, useGetUomByType } from '../../../hooks/uom-hooks';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
 import { bomErrorMessages } from '../../../helper/constants/bom-constants';
@@ -32,7 +32,7 @@ const BomLabours: React.FC = (props: any) => {
         'decimal-validation',
         bomErrorMessages.ITEM_EXIST,
         async function (value: number, { parent }: Yup.TestContext) {
-          let isDelete = parent.is_delete;
+          const isDelete = parent.is_delete;
           try {
             const isValuePresent = props.bomList.some((obj: any) => {
               return (
@@ -73,8 +73,8 @@ const BomLabours: React.FC = (props: any) => {
   const [reload, setReload] = useState(false);
 
   const { data: getAllLabourDrop } = useGetAllLabourForDrop();
-  const { data: getAllUomDrop } = getUomByType('LABOR');
-  const { mutate: bulkBomData, data: responseData } = createBulkBom();
+  const { data: getAllUomDrop } = useGetUomByType('LABOR');
+  const { mutate: bulkBomData, data: responseData } = useCreateBulkBom();
 
   const handleDeleteSiteExpense = (e: any, value: any) => {
     setBomValue(value);
@@ -107,7 +107,7 @@ const BomLabours: React.FC = (props: any) => {
       };
     }
 
-    let tempArry = [...props.bomList];
+    const tempArry = [...props.bomList];
     tempArry[index] = tempObj;
     props.setBomList(tempArry);
   };
@@ -122,7 +122,7 @@ const BomLabours: React.FC = (props: any) => {
       values['quantity'] = Number(formik.values.quantity);
       values['rate'] = Number(formik.values.rate);
       values['bom_configuration_id'] = Number(props.bomId);
-      console.log('values', values);
+      // console.log('values', values);
       let arr = [];
       arr = [...props.bomList, values];
       props.setBomList(arr);
@@ -161,7 +161,7 @@ const BomLabours: React.FC = (props: any) => {
               </tr>
             </thead>
             <tbody>
-              {props?.bomList?.length != 0
+              {props?.bomList?.length !== 0
                 ? props?.bomList?.map((items: any, index: any) => {
                     if (
                       items.is_delete === false &&
@@ -171,7 +171,9 @@ const BomLabours: React.FC = (props: any) => {
                       return (
                         <tr key={index}>
                           <td>{rowIndex}</td>
-                          <td style={{textAlign:'left'}}>{items.bom_name}</td>
+                          <td style={{ textAlign: 'left' }}>
+                            {items.bom_name}
+                          </td>
                           {/* <td>
                       <Input
                         name="description"
@@ -186,7 +188,7 @@ const BomLabours: React.FC = (props: any) => {
                               name="uom_id"
                               mandatory={true}
                               optionList={
-                                getAllUomDrop != undefined ? getAllUomDrop : []
+                                getAllUomDrop !== undefined ? getAllUomDrop : []
                               }
                               value={items.uom_id}
                               onChange={(e) => handleListChange(e, index)}

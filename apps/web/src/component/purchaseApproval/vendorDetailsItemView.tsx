@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../ui/Button';
 import Styles from '../../styles/vendorDetailItemView.module.scss';
 import BackArrowIcon from '../menu/icons/backArrow';
-import { getByQuoteVendorId } from '../../hooks/vendorQuotes-hooks';
+import { useGetByQuoteVendorId } from '../../hooks/vendorQuotes-hooks';
 import CustomLoader from '../ui/customLoader';
 
 const VendorDetailItemView = () => {
@@ -12,7 +12,7 @@ const VendorDetailItemView = () => {
   const navigate = useNavigate();
   const VendorId = Number(routeParams?.id);
   const { data: getOneVendor, isLoading: dataLoading } =
-    getByQuoteVendorId(VendorId);
+    useGetByQuoteVendorId(VendorId);
 
   return (
     <div>

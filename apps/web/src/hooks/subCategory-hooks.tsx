@@ -26,7 +26,7 @@ const useGetAllSubcategoryDrop = () => {
   );
 };
 
-const getBySubcategoryID = (id: number) => {
+const useGetBySubcategoryID = (id: number) => {
   return useQuery(
     ['getOneSubcategoryID', id],
     () => SubcategoryService.getOneSubcategoryByID(id),
@@ -36,7 +36,7 @@ const getBySubcategoryID = (id: number) => {
   );
 };
 
-const createSubcategory = () => {
+const useCreateSubcategory = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -49,7 +49,7 @@ const createSubcategory = () => {
     }
   );
 };
-const createMultipleSubcategory = () => {
+const useCreateMultipleSubcategory = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -63,32 +63,23 @@ const createMultipleSubcategory = () => {
   );
 };
 
-
-const getBySearchCategroy = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return SubcategoryService.filterSubCategory(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+const useGetBySearchCategroy = () => {
+  return useMutation((data: any) => {
+    return SubcategoryService.filterSubCategory(data);
+  });
 };
 
-const getBycategoryIdInSub = (values: any) => {
+const useGetBycategoryIdInSub = (values: any) => {
   return useQuery(
     ['getSubcategoryList', values],
     () => SubcategoryService.getOneSubCatListbyCatID(values),
     {
-      select: (data)=>data.data
+      select: (data) => data.data,
     }
   );
 };
 
-const createInstantSubcategory = () => {
+const useCreateInstantSubcategory = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -107,7 +98,7 @@ const createInstantSubcategory = () => {
   );
 };
 
-const updateSubcategory = () => {
+const useUpdateSubcategory = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -137,13 +128,13 @@ const useDeleteSubcategory = () => {
 
 export {
   useGetAllSubcategory,
-  getBySubcategoryID,
-  createSubcategory,
-  createMultipleSubcategory,
-  updateSubcategory,
+  useGetBySubcategoryID,
+  useCreateSubcategory,
+  useCreateMultipleSubcategory,
+  useUpdateSubcategory,
   useDeleteSubcategory,
-  getBySearchCategroy,
+  useGetBySearchCategroy,
   useGetAllSubcategoryDrop,
-  getBycategoryIdInSub,
-  createInstantSubcategory,
+  useGetBycategoryIdInSub,
+  useCreateInstantSubcategory,
 };

@@ -1,9 +1,6 @@
-import React from 'react';
-import { format } from 'date-fns';
 import ExcelJS from 'exceljs';
 
 const ProjectInwardReport = async (datas: any) => {
-  console.log('ProjectInwardReport', datas);
 
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('Sheet1');
@@ -49,18 +46,18 @@ const ProjectInwardReport = async (datas: any) => {
         subHeaderCell.value = 'Quantity';
         const subHeaderCell2 = worksheet.getCell('D2');
         subHeaderCell2.value = 'Value';
-        (subHeaderCell.font = { color: { argb: '000000' } }),
-          (subHeaderCell.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: 'd3d3d3' }, // Yellow background color
-          });
-        (subHeaderCell2.font = { color: { argb: '000000' } }),
-          (subHeaderCell2.fill = {
-            type: 'pattern',
-            pattern: 'solid',
-            fgColor: { argb: 'd3d3d3' }, // Yellow background color
-          });
+        subHeaderCell.font = { color: { argb: '000000' } };
+        subHeaderCell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'd3d3d3' }, // Yellow background color
+        };
+        subHeaderCell2.font = { color: { argb: '000000' } };
+        subHeaderCell2.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'd3d3d3' }, // Yellow background color
+        };
         subHeaderCell2.border = {
           top: { style: 'thin', color: { argb: '000000' } },
           bottom: { style: 'thin', color: { argb: '000000' } },
@@ -104,7 +101,7 @@ const ProjectInwardReport = async (datas: any) => {
     const sumofCost = datas?.reduce((accumulator: any, currentItem: any) => {
       return accumulator + currentItem.total_cost;
     }, 0);
-    console.log('sumofQuantity', sumofQuantity);
+
     const finalBody2 = worksheet.getCell(`C${lastRowWithData + 1}`);
     finalBody2.value = sumofQuantity;
     const finalBody3 = worksheet.getCell(`D${lastRowWithData + 1}`);
@@ -131,7 +128,6 @@ const ProjectInwardReport = async (datas: any) => {
     worksheet.addRow(headers).eachCell((cell) => {
       cell.style = headerStyle;
     });
-    console.log('empty');
   }
 
   // Generate a buffer containing the Excel file
@@ -146,7 +142,7 @@ const ProjectInwardReport = async (datas: any) => {
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'purchase_order.xlsx';
+  a.download = 'project_inventory.xlsx';
   document.body.appendChild(a);
   a.click();
   window.URL.revokeObjectURL(url);

@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Styles from '../../styles/userList.module.scss';
-import {
-  useDeleteUsers,
-  useGetAllPaginatedUser,
-} from '../../hooks/user-hooks';
+import { useDeleteUsers, useGetAllPaginatedUser } from '../../hooks/user-hooks';
 import { useNavigate } from 'react-router';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSnackBar from '../ui/customSnackBar';
@@ -18,7 +15,7 @@ import DeleteIcon from '../menu/icons/newDeleteIcon';
 import AddIcon from '../menu/icons/addIcon';
 import MemberIcon from '../menu/icons/memberIcon';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
-import { handleSortByColumn } from './../../helper/common-function'
+import { handleSortByColumn } from './../../helper/common-function';
 
 /* Function for User List */
 const UserList = () => {
@@ -27,7 +24,7 @@ const UserList = () => {
   const [openDeleteSnack, setOpenDeleteSnack] = useState(false);
   const [value, setValue] = useState(0);
   const [message, setMessage] = useState('');
-  const [buttonLabels, setButtonLabels] = useState([
+  const [buttonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
   ]);
@@ -40,6 +37,7 @@ const UserList = () => {
   const [sortColumn, setSortColumn] = useState('');
   const [sortOrder, setSortOrder] = useState('desc');
   const navigate = useNavigate();
+  
   const userData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
@@ -48,11 +46,13 @@ const UserList = () => {
     global_search: filterValues?.search_by_name,
     status: activeButton,
   };
+
   const {
     isLoading: getAllLoadingPaginated,
     data: initialData,
     refetch,
   } = useGetAllPaginatedUser(userData);
+
   const deleteUserHandler = (id: any) => {
     setValue(id);
     setOpen(true);
@@ -79,13 +79,13 @@ const UserList = () => {
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton, sortColumn, sortOrder]);
+
   useEffect(() => {
     const handleSearch = setTimeout(() => {
       refetch();
     }, 2000);
     return () => clearTimeout(handleSearch);
   }, [filterValues]);
-
 
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -138,7 +138,7 @@ const UserList = () => {
                       onChange={(e) => {
                         setFilterValues({
                           ...filterValues,
-                          ['search_by_name']: e.target.value,
+                          'search_by_name': e.target.value,
                         });
                         setCurrentPage(1);
                       }}
@@ -157,24 +157,54 @@ const UserList = () => {
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th onClick={() => handleSortByColumn('first_name', sortOrder, setSortOrder, setSortColumn)}>
+                        <th
+                          onClick={() =>
+                            handleSortByColumn(
+                              'first_name',
+                              sortOrder,
+                              setSortOrder,
+                              setSortColumn
+                            )
+                          }
+                        >
                           <div className={Styles.headingRow}>
-                            <div>First Name</div><div>
+                            <div>First Name</div>
+                            <div>
                               <FilterOrderIcon />
                             </div>
                           </div>
                         </th>
 
-                        <th onClick={() => handleSortByColumn('last_name', sortOrder, setSortOrder, setSortColumn)}>
+                        <th
+                          onClick={() =>
+                            handleSortByColumn(
+                              'last_name',
+                              sortOrder,
+                              setSortOrder,
+                              setSortColumn
+                            )
+                          }
+                        >
                           <div className={Styles.headingRow}>
-                            <div>Last Name</div><div>
+                            <div>Last Name</div>
+                            <div>
                               <FilterOrderIcon />
                             </div>
                           </div>
                         </th>
-                        <th onClick={() => handleSortByColumn('email_id', sortOrder, setSortOrder, setSortColumn)}>
+                        <th
+                          onClick={() =>
+                            handleSortByColumn(
+                              'email_id',
+                              sortOrder,
+                              setSortOrder,
+                              setSortColumn
+                            )
+                          }
+                        >
                           <div className={Styles.headingRow}>
-                            <div>Email</div><div>
+                            <div>Email</div>
+                            <div>
                               <FilterOrderIcon />
                             </div>
                           </div>
@@ -193,29 +223,33 @@ const UserList = () => {
                           {activeButton === 'AC' && <td></td>}
                         </tr>
                       ) : (
-                        initialData?.content?.map((data: any, index: number) => (
-                          <tr key={data.user_id}>
-                            <td>{startingIndex + index}</td>
-                            <td>{data.first_name}</td>
-                            <td>{data.last_name}</td>
-                            <td>{data.email_id}</td>
-                            <td>{data.contact_no}</td>
-                            {activeButton === 'AC' && (
-                              <td>
-                                <div className={Styles.tablerow}>
-                                  <EditIcon
-                                    onClick={() =>
-                                      navigate(`/user-edit/${data.user_id}`)
-                                    }
-                                  />
-                                  <DeleteIcon
-                                    onClick={() => deleteUserHandler(data.user_id)}
-                                  />
-                                </div>
-                              </td>
-                            )}
-                          </tr>
-                        ))
+                        initialData?.content?.map(
+                          (data: any, index: number) => (
+                            <tr key={data.user_id}>
+                              <td>{startingIndex + index}</td>
+                              <td>{data.first_name}</td>
+                              <td>{data.last_name}</td>
+                              <td>{data.email_id}</td>
+                              <td>{data.contact_no}</td>
+                              {activeButton === 'AC' && (
+                                <td>
+                                  <div className={Styles.tablerow}>
+                                    <EditIcon
+                                      onClick={() =>
+                                        navigate(`/user-edit/${data.user_id}`)
+                                      }
+                                    />
+                                    <DeleteIcon
+                                      onClick={() =>
+                                        deleteUserHandler(data.user_id)
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                              )}
+                            </tr>
+                          )
+                        )
                       )}
                     </tbody>
                   </table>
@@ -232,39 +266,40 @@ const UserList = () => {
                 </div>
               </div>
             </div>
-          ) :
-            (
-              <div>
-                <div className={Styles.emptyDataHandling}>
-                  <div>
-                    <img
-                      src="/users_img.jpg"
-                      alt="aa"
-                      width="100%"
-                      height="200px"
-                    />
-                  </div>
-                  <div>
-                    <h5>Users List is Empty</h5>
-                  </div>
-                  <div className={Styles.contentGap}>
-                    <span className={Styles.spanContent}>Go ahead, and add some Users</span>
-                  </div>
-                  <div>
-                    <Button
-                      color="primary"
-                      shape="rectangle"
-                      justify="center"
-                      size="small"
-                      icon={<AddIcon color="white" />}
-                      onClick={() => navigate('/user-create')}
-                    >
-                      Add User
-                    </Button>
-                  </div>
+          ) : (
+            <div>
+              <div className={Styles.emptyDataHandling}>
+                <div>
+                  <img
+                    src="/users_img.jpg"
+                    alt="aa"
+                    width="100%"
+                    height="200px"
+                  />
+                </div>
+                <div>
+                  <h5>Users List is Empty</h5>
+                </div>
+                <div className={Styles.contentGap}>
+                  <span className={Styles.spanContent}>
+                    Go ahead, and add some Users
+                  </span>
+                </div>
+                <div>
+                  <Button
+                    color="primary"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<AddIcon color="white" />}
+                    onClick={() => navigate('/user-create')}
+                  >
+                    Add User
+                  </Button>
                 </div>
               </div>
-            )}
+            </div>
+          )}
         </CustomLoader>
         <CustomDelete
           open={open}

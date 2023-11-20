@@ -4,10 +4,10 @@ import CloseIcon from '../menu/icons/closeIcon';
 interface DialogBoxProps {
   open: boolean;
   content: React.ReactNode;
-  title: String;
+  title: string;
   handleClose: () => void;
-  width: String;
-  description: String;
+  width: string;
+  description: string;
 }
 
 const CustomSidePopup: React.FC<DialogBoxProps> = ({

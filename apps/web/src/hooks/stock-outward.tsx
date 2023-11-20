@@ -1,21 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import stockOutwardService from '../service/stock-outward-service';
 
-const getAllStockOutwardData = () => {
-  const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return stockOutwardService.getStockOutWardData(data);
-    },
-    {
-      onSuccess: (response) => {
-        response;
-      },
-    }
-  );
+const useGetAllStockOutwardData = () => {
+  return useMutation((data: any) => {
+    return stockOutwardService.getStockOutWardData(data);
+  });
 };
 
-const getAllPaginatedStockOutwardData = (data: any) => {
+const useGetAllPaginatedStockOutwardData = (data: any) => {
   return useQuery(
     ['getAllPaginatedStockOutwardData'],
     () => stockOutwardService.getStockOutWardData(data),
@@ -26,7 +18,7 @@ const getAllPaginatedStockOutwardData = (data: any) => {
   );
 };
 
-const createStockOutWard = () => {
+const useCreateStockOutWard = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -40,7 +32,7 @@ const createStockOutWard = () => {
   );
 };
 
-const getByStockOutWardId = (id: number) => {
+const useGetByStockOutWardId = (id: number) => {
   return useQuery(
     ['getOneStockOutWardId', id],
     () => stockOutwardService.getOneStockOutWardId(id),
@@ -50,7 +42,7 @@ const getByStockOutWardId = (id: number) => {
   );
 };
 
-const updateStockOutWard = () => {
+const useUpdateStockOutWard = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -65,9 +57,9 @@ const updateStockOutWard = () => {
 };
 
 export {
-  getAllStockOutwardData,
-  createStockOutWard,
-  getByStockOutWardId,
-  updateStockOutWard,
-  getAllPaginatedStockOutwardData
+  useGetAllStockOutwardData,
+  useCreateStockOutWard,
+  useGetByStockOutWardId,
+  useUpdateStockOutWard,
+  useGetAllPaginatedStockOutwardData,
 };

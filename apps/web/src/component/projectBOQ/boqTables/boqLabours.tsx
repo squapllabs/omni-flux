@@ -4,8 +4,8 @@ import AddIcon from '../../menu/icons/addIcon';
 import { useFormik } from 'formik';
 import DeleteIcon from '../../menu/icons/deleteIcon';
 import Button from '../../ui/Button';
-import { createBulkBom } from '../../../hooks/bom-hooks';
-import { useGetAllUomDrop, getUomByType } from '../../../hooks/uom-hooks';
+import { useCreateBulkBom } from '../../../hooks/bom-hooks';
+import { useGetAllUomDrop, useGetUomByType } from '../../../hooks/uom-hooks';
 import * as Yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
 import { bomErrorMessages } from '../../../helper/constants/bom-constants';
@@ -57,8 +57,8 @@ const BomLabours: React.FC = (props: any) => {
   });
 
   const { data: getAllLabourDrop } = useGetAllLabourForDrop();
-  const { data: getAllUomDrop } = getUomByType('LABOR');
-  const { mutate: bulkBomData, data: responseData } = createBulkBom();
+  const { data: getAllUomDrop } = useGetUomByType('LABOR');
+  const { mutate: bulkBomData, data: responseData } = useCreateBulkBom();
 
   const handleCloseDelete = () => {
     setOpenDelete(false);
@@ -90,7 +90,7 @@ const BomLabours: React.FC = (props: any) => {
         [event.target.name]: event.target.value,
       };
     }
-    let tempArry = [...props.bomList];
+    const tempArry = [...props.bomList];
     tempArry[index] = tempObj;
     props.setBomList(tempArry);
   };
@@ -100,11 +100,13 @@ const BomLabours: React.FC = (props: any) => {
       Yup.object().shape({
         rate: Yup.number()
           .required('Rate is required')
-          .typeError('Numbers only allowed').min(1),
+          .typeError('Numbers only allowed')
+          .min(1),
         uom_id: Yup.string().trim().required('UOM is required'),
         quantity: Yup.number()
           .required('Quantity is required')
-          .typeError('Numbers only allowed').min(1),
+          .typeError('Numbers only allowed')
+          .min(1),
         labour_id: Yup.string()
           .trim()
           .nullable()
@@ -117,11 +119,11 @@ const BomLabours: React.FC = (props: any) => {
                   const bOMType = parent.bom_type;
                   if (bOMType === 'LABOR') {
                     // return true;
-                    let dummy: any = [];
+                    const dummy: any = [];
                     const allIds = props.bomList.map((item: any) => {
-                      if (item.is_delete === 'N') {
-                        item.labour_id;
-                      }
+                      // if (item.is_delete === 'N') {
+                      //   item.labour_id;
+                      // }
                       if (item.is_delete === false) {
                         dummy.push(item.labour_id);
                       }
@@ -207,7 +209,9 @@ const BomLabours: React.FC = (props: any) => {
                           width={DropfieldWidth}
                           name="labour_id"
                           mandatory={true}
-                          optionList={getAllLabourDrop != null ? getAllLabourDrop : []}
+                          optionList={
+                            getAllLabourDrop != null ? getAllLabourDrop : []
+                          }
                           value={items?.labour_id}
                           onChange={(e) => handleListChange(e, index)}
                           error={
@@ -231,7 +235,7 @@ const BomLabours: React.FC = (props: any) => {
                             if (!value) {
                               tempObj.rate = '';
                             }
-                            let tempArry = [...props.bomList];
+                            const tempArry = [...props.bomList];
                             tempArry[index] = tempObj;
                             props.setBomList(tempArry);
                           }}
@@ -263,7 +267,11 @@ const BomLabours: React.FC = (props: any) => {
                           }
                           onKeyDown={(e) => {
                             const isNumber = /^[0-9]*$/.test(e.key);
-                            if (!isNumber &&  e.key !== 'Backspace' && e.key !== 'Delete') {
+                            if (
+                              !isNumber &&
+                              e.key !== 'Backspace' &&
+                              e.key !== 'Delete'
+                            ) {
                               e.preventDefault();
                             }
                           }}
@@ -280,7 +288,11 @@ const BomLabours: React.FC = (props: any) => {
                           }
                           onKeyDown={(e) => {
                             const isNumber = /^[0-9]*$/.test(e.key);
-                            if (!isNumber &&  e.key !== 'Backspace' && e.key !== 'Delete') {
+                            if (
+                              !isNumber &&
+                              e.key !== 'Backspace' &&
+                              e.key !== 'Delete'
+                            ) {
                               e.preventDefault();
                             }
                           }}

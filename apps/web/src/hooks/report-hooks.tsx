@@ -1,22 +1,10 @@
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import ReportService from '../service/report-service';
 
-const purchaseRegisterReportData = () => {
-    const queryClient = useQueryClient();
-  return useMutation(
-    (data: any) => {
-      return ReportService.getPurchaseRegisterReport(data);
-    },
-    {
-      onSuccess: (response) => {
-        console.log("response------>",response);
-        
-        response;
-      },
-    }
-  );
+const usePurchaseRegisterReportData = () => {
+  return useMutation((data: any) => {
+    return ReportService.getPurchaseRegisterReport(data);
+  });
 };
 
-export {
-    purchaseRegisterReportData
-}
+export { usePurchaseRegisterReportData };

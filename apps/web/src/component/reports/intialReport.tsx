@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Styles from '../../styles/newStyles/reportModule/intialreport.module.scss';
 import ReceptIcon from '../menu/icons/recepitIcon';
-import CloseIcon from '../menu/icons/closeIcon';
-import ApproveSelectDialogBox from '../ui/ApproveSelectComponet';
+// import CloseIcon from '../menu/icons/closeIcon';
+// import ApproveSelectDialogBox from '../ui/ApproveSelectComponet';
 import NewCustomPopupComponent from '../ui/newCustomPopupComponent';
 import PurchaseRequestForm from './reportForm/purchaseRequestForm';
 import CustomSnackbar from '../ui/customSnackBar';
@@ -16,7 +16,7 @@ import { useGetAllProjectDrop } from '../../hooks/project-hooks';
 import FinanceFormAPS from './reportForm/financeFormAPS';
 import FinanceFormAMS from './reportForm/financeFormAMS';
 import { customSort } from './../../helper/common-function';
-import FlagIcon from '../menu/icons/flagIcon';
+// import FlagIcon from '../menu/icons/flagIcon';
 import MenuIcon from '../menu/icons/menuIcon';
 
 const IntialReport = () => {
@@ -111,11 +111,11 @@ const IntialReport = () => {
   const [openSnack, setOpenSnack] = useState(false);
   const [openSideMenu, setOpenSideMenu] = useState(true);
   const [width, setWidth] = useState<any>(75);
-  const handleMenuClear = () => {
-    setSelectedMenu('');
-    setOpenSideMenu(false);
-    setWidth(100);
-  };
+  // const handleMenuClear = () => {
+  //   setSelectedMenu('');
+  //   setOpenSideMenu(false);
+  //   setWidth(100);
+  // };
   const onMenuClick = (value: string) => {
     setSelectedMenu(value);
   };
@@ -128,7 +128,7 @@ const IntialReport = () => {
     setOpenSnack(false);
   };
   useEffect(() => {
-    if (selectedMenu != '') {
+    if (selectedMenu !== '') {
       const matchingObjects = mainItems?.filter(
         (obj: any) => obj?.menuValue === selectedMenu
       );

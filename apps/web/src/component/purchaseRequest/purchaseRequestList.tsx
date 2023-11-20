@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 import Styles from '../../styles/newStyles/purchaseRequest.module.scss';
 import ProjectSubheader from '../project/projectSubheader';
 import { useGetAllProjectDrop } from '../../hooks/project-hooks';
-import AutoCompleteSelect from '../ui/AutoCompleteSelect';
+// import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import Input from '../ui/Input';
 import SearchIcon from '../menu/icons/search';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { getBySearchPR } from '../../hooks/purchase-request-hooks';
+import { useGetBySearchPR } from '../../hooks/purchase-request-hooks';
 import { format } from 'date-fns';
-import Button from '../ui/Button';
-import DownloadIcon from '../menu/icons/pdfDownloadIcon';
+// import Button from '../ui/Button';
+// import DownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/pdfReport/requestForQuotation';
 import PrintIcon from '../menu/icons/printIcon';
 import SiteNavigateIcon from '../menu/icons/siteNavigateIcon';
 import CustomLoader from '../ui/customLoader';
 import CustomGroupButton from '../ui/CustomGroupButton';
-import { getByIndnetId } from '../../hooks/indent-approval-hooks';
+import { useGetByIndnetId } from '../../hooks/indent-approval-hooks';
 
 const PurchaseRequestList = () => {
   const routeParams = useParams();
@@ -48,12 +48,9 @@ const PurchaseRequestList = () => {
     isLoading: loading,
     refetch,
     isFetched,
-  } = getBySearchPR(purchaseData);
+  } = useGetBySearchPR(purchaseData);
 
-  const { data: getOneIndnetData } = getByIndnetId(Number(routeParams?.id));
-
-  const { data: getAllmasterDataForDrop = [] } = useGetAllProjectDrop();
-
+  const { data: getOneIndnetData } = useGetByIndnetId(Number(routeParams?.id));
   const handleReportGenerator = async (data: any) => {
     await ReportGenerator(data);
   };
@@ -62,7 +59,6 @@ const PurchaseRequestList = () => {
     const formattedDate = format(currentDate, 'dd MMM yyyy');
     return formattedDate;
   };
-  const handleChange = () => {};
   const handleQuotation = (value: any) => {
     navigate(`/vendor-select/${Number(value?.purchase_request_id)}`, {
       state: {
@@ -89,7 +85,10 @@ const PurchaseRequestList = () => {
     return () => clearTimeout(handleSearch);
   }, [filterValue]);
   useEffect(() => {
-    refetch();
+    const fetchData = () => {
+      refetch();
+    };
+    fetchData();
   }, [activeButton]);
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
@@ -188,7 +187,7 @@ const PurchaseRequestList = () => {
                   onChange={(e) => {
                     setFilterValues({
                       ...filterValue,
-                      ['search_by_code']: e.target.value,
+                      [filterValue?.search_by_code]: e.target.value,
                     });
                     //   setCurrentPage(1);
                     //   setIsResetDisabled(false);
@@ -204,7 +203,7 @@ const PurchaseRequestList = () => {
         {getPRbasedOnIndent?.content?.length === 0 && !loading ? (
           <div className={Styles.emptyDataHandling}>
             <div className={Styles.image}>
-              <img src="/boq-add.png" width="100%" height="150px" />
+              <img src="/boq-add.png" width="100%" height="150px" alt="logo" />
             </div>
             <div>
               <h5 className={Styles.textmax}>
@@ -216,7 +215,7 @@ const PurchaseRequestList = () => {
           <div className={Styles.cardBox}>
             {getPRbasedOnIndent?.content?.map((items: any, index: number) => {
               return (
-                <div className={Styles.cardContainer}>
+                <div className={Styles.cardContainer} key={index}>
                   <div>
                     <div>
                       <span>#{index + 1}</span>
@@ -271,6 +270,7 @@ const PurchaseRequestList = () => {
                               (vendors: any, vendorIndex: number) => {
                                 return (
                                   <li
+                                    key={vendorIndex}
                                     className={`${Styles.vendorLinks} ${
                                       items?.selected_vendor_data?.vendor_id ===
                                       vendors?.vendor_data?.vendor_id
@@ -376,7 +376,7 @@ const PurchaseRequestList = () => {
                           {items?.status === 'Approved' &&
                           items?.purchase_order?.length === 0
                             ? 'Quotation Received'
-                            : items?.status != 'Approved'
+                            : items?.status !== 'Approved'
                             ? items?.status
                             : items?.status === 'Approved' &&
                               items?.purchase_order?.length > 0

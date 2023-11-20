@@ -6,8 +6,8 @@ import CustomLoader from '../../../../ui/customLoader';
 import AutoCompleteSelect from '../../../../ui/AutoCompleteSelect';
 import { store, RootState } from '../../../../../redux/store';
 import { getToken } from '../../../../../redux/reducer';
-import { updatesiteExpense } from '../../../../../hooks/expense-hook';
-import { getUserIDBasedProject } from '../../../../../hooks/project-hooks';
+import { useUpdatesiteExpense } from '../../../../../hooks/expense-hook';
+import { useGetUserIDBasedProject } from '../../../../../hooks/project-hooks';
 import ApproveDialogBox from '../../../../ui/CustomApprovePopup';
 import siteExpenseService from '../../../../../service/expense-service';
 import CustomSnackBar from '../../../../ui/customSnackBar';
@@ -32,10 +32,10 @@ const ExpenseApprove = () => {
     encryptedData?.userData?.user_roles[0]?.role_data?.role_name.toUpperCase();
   const navigate = useNavigate();
   let rowIndex = 0;
-  const { mutate: updateSiteExpenseData } = updatesiteExpense();
+  const { mutate: updateSiteExpenseData } = useUpdatesiteExpense();
 
   const { data: getProjectList = [], isLoading: dropLoading } =
-    getUserIDBasedProject(roleName === 'ADMIN' ? '' : userID);
+    useGetUserIDBasedProject(roleName === 'ADMIN' ? '' : userID);
 
   const fetchProjectSiteData = async (value: any) => {
     if (value) {
@@ -294,7 +294,7 @@ const ExpenseApprove = () => {
                   optionList={dropLoading === true ? [] : getProjectList}
                   value={filterValue.project_id}
                   onSelect={(value) => {
-                    setFilterValue({ ['project_id']: value });
+                    setFilterValue({ 'project_id': value });
                     fetchProjectSiteData(value);
                     fetchMemberData(value);
                     setCurrentPage(1);
@@ -392,11 +392,11 @@ const ExpenseApprove = () => {
                     }
                   });
                   return (
-                    <tr>
+                    <tr key={index}>
                       <td>{rowIndex}</td>
                       <td>{items?.expense_code}</td>
-                      <td>{items?.project_data?.project_name}</td>
-                      <td>{items?.site_data?.name}</td>
+                      <td>{items?.project_data?.project_name || "-"}</td>
+                      <td>{items?.site_data?.name || "-"}</td>
                       <td>{items?.employee_name}</td>
                       <td>{formatBudgetValue(sumOfRates)}</td>
                       {is_recall &&

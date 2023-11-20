@@ -10,7 +10,7 @@ import AutoCompleteMultiSelect from './AutoCompleteMultiSelect';
 import AddIcon from '../menu/icons/addIcon';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import { useGetAllVendors } from '../../hooks/vendor-hooks';
-import { createPurchaseRequest } from '../../hooks/purchaseRequest-hooks';
+import { useCreatePurchaseRequest } from '../../hooks/purchaseRequest-hooks';
 import PurchaseRequestService from '../../service/purchaseRequest-service';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
@@ -21,10 +21,18 @@ const CustomPurchaseRequestPopup = (props: {
   indentId: any;
   projectId: any;
   setReload: any;
-  setOpenSnack:any;
-  setMessage:any;
+  setOpenSnack: any;
+  setMessage: any;
 }) => {
-  const { isVissible, onAction, indentId, projectId, setReload ,setOpenSnack,setMessage} = props;
+  const {
+    isVissible,
+    onAction,
+    indentId,
+    projectId,
+    setReload,
+    setOpenSnack,
+    setMessage,
+  } = props;
   const [itemValues, setItemsValues] = useState([]);
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
@@ -40,9 +48,8 @@ const CustomPurchaseRequestPopup = (props: {
     item_name: '',
   });
 
-  const { data: getAllVendorsData = [], isLoading: dropLoading } =
-    useGetAllVendors();
-  const { mutate: createNewPurchaseRequest } = createPurchaseRequest();
+  const { data: getAllVendorsData = [] } = useGetAllVendors();
+  const { mutate: createNewPurchaseRequest } = useCreatePurchaseRequest();
 
   const formik = useFormik({
     initialValues,
@@ -61,20 +68,6 @@ const CustomPurchaseRequestPopup = (props: {
     onAction(false);
     setPurchaseRequestData([]);
     setDropDisable(false);
-  };
-
-  const handleDropChange = async (obj: any) => {
-    const itemsData = await PurchaseRequestService.getProjectItems(projectId);
-    let arr: any = [];
-    setItemsData(itemsData.data);
-    let items = itemsData?.data?.map((items: any, index: any) => {
-      let obj: any = {
-        value: items?.item_id,
-        label: items?.item_data?.item_name,
-      };
-      arr.push(obj);
-    });
-    setItemsValues(arr);
   };
 
   const deletePurchaseRequest = (index: number) => {
@@ -118,10 +111,6 @@ const CustomPurchaseRequestPopup = (props: {
     onAction(false);
     setPurchaseRequestData('');
   };
-
-  useEffect(() => {
-    handleDropChange();
-  }, [initialValues]);
 
   return (
     <div>
@@ -248,23 +237,21 @@ const CustomPurchaseRequestPopup = (props: {
                             // let vendorName = item?.vendor_id?.map((vendor: any) => vendor.label).join(', ')
                             rowIndex = rowIndex + 1;
                             return (
-                              <>
-                                <tr>
-                                  <td>{rowIndex}</td>
-                                  {/* <td>{vendorName}</td> */}
-                                  <td>{item.item_name}</td>
-                                  <td>{item.quantity}</td>
-                                  <td>
-                                    <div className={Styles.tablerow}>
-                                      <DeleteIcon
-                                        onClick={() =>
-                                          deletePurchaseRequest(index)
-                                        }
-                                      />
-                                    </div>
-                                  </td>
-                                </tr>
-                              </>
+                              <tr>
+                                <td>{rowIndex}</td>
+                                {/* <td>{vendorName}</td> */}
+                                <td>{item.item_name}</td>
+                                <td>{item.quantity}</td>
+                                <td>
+                                  <div className={Styles.tablerow}>
+                                    <DeleteIcon
+                                      onClick={() =>
+                                        deletePurchaseRequest(index)
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                              </tr>
                             );
                           })
                         )}

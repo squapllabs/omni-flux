@@ -7,12 +7,15 @@ import Button from '../ui/Button';
 import DeleteIcon from '../menu/icons/deleteIcon';
 import { useFormik } from 'formik';
 import {
-  getBymasertDataType,
-  getBymasertDataTypeDrop,
+  useGetBymasertDataType,
+  useGetBymasertDataTypeDrop,
 } from '../../hooks/masertData-hook';
 import PopupExpense from './popupExpanse';
 import CustomDelete from '../ui/customDeleteDialogBox';
-import { createsiteExpense, updatesiteExpense } from '../../hooks/expense-hook';
+import {
+  useCreatesiteExpense,
+  useUpdatesiteExpense,
+} from '../../hooks/expense-hook';
 import { store, RootState } from '../../redux/store';
 import { getToken } from '../../redux/reducer';
 import siteExpenseService from '../../service/expense-service';
@@ -23,7 +26,7 @@ import CustomDialogBox from '../ui/CustomDialog';
 import CustomSnackBar from '../ui/customSnackBar';
 import { useParams, useNavigate } from 'react-router-dom';
 import SiteExpensesDetails from './siteExpensesDetails';
-import { getProjectSite } from '../../hooks/project-hooks';
+import { useGetProjectSite } from '../../hooks/project-hooks';
 import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import SiteExpenseBill from './SiteExpensBill';
 import CustomConfirm from '../ui/CustomConfirmDialogBox';
@@ -34,12 +37,11 @@ const SiteExpensesForm = () => {
   const navigate = useNavigate();
   const projectId = Number(params?.projectId);
   const siteId = Number(params?.siteId);
-  const { data: getSiteList } = getProjectSite(Number(projectId));
+  const { data: getSiteList } = useGetProjectSite(Number(projectId));
   const validationSchema = getCreateValidateyup(Yup);
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const tableInputwidth = '100px';
-  let rowIndex = 0;
   const [expenseList, setExpenseList] = useState<any>([]);
   const [expense, setExpense] = useState();
   const [ExpenseValue, setExpenseValue] = useState();
@@ -83,15 +85,15 @@ const SiteExpensesForm = () => {
     formik.setFieldValue('submitType', 'Draft');
     formik.submitForm();
   };
-  const { data: getAllDiscription } = getBymasertDataType('SEDT');
-  const { data: getAllSiteDepartment } = getBymasertDataType('SITD');
-  const { data: getAllpurpose } = getBymasertDataType('SITP');
-  const { data: getAlldesignation } = getBymasertDataType('SITDG');
-  const { data: getSiteExpense } = getBymasertDataTypeDrop('SIEP');
+  const { data: getAllDiscription } = useGetBymasertDataType('SEDT');
+  const { data: getAllSiteDepartment } = useGetBymasertDataType('SITD');
+  const { data: getAllpurpose } = useGetBymasertDataType('SITP');
+  const { data: getAlldesignation } = useGetBymasertDataType('SITDG');
+  const { data: getSiteExpense } = useGetBymasertDataTypeDrop('SIEP');
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
-    createsiteExpense();
+    useCreatesiteExpense();
   const { mutate: updateSiteExpenseData, isLoading: updateLoader } =
-    updatesiteExpense();
+    useUpdatesiteExpense();
 
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
@@ -126,7 +128,7 @@ const SiteExpensesForm = () => {
         submitType: datas?.data?.status,
       });
     };
-    if (params?.id != undefined) fetchData();
+    if (params?.id !== undefined) fetchData();
   }, [reload]);
 
   const submitHandler = () => {
@@ -241,7 +243,7 @@ const SiteExpensesForm = () => {
                   name="site_id"
                   label="Site"
                   mandatory={true}
-                  optionList={getSiteList != undefined ? getSiteList : []}
+                  optionList={getSiteList !== undefined ? getSiteList : []}
                   value={formik.values.site_id}
                   onChange={formik.handleChange}
                   onSelect={(value) => {

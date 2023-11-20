@@ -8,10 +8,10 @@ import { useNavigate } from 'react-router';
 import CustomSnackBar from '../ui/customSnackBar';
 import TextArea from '../ui/CustomTextArea';
 import { getCreateValidateyup } from '../../helper/constants/site-constants';
-import { createSite } from '../../hooks/site-hooks';
+import { useCreateSite } from '../../hooks/site-hooks';
 
 const SiteForm = () => {
-  const { mutate: createNewSite } = createSite();
+  const { mutate: createNewSite } = useCreateSite();
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const navigate = useNavigate();

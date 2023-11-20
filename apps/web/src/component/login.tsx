@@ -2,7 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 import Styles from '../styles/login.module.scss';
 import * as yup from 'yup';
 import { getLoginYupSchema } from '../helper/constants/user-constants';
-import { loginAuth, forgetPassword, generateOTP } from '../hooks/auth-hooks';
+import { useLoginAuth, useForgetPassword, useGenerateOTP } from '../hooks/auth-hooks';
 import userService from '../service/user-service';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
@@ -24,15 +24,15 @@ const Login = () => {
     password: '',
     is_remember_me: false,
   };
-  const { mutate: loginData, isLoading } = loginAuth();
+  const { mutate: loginData, isLoading } = useLoginAuth();
   const [values, setValues] = React.useState(valueObject);
   const [errors, setErrors] = React.useState(errorObject);
   const [passwordShown, setPasswordShown] = useState(false);
   const [message, setMessage] = React.useState('');
   const [rememberMe, setRememberMe] = useState(valueObject?.is_remember_me);
   const [checked, setChecked] = React.useState(false);
-  const { mutate: passwordInstance } = forgetPassword();
-  const { mutate: otpInstance } = generateOTP();
+  const { mutate: passwordInstance } = useForgetPassword();
+  const { mutate: otpInstance } = useGenerateOTP();
   interface CustomError extends Error {
     inner?: { path: string; message: string }[];
   }
@@ -200,7 +200,7 @@ const Login = () => {
           </div>
           <div className={Styles.imgContainer}>
             {/* <div className={Styles.imagediv}> */}
-              <img src='/ERP.jpg' className={Styles.imagediv}/>
+              <img src='/ERP.jpg' alt="erp" className={Styles.imagediv}/>
             {/* </div> */}
           </div>
         </div>

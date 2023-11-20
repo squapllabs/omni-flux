@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import {
-  createSubcategory,
-  updateSubcategory,
+  useCreateSubcategory,
+  useCreateInstantSubcategory,
 } from '../../hooks/subCategory-hooks';
 import {
   getUpdateValidateyup,
@@ -15,7 +15,7 @@ import Input from '../../component/ui/Input';
 import Button from '../ui/Button';
 import Select from '../ui/selectNew';
 import Styles from '../../styles/subCategoryList.module.scss';
-import CancelIcon from '../menu/icons/closeIcon'
+import CancelIcon from '../menu/icons/closeIcon';
 
 ////Function for Sub Category
 const SubCategoryForm: React.FC = (props: any) => {
@@ -24,8 +24,9 @@ const SubCategoryForm: React.FC = (props: any) => {
       ? getCreateValidateyup(Yup)
       : getUpdateValidateyup(Yup);
   const { data: getAllCategory = [] } = useGetAllCategoryForDrop();
-  const { mutate: createNewSubcategory } = createSubcategory();
-  const { mutate: updateSubcategoryData } = updateSubcategory();
+  const { mutate: createNewSubcategory } = useCreateSubcategory();
+  const { mutate: createInstantSubcategoryData } =
+    useCreateInstantSubcategory();
   const [initialValues, setInitialValues] = useState({
     sub_category_id: '',
     name: '',
@@ -48,7 +49,7 @@ const SubCategoryForm: React.FC = (props: any) => {
       };
       fetchOne();
     }
-  }, []);
+  }, [props.mode]);
 
   //Function for Adding and Editing Sub Category
   const formik = useFormik({
@@ -79,7 +80,7 @@ const SubCategoryForm: React.FC = (props: any) => {
           budget: Number(values.budget),
           category_id: Number(values.category_id),
         };
-        updateSubcategoryData(Object, {
+        createInstantSubcategoryData(Object, {
           onSuccess: (data, variables, context) => {
             if (data?.success) {
               props.setOpen(false);
@@ -96,18 +97,23 @@ const SubCategoryForm: React.FC = (props: any) => {
   //Function for closing the popup
   const handleClose = () => {
     props.setOpen(false);
-  }
+  };
 
   return (
     <div className={Styles.formContainer}>
       <form onSubmit={formik.handleSubmit}>
-      <div className={Styles.header}>
-          <div><h4 className={Styles.titleStyle}>Edit Sub Category</h4></div>
-          <div> <CancelIcon onClick={handleClose} /></div>
+        <div className={Styles.header}>
+          <div>
+            <h4 className={Styles.titleStyle}>Edit Sub Category</h4>
+          </div>
+          <div>
+            {' '}
+            <CancelIcon onClick={handleClose} />
+          </div>
         </div>
         <div className={Styles.dividerStyle}></div>
         <div className={Styles.field}>
-        <Select
+          <Select
             label="Category"
             name="category_id"
             onChange={formik.handleChange}
@@ -149,12 +155,23 @@ const SubCategoryForm: React.FC = (props: any) => {
         <div className={Styles.dividerStyle} />
         <div className={Styles.formButton}>
           <div>
-            <Button className={Styles.cancelButton} shape="rectangle" justify="center"  size="small" onClick={handleClose}>
+            <Button
+              className={Styles.cancelButton}
+              shape="rectangle"
+              justify="center"
+              size="small"
+              onClick={handleClose}
+            >
               Cancel
             </Button>
           </div>
           <div>
-            <Button color="primary" shape="rectangle" justify="center"  size="small">
+            <Button
+              color="primary"
+              shape="rectangle"
+              justify="center"
+              size="small"
+            >
               Submit
             </Button>
           </div>

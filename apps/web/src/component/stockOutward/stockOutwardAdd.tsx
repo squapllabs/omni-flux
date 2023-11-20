@@ -13,10 +13,10 @@ import DeleteIcon from '../menu/icons/deleteIcon';
 import ProjectService from '../../service/project-service';
 import StockOutWardService from '../../service/stock-outward-service';
 import {
-  getUserDataProjectRolebased,
-  getByProjectId,
+  useGetUserDataProjectRolebased,
+  useGetByProjectId,
 } from '../../hooks/project-hooks';
-import { createStockOutWard } from '../../hooks/stock-outward';
+import { useCreateStockOutWard } from '../../hooks/stock-outward';
 import { useNavigate } from 'react-router-dom';
 import {
   getStockOutwardCreationYupschema,
@@ -53,13 +53,14 @@ const StoreOutwardAdd = () => {
   const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
-  let Obj: any = {
+  const Obj: any = {
     projectID: projectId,
     role: 'Site Engineer',
   };
-  const { data: getSiteEngineerData = [] } = getUserDataProjectRolebased(Obj);
-  const { data: getProjectData } = getByProjectId(projectId);
-  const { mutate: createNewStockOutWard } = createStockOutWard();
+  const { data: getSiteEngineerData = [] } =
+    useGetUserDataProjectRolebased(Obj);
+  const { data: getProjectData } = useGetByProjectId(projectId);
+  const { mutate: createNewStockOutWard } = useCreateStockOutWard();
 
   const validationSchema = getStockOutwardCreationYupschema(Yup);
 
@@ -68,7 +69,7 @@ const StoreOutwardAdd = () => {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
-      let object: any = {
+      const object: any = {
         project_id: Number(projectId),
         site_id: values.site_id,
         site_engineer_id: values.site_engineer_id,
@@ -114,13 +115,14 @@ const StoreOutwardAdd = () => {
 
   const fetchProjectSite = async () => {
     const siteData = await ProjectService.getOneProjectSite(projectId);
-    let arr: any = [];
-    let siteValues = siteData?.data?.map((site: any) => {
-      let obj: any = {
+    const arr: any = [];
+    const siteValues = siteData?.data?.map((site: any) => {
+      const obj: any = {
         value: site?.site_id,
         label: site?.site_details?.name,
       };
       arr.push(obj);
+      return site;
     });
     setSiteData(arr);
   };
@@ -142,7 +144,6 @@ const StoreOutwardAdd = () => {
           <form onSubmit={formik.handleSubmit}>
             <div className={Styles.fields_container}>
               <div className={Styles.fields_container_1}>
-
                 <div className={Styles.topHeading}>
                   <span className={Styles.heading}>Project Name</span>
                   <h3>{getProjectData?.project_name}</h3>
@@ -273,13 +274,14 @@ const ItemDetailsTable: React.FC = (props: {
       projectId
     );
     setItemDetails(itemData?.data);
-    let arr: any = [];
-    let itemValues = itemData?.data?.map((item: any) => {
-      let obj: any = {
+    const arr: any = [];
+    const itemValues = itemData?.data?.map((item: any) => {
+      const obj: any = {
         value: item?.item_id,
         label: item?.item_data?.item_name,
       };
       arr.push(obj);
+      return obj;
     });
     setItemData(arr);
   };
@@ -433,8 +435,7 @@ const ItemDetailsTable: React.FC = (props: {
                   style={{
                     cursor: 'pointer',
                   }}
-                >
-                </div>
+                ></div>
               </td>
             </tr>
           </tbody>

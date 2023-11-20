@@ -6,7 +6,7 @@ import GlobalExpenseForm from './expenseForm';
 import Styles from '../../styles/newStyles/globalExpenseList.module.scss';
 import MoneyIcon from '../menu/icons/moneyIcon';
 import CustomGroupButton from '../ui/CustomGroupButton';
-import { getBySearchsiteExpense } from '../../hooks/expense-hook';
+import { useGetBySearchsiteExpense } from '../../hooks/expense-hook';
 import EditIcon from '../menu/icons/newEditIcon';
 import CustomLoader from '../ui/customLoader';
 import CustomPagination from '../menu/CustomPagination';
@@ -38,13 +38,12 @@ const ExpenseList = () => {
     { label: 'InProgress', value: 'InProgress' },
     { label: 'Completed', value: 'Completed' },
   ]);
-
+  /* Function to get all expense claim data */
   const {
     mutate: postDataForFilter,
     data: getExpenseList,
     isLoading: fetchLoader,
-  } = getBySearchsiteExpense();
-
+  } = useGetBySearchsiteExpense();
   const handleSearch = async () => {
     const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
@@ -60,7 +59,6 @@ const ExpenseList = () => {
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
@@ -81,37 +79,32 @@ const ExpenseList = () => {
     setOpen(true);
     setExpenseID(expenseId);
   };
-
   const handleViewExpense = (expenseId: any) => {
     setExpenseID(expenseId);
     setExpenseOpen(true);
   };
-
   function getCurrentDimension() {
     return {
       width: window.innerWidth,
       height: window.innerHeight,
     };
   }
-
   useEffect(() => {
     const updateDimension = () => {
       setScreenSize(getCurrentDimension());
     };
     window.addEventListener('resize', updateDimension);
-
     return () => {
       window.removeEventListener('resize', updateDimension);
     };
   }, [screenSize]);
-
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton, reload]);
 
   return (
     <div className={Styles.container}>
-      <ProjectSubheader title="Expense List" navigation="/home" />
+      <ProjectSubheader title="Expense List" navigation="/home" description='' />
       <CustomLoader loading={fetchLoader} size={48} color="black">
         <div>
           <div className={Styles.topHeading}>
@@ -247,10 +240,10 @@ const ExpenseList = () => {
                             )}
                             {getExpenseList?.content?.map(
                               (items: any, index: any) => {
-                                if (items.is_delete != true) {
+                                if (items.is_delete !== true) {
                                   rowIndex = rowIndex + 1;
                                   return (
-                                    <tr>
+                                    <tr key={index}>
                                       <td>{rowIndex}</td>
                                       <td>{items?.expense_code}</td>
                                       <td>{items?.site_data?.name || '-'}</td>
@@ -346,11 +339,11 @@ const ExpenseList = () => {
                     <div className={Styles.cardContainer}>
                       {getExpenseList?.content?.map(
                         (items: any, index: any) => {
-                          if (items.is_delete != true) {
+                          if (items.is_delete !== true) {
                             rowIndex = rowIndex + 1;
                             return (
                               <table className={Styles.cardTable}>
-                                <tr>
+                                <tr key={rowIndex}>
                                   <th className={Styles.cardHeader}>
                                     EXPENSE CODE
                                   </th>

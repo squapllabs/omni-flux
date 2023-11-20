@@ -1,31 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Styles from '../../../../styles/viewReceivedGoods.module.scss';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import PreviousPageIcon from '../../../menu/icons/previousPageIcon';
-// import grnService from 'apps/web/src/service/grn-service';
 import { useGetOneGrnById } from '../../../../hooks/grn-hooks';
-import { format } from 'date-fns';
 import CustomLoader from '../../../ui/customLoader';
-import { environment } from '../../../../environment/environment';
 
 const ViewReceivedGoods = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
-  const grn_Id = Number(routeParams?.grnId);
-  const PurchaseOrderId = Number(routeParams?.pruchaseId);
   const { state } = useLocation();
   const projectId = state?.projectId;
   const { data: getListData, isLoading: dataLoading } = useGetOneGrnById(
     Number(routeParams?.grnId)
   );
 
-  const dateFormat = (value: any) => {
-    const currentDate = new Date(value);
-    const formattedDate = format(currentDate, 'dd-MM-yyyy');
-    return formattedDate;
-  };
-
-  console.log("getListData,", getListData);
 
   return (
     <div>
@@ -69,8 +57,6 @@ const ViewReceivedGoods = () => {
                     <th>S No</th>
                     <th>Item Name</th>
                     <th>Received Quantity</th>
-                    {/* <th>Accepted Quantity</th> */}
-                    {/* <th>Options</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -80,7 +66,6 @@ const ViewReceivedGoods = () => {
                         <td>{index + 1}</td>
                         <td>{data?.item_data?.item_name}</td>
                         <td>{data?.received_quantity ? data?.received_quantity : 0}</td>
-                        {/* <td>{data?.accepted_quantity || nullLableNameFromEnv}</td> */}
                       </tr>
                     );
                   })}

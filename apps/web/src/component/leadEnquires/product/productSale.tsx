@@ -8,11 +8,11 @@ import { useFormik } from 'formik';
 import { useGetAllClientDrop } from '../../../hooks/client-hooks';
 import { useGetAllUsersDrop } from '../../../hooks/user-hooks';
 import {
-  createleadEnquiry,
-  updateleadEnquiry,
+  useCreateleadEnquiry,
+  useUpdateleadEnquiry,
 } from '../../../hooks/leadEnquires-hooks';
 import AddIcon from '../../menu/icons/addIcon';
-import { getBymasertDataType } from '../../../hooks/masertData-hook';
+import { useGetBymasertDataType } from '../../../hooks/masertData-hook';
 import { useGetAllItems } from '../../../hooks/item-hooks';
 import DeleteIcon from '../../menu/icons/deleteIcon';
 import EditIcon from '../../menu/icons/editIcon';
@@ -31,7 +31,7 @@ import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 interface Item {
   lead_enquiry_product_item_id: string;
   product_id: number;
-  product_name: String;
+  product_name: string;
   quantity: number;
   is_delete: string;
 }
@@ -53,7 +53,7 @@ const ProductSale: React.FC = (props: any) => {
   const [editProduct, setEditProduct] = useState();
   const [appendedValue, setAppendedValue] = useState('');
   const [disable, setDisable] = useState(
-    props?.leadEnquireId != undefined ? true : false
+    props?.leadEnquireId !== undefined ? true : false
   );
   const [openDelete, setOpenDelete] = useState(false);
   const [open, setOpen] = useState(false);
@@ -152,18 +152,17 @@ const ProductSale: React.FC = (props: any) => {
       );
       setProductItems(product);
     };
-    if (props.leadEnquireId != undefined) fetchData();
+    if (props.leadEnquireId !== undefined) fetchData();
     if (props.leadEnquireId === undefined) fetchLeadID();
   }, []);
   const { data: getAllClient = [] } = useGetAllClientDrop();
   const { data: getAllUsers = [] } = useGetAllUsersDrop();
-  const { data: getClientLevel = [] } = getBymasertDataType('CTLVL');
-  const { data: getLeadProbability = [] } = getBymasertDataType('LDPRB');
-  const { data: getLeadSource = [] } = getBymasertDataType('LDSE');
+  const { data: getClientLevel = [] } = useGetBymasertDataType('CTLVL');
+  const { data: getLeadProbability = [] } = useGetBymasertDataType('LDPRB');
+  const { data: getLeadSource = [] } = useGetBymasertDataType('LDSE');
   const { data: getAllItems = [] } = useGetAllItems();
-
-  const { mutate: postleadEnquiry } = createleadEnquiry();
-  const { mutate: updatelead } = updateleadEnquiry();
+  const { mutate: postleadEnquiry } = useCreateleadEnquiry();
+  const { mutate: updatelead } = useUpdateleadEnquiry();
   const fetchLeadID = async () => {
     const leadID = await LeadEnquiresServices.getLeadID(props.leadType);
     initialValues.lead_code = leadID?.data;
@@ -484,7 +483,7 @@ const ProductSale: React.FC = (props: any) => {
                 justify="center"
                 size="small"
                 color="primary"
-                icon={<AddIcon width={20} color='white'/>}
+                icon={<AddIcon width={20} color="white" />}
                 type="button"
                 onClick={handleAddItems}
               >
@@ -518,21 +517,19 @@ const ProductSale: React.FC = (props: any) => {
                     if (item?.is_delete === 'N') {
                       rowIndex = rowIndex + 1;
                       return (
-                          <tr key={index}>
-                            <td>{rowIndex}</td>
-                            <td>{item.product_name}</td>
-                            <td>{item.quantity}</td>
-                            <td className={Styles.tableData}>
-                              <DeleteIcon
-                                onClick={(e: any) =>
-                                  handleProductDelete(e, item)
-                                }
-                              />
-                              <EditIcon
-                                onClick={(e: any) => handleProductEdit(e, item)}
-                              />
-                            </td>
-                          </tr>
+                        <tr key={index}>
+                          <td>{rowIndex}</td>
+                          <td>{item.product_name}</td>
+                          <td>{item.quantity}</td>
+                          <td className={Styles.tableData}>
+                            <DeleteIcon
+                              onClick={(e: any) => handleProductDelete(e, item)}
+                            />
+                            <EditIcon
+                              onClick={(e: any) => handleProductEdit(e, item)}
+                            />
+                          </td>
+                        </tr>
                       );
                     }
                   })}

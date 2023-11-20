@@ -1,7 +1,7 @@
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import InvoiceService from '../service/invoice-service';
 
-const getByPurchaseOrderId = (id: number) => {
+const useGetByPurchaseOrderId = (id: number) => {
   return useQuery(
     ['getInvoiceData', id],
     () => InvoiceService.getOnePurchaseOrderById(id),
@@ -11,4 +11,4 @@ const getByPurchaseOrderId = (id: number) => {
   );
 };
 
-export { getByPurchaseOrderId };
+export { useGetByPurchaseOrderId };

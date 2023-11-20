@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Styles from '../../styles/expanses.module.scss';
 import PreviousPageIcon from '../menu/icons/previousPageIcon';
 import { useNavigate } from 'react-router-dom';

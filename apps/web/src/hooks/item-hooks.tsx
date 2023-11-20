@@ -19,7 +19,7 @@ const useGetAllItemsDrops = () => {
   });
 };
 
-const instantCreateItem = () => {
+const useInstantCreateItem = () => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: any) => {
@@ -33,4 +33,4 @@ const instantCreateItem = () => {
   );
 };
 
-export { useGetAllItems, useGetAllItemsDrops,instantCreateItem };
+export { useGetAllItems, useGetAllItemsDrops,useInstantCreateItem };

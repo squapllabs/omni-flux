@@ -3,7 +3,6 @@ import Styles from '../../styles/clientList.module.scss';
 import EditIcon from '../menu/icons/newEditIcon';
 import {
   useDeleteClient,
-  getByClient,
   useGetAllPaginatedClient,
 } from '../../hooks/client-hooks';
 import ClientForm from './clientForm';
@@ -17,15 +16,10 @@ import AddIcon from '../menu/icons/addIcon';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomSidePopup from '../ui/CustomSidePopup';
 import FilterOrderIcon from '../menu/icons/filterOrderIcon';
-import { handleSortByColumn } from './../../helper/common-function'
+import { handleSortByColumn } from './../../helper/common-function';
 
 /* Function for Client List */
 const ClientList = () => {
-  const {
-    mutate: postDataForFilter,
-    data: getFilterData,
-    isLoading: searchLoader,
-  } = getByClient();
 
   const { mutate: getDeleteClientByID } = useDeleteClient();
   const [openDelete, setOpenDelete] = useState(false);
@@ -37,7 +31,6 @@ const ClientList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [value, setValue] = useState();
-  const [dataShow, setDataShow] = useState(false);
   const [openClientForm, setOpenClientForm] = useState(false);
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
@@ -94,6 +87,7 @@ const ClientList = () => {
     setOpenSnack(true);
   };
 
+  /* Funtion to change page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
@@ -104,7 +98,7 @@ const ClientList = () => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
+  /* Function to close the client create and edit form */
   const handleClientFormClose = () => {
     setOpenClientForm(false);
   };
@@ -115,7 +109,7 @@ const ClientList = () => {
     <div>
       <div>
         <CustomLoader
-          loading={searchLoader ? searchLoader : getAllLoadingPaginated}
+          loading={getAllLoadingPaginated}
           size={48}
           color="#333C44"
         >
@@ -152,7 +146,7 @@ const ClientList = () => {
                       onChange={(e) => {
                         setFilterValues({
                           ...filterValues,
-                          ['search_by_name']: e.target.value,
+                          search_by_name: e.target.value,
                         });
                         setCurrentPage(1);
                       }}
@@ -167,9 +161,19 @@ const ClientList = () => {
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th onClick={() => handleSortByColumn('name', sortOrder, setSortOrder, setSortColumn)}>
+                          <th
+                            onClick={() =>
+                              handleSortByColumn(
+                                'name',
+                                sortOrder,
+                                setSortOrder,
+                                setSortColumn
+                              )
+                            }
+                          >
                             <div className={Styles.headingRow}>
-                              <div>Client Name</div><div>
+                              <div>Client Name</div>
+                              <div>
                                 <FilterOrderIcon />
                               </div>
                             </div>
@@ -179,35 +183,7 @@ const ClientList = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {dataShow ? (
-                          getFilterData?.total_count === 0 ? (
-                            <tr>
-                              <td></td>
-                              <td></td>
-                              <td>No data found</td>
-                              {activeButton === 'AC' && <td></td>}
-                            </tr>
-                          ) : (
-                            getFilterData?.content?.map(
-                              (data: any, index: number) => (
-                                <tr key={data.client_id}>
-                                  <td>{startingIndex + index}</td>
-                                  <td>{data.name}</td>
-                                  <td>{data.contact_details}</td>
-                                  {activeButton === 'AC' && (
-                                    <td>
-                                      <div className={Styles.tablerow}>
-                                        <EditIcon
-                                          onClick={() => handleEdit(data.client_id)}
-                                        />
-                                      </div>
-                                    </td>
-                                  )}
-                                </tr>
-                              )
-                            )
-                          )
-                        ) : initialData?.total_count === 0 ? (
+                        {initialData?.total_count === 0 ? (
                           <tr>
                             <td></td>
                             <td></td>
@@ -215,22 +191,26 @@ const ClientList = () => {
                             {activeButton === 'AC' && <td></td>}
                           </tr>
                         ) : (
-                          initialData?.content?.map((data: any, index: number) => (
-                            <tr key={data.client_id}>
-                              <td>{startingIndex + index}</td>
-                              <td>{data.name}</td>
-                              <td>{data.contact_details}</td>
-                              {activeButton === 'AC' && (
-                                <td>
-                                  <div className={Styles.tablerow}>
-                                    <EditIcon
-                                      onClick={() => handleEdit(data.client_id)}
-                                    />
-                                  </div>
-                                </td>
-                              )}
-                            </tr>
-                          ))
+                          initialData?.content?.map(
+                            (data: any, index: number) => (
+                              <tr key={data.client_id}>
+                                <td>{startingIndex + index}</td>
+                                <td>{data.name}</td>
+                                <td>{data.contact_details}</td>
+                                {activeButton === 'AC' && (
+                                  <td>
+                                    <div className={Styles.tablerow}>
+                                      <EditIcon
+                                        onClick={() =>
+                                          handleEdit(data.client_id)
+                                        }
+                                      />
+                                    </div>
+                                  </td>
+                                )}
+                              </tr>
+                            )
+                          )
                         )}
                       </tbody>
                     </table>
@@ -239,40 +219,29 @@ const ClientList = () => {
                 <div className={Styles.pagination}>
                   <Pagination
                     currentPage={currentPage}
-                    totalPages={
-                      dataShow ? getFilterData?.total_page : initialData?.total_page
-                    }
-                    totalCount={
-                      dataShow
-                        ? getFilterData?.total_count
-                        : initialData?.total_count
-                    }
+                    totalPages={initialData?.total_page}
+                    totalCount={initialData?.total_count}
                     rowsPerPage={rowsPerPage}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
                   />
                 </div>
               </div>
-
             </div>
           ) : (
             <div>
-              <div className={Styles.subHeading}>
-              </div>
+              <div className={Styles.subHeading}></div>
               <div className={Styles.emptyDataHandling}>
                 <div>
-                  <img
-                    src="/client.jpg"
-                    alt="aa"
-                    width="100%"
-                    height="200px"
-                  />
+                  <img src="/client.jpg" alt="aa" width="100%" height="200px" />
                 </div>
                 <div>
                   <h5>Client list is Empty</h5>
                 </div>
                 <div className={Styles.contentGap}>
-                  <span className={Styles.spanContent}>Go ahead, add new Clients</span>
+                  <span className={Styles.spanContent}>
+                    Go ahead, add new Clients
+                  </span>
                 </div>
                 <div>
                   <Button

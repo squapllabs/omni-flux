@@ -24,8 +24,8 @@ const FilterOrderIcon: FC<FilterIconProps> = ({
       <g
         fill="none"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       >
         <path d="m10.5 8l-2 2V4m-5 2l2-2v6" />
       </g>

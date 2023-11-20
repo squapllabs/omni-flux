@@ -39,9 +39,9 @@ const ProjectDocumentView = (props: any) => {
             </div> */}
             {documentURL ?
                 (fileType === "image" ?
-                    < img src={documentURL} style={{ width: "100%", height: "500px" }} >
+                    < img src={documentURL} alt="document" style={{ width: "100%", height: "500px" }} >
                     </img>
-                    : <iframe src={documentURL} style={{ width: "1210px", height: "500px" }} >
+                    : <iframe src={documentURL} style={{ width: "1210px", height: "500px" }} title="Document Viewer" >
                     </iframe>)
                 : "No Document Found"}
         </div >
