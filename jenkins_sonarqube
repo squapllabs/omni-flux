@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    stages {
+        stage('checkout code'){
+            steps {
+                checkout([$class: 'GitSCM',
+                branches: [[name: '*/main']],
+                extensions: scm.extensions,
+                userRemoteConfigs: [[
+                    url: 'git@github.com:squapllabs/omni-flux.git',
+                    credentialsId: 'GitCredentials'
+                ]]
+            ])
+            echo 'git checkout completed'
+            }
+		}
+stage('SonarQube  Analysis') { 
+     def scannerHome = tool 'erpsonarqupe'
+       withSonarQubeEnv('erpsonarqupe') {
+       sh """/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/erpsonarqupe/bin/sonar-scanner \
+      -D sonar.projectVersion=1.0-SNAPSHOT \
+        -D sonar.login=admin \
+       -D sonar.password=A@lam@159753 \
+       -D sonar.projectBaseDir=/var/lib/jenkins/workspace/ERP-Test / \
+         -D sonar.projectkey=my-app \
+         -D sonar.sourceEncoding=UTF-8
+         -D sonar.lanuage=java \
+      //   -D sonar.sources=my-app/src/main \
+      //   -D sonar.tects=my-app/src/test \
+         -D sonar.host.url=http://192.168.2.29:9000/"""
+        }
+}
+}
+
