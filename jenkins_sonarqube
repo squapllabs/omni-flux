@@ -21,7 +21,7 @@ stage('SonarQube  Analysis') {
       -D sonar.projectVersion=1.0-SNAPSHOT \
         -D sonar.login=admin \
        -D sonar.password=A@lam@159753 \
-       -D sonar.projectBaseDir=/var/lib/jenkins/workspace/ERP-Test / \
+       -D sonar.projectBaseDir=/var/lib/jenkins/workspace/ERP / \
          -D sonar.projectkey=my-app \
          -D sonar.sourceEncoding=UTF-8
          -D sonar.lanuage=java \
