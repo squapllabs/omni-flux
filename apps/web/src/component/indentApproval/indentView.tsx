@@ -45,6 +45,7 @@ const IndentView = () => {
     global_search: '',
     indent_request_id: IndentId,
   };
+  /* Function to get all indent detail list based on a indent */
   const {
     data: getAllData,
     isLoading: dataLoading,
@@ -52,7 +53,7 @@ const IndentView = () => {
   } = useGetAllIndentRequestDetail(masterData);
 
   const { mutate: updateIndentRequestData } = useUpdateIndentRequest();
-
+  /* Function to approve an indent */
   const handleApprove = () => {
     const date = format(new Date(), 'yyyy/MM/dd');
     const obj = {
@@ -140,7 +141,7 @@ const IndentView = () => {
           </div>
           {getAllData?.content[0]?.indent_request_data?.approver_status ===
             'Approved' ||
-            getAllData?.content[0]?.indent_request_data?.approver_status ===
+          getAllData?.content[0]?.indent_request_data?.approver_status ===
             'Rejected' ? null : (
             <div className={Styles.approveButtons}>
               <div>
@@ -175,15 +176,6 @@ const IndentView = () => {
           onAction={setShowRejectForm}
           selectedIndentId={IndentId}
         />
-        {/* <ApproveDialogBox
-          open={openApprove}
-          title="Approve Indent Request"
-          contentLine1="Are you sure want to approve this indent request ?"
-          contentLine2=""
-          handleClose={handleCloseApprove}
-          handleConfirm={handleApprove}
-        /> */}
-
         <CustomPopup
           title="Approve Indent"
           open={openApprove}
@@ -201,7 +193,6 @@ const IndentView = () => {
             />
           }
         />
-
         <CustomSnackBar
           open={openSnack}
           message={message}
@@ -213,5 +204,4 @@ const IndentView = () => {
     </div>
   );
 };
-
 export default IndentView;

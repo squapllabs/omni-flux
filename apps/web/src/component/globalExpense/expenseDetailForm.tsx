@@ -52,37 +52,28 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-
   function getCurrentDimension() {
     return {
       width: window.innerWidth,
       height: window.innerHeight,
     };
   }
-
   useEffect(() => {
     const updateDimension = () => {
       setScreenSize(getCurrentDimension());
     };
     window.addEventListener('resize', updateDimension);
-
     return () => {
       window.removeEventListener('resize', updateDimension);
     };
   }, [screenSize]);
-
   useEffect(() => {
     if (props?.mode !== 'Edit' && props.expenseList.length === 0) {
       props.setExpenseList([...props.expenseList, initialValues]);
     }
   }, [props?.mode]);
-
+  /* Function to delete a row entry in the expense create screen */
   const deleteSiteExpense = (e: any, values: any) => {
-    // const itemIndex = props.expenseList.findIndex(
-    //   (item: any) =>
-    //     item.expense_data_id === ExpenseValue?.expense_data_id &&
-    //     item.is_delete === ExpenseValue?.is_delete
-    // );
     if (props.expenseList[expenseIndex].expense_details_id != null) {
       if (props.expenseList[expenseIndex].bill_details !== '') {
         props.expenseList[expenseIndex] = {
@@ -106,14 +97,13 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
     } else {
       props.expenseList.splice(expenseIndex, 1);
     }
-
     props.setExpenseList([...props.expenseList]);
     rowIndex = rowIndex - 1;
     setOpenDelete(false);
     props.setMessage('Site expanse details has been deleted');
     props.setOpenSnack(true);
   };
-
+  /* Function for validating the form */
   const validationSchema = Yup.array().of(
     Yup.object().shape({
       is_delete: Yup.string().required(),
@@ -129,13 +119,11 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
       bill_number: Yup.string(),
     })
   );
-
   const handleListChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: any
   ) => {
     let tempObj = {};
-
     if (event.target.name === 'total') {
       tempObj = {
         ...props.expenseList[index],
@@ -150,7 +138,6 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
         expense_data_id: matchingObjects[0].value,
         site_expense_name: matchingObjects[0].label,
       };
-
       const tempArry = [...props.expenseList];
       tempArry[index] = tempObj;
       props.setExpenseList(tempArry);
@@ -164,6 +151,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
     tempArry[index] = tempObj;
     props.setExpenseList(tempArry);
   };
+  /* Function to add expense details in to state */
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -189,6 +177,7 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
       }
     },
   });
+  /* Function to give custom name to the bill uploaded in the ui */
   const generateCustomQuotationName = (data: any) => {
     if (data) {
       const vendorName =
@@ -211,12 +200,10 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
       fileInputRef_2.current.click();
     }
   };
-
   const viewDocumnet = (value: any) => {
     setOpenPdfpopup(true);
     setViewDocs(value);
   };
-
   const handleFileSelect = async (e: any) => {
     const files = e.target.files;
     props.setLoader(!props.loader);
@@ -328,7 +315,6 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
     tempArry[index] = tempObj;
     props.setExpenseList(tempArry);
   };
-
   const handleAddObject = async () => {
     const schema = Yup.array().of(
       Yup.object().shape({
@@ -619,11 +605,6 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
             </table>
           </div>
           <div className={Styles.addDataIcon}>
-            {/* <div onClick={formik.handleSubmit} className={Styles.iconContent}>
-            <NewAddCircleIcon />
-            <span>Add Claim</span>
-          </div> */}
-
             <div
               onClick={() => {
                 handleAddObject();
@@ -837,20 +818,6 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
                                 </div>
                               )}
                             </div>
-                            {/* <td>
-                            <div className={Styles.buttons}>
-                              <div
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => {
-                                  setExpenseValue(item);
-                                  setOpenDelete(true);
-                                  setExpenseIndex(index);
-                                }}
-                              >
-                                <DeleteIcon />
-                              </div>
-                            </div>
-                          </td> */}
                           </div>
                         </tr>
                       );
@@ -870,8 +837,8 @@ const ExpensesDetailsForm: React.FC = (props: any) => {
         handleClose={handleCloseDelete}
         handleConfirm={deleteSiteExpense}
       />
+      {/* pdf viwer */}
       <Popup
-        // title="Pdf Viewer"
         openPopup={openPdfpopup}
         setOpenPopup={setOpenPdfpopup}
         content={

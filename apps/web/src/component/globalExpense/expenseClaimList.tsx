@@ -38,13 +38,12 @@ const ExpenseList = () => {
     { label: 'InProgress', value: 'InProgress' },
     { label: 'Completed', value: 'Completed' },
   ]);
-
+  /* Function to get all expense claim data */
   const {
     mutate: postDataForFilter,
     data: getExpenseList,
     isLoading: fetchLoader,
   } = useGetBySearchsiteExpense();
-
   const handleSearch = async () => {
     const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
@@ -60,7 +59,6 @@ const ExpenseList = () => {
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
@@ -81,37 +79,32 @@ const ExpenseList = () => {
     setOpen(true);
     setExpenseID(expenseId);
   };
-
   const handleViewExpense = (expenseId: any) => {
     setExpenseID(expenseId);
     setExpenseOpen(true);
   };
-
   function getCurrentDimension() {
     return {
       width: window.innerWidth,
       height: window.innerHeight,
     };
   }
-
   useEffect(() => {
     const updateDimension = () => {
       setScreenSize(getCurrentDimension());
     };
     window.addEventListener('resize', updateDimension);
-
     return () => {
       window.removeEventListener('resize', updateDimension);
     };
   }, [screenSize]);
-
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage, activeButton, reload]);
 
   return (
     <div className={Styles.container}>
-      <ProjectSubheader title="Expense List" navigation="/home" />
+      <ProjectSubheader title="Expense List" navigation="/home" description='' />
       <CustomLoader loading={fetchLoader} size={48} color="black">
         <div>
           <div className={Styles.topHeading}>

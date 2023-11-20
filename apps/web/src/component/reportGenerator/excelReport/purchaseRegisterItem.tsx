@@ -2,6 +2,7 @@ import { format } from 'date-fns';
 import ExcelJS from 'exceljs';
 
 const PurchaseRegisterItem = async (data: any) => {
+
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('Sheet1');
 
@@ -52,7 +53,6 @@ const PurchaseRegisterItem = async (data: any) => {
   let headerAdded = false; // Track if the header row has been added
   if (data?.length > 1) {
     data?.forEach((itemdata: any, index: number) => {
-      // console.log("itemdata 000009", itemdata);
 
       if (!headerAdded) {
         worksheet.addRow(headers).eachCell((cell) => {
@@ -61,10 +61,7 @@ const PurchaseRegisterItem = async (data: any) => {
         headerAdded = true;
       }
 
-      // if (itemdata) {
-      // headerData = itemdata?.map((item: any, rowIndex: number) => {
       if (itemdata?.purchase_order_type === 'Head Office') {
-        // return {
         headerData = [
           (index + 1).toString(),
           itemdata?.purchase_order_type,
@@ -75,8 +72,8 @@ const PurchaseRegisterItem = async (data: any) => {
           itemdata?.purchase_request_data?.selected_vendor_data?.vendor_name,
           itemdata?.purchase_request_data?.total_cost,
           itemdata?.purchase_request_data?.requester_user_data?.first_name +
-            ' ' +
-            itemdata?.purchase_request_data?.requester_user_data?.last_name,
+          ' ' +
+          itemdata?.purchase_request_data?.requester_user_data?.last_name,
         ];
       } else {
         headerData = [
@@ -87,11 +84,11 @@ const PurchaseRegisterItem = async (data: any) => {
           itemdata?.order_id,
           format(new Date(itemdata?.order_date), 'MM/dd/yyyy'),
           itemdata?.purchase_request_data?.selected_vendor_data?.vendor_name ||
-            'N/A',
+          'N/A',
           itemdata?.indent_request_data?.total_cost,
           itemdata?.indent_request_data?.requester_user_data?.first_name +
-            ' ' +
-            itemdata?.indent_request_data?.requester_user_data?.last_name,
+          ' ' +
+          itemdata?.indent_request_data?.requester_user_data?.last_name,
         ];
       }
       if (itemdata?.purchase_order_type === 'Head Office') {
@@ -195,13 +192,10 @@ const PurchaseRegisterItem = async (data: any) => {
         }
       });
       data?.map((item: any, rowIndex: number) => {
-        // console.log("it", item);
         if (item?.purchase_order_type === 'Head Office') {
           itemsData =
             item?.purchase_request_data?.purchase_request_quotation_details?.map(
               (data: any, rowIndex: number) => {
-                // console.log("it33", data);
-
                 return {
                   '': '',
                   'Sl No.': (rowIndex + 1).toString(),
@@ -285,7 +279,7 @@ const PurchaseRegisterItem = async (data: any) => {
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'purchase_register.xlsx';
+  a.download = 'purchase_register_item.xlsx';
   document.body.appendChild(a);
   a.click();
   window.URL.revokeObjectURL(url);

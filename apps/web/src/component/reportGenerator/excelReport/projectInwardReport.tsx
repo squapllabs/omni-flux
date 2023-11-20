@@ -1,7 +1,6 @@
 import ExcelJS from 'exceljs';
 
 const ProjectInwardReport = async (datas: any) => {
-  console.log('ProjectInwardReport', datas);
 
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet('Sheet1');
@@ -102,7 +101,7 @@ const ProjectInwardReport = async (datas: any) => {
     const sumofCost = datas?.reduce((accumulator: any, currentItem: any) => {
       return accumulator + currentItem.total_cost;
     }, 0);
-    console.log('sumofQuantity', sumofQuantity);
+
     const finalBody2 = worksheet.getCell(`C${lastRowWithData + 1}`);
     finalBody2.value = sumofQuantity;
     const finalBody3 = worksheet.getCell(`D${lastRowWithData + 1}`);
@@ -129,7 +128,6 @@ const ProjectInwardReport = async (datas: any) => {
     worksheet.addRow(headers).eachCell((cell) => {
       cell.style = headerStyle;
     });
-    console.log('empty');
   }
 
   // Generate a buffer containing the Excel file
@@ -144,7 +142,7 @@ const ProjectInwardReport = async (datas: any) => {
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'purchase_order.xlsx';
+  a.download = 'project_inventory.xlsx';
   document.body.appendChild(a);
   a.click();
   window.URL.revokeObjectURL(url);
