@@ -30,7 +30,6 @@ import { format } from 'date-fns';
 import StarIcon from './icons/starIcon';
 import notificationService from '../../service/notification-service';
 import InvoiceIcon from './icons/invoiceIcon';
-import { resetMenustore } from '../../helper/common-function';
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
