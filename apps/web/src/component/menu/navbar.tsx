@@ -45,6 +45,7 @@ const Navbar = () => {
   const [showResources, setShowResources] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const [showInvoice, setShowInvoice] = useState(false);
+  const popUpRef = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const notificationRef = useRef<HTMLDivElement | null>(null);
   const [screenSize, setScreenSize] = useState(getCurrentDimension());
@@ -136,6 +137,18 @@ const Navbar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleDocumentClick = (event: MouseEvent) => {
+      if (popUpRef.current && !popUpRef.current.contains(event.target as Node) && !isMenuIconOpen) {
+        setIsMenuIconOpen(false);
+      }
+    };
+    document.addEventListener('click', handleDocumentClick);
+    return () => {
+      document.removeEventListener('click', handleDocumentClick);
+    };
+  }, [isMenuIconOpen]);
+  
   function handleListItems() {
     navigate('/products');
   }
@@ -189,6 +202,10 @@ const Navbar = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen((prevIsMenuOpen) => !prevIsMenuOpen);
+  };
+
+  const handleMenuIcon = () => {
+    setIsMenuIconOpen((prevIsMenuIconOpen) => !prevIsMenuIconOpen);
   };
 
   const data: any = {
@@ -256,10 +273,6 @@ const Navbar = () => {
     setShowAssets(false);
     setShowProject(false);
     setShowReport(false);
-  };
-
-  const handleMenuIcon = () => {
-    setIsMenuIconOpen(!isMenuIconOpen);
   };
 
   function getCurrentDimension() {
@@ -777,24 +790,24 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          <div className={Styles.menuIcon} onClick={() => { handleMenuIcon() }}>
+          <div className={Styles.menuIcon} ref={popUpRef} onClick={handleMenuIcon}>
             <MenuIcon />
           </div>
           {isMenuIconOpen ? (
-            <div>
-              <div className={Styles.popupContainer}>
+            <div ref={popUpRef} onClick={handleMenuIcon}>
+              <div className={Styles.popupContainer} >
                 <div className={Styles.popupContent}>
                   <div className={Styles.leftdialogStyle}></div>
                   <div className={Styles.dialogStyle}>
                     <div className={Styles.boxStyle}>
                       <div className={Styles.mainContent}>
                         <div className={Styles.popupHeader}>
-                          <div className={Styles.closeMenuIcon} onClick={() => { handleMenuIcon() }}>
-                            <MenuIcon />
+                          <div className={Styles.closeMenuIcon}>
+                            <MenuIcon onClick={handleMenuIcon} />
                           </div>
                         </div>
                       </div>
-                      <div className={Styles.main_content}>
+                      <div className={Styles.main_content} onClick={handleMenuIcon}>
                         <div className={Styles.navigationLinks}>
                           {roleName !== 'FINANCE MANAGER' &&
                             <div onClick={toggleCollapse} style={{ cursor: 'pointer' }}>
