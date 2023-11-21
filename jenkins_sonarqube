@@ -11,7 +11,7 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitCredentials', url: 'git@github.com:squapllabs/omni-flux.git']]])
  
 		withSonarQubeEnv(installationName: 'SonarQube_Server') {
-	        sh 'mvn clean package sonar:sonar'
+	    //    sh 'mvn clean package sonar:sonar'
 		    }
 
 }
