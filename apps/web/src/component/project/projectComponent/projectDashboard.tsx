@@ -51,12 +51,10 @@ const ProjectDashboard = () => {
   const completedDaysCount = Math.floor(
     timeDifferenceInMilliseconds / (1000 * 60 * 60 * 24)
   );
-
   const progress = currentDate - startDate;
   const progressInDays = progress / (1000 * 60 * 60 * 24);
   const progressPercentage =
     ((progressInDays / totalDays) * 100).toFixed(2) + '%';
-
   const data = {
     labels: ['Total Days', 'So Far'],
     datasets: [

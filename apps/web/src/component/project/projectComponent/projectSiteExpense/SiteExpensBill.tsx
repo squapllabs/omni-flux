@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Styles from '../../../../styles/newStyles/projectSiteExpense.module.scss';
 import CloseIcon from '../../../menu/icons/closeIcon';
-import UploadIcon from '../../../menu/icons/cloudUpload';
 import Button from '../../../ui/Button';
 import userService from '../../../../service/user-service';
 import DeleteIcon from '../../../menu/icons/deleteIcon';
@@ -12,9 +11,9 @@ const SiteExpenseBill: React.FC = (props: any) => {
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  //   const [projectDocs, setProjectDocs] = useState<any>([]);
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
+  /* Function to upload files via drag and drop */
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
@@ -32,7 +31,6 @@ const SiteExpenseBill: React.FC = (props: any) => {
     } else {
       const selectedFilesArray: File[] = [];
       const selectedFileNamesArray: string[] = [];
-
       fileList.forEach((file) => {
         selectedFilesArray.push(file);
         const originalFileNameMatch = file.name.match(/-(\d+-\d+-.*)$/);
@@ -46,13 +44,9 @@ const SiteExpenseBill: React.FC = (props: any) => {
       setFileSizeError('');
     }
   };
-  const handleSnackBarClose = () => {
-    setOpenSnack(false);
-  };
+  /* Function to select file */
   const handleFileSelect = async (e: any) => {
     const files = e.target.files;
-    console.log('files', files);
-
     props.setLoader(true);
     if (files.length > 0) {
       const fileList: File[] = Array.from(files);
@@ -80,6 +74,7 @@ const SiteExpenseBill: React.FC = (props: any) => {
       }
     }
   };
+  /* Function to remove a file after selecting */
   const deleteFile = (index: number) => {
     const newFiles = [...selectedFiles];
     const newFileNames = [...selectedFileName];
@@ -127,10 +122,8 @@ const SiteExpenseBill: React.FC = (props: any) => {
       selectedFiles,
       code.toUpperCase()
     );
-    // console.log('s3UploadUrl', s3UploadUrl);
     props.setExpenseBill([...props.expenseBill, ...s3UploadUrl]);
   };
-  // console.log('props.expenseBill', props.expenseBill);
 
   return (
     <div style={{ display: 'flex' }}>
@@ -215,26 +208,6 @@ const SiteExpenseBill: React.FC = (props: any) => {
             </Button>
           </div>
         </div>
-        {/* <div className={Styles.viewFiles}>
-          <span>
-            <ol className={Styles.listStyles}>
-              {selectedFileName.map((fileName, index) => (
-                <li key={index}>
-                  {fileName} {'    '}
-                  <CloseIcon
-                    width={5}
-                    height={10}
-                    onClick={() => deleteFile(index)}
-                  />
-                </li>
-              ))}
-            </ol>
-          </span>
-          <span>
-            {' '}
-            <p className={Styles.errorStyles}>{fileSizeError}</p>
-          </span>
-        </div> */}
       </div>
       <div style={{ width: '50%' }}>
         <div

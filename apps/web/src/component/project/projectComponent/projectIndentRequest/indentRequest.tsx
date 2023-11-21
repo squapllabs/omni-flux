@@ -65,11 +65,13 @@ const IndentRequest: React.FC = (props: any) => {
   const submitHandler = () => {
     setOpenConfirm(true);
   };
+  /* Function to set date in a desired format */
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
     return formattedDate;
   };
+  /* Function to get indent data */
   useEffect(() => {
     const fetchData = async () => {
       const indentData = await IndentRequestService.getOneIndent(
@@ -112,10 +114,13 @@ const IndentRequest: React.FC = (props: any) => {
   //   { value: 'Local Purchase', label: 'Local Purchase' },
   //   { value: 'Head Office', label: 'Head Office Purchase' },
   // ];
+  /* Function to create an indent  */
   const { mutate: postIndentData, isLoading: PostindentLoading } =
     useCreateIndentRequest();
+  /* Function to update an indent */
   const { mutate: updateIndentData, isLoading: updateindentLoading } =
     useUpdateIndentRequest();
+  /* Function to get all sites of a project */
   const { data: getAllProjectSiteDatadrop = [] } = useGetProjectSite(
     Number(routeParams?.id)
   );
@@ -315,7 +320,6 @@ const IndentRequest: React.FC = (props: any) => {
                       }
                     />
                   </div>
-                  {/* <div className={Styles.inputField}> */}
                   <div style={{ width: '40%' }}>
                     <Select
                       label="Site"
@@ -339,7 +343,6 @@ const IndentRequest: React.FC = (props: any) => {
                       )}
                     </Select>
                   </div>
-
                   <div style={{ width: '40%' }}>
                     <Input
                       label="Total Cost"

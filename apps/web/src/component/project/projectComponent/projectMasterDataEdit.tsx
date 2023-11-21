@@ -15,13 +15,12 @@ import Button from '../../ui/Button';
 import CancelIcon from '../../menu/icons/closeIcon';
 import TextArea from '../../ui/CustomTextArea';
 import Styles from '../../../styles/masterdata.module.scss';
-
+/* Project masterData form */
 const ProjectMasterDataEditForm: React.FC = (props: any) => {
   const validationSchema =
     props.mode === 'EDIT'
       ? getUpdateValidateyup(Yup)
       : getCreateValidateyup(Yup, props.projectId);
-
   const [initialValues, setInitialValues] = useState({
     master_data_id: '',
     master_data_name: '',
@@ -29,6 +28,7 @@ const ProjectMasterDataEditForm: React.FC = (props: any) => {
     master_data_description: '',
     project_id: '',
   });
+  /* Function to get master data from ID */
   useEffect(() => {
     if (props.mode === 'EDIT') {
       const fetchOne = async () => {
@@ -46,7 +46,7 @@ const ProjectMasterDataEditForm: React.FC = (props: any) => {
   }, []);
   const { mutate: postMasterData } = useCreatemasterData();
   const { mutate: updateMasterData } = useUpdatemasterData();
-
+  /* Function to create and edit project based master data */
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -88,7 +88,6 @@ const ProjectMasterDataEditForm: React.FC = (props: any) => {
       }
     },
   });
-
   const handleClose = () => {
     props.setOpen(false);
   };

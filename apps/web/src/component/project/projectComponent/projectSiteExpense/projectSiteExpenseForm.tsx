@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import SiteExpensesForm from '../../../expanses/siteExpensesForm';
 import Styles from '../../../../styles/newStyles/projectSiteExpense.module.scss';
-// import AutoCompleteSelect from '../../../ui/AutoCompleteSelect';
 import { useFormik } from 'formik';
 import {
   useCreatesiteExpense,
@@ -9,18 +7,12 @@ import {
 } from '../../../../hooks/expense-hook';
 import { format } from 'date-fns';
 import * as Yup from 'yup';
-// import { getCreateValidateyup } from '../../../../helper/constants/siteExpanse-constants';
 import { store, RootState } from '../../../../redux/store';
 import { getToken } from '../../../../redux/reducer';
 import { useGetProjectSite } from '../../../../hooks/project-hooks';
 import DatePicker from '../../../ui/CustomDatePicker';
 import SiteExpensesDetails from './siteExpensesDetails';
-// import Input from '../../../ui/Input';
-// import TickIcon from '../../../menu/icons/tickIcon';
-// import EnrichIcon from '../../../menu/icons/enrichIcon';
-// import FlagIcon from '../../../menu/icons/flagIcon';
 import Button from '../../../ui/Button';
-// import Checkbox from '../../../ui/Checkbox';
 import CustomConfirmDialogBox from '../../../ui/CustomConfirmDialogBox';
 import CustomDialogBox from '../../../ui/CustomDialog';
 import siteExpenseService from '../../../../service/expense-service';
@@ -49,8 +41,6 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
       encryptedData?.userData?.contact_no != null
         ? encryptedData?.userData?.contact_no
         : '',
-    // end_date: '',
-    // start_date: '',
     purpose: '',
     department: '',
     designation: '',
@@ -72,7 +62,6 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
   const [loader, setLoader] = useState(false);
   const [expenseBill, setExpenseBill] = useState<any>([]);
   const [totalAmount, setTotalAmount] = useState<any>();
-  // const [checked, setChecked] = useState(false);
   const [tableView, setTableView] = useState(false);
   const { data: getSiteList } = useGetProjectSite(Number(projectId));
   const { mutate: postSiteExpenseData, isLoading: postLoader } =
@@ -97,17 +86,16 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
     formik.submitForm();
     setOpenConfirm(false);
   };
-
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
+  /* Function to set date in a desired format */
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
     return formattedDate;
   };
-
+  /* Function to get one site expense data */
   useEffect(() => {
     const fetchData = async () => {
       const postIds = {
@@ -139,7 +127,6 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
         expenseList: datas?.data?.expense_details,
       });
     };
-
     if (props?.mode === 'Edit') fetchData();
   }, [props?.expenseID, props?.mode]);
   useEffect(() => {
@@ -253,8 +240,6 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                     ? encryptedData?.userData?.contact_no
                     : '',
                 bill_date: values.bill_date,
-                // end_date: values.end_date,
-                // start_date: values.start_date,
                 purpose: values.purpose,
                 department: values.department,
                 designation: values.designation,
@@ -290,8 +275,6 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                     ? encryptedData?.userData?.contact_no
                     : '',
                 bill_date: values.bill_date,
-                // end_date: values.end_date,
-                // start_date: values.start_date,
                 purpose: values.purpose,
                 department: values.department,
                 designation: values.designation,
@@ -330,6 +313,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
         });
     },
   });
+
   return (
     <div>
       <CustomLoader loading={loader} size={20}>

@@ -25,7 +25,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
     per_item_cost: 0,
     item_id: '',
   });
-
   useEffect(() => {
     if (
       props.indentRequestDetailsList.length === 0 &&
@@ -43,13 +42,12 @@ const IndentRequestDetails: React.FC = (props: any) => {
     id: Number(routeParams?.id),
     type: 'RAWMT',
   };
+  /* Function to get bom data of a project */
   const { data: getBOMList } = useGetBOMbyProjectandType(bomPostData);
-  // console.log('getBOMList', getBOMList);
-
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-
+  /* Function to delete a row in the indent request item list */
   const deleteIndentDetail = (e: any, values: any) => {
     if (
       props.indentRequestDetailsList[indentDetailIndex].bom_detail_id !== ''
@@ -67,7 +65,7 @@ const IndentRequestDetails: React.FC = (props: any) => {
     props.setMessage('Indent Request row has been deleted');
     props.setOpenSnack(true);
   };
-
+  /* Function to set the user entered values into the useState */
   const handleFieldChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: number
@@ -88,7 +86,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
     };
     const tempArry = [...props.indentRequestDetailsList];
     tempArry[index] = tempObj;
-
     props.setIndentRequestDetailsList(tempArry);
   };
   const validationSchema = yup.object().shape({
@@ -155,9 +152,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
                 const dummy: any = [];
                 const allIds = props.indentRequestDetailsList.map(
                   (item: any) => {
-                    // if (item.is_delete === 'N') {
-                    //   item.bom_detail_id;
-                    // }
                     if (item.is_delete === false)
                       dummy.push(item.bom_detail_id);
                   }
@@ -252,8 +246,6 @@ const IndentRequestDetails: React.FC = (props: any) => {
                         placeholder="Select from options"
                         mandatory={true}
                         optionList={getBOMList !== undefined ? getBOMList : []}
-                        // optionList={getBOMList}
-                        // disabled
                         disabled={props.indent_request_id ? true : false}
                         value={items?.bom_detail_id}
                         onChange={(e) => handleListChange(e, index)}

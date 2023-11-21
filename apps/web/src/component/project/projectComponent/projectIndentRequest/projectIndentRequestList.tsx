@@ -51,16 +51,15 @@ const ProjectIndentRequestList = () => {
     indent_request_code: filterValues.search_by_code,
     approver_status: filterValues.approver_status,
   };
+  /* Funct to get all indent request data */
   const {
     isLoading: FilterLoading,
     data: getFilterData,
     refetch,
   } = useGetIndentSearchPaginated(demo);
-
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, filterValues]);
-
   useEffect(() => {
     if (filterValues?.search_by_code !== '') {
       const handleSearch = setTimeout(() => {
@@ -69,7 +68,6 @@ const ProjectIndentRequestList = () => {
       return () => clearTimeout(handleSearch);
     }
   }, [filterValues]);
-
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
@@ -85,7 +83,6 @@ const ProjectIndentRequestList = () => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
   const handleExpand = (value: any) => {
     setColps(!colps);
     if (colps === true) {
@@ -103,7 +100,7 @@ const ProjectIndentRequestList = () => {
       setIndentID({});
     }
   };
-
+  /* Function to change date to desired format */
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'dd-MM-yyyy');
@@ -152,7 +149,6 @@ const ProjectIndentRequestList = () => {
                     }}
                     placeholder="Search by Code"
                   />
-
                   <div>
                     <CustomGroupButton
                       labels={buttonLabels}
@@ -163,7 +159,6 @@ const ProjectIndentRequestList = () => {
                 </div>
               </div>
             </div>
-
             <div className={Styles.tableContainer}>
               <div>
                 <table className={Styles.scrollable_table}>
@@ -240,7 +235,7 @@ const ProjectIndentRequestList = () => {
                                   }}
                                 >
                                   <EditIcon
-                                    onClick={(e) => {
+                                    onClick={() => {
                                       navigate(
                                         `/indent/${routeParams?.id}/${items?.indent_request_id}`
                                       );

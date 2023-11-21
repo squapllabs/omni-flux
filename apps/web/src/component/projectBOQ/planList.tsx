@@ -26,7 +26,7 @@ import CustomSidePopup from '../ui/CustomSidePopup';
 import InstantItemAdd from '../ui/CustomItemAdd';
 import InstantLabourAdd from '../ui/CustomLabourAdd';
 import InstantMachineryAdd from '../ui/CustomMachineryAdd';
-
+/* BOQ plan list screen */
 const Bom: React.FC = (props: any) => {
   const subCategoryId = Number(props.subCategoryId);
   const subCategory = props.subCategory;
@@ -52,6 +52,7 @@ const Bom: React.FC = (props: any) => {
   const [openDialog, setOpenDialog] = useState(false);
   const { data: getSubCategoryData } = useGetBySubcategoryID(subCategoryId);
   const [bomTotal, setBomTotal] = useState<number>(0);
+  /* Function to get bom list */
   useEffect(() => {
     const fetchData = async () => {
       const getData = await BomService.getBOMbySubCatID(subCategoryId);
@@ -105,7 +106,6 @@ const Bom: React.FC = (props: any) => {
     };
     fetchData();
   }, [activeButton, reload]);
-
   useEffect(() => {
     let total_value = 0;
     if (bomList.length) {
@@ -120,9 +120,7 @@ const Bom: React.FC = (props: any) => {
     }
     setBomTotal(total_value);
   }, [bomList, activeButton, reload]);
-
   const { mutate: bulkBomData, data: responseData } = useCreateBulkBom();
-
   const validationSchema = Yup.array().of(
     Yup.object()
       .shape({
@@ -148,9 +146,6 @@ const Bom: React.FC = (props: any) => {
                   if (bOMType === 'RAWMT') {
                     const dummy: any = [];
                     const allIds = bomList.map((item: any) => {
-                      // if (item.is_delete === 'N') {
-                      //   item.item_id;
-                      // }
                       if (item.is_delete === false) {
                         dummy.push(item.item_id);
                       }
@@ -185,9 +180,6 @@ const Bom: React.FC = (props: any) => {
                   if (bOMType === 'LABOR') {
                     const dummy: any = [];
                     const allIds = bomList.map((item: any) => {
-                      // if (item.is_delete === 'N') {
-                      //   item.labour_id;
-                      // }
                       if (item.is_delete === false) {
                         dummy.push(item.labour_id);
                       }
@@ -222,9 +214,6 @@ const Bom: React.FC = (props: any) => {
                   if (bOMType === 'MCNRY') {
                     const dummy: any = [];
                     const allIds = bomList.map((item: any) => {
-                      // if (item.is_delete === 'N') {
-                      //   item.machinery_id;
-                      // }
                       if (item.is_delete === false) {
                         dummy.push(item.machinery_id);
                       }
@@ -249,7 +238,6 @@ const Bom: React.FC = (props: any) => {
       })
       .test('at-least-one-required', null, (values) => {
         const { labour_id, item_id, machinery_id } = values;
-
         if (!labour_id && !item_id && !machinery_id) {
           return new Yup.ValidationError(
             'At least one of labour_id, item_id, machenery_id is required',
@@ -260,7 +248,7 @@ const Bom: React.FC = (props: any) => {
         return true;
       })
   );
-
+  /* Function to bulk upload bom data */
   const handleBulkBomAdd = () => {
     validationSchema
       .validate(bomList, { abortEarly: false })
@@ -291,7 +279,6 @@ const Bom: React.FC = (props: any) => {
         });
       });
   };
-
   const handleClose = () => {
     props.setOpen(false);
   };
@@ -527,10 +514,4 @@ const Bom: React.FC = (props: any) => {
 };
 
 export default Bom;
-function schema(
-  values: any[],
-  schema: StringSchema<string | undefined, AnyObject, undefined, ''>,
-  options: ResolveOptions<any>
-): ISchema<any, any, any, any> {
-  throw new Error('Function not implemented.');
-}
+

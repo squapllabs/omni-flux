@@ -3,7 +3,6 @@ import Styles from '../../../../styles/newStyles/projectSiteExpense.module.scss'
 
 const SiteExpensesView = (props: any) => {
   const documentURL = props?.viewDocs?.bill_details[0]?.path;
-
   const getFileTypeFromUrl = () => {
     if (documentURL) {
       const lowercasedUrl = documentURL?.toLowerCase();

@@ -17,6 +17,7 @@ import CustomSnackBar from '../ui/customSnackBar';
 import { getPurchaseRequestCreateValidateyup } from '../../helper/constants/purchaseRequestAdd-constants';
 import * as yup from 'yup';
 import PreviousPageIcon from '../menu/icons/previousPageIcon';
+
 const PurchaseRequestAdd = () => {
   const [itemValues, setItemsValues] = useState([]);
   const [dynamicitemValues, setDynamicItemsValues] = useState([]);
@@ -41,7 +42,6 @@ const PurchaseRequestAdd = () => {
   });
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
-
   const { data: getAllVendorsData = [], isLoading: dropLoading } =
     useGetAllVendors();
   const { mutate: createNewPurchaseRequest } = useCreatePurchaseRequest();
@@ -69,7 +69,6 @@ const PurchaseRequestAdd = () => {
       setDropDisable(true);
     },
   });
-
   const handleDropChange = async () => {
     const itemsData = await PurchaseRequestService.getIndentItems(indentId);
     const arr: any = [];
@@ -85,7 +84,6 @@ const PurchaseRequestAdd = () => {
     setItemsValues(arr);
     setDynamicItemsValues(arr);
   };
-
   const deletePurchaseRequest = (index: number) => {
     purchaseRequestData.splice(index, 1);
     setPurchaseRequestData([...purchaseRequestData]);
@@ -97,7 +95,7 @@ const PurchaseRequestAdd = () => {
     setDynamicItemsValues(newArray);
     setDropDisable(false);
   };
-
+  /* Function to create new purhase request */
   const handleSubmit = () => {
     const requestBody = {
       indent_request_id: indentId,
@@ -132,19 +130,9 @@ const PurchaseRequestAdd = () => {
     });
     setPurchaseRequestData('');
   };
-
   useEffect(() => {
     handleDropChange();
   }, [initialValues]);
-
-  //   const handelOpenVendorForm = () => {
-  //     setTimeout(() => {
-  //         navigate('/vendor-add', {
-  //           state: { project_id: projectId,indentId_id:indentId },
-  //         });
-  //       }, 1000);
-  //   }
-
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };

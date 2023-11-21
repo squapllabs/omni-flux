@@ -10,10 +10,10 @@ const ViewReceivedGoods = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
   const projectId = state?.projectId;
+  /* Function to get grn data based on grn Id */
   const { data: getListData, isLoading: dataLoading } = useGetOneGrnById(
     Number(routeParams?.grnId)
   );
-
 
   return (
     <div>
