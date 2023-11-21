@@ -46,20 +46,16 @@ const ProjectBomConfig: React.FC = (props: any) => {
     Number(routeParams?.id)
   );
   const { data: projectDatas } = useGetByProjectId(Number(routeParams?.id));
-
   const truncateString = (str: any, maxLength: number) => {
     if (projectDatas?.project_name.length > maxLength) {
       return str.substring(0, maxLength - 3) + '...';
     }
     return projectDatas?.project_name;
   };
-
   const truncatedString = truncateString(projectDatas?.project_name, 30);
-
   const { mutate: createNewProjectData } = useCreateProject();
   const { mutate: updateProjectData } = useUpdateProject();
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
-
   const object: any = {
     offset: (currentPage - 1) * rowsPerPage,
     limit: rowsPerPage,
@@ -69,13 +65,12 @@ const ProjectBomConfig: React.FC = (props: any) => {
     project_id: Number(routeParams?.id),
     global_search: '',
   };
-
+  /* Function to get all boq data of a project */
   const {
     isLoading: getAllLoadingBoQProjectData,
     data: initialData,
     refetch,
   } = useGetBySearchBoQProject(object);
-
   const handleAddBoQData = () => {
     setOpen(true);
     setMode('ADD');
@@ -113,20 +108,16 @@ const ProjectBomConfig: React.FC = (props: any) => {
     };
     if (routeParams?.id !== undefined) fetchData();
   }, []);
-
   const handleClosePopup = () => {
     setOpen(false);
   };
-
   useEffect(() => {
     refetch();
   }, [rowsPerPage, currentPage]);
-
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
   /* Function for changing no of rows in pagination */
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
@@ -174,7 +165,6 @@ const ProjectBomConfig: React.FC = (props: any) => {
   };
   const formik = useFormik({
     initialValues,
-    // validationSchema: validateSchema,
     enableReinitialize: true,
     onSubmit: async (values, { resetForm }) => {
       let arr = [];

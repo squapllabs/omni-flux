@@ -9,14 +9,14 @@ import Button from '../../ui/Button';
 import { useCreateStockAudit } from '../../../hooks/stockAudit-hooks';
 import CustomSnackBar from '../../ui/customSnackBar';
 import StockAuditService from '../../../service/stockaudit-service';
-
+/* Stock data add for project */
 const ProjectStockAdd: React.FC = (props: any) => {
+  /* Function to change date value in a desired format */
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
     return formattedDate;
   };
-
   const currentDate = new Date();
   const projectId = props.project_id;
   const [initialValues] = useState({
@@ -29,12 +29,10 @@ const ProjectStockAdd: React.FC = (props: any) => {
   const [check, setChecked] = useState(false);
   const [message] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
-
   const { mutate: postStockData } = useCreateStockAudit();
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
   const updateQuantity = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: number
@@ -43,10 +41,9 @@ const ProjectStockAdd: React.FC = (props: any) => {
     updatedArray[index].quantity = event.target.value;
     setItemsList(updatedArray);
   };
-
+  /* Function to create stock details */
   const formik = useFormik({
     initialValues,
-    // validationSchema,
     enableReinitialize: true,
     onSubmit: async (values, { resetForm }) => {
       const obj: any = {
@@ -67,11 +64,10 @@ const ProjectStockAdd: React.FC = (props: any) => {
       });
     },
   });
-
   const handleClose = () => {
     props.setOpen(false);
   };
-
+  /* Function to get item data  */
   useEffect(() => {
     const searchCategory = async () => {
       const values = {

@@ -35,13 +35,12 @@ const ProjectDocument: React.FC = (props: any) => {
   const { mutate: updateProjectData } = useUpdateProject();
   const [previewUrls, setPreviewUrls] = useState<any[]>([]);
   const [preFile, setPreFile] = useState<File[]>([]);
-
+  /* Function to drag and drop a file */
   const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
     const files = e.dataTransfer.files;
     const fileList = Array.from(files);
-
     const oversizedFiles = fileList.filter(
       (file) => file.size > 10 * 1024 * 1024
     );
@@ -62,7 +61,6 @@ const ProjectDocument: React.FC = (props: any) => {
           : file.name;
         selectedFileNamesArray.push(originalFileName);
       });
-
       setSelectedFiles(selectedFilesArray);
       setSelectedFileName(selectedFileNamesArray);
       setFileSizeError('');
@@ -71,6 +69,7 @@ const ProjectDocument: React.FC = (props: any) => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
+  /* Function to select a file */
   const handleFileSelect = (e: any) => {
     const files = e.target.files;
     if (files.length > 0) {
@@ -92,7 +91,6 @@ const ProjectDocument: React.FC = (props: any) => {
         fileList.forEach((file) => {
           selectedFilesArray.push(file);
           const urls = URL.createObjectURL(file);
-
           const obj: any = {
             name: file.name,
             url: urls,
@@ -107,12 +105,12 @@ const ProjectDocument: React.FC = (props: any) => {
       }
     }
   };
-
+  /* Function to view a file */
   const viewDocument = (value: any) => {
     setOpenPdfpopup(true);
     setViewDocs(value);
   };
-
+  /* Function to remove a file from the selected list */
   const deleteFile = (index: number) => {
     const newFiles = [...selectedFiles];
     const newFileNames = [...selectedFileName];
@@ -164,7 +162,6 @@ const ProjectDocument: React.FC = (props: any) => {
       console.log('Error in occur project document upload:', error);
     }
   };
-
   const handleSubmit = async () => {
     if (selectedFiles?.length !== 0 || projectDocs[0]?.is_delete) {
       const s3UploadUrl: any = await handleDocuments(
@@ -200,6 +197,7 @@ const ProjectDocument: React.FC = (props: any) => {
       setOpenSnack(true);
     }
   };
+  
   return (
     <div className={Styles.container_document}>
       <div className={Styles.topHeading}>

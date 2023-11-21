@@ -16,10 +16,8 @@ import {
   useUpdateprojectSite,
 } from '../../../hooks/projectSite-hooks';
 import projectSiteService from '../../../service/projectSite-service';
-
+/* Project site add screen */
 const ProjectSiteConfigAdd: React.FC = (props: any) => {
-  // console.log('props.mode', props.mode);
-
   const [initialValues, setInitialValues] = useState<any>({
     site_id: '',
     estimated_budget: '',
@@ -39,6 +37,7 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
   };
   const { mutate: postProjectSite } = useCreateprojectSite();
   const { mutate: updateProjectSite } = useUpdateprojectSite();
+  /* Function to project site data */
   useEffect(() => {
     const fetchData = async () => {
       const getData = await projectSiteService.getOneprojectSiteByID(
@@ -56,7 +55,6 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
         created_by: 1,
         project_site_id: getData?.data?.project_site_id,
       });
-      // console.log('getData', getData);
     };
     if (props.mode === 'EDIT') fetchData();
   }, [props.mode]);
@@ -109,16 +107,15 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
         }
       ),
   });
+  /* Function to update project site data */
   const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values, { resetForm }) => {
-      // console.log('values', values);
       if (props?.mode === 'ADD') {
         postProjectSite(values, {
           onSuccess(data, variables, context) {
-            // console.log('data', data);
             props.setOpen(false);
             props.setMessage('Project Site created Successfully');
             props.setOpenSnack(true);
@@ -128,7 +125,6 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
       } else {
         updateProjectSite(values, {
           onSuccess(data, variables, context) {
-            // console.log('data', data);
             if (data.status === true) {
               props.setOpen(false);
               props.setMessage('Project Site Updated Successfully');
@@ -140,6 +136,7 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
       }
     },
   });
+  
   return (
     <div className={Styles.container}>
       <form></form>
@@ -186,7 +183,6 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
                   placeholder="Enter your Actual Budget"
                   value={formik.values.actual_budget}
                   onChange={formik.handleChange}
-                  // mandatory
                   error={
                     formik.touched.actual_budget && formik.errors.actual_budget
                   }

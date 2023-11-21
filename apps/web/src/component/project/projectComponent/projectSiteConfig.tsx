@@ -16,7 +16,7 @@ import {
 import CustomPagination from '../../menu/CustomPagination';
 import CustomLoader from '../../ui/customLoader';
 import { formatBudgetValue } from '../../../helper/common-function';
-
+/* Site list screen for a project */
 const ProjectSiteConfig: React.FC = (props: any) => {
   const routeParams = useParams();
   const navigate = useNavigate();
@@ -40,6 +40,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
     project_id: Number(routeParams?.id),
     global_search: '',
   };
+  /* Function to get all sites of a project */
   const {
     data: initialData,
     refetch,
@@ -48,14 +49,12 @@ const ProjectSiteConfig: React.FC = (props: any) => {
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, reload]);
-
   const handleCloseSiteAdd = () => {
     setOpen(false);
   };
   const handleCloseProjectSite = () => {
     setProjectSiteOpen(false);
   };
-
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
@@ -64,6 +63,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
     setProjectSiteId(value);
     setProjectSiteOpen(true);
   };
+  /* Function to change page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };

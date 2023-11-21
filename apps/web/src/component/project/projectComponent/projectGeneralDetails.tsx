@@ -76,12 +76,12 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
     return formattedDate;
   };
+  /* Fnction to get project details by ID */
   useEffect(() => {
     const fetchData = async () => {
       const getData = await projectService.getOneProjectById(
         Number(routeParams?.id)
       );
-
       setInitialValues({
         project_name: getData?.data?.project_name,
         code: getData?.data?.code,
@@ -108,7 +108,6 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
     };
     if (routeParams?.id !== undefined) fetchData();
   }, [routeParams?.id]);
-
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
@@ -223,6 +222,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         'Project end date cannot be earlier than start date'
       ),
   });
+  /* Function to create and update project general details */
   const formik = useFormik({
     initialValues,
     validationSchema:
@@ -287,6 +287,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
       }
     },
   });
+
   return (
     <div>
       <div className={Styles.topHeading}>

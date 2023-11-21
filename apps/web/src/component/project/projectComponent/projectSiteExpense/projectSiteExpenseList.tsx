@@ -3,7 +3,7 @@ import Button from '../../../ui/Button';
 import AddIcon from '../../../menu/icons/addIcon';
 import CustomSidePopup from '../../../ui/CustomSidePopup';
 import ProjectSiteExpenseForm from './projectSiteExpenseForm';
-import {  useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Styles from '../../../../styles/newStyles/siteExpenseList.module.scss';
 import MoneyIcon from '../../../menu/icons/moneyIcon';
 import { useGetProjectSite } from '../../../../hooks/project-hooks';
@@ -20,7 +20,6 @@ import ExpenseDetailApprove from './approval/siteExpenseDetailApprove';
 const ProjectSiteExpenseList = () => {
   const routeParams = useParams();
   let rowIndex = 0;
-  // const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [expenseOpen, setExpenseOpen] = useState(false);
   const [activeButton, setActiveButton] = useState<string | null>('All');
@@ -37,20 +36,20 @@ const ProjectSiteExpenseList = () => {
     { label: 'InProgress', value: 'InProgress' },
     { label: 'Completed', value: 'Completed' },
   ]);
-
+  /* Function to get project site list based on project */
   const { data: getSiteList, isLoading: siteLoading } = useGetProjectSite(
     Number(routeParams?.id)
   );
   const initialSiteId =
     !siteLoading && getSiteList ? getSiteList[0]?.value : null;
   const [filterValue, setFilterValue] = useState(initialSiteId);
-
+  /* Function to get all site expense data */
   const {
     mutate: postDataForFilter,
     data: getExpenseList,
     isLoading: fetchLoader,
   } = useGetBySearchsiteExpense();
-
+  /* Function to search data based on the user search */
   const handleSearch = async () => {
     const demo: any = {
       offset: (currentPage - 1) * rowsPerPage,
@@ -64,10 +63,10 @@ const ProjectSiteExpenseList = () => {
     };
     postDataForFilter(demo);
   };
+  /* Function to chnage page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
@@ -88,19 +87,17 @@ const ProjectSiteExpenseList = () => {
     setOpen(true);
     setExpenseID(expenseId);
   };
-
   const handleViewExpense = (expenseId: any) => {
     setExpenseID(expenseId);
     setExpenseOpen(true);
   };
-
+  /* Function to get the screen size to accomodate responsiveness */
   function getCurrentDimension() {
     return {
       width: window.innerWidth,
       height: window.innerHeight,
     };
   }
-
   useEffect(() => {
     const updateDimension = () => {
       setScreenSize(getCurrentDimension());
@@ -111,7 +108,6 @@ const ProjectSiteExpenseList = () => {
       window.removeEventListener('resize', updateDimension);
     };
   }, [screenSize]);
-
   useEffect(() => {
     handleSearch();
   }, [

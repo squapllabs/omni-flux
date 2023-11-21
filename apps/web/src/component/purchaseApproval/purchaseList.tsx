@@ -20,30 +20,23 @@ import CustomMenu from '../ui/NewCustomMenu';
 const PurchaseList = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
-  // const userID: number = encryptedData.userId;
   const navigate = useNavigate();
   const { data: getAllmasterDataForDrop = [] } = useGetAllProjectDrop();
-  //   const [buttonLabels, setButtonLabels] = useState([
-  //     { label: 'Pending', value: 'Pending' },
-  //     { label: 'Approved', value: 'Approved' },
-  //     { label: 'Rejected', value: 'Rejected' },
-  //   ]);
   const [selectedValue, setSelectedValue] = useState('');
   const [priorityValue, setPriorityValue] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  // const [projectId, setProjectId] = useState();
   const [isResetDisabled, setIsResetDisabled] = useState(true);
   const [filterValues, setFilterValues] = useState({
     search_by_code: '',
     priority: '',
   });
+  /* Function to get all approved indent list */
   const {
     mutate: postDataForFilter,
     data: getIndentData,
     isLoading: FilterLoading,
   } = useGetByUserRoleIndent();
-
   const handleReset = async () => {
     const userData: any = {
       limit: rowsPerPage,
@@ -65,13 +58,6 @@ const PurchaseList = () => {
     });
     setIsResetDisabled(true);
   };
-  // const handleReportGenerator = () => {
-  //   const data: any = {
-  //     title: 'Purchase Request',
-  //     name: 'purchase_request',
-  //   };
-  //   ReportGenerator(data);
-  // };
   /* Function for searching a user in the table */
   const handleSearch = async () => {
     const userData: any = {
@@ -88,30 +74,26 @@ const PurchaseList = () => {
     };
     postDataForFilter(userData);
   };
-
+  /* Function to change page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
   const handleView = (indentId: any, projectId: any) => {
     navigate(`/indent-request-detail/${indentId}`, {
       state: { project_id: projectId },
     });
   };
-
   const options: any = [
     { value: 'Low', label: 'Low' },
     { value: 'Medium', label: 'Medium' },
     { value: 'High', label: 'High' },
   ];
-
   const handleProjectDropdownChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -132,21 +114,15 @@ const PurchaseList = () => {
     setPriorityValue(selectedPriority);
     setIsResetDisabled(searchValue === '');
   };
-
   useEffect(() => {
     handleSearch();
   }, [currentPage, rowsPerPage]);
-
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
   return (
     <div className={Styles.container}>
       <CustomLoader loading={FilterLoading} size={48} color="#333C44">
         <div className={Styles.box}>
-          {/* <div className={Styles.textContent}>
-            <h3>Purchase List</h3>
-            <span className={Styles.content}>Purchase List based on Project</span>
-          </div> */}
           <ProjectSubheader
             navigation={'/home'}
             description="Approved Indent List based on Project"
@@ -161,7 +137,7 @@ const PurchaseList = () => {
                 placeholder="Select from options"
                 value={selectedValue}
                 mandatory={false}
-                showClearIcon={false}
+                showclearicon={false}
                 onChange={() => handleProjectDropdownChange}
                 onSelect={(value) => {
                   setSelectedValue(value);
@@ -302,7 +278,6 @@ const PurchaseList = () => {
                           'MMM dd, yyyy'
                         )}
                       </td>
-                      {/* <td>{data?.priority}</td> */}
                       <td
                         className={
                           data?.priority === 'HIGH' ? Styles.highPriority : ''

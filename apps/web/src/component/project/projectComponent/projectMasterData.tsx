@@ -11,7 +11,7 @@ import CustomPagination from '../../menu/CustomPagination';
 import CustomPopup from '../../ui/CustomSidePopup';
 import ProjectMasterDataEditForm from './projectMasterDataEdit';
 import CustomSnackBar from '../../ui/customSnackBar';
-
+/* Project master data list page */
 const ProjectMasterData: React.FC = (props: any) => {
   const routeParams = useParams();
   const projectId = Number(routeParams?.id);
@@ -38,17 +38,17 @@ const ProjectMasterData: React.FC = (props: any) => {
     parent_id: null,
     project_master_data: false,
   };
+  /* Function to get all project related master data */
   const {
     data: initialData,
     refetch,
     isLoading: getAllLoadingProjectMasterData,
   } = useGetAllPaginatedMasterData(masterData);
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
-
+  /* Function to chnage page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
   const handleAddMasterData = () => {
     setOpen(true);
     setMode('ADD')
@@ -58,22 +58,18 @@ const ProjectMasterData: React.FC = (props: any) => {
     setOpen(true);
     setMode('EDIT')
   }
-
   const handleClosePopup = () => {
     setOpen(false);
   }
-
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);

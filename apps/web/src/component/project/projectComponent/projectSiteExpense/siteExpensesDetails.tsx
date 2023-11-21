@@ -41,7 +41,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
   const [fileSizeError, setFileSizeError] = useState<string>('');
   const [selectedFileName, setSelectedFileName] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  // const [display, setDisplay] = useState(props.mode === 'Add' ? true : false);
   const [fileMandatoryError, setFileMandatoryError] = useState('');
   const { data: getSiteExpense } = useGetBymasertDataTypeDrop('SIEP');
   const [expenseIndex, setExpenseIndex] = useState<any>();
@@ -49,31 +48,28 @@ const SiteExpensesDetails: React.FC = (props: any) => {
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-
+  /* Function to get dimession to set responsiveness */
   function getCurrentDimension() {
     return {
       width: window.innerWidth,
       height: window.innerHeight,
     };
   }
-
   useEffect(() => {
     const updateDimension = () => {
       setScreenSize(getCurrentDimension());
     };
     window.addEventListener('resize', updateDimension);
-
     return () => {
       window.removeEventListener('resize', updateDimension);
     };
   }, [screenSize]);
-
   useEffect(() => {
     if (props?.mode !== 'Edit' && props.expenseList.length === 0) {
       props.setExpenseList([...props.expenseList, initialValues]);
     }
   }, [props?.mode]);
-
+  /* Function to delete a site expense */
   const deleteSiteExpense = (e: any, values: any) => {
     if (props.expenseList[expenseIndex].expense_details_id !== null) {
       if (props.expenseList[expenseIndex].bill_details !== '') {
@@ -98,14 +94,12 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     } else {
       props.expenseList.splice(expenseIndex, 1);
     }
-
     props.setExpenseList([...props.expenseList]);
     rowIndex = rowIndex - 1;
     setOpenDelete(false);
     props.setMessage('Site expanse details has been deleted');
     props.setOpenSnack(true);
   };
-
   const validationSchema = Yup.array().of(
     Yup.object().shape({
       is_delete: Yup.string().required(),
@@ -121,13 +115,11 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       bill_number: Yup.string(),
     })
   );
-
   const handleListChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: any
   ) => {
     let tempObj = {};
-
     if (event.target.name === 'total') {
       tempObj = {
         ...props.expenseList[index],
@@ -142,7 +134,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         expense_data_id: matchingObjects[0].value,
         site_expense_name: matchingObjects[0].label,
       };
-
       const tempArry = [...props.expenseList];
       tempArry[index] = tempObj;
       props.setExpenseList(tempArry);
@@ -181,6 +172,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       }
     },
   });
+  /* Function to set custom file names to be displayed in the table */
   const generateCustomQuotationName = (data: any) => {
     if (data) {
       const vendorName =
@@ -203,12 +195,12 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       fileInputRef_2.current.click();
     }
   };
-
+  /* Function to view document */
   const viewDocumnet = (value: any) => {
     setOpenPdfpopup(true);
     setViewDocs(value);
   };
-
+  /* Function to select file to upload */
   const handleFileSelect = async (e: any) => {
     const files = e.target.files;
     props.setLoader(!props.loader);
@@ -266,7 +258,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
         fileList.forEach(async (file) => {
           const code = 'SITEEXPENSE' + props.siteId;
           const response = await userService.documentUpload(file, code);
-
           const obj = {
             ...response?.data[0],
             is_delete: 'N',
@@ -309,6 +300,7 @@ const SiteExpensesDetails: React.FC = (props: any) => {
       console.log('Error in occur project document upload:', error);
     }
   };
+  /* Function to delete a file in the selected list */
   const deleteFileinList = (index: any) => {
     let tempObj = {};
     props.expenseList[index].bill_details[0].is_delete = 'Y';
@@ -320,7 +312,6 @@ const SiteExpensesDetails: React.FC = (props: any) => {
     tempArry[index] = tempObj;
     props.setExpenseList(tempArry);
   };
-
   const handleAddObject = async () => {
     const schema = Yup.array().of(
       Yup.object().shape({

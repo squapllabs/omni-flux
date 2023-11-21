@@ -19,7 +19,6 @@ import NewAddCircleIcon from '../menu/icons/newAddCircleIcon';
 import ExpandIcon from '../menu/icons/expandIcon';
 import ExpandClose from '../menu/icons/expandClose';
 import CategoryService from '../../service/category-service';
-import CustomMenu from '../ui/NewCustomMenu';
 import subCategoryService from '../../service/subCategory-service';
 import SubBoqItems from './subBoqItems';
 import SettingIcon from '../menu/icons/settingIcon';
@@ -40,7 +39,6 @@ const BomItems = (props: {
   selectedBomConfig: any;
 }) => {
   const { selectedCategory, selectedBomConfig } = props;
-
   const { mutate: getDeleteSubCategoryByID } = useDeleteSubcategory();
   const { mutate: createNewMultipleSubcategory } =
     useCreateMultipleSubcategory();
@@ -98,14 +96,12 @@ const BomItems = (props: {
     const getSubChildList =
       await subCategoryService.getOneChlidSubCatListbyParentID(value);
     setSubChildList(getSubChildList?.data);
-    console.log('data', getSubChildList?.data);
   };
-
   const deleteHandler = (id: any) => {
     setValue(id);
     setOpenDelete(true);
   };
-
+  /* Function to delete a task from the list */
   const handleDelete = () => {
     getDeleteSubCategoryByID(value, {
       onSuccess: (response) => {
@@ -126,14 +122,11 @@ const BomItems = (props: {
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
   const handleFileOnChange = async (e: any) => {
     const file = e.target.files[0];
-    // setModelPopupTrigger(false)
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
@@ -199,20 +192,14 @@ const BomItems = (props: {
               taskData[parenIndex].children.push(obj);
             }
           });
-
           if (taskData.length) {
             setUploadedTaskData(taskData);
-            // setTaskPopupTrigger(true)
-            console.log('taskData', taskData);
           } else {
             setUploadedTaskData([]);
           }
         } else {
           // throw error message
         }
-
-        // Update the state with the Excel data
-        // setExcelData(jsonData);
       };
       reader.readAsArrayBuffer(file);
     }
@@ -220,27 +207,23 @@ const BomItems = (props: {
   const handleFileUploadBtnClick = () => {
     setModelPopupTrigger(true);
   };
-
   useEffect(() => {
     const closeContextMenu = () => {
       setMoreIconDropdownOpen(false);
-
       setOpenedContextMenuForSubCategory(null);
     };
-
     window.addEventListener('click', closeContextMenu);
     return () => {
       window.removeEventListener('click', closeContextMenu);
     };
   }, []);
-
   const handleCloseTask = () => {
     setShowSubCategoryForm(false);
   };
   const handleClosePlanList = () => {
     setShowPlanForm(false);
   };
-
+  /* Function to get task data */
   useEffect(() => {
     const fetchOne = async () => {
       const data = await CategoryService.getOneCategoryByID(
@@ -251,7 +234,6 @@ const BomItems = (props: {
     fetchOne();
     refetch();
     if (getAllData && getAllData.length) {
-      // debugger
       let totalAmount = 0;
       getAllData.forEach((element: any) => {
         totalAmount = totalAmount + element.actual_budget;
@@ -259,30 +241,14 @@ const BomItems = (props: {
       setTotalAmount(totalAmount);
     }
   }, [selectedCategory?.category_id, getAllData, reload]);
-
-  // useEffect(()=>{
-  //   const fetchTaskData = async()=>{
-
-  //     const obj = {
-  //       selectedCategory: selectedCategory,
-  //       selectedBomConfig: selectedBomConfig,
-  //     };
-  //     const taskData = await subCategoryService.getOneSubCatListbyCatID(obj);
-  //     setTaskData(taskData)
-  //     setIsLoading(false)
-  //   }
-  //   fetchTaskData()
-  // },[selectedCategory , reload])
-
   const handleClosePopup = (): void => {
     setTaskPopupTrigger(false);
-    console.log('');
   };
   const handleCloseModelPopup = () => {
     setModelPopupTrigger(false);
     setUploadedTaskData(null);
   };
-
+  /* Function for bulk upload of task data */
   const handleTaskBulkUpload = () => {
     if (uploadedTaskData?.length) {
       const Object = [...uploadedTaskData];
@@ -294,8 +260,6 @@ const BomItems = (props: {
             setOpenSnack(true);
             setUploadedTaskData(null);
             setReload(!reload);
-
-            // setTimeout(() => {navigate('/settings')},1000);
           } else {
             setMessage('Error Ocurred');
             setOpenSnack(true);
@@ -303,7 +267,6 @@ const BomItems = (props: {
           }
         },
       });
-
       setTaskPopupTrigger(false);
     } else {
       console.log('throw error');
@@ -367,7 +330,6 @@ const BomItems = (props: {
     }
     return csvRows.join('\n');
   };
-
   /* Function for downloading sample data */
   const handleExcelTemplateDownload = () => {
     const csvContent = convertToCSV(staticData);
@@ -379,6 +341,7 @@ const BomItems = (props: {
     link.click();
     URL.revokeObjectURL(url);
   };
+
   return (
     <div className={Styles.task_page_container}>
       <div>
@@ -486,13 +449,9 @@ const BomItems = (props: {
                       <DownloadIcon
                         width={20}
                         color="white"
-                        onClick={function (): void {
-                          console.log('');
-                        }}
                       />
                     }
                     onClick={() => {
-                      console.log('download template');
                       handleExcelTemplateDownload();
                     }}
                   >

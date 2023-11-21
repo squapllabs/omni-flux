@@ -11,8 +11,6 @@ import { useGetByBOMDetails } from '../../hooks/category-hooks';
 const ProjectAbstract = () => {
   const navigate = useNavigate();
   const routeparams = useParams();
-  // const [overallAbstractValue, setOverallAbstractValue] = useState<any>(0);
-  // const [reload, setReload] = useState(false);
   const obj: any = {
     projectId: Number(routeparams?.projectId),
     boQId: Number(routeparams?.bomconfigId),
@@ -21,10 +19,6 @@ const ProjectAbstract = () => {
     projectId: Number(routeparams?.projectId),
     boQId: Number(routeparams?.bomconfigId),
   });
-
-  // const getOverallAbsctractValue = (data) => {
-  //   setOverallAbstractValue(data);
-  // };
 
   return (
     <div>
@@ -56,9 +50,6 @@ const ProjectAbstract = () => {
                       ?.project_name
                   }
                 </span>
-                {/* <span className={Styles.content}>
-                  {getBomData?.bom_configuration_data?.bom_name}
-                </span> */}
               </div>
             </div>
             <div className={Styles.lineStyles}>
@@ -67,36 +58,10 @@ const ProjectAbstract = () => {
               </div>
             </div>
             <div className={Styles.countContent}>
-              {/* <h3>{getBomData?.abstract_count}</h3> */}
               <h3>{getBomData?.bom_configuration_data?.bom_description}</h3>
             </div>
-            {/* <div className={Styles.lineStyles}>
-              <div className={Styles.vertical}>
-                <div className={Styles.verticalLine}></div>
-              </div>
-            </div>
-            <div className={Styles.countContent}>
-              <h3>{getBomData?.tasks_count}</h3>
-              <span className={Styles.countContentTitle}>Task</span>
-            </div> */}
           </div>
-
           <div className={Styles.boqAmount}>
-            {/* <div className={Styles.lineStyles}>
-              <div className={Styles.vertical}>
-                <div className={Styles.verticalLine}></div>
-              </div>
-            </div> */}
-            {/* <div className={Styles.countContent}>
-              <h3>
-                {formatBudgetValue(
-                  getBomData?.bom_configuration_data?.budget
-                    ? getBomData?.bom_configuration_data?.budget
-                    : 0
-                )}
-              </h3>
-              <span className={Styles.countContentTitle}>Aggregated Value</span>
-            </div> */}
           </div>
         </div>
         <div className={Styles.selected}></div>
