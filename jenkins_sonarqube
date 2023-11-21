@@ -17,7 +17,7 @@ pipeline {
      stages {
         stage('checkout code') {
             steps {
-                def scannerHome = tool 'SonarQubeScanner3'
+                def scannerHome = tool 'SonarQubeScanner5'
                 withSonarQubeEnv('SonarQube') {
                     sh "${scannerHome}/bin/sonar-scanner"
                 }
