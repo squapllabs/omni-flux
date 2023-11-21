@@ -13,7 +13,7 @@ pipeline {
             ])
             echo 'git checkout completed'
             }
-		}
+		
      stages {
         stage('checkout code') {
             steps {
@@ -26,6 +26,6 @@ pipeline {
     }
 }
 }
-   
+}   
 
 
