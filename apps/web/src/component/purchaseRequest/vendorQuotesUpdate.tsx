@@ -365,14 +365,7 @@ const VendorQuotesUpdate = () => {
               </table>
             </div>
           </div>
-          <div
-            // style={{
-            //   display: 'flex',
-            //   padding: '10px',
-            //   justifyContent: 'space-between',
-            // }}
-            className={Styles.searchField}
-          >
+          <div className={Styles.searchField}>
             <div>
               <div style={{ display: 'flex', gap: '30px' }}>
                 <TextArea
@@ -385,7 +378,6 @@ const VendorQuotesUpdate = () => {
                   width="500px"
                   error={formik.touched.remarks && formik.errors.remarks}
                 />
-
                 <div
                   style={{
                     display: 'flex',
@@ -413,13 +405,7 @@ const VendorQuotesUpdate = () => {
                                 fontSize: '15px',
                               }}
                             >
-                              <div
-                              // onClick={() => {
-                              //   viewDocumnet(item);
-                              // }}
-                              >
-                                {customQuotationName}
-                              </div>
+                              <div>{customQuotationName}</div>
                               <CloseIcon
                                 width={5}
                                 height={10}
@@ -460,7 +446,6 @@ const VendorQuotesUpdate = () => {
                 </div>
               </div>
             </div>
-
             <div
               style={{
                 display: 'flex',

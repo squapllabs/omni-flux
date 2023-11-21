@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Styles from '../../styles/newStyles/purchaseRequest.module.scss';
 import ProjectSubheader from '../project/projectSubheader';
 import { useGetAllProjectDrop } from '../../hooks/project-hooks';
-// import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import Input from '../ui/Input';
 import SearchIcon from '../menu/icons/search';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useGetBySearchPR } from '../../hooks/purchase-request-hooks';
 import { format } from 'date-fns';
-// import Button from '../ui/Button';
-// import DownloadIcon from '../menu/icons/pdfDownloadIcon';
 import ReportGenerator from '../reportGenerator/pdfReport/requestForQuotation';
 import PrintIcon from '../menu/icons/printIcon';
 import SiteNavigateIcon from '../menu/icons/siteNavigateIcon';
 import CustomLoader from '../ui/customLoader';
 import CustomGroupButton from '../ui/CustomGroupButton';
 import { useGetByIndnetId } from '../../hooks/indent-approval-hooks';
-
+/* Screen to view purchase request based on indent id */
 const PurchaseRequestList = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
@@ -43,17 +40,18 @@ const PurchaseRequestList = () => {
     purchase_request_status: activeButton,
     purchase_request_code: filterValue?.search_by_code,
   };
+  /* Function to get all PR data based on indent id */
   const {
     data: getPRbasedOnIndent,
     isLoading: loading,
     refetch,
-    isFetched,
   } = useGetBySearchPR(purchaseData);
-
   const { data: getOneIndnetData } = useGetByIndnetId(Number(routeParams?.id));
+  /* Function to generate pdf */
   const handleReportGenerator = async (data: any) => {
     await ReportGenerator(data);
   };
+  /* Function to set date values in a desired format */
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'dd MMM yyyy');
@@ -94,9 +92,10 @@ const PurchaseRequestList = () => {
     setActiveButton(value);
     setCurrentPage(1);
   };
+
   return (
     <div className={Styles.container}>
-      <CustomLoader loading={loading || !isFetched} size={30}>
+      <CustomLoader loading={loading} size={30}>
         <div>
           <ProjectSubheader
             title="Purchase Request List"
@@ -181,7 +180,6 @@ const PurchaseRequestList = () => {
                 <Input
                   width="260px"
                   prefixIcon={<SearchIcon />}
-                  // label="PR Code"
                   name="search_by_code"
                   value={filterValue.search_by_code}
                   onChange={(e) => {
@@ -189,8 +187,6 @@ const PurchaseRequestList = () => {
                       ...filterValue,
                       [filterValue?.search_by_code]: e.target.value,
                     });
-                    //   setCurrentPage(1);
-                    //   setIsResetDisabled(false);
                   }}
                   placeholder="Search by PR Code"
                 />
@@ -199,7 +195,6 @@ const PurchaseRequestList = () => {
           </div>
         </div>
         <div></div>
-        {/* <div> */}
         {getPRbasedOnIndent?.content?.length === 0 && !loading ? (
           <div className={Styles.emptyDataHandling}>
             <div className={Styles.image}>
@@ -227,12 +222,6 @@ const PurchaseRequestList = () => {
                         <span className={Styles.panelContentTitle}>
                           PR Code:
                         </span>
-                        {/* <span className={Styles.panelContentTitle}>
-                        Indent Code :
-                      </span> */}
-                        {/* <span className={Styles.panelContentTitle}>
-                        PO Code :
-                      </span> */}
                         <span className={Styles.panelContentTitle}>
                           Vendors :
                         </span>
@@ -250,20 +239,6 @@ const PurchaseRequestList = () => {
                             items?.purchase_request_code
                           )}
                         </span>
-                        {/* <span>
-                        {items?.indent_request_data?.indent_request_code}
-                      </span> */}
-                        {/* <span>
-                        {items?.purchase_order?.length === 0 ? (
-                          'N/A'
-                        ) : (
-                          <a
-                            href={`/purchase-order-view/${items?.purchase_order[0]?.purchase_order_id}`}
-                          >
-                            {items?.purchase_order[0]?.order_id}
-                          </a>
-                        )}
-                      </span> */}
                         <div className={Styles.vendorPanel}>
                           <ol>
                             {items?.vendor_quotes?.map(
@@ -283,21 +258,6 @@ const PurchaseRequestList = () => {
                                     <span>
                                       {vendors?.vendor_data?.vendor_name}
                                     </span>
-                                    {/* {vendors?.quotation_status === 'Approved' ? (
-                                    'Approved'
-                                  ) : vendors?.quotation_status ===
-                                    'Pending' ? (
-                                    <div className={Styles.hyperLinks}>
-                                      Add Quotation
-                                    </div>
-                                  ) : vendors?.quotation_status ===
-                                    'Quotation Recived' ? (
-                                    <div className={Styles.hyperLinks}>
-                                      View
-                                    </div>
-                                  ) : (
-                                    ''
-                                  )} */}
                                     <span
                                       className={`${Styles.status} ${
                                         vendors?.quotation_status === 'Approved'
@@ -357,10 +317,6 @@ const PurchaseRequestList = () => {
                         <span className={Styles.panelContentTitle}>
                           Requested Delivery Date :
                         </span>
-                        {/* <span className={Styles.panelContentTitle}>
-                        {' '}
-                        Site Name :
-                      </span> */}
                       </div>
                       <div className={Styles.ColpsDatapanelOne}>
                         <span
@@ -371,7 +327,6 @@ const PurchaseRequestList = () => {
                               ? Styles.completedStatus
                               : ''
                           }`}
-                          // style={{ padding: '6px' }}
                         >
                           {items?.status === 'Approved' &&
                           items?.purchase_order?.length === 0
@@ -391,11 +346,9 @@ const PurchaseRequestList = () => {
                               : new Date()
                           )}
                         </span>
-                        {/* <span>{items?.site_data?.name}</span> */}
                       </div>
                     </div>
                   </div>
-
                   <div className={Styles.cardpanelThree}>
                     <div
                       onClick={() => handleQuotation(items)}
@@ -419,7 +372,6 @@ const PurchaseRequestList = () => {
                     >
                       <Link
                         to={`/purchase-order-view/${items?.purchase_order[0]?.purchase_order_id}`}
-                        // href={`/purchase-order-view/${items?.purchase_order[0]?.purchase_order_id}`}
                       >
                         View PO
                       </Link>
@@ -457,7 +409,6 @@ const PurchaseRequestList = () => {
         )}
       </CustomLoader>
     </div>
-    // </div>
   );
 };
 

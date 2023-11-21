@@ -14,7 +14,7 @@ import GrnData from './grnData';
 import CustomSnackbar from '../ui/customSnackBar';
 import purchaseRequestService from '../../service/purchase-request.service';
 import PurchaseOrderReport from '../reportGenerator/pdfReport/purchaseOrder';
-
+/* Screen to view details of a purchase order */
 const PurchaseOrderView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
@@ -24,9 +24,7 @@ const PurchaseOrderView = () => {
   const [open, setOpen] = useState(false);
   const { data: getOnePurchaseOrderView, isLoading: dataLoading } =
     useGetOnePurchaseOrder(PurchaseOrderId);
-
   const purchase_order_id = getOnePurchaseOrderView?.purchase_order_id;
-
   const title =
     'Purchase Order for' +
     ' ' +
@@ -37,6 +35,7 @@ const PurchaseOrderView = () => {
     getOnePurchaseOrderView?.purchase_request_data
       ?.purchase_request_quotation_details;
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
+  /* Function to give custom name to the file in the list */
   const generateCustomQuotationName = (data: any) => {
     if (data) {
       const vendorName = data?.vendor_name || '';
@@ -46,11 +45,10 @@ const PurchaseOrderView = () => {
     }
     return '';
   };
-
   const handleClose = () => {
     setOpenSnack(false);
   };
-
+  /* Function to generate pdf and download */
   const generatePDF = async (id: any) => {
     const data = await purchaseRequestService.getOnePurchaseOrderDataByID(id);
     if (data?.data) {
@@ -88,7 +86,6 @@ const PurchaseOrderView = () => {
         </div>
         <div className={Styles.dividerStyle}></div>
       </CustomLoader>
-
       {/* values for order data */}
       <div className={Styles.topHeading}>
         <div className={Styles.orderDetails}>
@@ -150,7 +147,6 @@ const PurchaseOrderView = () => {
           )}
         </div>
       </div>
-
       {/* vendor and site details */}
       <div className={Styles.secondData}>
         <div className={Styles.vendorSiteDetails}>
