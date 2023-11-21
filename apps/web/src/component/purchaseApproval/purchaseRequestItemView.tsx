@@ -1,11 +1,9 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-// import { useParams } from 'react-router-dom';
 import Styles from '../../styles/vendorSelect.module.scss';
 import PreviousPageIcon from '../menu/icons/previousPageIcon';
 
 import { environment } from '../../environment/environment';
 const VendorSelect = () => {
-  // const routeParams = useParams();
   const location = useLocation();
   const indentId = location.state.indent_id;
   const projectId = location.state.project_id;
@@ -14,6 +12,7 @@ const VendorSelect = () => {
   const prId = location.state.purchaseRequestId
   const navigate = useNavigate();
   const nullLableNameFromEnv = `${environment.NULLVALUE}`;
+  
   return (
     <div className={Styles.container}>
       <div className={Styles.sub_header}>

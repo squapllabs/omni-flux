@@ -20,9 +20,9 @@ const MyOrderList = () => {
   const navigate = useNavigate();
   const projectId = Number(routeParams?.id);
   const [poID, setPoID] = useState<any>({});
-
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [selectedValue, setSelectedValue] = useState('');
   const [activeButton, setActiveButton] = useState<string | null>(
     'Head Office'
   );
@@ -34,13 +34,11 @@ const MyOrderList = () => {
     setActiveButton(value);
   };
   const [colps, setColps] = useState(false);
-
+  /* Function to get site names belongs to a particular project */
   const { data: getSiteList, isLoading: siteLoading } = useGetProjectSite(
     Number(projectId)
   );
-
-  const [selectedValue, setSelectedValue] = useState('');
-
+  /* Function to open and close the colps used in the table */
   const handleExpand = async (data: any) => {
     setColps(!colps);
     if (colps === true) {
@@ -49,7 +47,6 @@ const MyOrderList = () => {
       setPoID({});
     }
   };
-
   const getPoData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
@@ -61,29 +58,27 @@ const MyOrderList = () => {
     site_id: selectedValue,
     purchase_order_type: activeButton,
   };
-
+  /* Function to get all purchase order data */
   const {
     isLoading: dataLoading,
     data: getAllData,
     refetch,
   } = useGetAllMyOrderData(getPoData);
-
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, selectedValue, activeButton]);
-
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
-
+  /* Function to change page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
+  /* Function to set date in a desired format */
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'dd-MM-yyyy');
@@ -121,7 +116,7 @@ const MyOrderList = () => {
                     }
                   }}
                   optionList={getSiteList != null ? getSiteList : []}
-                  showClearIcon={true}
+                  showclearicon={true}
                 />
               </div>
             </div>

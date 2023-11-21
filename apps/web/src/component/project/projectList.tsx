@@ -58,12 +58,12 @@ const ProjectList = () => {
   const [value, setValue] = useState(0);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-
+  /* Function to handle project status buttons */
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
     setCurrentPage(1);
   };
-
+  /* Function to get all projcet data */
   const {
     isFetched: getAllLoadingPaginated,
     data: getFilterData,
@@ -94,14 +94,14 @@ const ProjectList = () => {
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
-
+  /* Function to search project */
   useEffect(() => {
     const handleSearch = setTimeout(() => {
       refetch();
     }, 1000);
     return () => clearTimeout(handleSearch);
   }, [filterValues]);
-
+  /* Function to change page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
