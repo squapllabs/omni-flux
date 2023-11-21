@@ -15,7 +15,7 @@ pipeline {
             }
 		}
      stages {
-        stage('Build') {
+        stage('checkout code') {
             steps {
                 def scannerHome = tool 'SonarQubeScanner3'
                 withSonarQubeEnv('SonarQube') {
