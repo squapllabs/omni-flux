@@ -62,6 +62,7 @@ const ProjectMasterDataEditForm: React.FC = (props: any) => {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
               props.setOpen(false);
+              props.setModalOpen(false);
               props.setMessage('Master Data edited');
               props.setOpenSnack(true);
               resetForm();
@@ -79,6 +80,7 @@ const ProjectMasterDataEditForm: React.FC = (props: any) => {
           onSuccess: (data, variables, context) => {
             if (data?.status === true) {
               props.setOpen(false);
+              props.setModalOpen(false);
               props.setMessage('Master Data created');
               props.setOpenSnack(true);
               resetForm();
@@ -90,6 +92,7 @@ const ProjectMasterDataEditForm: React.FC = (props: any) => {
   });
   const handleClose = () => {
     props.setOpen(false);
+    props.setModalOpen(false);
   };
 
   return (

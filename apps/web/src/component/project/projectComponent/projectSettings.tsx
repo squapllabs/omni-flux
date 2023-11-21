@@ -289,6 +289,7 @@ const ProjectSettings: React.FC = (props: any) => {
         content={
           <CustomProjectMemberAddPopup
             setOpen={setOpen}
+            setModalOpen={setModalOpen}
             open={open}
             setOpenSnack={setOpenSnack}
             setMessage={setMessage}

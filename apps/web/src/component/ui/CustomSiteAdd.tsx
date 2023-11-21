@@ -9,8 +9,8 @@ import { getCreateValidateyup as siteValidate } from '../../helper/constants/sit
 import { useInstantCreateSite } from '../../hooks/site-hooks';
 import CustomSnackbar from '../ui/customSnackBar';
 
-const CustomSiteAdd = (props: { setOpen: any; open: any }) => {
-  const { setOpen } = props;
+const CustomSiteAdd = (props: { setOpen: any; open: any,setModalOpen:any }) => {
+  const { setOpen,setModalOpen } = props;
   const { mutate: createNewSite } = useInstantCreateSite();
   const validationSchemaSite = siteValidate(Yup);
   const [message, setMessage] = useState('');
@@ -55,6 +55,7 @@ const CustomSiteAdd = (props: { setOpen: any; open: any }) => {
           if (data?.status === true) {
             setMessage('Site created');
             setOpenSnack(true);
+            setModalOpen(false);
             setTimeout(() => {
               handleCloseSiteForm();
             }, 1000);
@@ -70,11 +71,12 @@ const CustomSiteAdd = (props: { setOpen: any; open: any }) => {
 
   const handleCloseSiteForm = () => {
     setOpen(false);
+    setModalOpen(false);
   };
 
   return (
     <div>
-      <div>
+      <div className={Styles.mainDiv}>
         <div>
           <form onSubmit={formikTwo.handleSubmit}>
             <div className={Styles.overflow}>

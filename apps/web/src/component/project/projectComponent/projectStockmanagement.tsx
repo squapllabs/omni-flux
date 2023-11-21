@@ -38,6 +38,7 @@ const ProjectStockmanagement = () => {
   const [reload, setReload] = useState(false);
   const [arrLength, setArrLength] = useState<boolean>();
   const [warning, setWarning] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
@@ -100,6 +101,7 @@ const ProjectStockmanagement = () => {
   const handleAddStockData = () => {
     if (intialValue !== '' && arrLength === true) {
       setOpen(true);
+      setModalOpen(true)
       setArrLength(false);
     } else {
       if (arrLength === false && intialValue !== '') {
@@ -116,12 +118,21 @@ const ProjectStockmanagement = () => {
 
   const handleClosePopup = () => {
     setOpen(false);
+    setModalOpen(false);
   };
 
   const handleSnackBarClose = () => {
     setOpenSnack(false);
     setWarning(false);
   };
+
+  useEffect(() => {
+    if (modalOpen === true) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [modalOpen]);
 
   return (
     <div className={Styles.container}>
@@ -280,6 +291,7 @@ const ProjectStockmanagement = () => {
         content={
           <ProjectStockAdd
             setOpen={setOpen}
+            setModalOpen={setModalOpen}
             open={open}
             project_id={projectId}
             setOpenSnack={setOpenSnack}

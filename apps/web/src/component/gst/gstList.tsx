@@ -5,7 +5,8 @@ import CustomSnackBar from '../ui/customSnackBar';
 import CustomLoader from '../ui/customLoader';
 import CustomDelete from '../ui/customDeleteDialogBox';
 import CustomPopup from '../ui/CustomSidePopup';
-import GSTAddForm from './gstCreate'
+import GSTAddForm from './gstCreate';
+import Button from '../ui/Button';
 
 /* Function for GST */
 const GstList = () => {
@@ -37,16 +38,16 @@ const GstList = () => {
 
   const handleClosePopup = () => {
     setOpen(false);
-  }
+  };
+  // const handleClose = () => {
+  //   setMessage('Successfully deleted');
+  //   setOpenSnack(true)
+  // };
 
   return (
     <div>
       <div>
-        <CustomLoader
-          loading={getAllLoading}
-          size={48}
-          color="#333C44"
-        >
+        <CustomLoader loading={getAllLoading} size={48} color="#333C44">
           <div className={Styles.topHeading}>
             <div className={Styles.heading}>
               <div className={Styles.subHeading}>
@@ -54,7 +55,7 @@ const GstList = () => {
               </div>
             </div>
           </div>
-          <div >
+          <div>
             <div className={Styles.tableContainer}>
               <table className={Styles.scrollable_table}>
                 <thead>
@@ -73,6 +74,7 @@ const GstList = () => {
                 </tbody>
               </table>
             </div>
+            {/* <Button onClick={handleClose}>Check</Button> */}
           </div>
           {/* </div> */}
         </CustomLoader>
@@ -87,7 +89,7 @@ const GstList = () => {
         <CustomPopup
           open={open}
           handleClose={handleClosePopup}
-          title={mode === "EDIT" ? "GST EDIT" : "NEW GST"}
+          title={mode === 'EDIT' ? 'GST EDIT' : 'NEW GST'}
           content={
             <GSTAddForm
               setOpen={setOpen}
@@ -104,7 +106,7 @@ const GstList = () => {
           message={message}
           onClose={handleSnackBarClose}
           autoHideDuration={1000}
-          type="success"
+          type="error"
         />
       </div>
     </div>

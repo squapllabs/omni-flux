@@ -22,6 +22,7 @@ const ProjectMasterData: React.FC = (props: any) => {
   const [message, setMessage] = useState('');
   const [openSnack, setOpenSnack] = useState(false);
   const [mode, setMode] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
   const [masterId, setMasterId] = useState();
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
@@ -51,15 +52,18 @@ const ProjectMasterData: React.FC = (props: any) => {
   };
   const handleAddMasterData = () => {
     setOpen(true);
-    setMode('ADD')
+    setMode('ADD');
+    setModalOpen(true);
   }
   const handleEdit = (value: any) => {
     setMasterId(value)
     setOpen(true);
-    setMode('EDIT')
+    setMode('EDIT');
+    setModalOpen(true);
   }
   const handleClosePopup = () => {
     setOpen(false);
+    setModalOpen(false);
   }
   const handleSnackBarClose = () => {
     setOpenSnack(false);
@@ -70,6 +74,14 @@ const ProjectMasterData: React.FC = (props: any) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
+
+  useEffect(() => {
+    if (modalOpen === true) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [modalOpen]);
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
@@ -209,6 +221,7 @@ const ProjectMasterData: React.FC = (props: any) => {
           content={
             <ProjectMasterDataEditForm
               setOpen={setOpen}
+              setModalOpen={setModalOpen}
               open={open}
               mode={mode}
               projectId={projectId}

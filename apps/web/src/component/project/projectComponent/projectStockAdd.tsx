@@ -58,6 +58,7 @@ const ProjectStockAdd: React.FC = (props: any) => {
             props.setMessage('Stock audited successfully');
             props.setOpenSnack(true);
             props.setOpen(false);
+            props.setModalOpen(false);
             props.setReload(true);
           }
         },
@@ -66,6 +67,7 @@ const ProjectStockAdd: React.FC = (props: any) => {
   });
   const handleClose = () => {
     props.setOpen(false);
+    props.setModalOpen(false);
   };
   /* Function to get item data  */
   useEffect(() => {

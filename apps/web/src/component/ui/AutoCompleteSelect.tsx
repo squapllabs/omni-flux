@@ -5,20 +5,6 @@ import DropdownIcon from '../menu/icons/dropDownButton';
 import CloseIcon from '../menu/icons/closeIcon';
 import AddIcon from '../menu/icons/addIcon';
 
-// Docs:
-// Should pass optionList as an array of objects with id and name
-// Should pass onSelect as a function that sets the value to the selected option
-// Should pass value as a string
-// Should pass onChange as a function that sets the value to the input value
-// Example:
-// const [value, setValue] = useState('')
-// const optionList = [{id:1, label:'Option1'}, {id:2, label:'Option2'}, {id:3, label:'Option3'}, {id:4, label:'Option4'}]
-// const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     setValue(e.target.value)
-// }
-// const handleSelect = (option: string) => {
-//     setValue(option)
-// }
 
 interface InputWrapperProps {
   width?: string;

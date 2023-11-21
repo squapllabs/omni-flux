@@ -82,6 +82,7 @@ const ProjectMemberAddPopup = (props: any) => {
   });
   const handleClose = () => {
     props.setOpen(false);
+    props.setModalOpen(false)
   };
 
   return (

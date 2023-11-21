@@ -345,6 +345,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
               <div className={Styles.subOneChildOne}>
                 <div className={Styles.inputFields}>
                   <Input
+                    variant="filled"
                     label="Name"
                     placeholder="Enter project name"
                     name="project_name"

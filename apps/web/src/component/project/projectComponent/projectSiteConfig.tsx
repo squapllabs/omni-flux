@@ -32,6 +32,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
   const [projectSiteId, setProjectSiteId] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [modalOpen, setModalOpen] = useState(false);
   const masterData = {
     limit: 10,
     offset: 0,
@@ -51,9 +52,11 @@ const ProjectSiteConfig: React.FC = (props: any) => {
   }, [currentPage, rowsPerPage, reload]);
   const handleCloseSiteAdd = () => {
     setOpen(false);
+    setModalOpen(false)
   };
   const handleCloseProjectSite = () => {
     setProjectSiteOpen(false);
+    setModalOpen(false);
   };
   const handleSnackBarClose = () => {
     setOpenSnack(false);
@@ -62,6 +65,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
     setMode('EDIT');
     setProjectSiteId(value);
     setProjectSiteOpen(true);
+    setModalOpen(true);
   };
   /* Function to change page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
@@ -73,6 +77,14 @@ const ProjectSiteConfig: React.FC = (props: any) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
+
+  useEffect(() => {
+    if (modalOpen === true) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [modalOpen]);
 
   return (
     <div>
@@ -99,6 +111,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                     onClick={() => {
                       setMode('ADD');
                       setProjectSiteOpen(true);
+                      setModalOpen(true);
                     }}
                   >
                     Add Site to Project
@@ -108,6 +121,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                   className={Styles.siteCreatelabel}
                   onClick={() => {
                     setOpen(true);
+                    setModalOpen(true)
                   }}
                 >
                   <SiteNavigateIcon width={15} height={15} color="#7f56d9" />
@@ -275,7 +289,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
           open={open}
           title="Create Site"
           handleClose={handleCloseSiteAdd}
-          content={<CustomSiteAdd open={open} setOpen={setOpen} />}
+          content={<CustomSiteAdd open={open} setOpen={setOpen} setModalOpen={setModalOpen} />}
         />
         <CustomSidePopup
           open={projectSiteOpen}
@@ -288,6 +302,7 @@ const ProjectSiteConfig: React.FC = (props: any) => {
             <ProjectSiteConfigAdd
               open={projectSiteOpen}
               setOpen={setProjectSiteOpen}
+              setModalOpen={setModalOpen}
               projectID={Number(routeParams?.id)}
               projectData={projectData}
               siteConfigData={siteConfigData}

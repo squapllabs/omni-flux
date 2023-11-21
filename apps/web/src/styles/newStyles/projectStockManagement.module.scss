@@ -2,6 +2,11 @@
   width: 100%;
   padding-bottom: 10px;
 }
+.stock_Container{
+  // background-color: lightcoral;
+  overflow-y: auto; /* Add this line to make the y-axis scrollable */
+  max-height: 90vh
+}
 
 .topHeading {
   // background-color: aqua;

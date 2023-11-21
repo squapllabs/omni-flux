@@ -33,7 +33,7 @@ const SelectContainer = styled.div<StyledSelectProps>`
   position: relative;
   display: flex;
   align-items: center;
-  border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
+  // border: 1px solid ${(props) => (props.error ? 'red' : '#ccc')};
   border-radius: 4px;
   background-color: ${(props) => (props.disabled ? '#FFFFFF' : '#FFFFFF')};
   pointer-events: ${(props) => (props.disabled ? 'none' : 'auto')};

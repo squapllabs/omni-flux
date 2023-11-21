@@ -436,7 +436,7 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
             })}
           </tbody>
         </table>
-        {props.expenseID && (
+        {/* {props.expenseID && (
           <div className={Styles.propCancel}>
             <Button
               type="button"
@@ -449,7 +449,7 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
               Close
             </Button>
           </div>
-        )}
+        )} */}
       </div>
       <ApproveDialogBox
         open={openApprove}

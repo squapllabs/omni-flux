@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-
+import CheckIcon from '../menu/icons/CheckIcon';
+import WarningIcon from '../menu/icons/warningIcon';
 interface CustomSnackbarProps {
   open: boolean;
   message: string;
   onClose: () => void;
   autoHideDuration?: number;
-  type: 'success' | 'error';
+  type: 'success' | 'error' | 'warning';
 }
 
 const CustomSnackbar: React.FC<CustomSnackbarProps> = ({
@@ -13,7 +14,7 @@ const CustomSnackbar: React.FC<CustomSnackbarProps> = ({
   message,
   onClose,
   autoHideDuration = 3000,
-  type = 'success' 
+  type = 'success',
 }) => {
   const [isVisible, setIsVisible] = useState(open);
 
@@ -32,10 +33,27 @@ const CustomSnackbar: React.FC<CustomSnackbarProps> = ({
     }
   }, [isVisible, autoHideDuration, onClose]);
 
-
   if (!isVisible) return null;
 
-  const backgroundColor = (type === 'success' ? '#916DB3' : 'red');
+  let icon;
+  let fontColor;
+
+  switch (type) {
+    case 'success':
+      icon = <CheckIcon color='#418944'/>;
+      fontColor = '#1e4620';
+      break;
+    case 'error':
+      icon = <WarningIcon color='#d94b4b'/>;
+      fontColor = '#5f2120';
+      break;
+    case 'warning':
+      icon = <WarningIcon color='#f08025'/>;
+      fontColor = '#683e02';
+      break;
+    default:
+      icon = null;
+  }
 
   return (
     <div
@@ -44,13 +62,16 @@ const CustomSnackbar: React.FC<CustomSnackbarProps> = ({
         bottom: '16px',
         left: '50%',
         transform: 'translateX(-50%)',
-        backgroundColor: backgroundColor,
-        color: 'white',
+        backgroundColor: type === 'success' ? '#edf7ed' : type === 'error' ? '#fdeded' : '#fff4e5',
+        color: fontColor,
         padding: '8px 16px',
         borderRadius: '4px',
         boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+        display: 'flex',
+        alignItems: 'center',
       }}
     >
+      {icon && <div style={{ marginRight: '8px' }}>{icon}</div>}
       {message}
     </div>
   );

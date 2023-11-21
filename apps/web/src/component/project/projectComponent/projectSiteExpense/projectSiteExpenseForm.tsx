@@ -95,6 +95,11 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
     return formattedDate;
   };
+  
+  const cancelButtonHandler = () => {
+    props.setOpen(false)
+    props.setModalOpen(false)
+  }
   /* Function to get one site expense data */
   useEffect(() => {
     const fetchData = async () => {
@@ -256,6 +261,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                     setOpenSnack(true);
                     setTimeout(() => {
                       props.setOpen(!props.open);
+                      props.setModalOpen(false);
                       props.setReload(!props.reload);
                     }, 1000);
                   }
@@ -293,6 +299,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                     setOpenSnack(true);
                     setTimeout(() => {
                       props.setOpen(!props.open);
+                      props.setModalOpen(false);
                       props.setReload(!props.reload);
                     }, 1000);
                   }
@@ -415,7 +422,7 @@ const ProjectSiteExpenseForm: React.FC = (props: any) => {
                     size="small"
                     justify="center"
                     className={Styles.cancelButton}
-                    onClick={() => props.setOpen(false)}
+                    onClick={() => cancelButtonHandler()}
                   >
                     Cancel
                   </Button>

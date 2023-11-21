@@ -29,6 +29,7 @@ const ProjectSiteExpenseList = () => {
   const [mode, setMode] = useState('');
   const [reload, setReload] = useState(false);
   const [screenSize, setScreenSize] = useState(getCurrentDimension());
+  const [modalOpen, setModalOpen] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'All', value: 'All' },
     { label: 'Draft', value: 'Draft' },
@@ -78,9 +79,11 @@ const ProjectSiteExpenseList = () => {
   };
   const handleClose = () => {
     setOpen(false);
+    setModalOpen(false)
   };
   const handleExpenseClose = () => {
     setExpenseOpen(false);
+    setModalOpen(false);
   };
   const handleEditExpense = (e: any, expenseId: any) => {
     setMode('Edit');
@@ -90,6 +93,7 @@ const ProjectSiteExpenseList = () => {
   const handleViewExpense = (expenseId: any) => {
     setExpenseID(expenseId);
     setExpenseOpen(true);
+    setModalOpen(true);
   };
   /* Function to get the screen size to accomodate responsiveness */
   function getCurrentDimension() {
@@ -118,6 +122,14 @@ const ProjectSiteExpenseList = () => {
     reload,
     getSiteList,
   ]);
+
+  useEffect(() => {
+    if (modalOpen === true) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [modalOpen]);
 
   return (
     <div className={Styles.container}>
@@ -170,6 +182,7 @@ const ProjectSiteExpenseList = () => {
                     onClick={(e) => {
                       setOpen(true);
                       setMode('Add');
+                      setModalOpen(true);
                     }}
                   >
                     Add Claim
@@ -514,6 +527,7 @@ const ProjectSiteExpenseList = () => {
                 <ProjectSiteExpenseForm
                   projectId={routeParams?.id}
                   setOpen={setOpen}
+                  setModalOpen={setModalOpen}
                   open={open}
                   setExpenseID={setExpenseID}
                   expenseID={expenseID}

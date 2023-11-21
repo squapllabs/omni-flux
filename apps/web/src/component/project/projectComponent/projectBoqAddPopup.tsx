@@ -35,6 +35,7 @@ const ProjectBoqAddPopup = (props: any) => {
   };
   const handleClose = () => {
     props.setOpen(false);
+    props.setModalOpen(false)
   };
   /* Function to get boq data based on Id */
   useEffect(() => {

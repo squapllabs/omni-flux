@@ -42,6 +42,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
   const [mode, setMode] = useState('');
   const [boqId, setBoQId] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const { data: getBomType = [] } = useGetByMasterDataProjectIdDrop(
     Number(routeParams?.id)
   );
@@ -74,11 +75,13 @@ const ProjectBomConfig: React.FC = (props: any) => {
   const handleAddBoQData = () => {
     setOpen(true);
     setMode('ADD');
+    setModalOpen(true);
   };
   const handleEdit = (value: any) => {
     setBoQId(value);
     setOpen(true);
     setMode('EDIT');
+    setModalOpen(true);
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -110,6 +113,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
   }, []);
   const handleClosePopup = () => {
     setOpen(false);
+    setModalOpen(false)
   };
   useEffect(() => {
     refetch();
@@ -173,6 +177,14 @@ const ProjectBomConfig: React.FC = (props: any) => {
       resetForm();
     },
   });
+
+  useEffect(() => {
+    if (modalOpen === true) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [modalOpen]);
   return (
     <div>
       <div className={Styles.container}>
@@ -324,6 +336,7 @@ const ProjectBomConfig: React.FC = (props: any) => {
         content={
           <ProjectBoqAddPopup
             setOpen={setOpen}
+            setModalOpen={setModalOpen}
             open={open}
             mode={mode}
             boqId={boqId}

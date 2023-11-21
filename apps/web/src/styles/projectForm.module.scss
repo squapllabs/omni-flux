@@ -123,7 +123,10 @@ td {
 
 }
 
-
+.mainDiv{
+  overflow-y: auto; 
+  max-height: 90vh 
+}
 .site {
   padding: 10px 70px 0px 70px;
 }

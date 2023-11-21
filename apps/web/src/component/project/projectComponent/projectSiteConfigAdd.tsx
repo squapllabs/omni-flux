@@ -34,6 +34,7 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
   const { data: getAllUsersDatadrop = [] } = useGetAllUsersDrop();
   const handleClose = () => {
     props.setOpen(false);
+    props.setModalOpen(false);
   };
   const { mutate: postProjectSite } = useCreateprojectSite();
   const { mutate: updateProjectSite } = useUpdateprojectSite();
@@ -117,6 +118,7 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
         postProjectSite(values, {
           onSuccess(data, variables, context) {
             props.setOpen(false);
+            props.setModalOpen(false);
             props.setMessage('Project Site created Successfully');
             props.setOpenSnack(true);
             props.setReload(true);
@@ -127,6 +129,7 @@ const ProjectSiteConfigAdd: React.FC = (props: any) => {
           onSuccess(data, variables, context) {
             if (data.status === true) {
               props.setOpen(false);
+              props.setModalOpen(false);
               props.setMessage('Project Site Updated Successfully');
               props.setOpenSnack(true);
               props.setReload(true);
