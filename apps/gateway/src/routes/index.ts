@@ -1,7 +1,7 @@
 export const routes = [
   {
     url: '/hrms-api',
-    auth: false,
+    auth: true,
     proxy: {
       target: process.env.HRMS_API_URL,
       changeOrigin: true,

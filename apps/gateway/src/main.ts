@@ -3,6 +3,7 @@ import { setupLogging } from './middlewares/logging';
 import { setupProxies } from './middlewares/proxy';
 import { routes } from './routes/index';
 import { setupCustomRoutes } from './middlewares/customRoutes';
+import { setupAuth } from './middlewares/auth';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
@@ -35,6 +36,7 @@ app.use(cors(corsOptions));
 /* Logging middleware */
 
 setupLogging(app);
+setupAuth(app, routes);
 setupCustomRoutes(app);
 setupProxies(app, routes);
 
