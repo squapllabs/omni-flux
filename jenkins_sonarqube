@@ -14,8 +14,7 @@ pipeline {
             echo 'git checkout completed'
             }
 		}
-pipeline {
-    agent any
+
     stages {
         stage('Build') {
             steps {
