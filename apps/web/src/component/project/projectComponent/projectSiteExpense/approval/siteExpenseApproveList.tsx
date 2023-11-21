@@ -391,8 +391,8 @@ const ExpenseApprove = () => {
                     <tr key={index}>
                       <td>{rowIndex}</td>
                       <td>{items?.expense_code}</td>
-                      <td>{items?.project_data?.project_name}</td>
-                      <td>{items?.site_data?.name}</td>
+                      <td>{items?.project_data?.project_name || "-"}</td>
+                      <td>{items?.site_data?.name || "-"}</td>
                       <td>{items?.employee_name}</td>
                       <td>{formatBudgetValue(sumOfRates)}</td>
                       {is_recall &&

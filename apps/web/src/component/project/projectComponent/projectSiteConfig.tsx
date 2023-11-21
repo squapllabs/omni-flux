@@ -15,6 +15,7 @@ import {
 } from '../../../hooks/projectSite-hooks';
 import CustomPagination from '../../menu/CustomPagination';
 import CustomLoader from '../../ui/customLoader';
+import { formatBudgetValue } from '../../../helper/common-function';
 /* Site list screen for a project */
 const ProjectSiteConfig: React.FC = (props: any) => {
   const routeParams = useParams();
@@ -174,10 +175,10 @@ const ProjectSiteConfig: React.FC = (props: any) => {
                             </div>
                           </td>
                           <td>
-                            <span>{row?.estimated_budget}</span>
+                            <span>{formatBudgetValue(row?.estimated_budget ? row?.estimated_budget : 0)}</span>
                           </td>
                           <td>
-                            <span>{row.actual_budget}</span>
+                            <span>{formatBudgetValue(row?.actual_budget ? row?.actual_budget : 0)}</span>
                           </td>
                           <td>
                             <span>
