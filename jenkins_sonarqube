@@ -9,7 +9,7 @@ pipeline {
         stage('Code Quality Check & Build') {
             steps {
                 // Get some code from a GitHub repository
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: ['scm.extensions'], userRemoteConfigs: [[credentialsId: 'GitCredentials', url: 'git@github.com:squapllabs/omni-flux.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: 'scm.extensions', userRemoteConfigs: [[credentialsId: 'GitCredentials', url: 'git@github.com:squapllabs/omni-flux.git']]])
  
 		withSonarQubeEnv(installationName: 'SonarQube_Server') {
 	        sh 'mvn clean package sonar:sonar'
