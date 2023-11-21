@@ -17,8 +17,7 @@ pipeline {
       
 pipeline {
     agent any
-	
-       tools {
+    tools {
            maven "M3"
 	 	}
 
