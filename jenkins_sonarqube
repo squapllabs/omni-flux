@@ -1,18 +1,21 @@
 pipeline {
     agent any
+	
+       tools {
+           maven "M3"
+	 	}
+
     stages {
-        stage('checkout code'){
+        stage('Code Quality Check & Build') {
             steps {
-                checkout([$class: 'GitSCM',
-                branches: [[name: '*/main']],
-                extensions: scm.extensions,
-                userRemoteConfigs: [[
-                    url: 'git@github.com:squapllabs/omni-flux.git',
-                    credentialsId: 'GitCredentials'
-                ]]
-            ])
-            echo 'git checkout completed'
-            }
-		}
+                // Get some code from a GitHub repository
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitCredentials', url: 'git@github.com:squapllabs/omni-flux.git']]])
+ 
+		withSonarQubeEnv(installationName: 'SonarQube') {
+	        sh 'mvn clean package sonar:sonar'
+		    }
 }
 }
+}
+}
+
