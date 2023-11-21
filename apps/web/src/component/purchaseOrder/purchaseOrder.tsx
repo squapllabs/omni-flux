@@ -20,7 +20,7 @@ import ViewIcon from '../menu/icons/newViewIcon';
 import PurchaseOrderExcelReport from '../reportGenerator/excelReport/purchaseOrder';
 import PrintIcon from '../menu/icons/printIcon';
 import CustomGroupButton from '../ui/CustomGroupButton';
-
+/* Purchase order view screen */
 const OrderView = () => {
   const navigate = useNavigate();
   const [showEditPopUp, setShowEditPopUp] = useState(false);
@@ -30,7 +30,6 @@ const OrderView = () => {
   const [purchaseId, setPurchaseId] = useState();
   const [selectedValue, setSelectedValue] = useState('');
   const [isResetDisabled, setIsResetDisabled] = useState(true);
-  const [dataShow, setDataShow] = useState(false);
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'PO Released', value: 'Processing' },
     { label: 'Partially Recieved', value: 'Partially Received' },
@@ -53,38 +52,33 @@ const OrderView = () => {
     project_id: selectedValue,
     purchase_order_type: 'Head Office',
   };
-
+  /* Function to get all purchase order data */
   const {
     isLoading: dataLoading,
     data: getAllData,
     refetch,
   } = useGetAllPurchaseOrderData(getPoData);
-
   const orderType = {
     purchase_order_type: 'Head Office',
   };
   const { isLoading: PODataLoading, data: POData } =
     usePurchaseOrderGetAll(orderType);
-
   const { data: getAllProjectDataForDrop = [], isLoading: dropLoading } =
     useGetAllProject();
-
   const handleEdit = (value: any) => {
     setPurchaseId(value);
     setShowEditPopUp(true);
   };
-
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
+  /* Function to change page */
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
   const handleDropdownChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -93,20 +87,19 @@ const OrderView = () => {
     setSelectedValue(selectedProjectId);
     setIsResetDisabled(searchValue === '');
   };
-
+  /* Function for generating pdf report */
   const handleReportGenerator = async (data: any) => {
     await PurchaseOrderReport(data);
   };
+  /* Funtion for generating excel report */
   const handleExcelReportGenerator = async (data: any) => {
     await PurchaseOrderExcelReport(data);
   };
-
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, selectedValue, activeButton]);
-
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
-
+  /* Function to give custom name to the file in the table list */
   const generateCustomQuotationName = (data: any) => {
     if (data) {
       const vendorName = data.vendor_data?.vendor_name || '';
@@ -130,6 +123,7 @@ const OrderView = () => {
     }
     return '';
   };
+
   return (
     <div className={Styles.container}>
       <CustomLoader loading={dataLoading} size={48} color="#333C44">
@@ -280,12 +274,8 @@ const OrderView = () => {
         <div className={Styles.pagination}>
           <CustomPagination
             currentPage={currentPage}
-            totalPages={
-              dataShow ? getFilterData?.total_page : getAllData?.total_page
-            }
-            totalCount={
-              dataShow ? getFilterData?.total_count : getAllData?.total_count
-            }
+            totalPages={getAllData?.total_page}
+            totalCount={getAllData?.total_count}
             rowsPerPage={rowsPerPage}
             onPageChange={handlePageChange}
             onRowsPerPageChange={handleRowsPerPageChange}

@@ -49,7 +49,6 @@ const UomList = () => {
     data: initialData,
     refetch,
   } = useGetAllPaginatedUomData(uomData);
-
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
@@ -62,7 +61,6 @@ const UomList = () => {
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
   /* Function for deleting a data from the UOM List */
   const deleteUom = () => {
     getDeleteuomByID(value);
@@ -70,34 +68,30 @@ const UomList = () => {
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
-
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, sortColumn, sortOrder]);
-
   useEffect(() => {
     const handleSearch = setTimeout(() => {
       refetch();
     }, 1000);
     return () => clearTimeout(handleSearch);
   }, [filterValues]);
-
+  /* Function to change page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
   ) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
   const handleCloseUomForm = () => {
     setOpenUomForm(false);
   };
-
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
+  
   return (
     <div>
       <div>
