@@ -1,18 +1,16 @@
 import express from 'express';
-import morgan from 'morgan';
+import { setupLogging } from './middlewares/logging';
+import { setupProxies } from './middlewares/proxy';
+import { routes } from './routes/index';
+import { setupCustomRoutes } from './middlewares/customRoutes';
 import bodyParser from 'body-parser';
-import routes from './routes/v1';
 import cors from 'cors';
 
-const host = process.env.HOST ?? 'localhost';
-const port = process.env.API_PORT ? Number(process.env.API_PORT) : 3000;
 const app = express();
-
-app.use(morgan('dev'));
-app.use(express.static('public'));
-
-/* Parse JSON bodies */
 app.use(bodyParser.json());
+
+const host = process.env.HOST ?? 'localhost';
+const port = process.env.GATEWAY_PORT ? Number(process.env.GATEWAY_PORT) : 3000;
 
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -34,8 +32,13 @@ app.use(function (req, res, next) {
 
 app.use(cors(corsOptions));
 
-app.use('/api', routes);
+/* Logging middleware */
 
-app.listen(port, host, () => {
-  console.log(`[ ready ] http://${host}:${port}`);
+setupLogging(app);
+setupCustomRoutes(app);
+setupProxies(app, routes);
+
+const server = app.listen(port, () => {
+  console.log(`Gateway App Listening at http://localhost:${port}`);
 });
+server.on('error', console.error);

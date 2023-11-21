@@ -1,11 +1,13 @@
 import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
-import routes from './routes/v1';
+import routes from './routes';
 import cors from 'cors';
 
 const host = process.env.HOST ?? 'localhost';
-const port = process.env.API_PORT ? Number(process.env.API_PORT) : 3000;
+const port = process.env.HRMS_API_PORT
+  ? Number(process.env.HRMS_API_PORT)
+  : 3000;
 const app = express();
 
 app.use(morgan('dev'));
@@ -34,8 +36,8 @@ app.use(function (req, res, next) {
 
 app.use(cors(corsOptions));
 
-app.use('/api', routes);
+app.use('/hrms-api', routes);
 
 app.listen(port, host, () => {
-  console.log(`[ ready ] http://${host}:${port}`);
+  console.log(`Hrms-api App Listening at http://${host}:${port}`);
 });
