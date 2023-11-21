@@ -14,9 +14,8 @@ pipeline {
             echo 'git checkout completed'
             }
 		}
-
-//   pipeline {
- // agent any
+   pipeline {
+  agent any
   stages {
     stage('SonarQube analysis') {
       tools {
@@ -31,7 +30,7 @@ pipeline {
   }
 }  
 }
-
+}
 
    
 
