@@ -11,7 +11,6 @@ import Input from '../../component/ui/Input';
 import Button from '../ui/Button';
 import Styles from '../../styles/newStyles/uomForm.module.scss';
 import TextArea from '../ui/CustomTextArea';
-
 /* Function for uom */
 const UomForm: React.FC = (props: any) => {
   const validationSchema =
@@ -79,7 +78,6 @@ const UomForm: React.FC = (props: any) => {
       }
     },
   });
-
   const handleClose = () => {
     props.setOpen(false);
   };

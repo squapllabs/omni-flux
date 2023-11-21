@@ -12,65 +12,26 @@ import { formatBudgetValue } from '../../helper/common-function';
 import { format } from 'date-fns';
 import CustomLoader from '../ui/customLoader';
 import ProjectSubheader from '../project/projectSubheader';
-
+/* Screen to view purchase request and approve it */
 const PurchaseView = () => {
   const routeParams = useParams();
   const navigate = useNavigate();
   const [openSnack, setOpenSnack] = useState(false);
   const [message, setMessage] = useState('');
   const PurchaseId = Number(routeParams?.id);
+  /* Function to get all PO data */
   const {
     data: getAllData,
     isLoading: dataLoading,
     refetch,
   } = useGetOnePurchaseRequest(PurchaseId);
-  console.log('getAllDataVVVV', getAllData);
   const { mutate: postDataForFilter } = usePurchaseOrderRequest();
-  const constructPurchaseOrder = () => {
-    const purchaseOrderItems: any = [];
-    getAllData?.purchase_request_details?.forEach((data: any) => {
-      // console.log('constructPurchaseOrder', data);
-
-      purchaseOrderItems.push({
-        purchase_order_id: '',
-        item_id: data?.item_id,
-        order_quantity: data?.purchase_requested_quantity,
-      });
-    });
-
-    const purchaseOrderData = {
-      purchase_request_id: PurchaseId,
-      vendor_id: getAllData?.selected_vendor_id,
-      order_date: format(new Date(), 'yyyy-MM-dd'),
-      status: 'Processing',
-      total_cost: getAllData?.total_cost || 0,
-      order_remark: 'Order Requested',
-      purchase_order_item: purchaseOrderItems,
-    };
-    console.log('purchaseOrderData', purchaseOrderData);
-
-    // postDataForFilter(purchaseOrderData, {
-    //   onSuccess: (data, variables, context) => {
-    //     if (data?.message === 'success') {
-    //       setMessage('Purchase Order Create Successfull');
-    //       setOpenSnack(true);
-    //       setTimeout(() => {
-    //         navigate(`/purchase-order`);
-    //       }, 1000);
-    //     }
-    //   },
-    // });
-  };
-
+  /* Function toconvert PR to PO */
   const handleConvertToPo = () => {
-    // constructPurchaseOrder();
     const purchaseOrderItems: any = [];
-
     getAllData?.vendor_quotes?.forEach((data: any) => {
       if (data?.quotation_status === 'Approved') {
-        console.log('constructPurchaseOrder', data);
         data?.vendor_quotation_details?.forEach((vendorQuotes: any) => {
-          console.log('vendorQuotes', vendorQuotes);
           purchaseOrderItems.push({
             purchase_order_id: '',
             item_id: vendorQuotes?.item_id,
@@ -80,7 +41,6 @@ const PurchaseView = () => {
         });
       }
     });
-
     const purchaseOrderData = {
       purchase_request_id: PurchaseId,
       vendor_id: getAllData?.selected_vendor_id,
@@ -103,11 +63,10 @@ const PurchaseView = () => {
       },
     });
   };
-
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
+  /* Function to give custom name to the files */
   const generateCustomQuotation = (data: any) => {
     if (data) {
       const vendorName = data || '';
@@ -130,10 +89,6 @@ const PurchaseView = () => {
             navigation={`/purchase-request-list/${getAllData?.indent_request_id}`}
             description={getAllData?.project_data?.description}
           />
-          {/* <div className={Styles.rightContent}>
-            <h3>Estimated Delivery Date :</h3>
-            <span>20-10-2023</span>
-          </div> */}
         </div>
         <div className={Styles.dividerStyle}></div>
         <div className={Styles.tableContainer}>
@@ -210,7 +165,6 @@ const PurchaseView = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            {/* Document {index + 1} */}
                             {customQuotationName}
                           </a>
                         </div>
@@ -221,39 +175,9 @@ const PurchaseView = () => {
                   <div>-</div>
                 )}
               </div>
-              {/* <div>
-                {getAllData?.purchase_request_documents?.length > 0 ? (
-                  getAllData.purchase_request_documents.map(
-                    (document: any, index: number) => (
-                      <div key={document.code}>
-                        <a
-                          href={document.path}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Document {index + 1}
-                        </a>
-                      </div>
-                    )
-                  )
-                ) : (
-                  <div>No documents available</div>
-                )}
-              </div> */}
             </div>
           </div>
           <div className={Styles.approveButtons}>
-            <div>
-              {/* <Button
-                shape="rectangle"
-                justify="center"
-                size="small"
-                color="secondary"
-                onClick={() => navigate('/purchase-view')}
-              >
-                Back
-              </Button> */}
-            </div>
             <div>
               <Button
                 shape="rectangle"

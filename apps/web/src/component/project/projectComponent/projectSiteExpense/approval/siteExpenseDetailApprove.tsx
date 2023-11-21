@@ -360,7 +360,7 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
               if (data?.is_delete === false) {
                 rowindex = rowindex + 1;
                 return (
-                  <tr>
+                  <tr key={index}>
                     <td>{rowindex}</td>
                     <td>{data?.description || nullLableNameFromEnv}</td>
                     <td>

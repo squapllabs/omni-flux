@@ -18,7 +18,7 @@ import MachineryList from '../machinery/machineryList';
 import ContractorList from '../contractor/contractorList';
 import { useDispatch } from 'react-redux';
 import { setToken } from '../../redux/reducer';
-
+/* Side navigation in settings tab */
 const Settings = () => {
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
@@ -36,7 +36,6 @@ const Settings = () => {
     else if (roleName === 'FINANCE MANAGER') type = 'FMV';
     return type;
   });
-
   const menuItems = [];
   if (roleName === 'ADMIN') {
     menuItems.push(
@@ -53,11 +52,9 @@ const Settings = () => {
       { name: 'Contractors', id: 11 }
     );
   }
-
   const [selectedItem, setSelectedItem] = useState<number>(
     settingsMenuID != null ? settingsMenuID : 1
   );
-
   const mainContentComponents: { [key: number]: JSX.Element } = {
     1: (
       <MasterData
@@ -137,7 +134,6 @@ const Settings = () => {
       />
     ),
   };
-
   const handleMenuItemClick = (id: number) => {
     dispatch(setToken({ key: 'settingsMenuID', value: id }));
     setSelectedItem(id);

@@ -18,7 +18,7 @@ const GrnData: React.FC = (props: any) => {
   const [colps, setColps] = useState(false);
   const [poID, setPoID] = useState<any>({});
   const { mutate: updatePoBillStatus } = useUpdatePurchseOrderStatus();
-
+  /* Function to get one grn data */
   useEffect(() => {
     const fetchOne = async () => {
       const data = await grnService.getGrnByPOId(props?.purchaseOrderId);
@@ -26,7 +26,7 @@ const GrnData: React.FC = (props: any) => {
     };
     fetchOne();
   }, [props?.purchaseOrderId]);
-
+  /* Function to expand or close colps */
   const handleExpand = async (data: any) => {
     setColps(!colps);
     if (colps === true) {
@@ -35,7 +35,7 @@ const GrnData: React.FC = (props: any) => {
       setPoID({});
     }
   };
-
+  /* Function to change po status to invoice */
   const handleSubmit = () => {
     const Object: any = {
       status: 'Invoice',
@@ -53,13 +53,6 @@ const GrnData: React.FC = (props: any) => {
         }
       },
     });
-  };
-
-  const downloadFile = (file: any) => {
-    const url = file?.path;
-    const link = document.createElement('a');
-    link.href = url;
-    link.click();
   };
 
   return (
@@ -131,14 +124,12 @@ const GrnData: React.FC = (props: any) => {
                           <div>-</div>
                         )}
                       </div>
-                      {/* {data?.invoice_id} */}
                     </td>
                     <td>{data?.notes}</td>
                   </tr>
                   {data?.grn_id === poID?.grn_id && (
                     <tr>
                       <td colSpan="6">
-                        {/* <div className={Styles.subTableContainer}> */}
                         <table className={Styles.scrollable_sub_table}>
                           <thead>
                             <tr>
@@ -159,7 +150,6 @@ const GrnData: React.FC = (props: any) => {
                             })}
                           </tbody>
                         </table>
-                        {/* </div> */}
                       </td>
                     </tr>
                   )}
@@ -169,7 +159,6 @@ const GrnData: React.FC = (props: any) => {
           </tbody>
         </table>
       </div>
-
       <div className={Styles.footer}>
         <div className={Styles.dividerStyle1}></div>
         <div className={Styles.buttons}>
