@@ -14,8 +14,7 @@ pipeline {
             echo 'git checkout completed'
             }
 		}
-
-    stages {
+     stages {
         stage('Build') {
             steps {
                 def scannerHome = tool 'SonarQubeScanner3'
@@ -27,5 +26,6 @@ pipeline {
     }
 }
 }
+   
 
 
