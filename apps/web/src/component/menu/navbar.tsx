@@ -30,6 +30,8 @@ import { format } from 'date-fns';
 import StarIcon from './icons/starIcon';
 import notificationService from '../../service/notification-service';
 import InvoiceIcon from './icons/invoiceIcon';
+import MenuIcon from './icons/hamburgerIcon';
+
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -45,6 +47,10 @@ const Navbar = () => {
   const [showInvoice, setShowInvoice] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const notificationRef = useRef<HTMLDivElement | null>(null);
+  const [screenSize, setScreenSize] = useState(getCurrentDimension());
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
+  const [isResourceCollapsed, setIsResourceCollapsed] = useState<boolean>(true);
+  const [isMenuIconOpen, setIsMenuIconOpen] = useState(false);
   const state: RootState = store.getState();
   const encryptedData = getToken(state, 'Data');
   const userData: any = encryptedData.userData;
@@ -245,419 +251,459 @@ const Navbar = () => {
     });
   };
 
+  const handleShowResources = () => {
+    setShowResources(!showResources);
+    setShowAssets(false);
+    setShowProject(false);
+    setShowReport(false);
+  };
+
+  const handleMenuIcon = () => {
+    setIsMenuIconOpen(!isMenuIconOpen);
+  };
+
+  function getCurrentDimension() {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+  }
+
+  useEffect(() => {
+    const updateDimension = () => {
+      setScreenSize(getCurrentDimension());
+    };
+    window.addEventListener("resize", updateDimension);
+
+    return () => {
+      window.removeEventListener("resize", updateDimension);
+    };
+  }, [screenSize]);
+
+  const toggleCollapse = () => {
+    setIsCollapsed(!isCollapsed);
+    setIsResourceCollapsed(true);
+  };
+
+  const resourceToggleCollapse = () => {
+    setIsResourceCollapsed(!isResourceCollapsed);
+    setIsCollapsed(true);
+  };
+
   return (
     <div>
-      <nav className={Styles.navbar}>
-        <div className={Styles.appContainer}>
-          <div
-            onClick={handleShowHome}
-            className={
-              showHome
-                ? `${Styles.menu_item} ${Styles.selected}`
-                : `${Styles.menu_item}`
-            }
-          >
+      {screenSize.width > 750 && (
+        <nav className={Styles.navbar}>
+          <div className={Styles.appContainer}>
             <div
-              className={Styles.logo}
-              onClick={() => {
-                resetMenustore();
-                navigate('/home');
-              }}
-            >
-              Omni ERP
-            </div>
-          </div>
-
-          <div className={Styles.container}>
-            <div className={Styles.verticalLine}></div>
-          </div>
-          <div className={Styles.navMenu}>
-            {roleName === 'ADMIN' ||
-            roleName === 'PROJECT MANAGER' ||
-            roleName === 'PLANNING ENGINEER' ||
-            roleName === 'PURCHASE MANAGER' ? (
-              <div
-                onClick={handleShowAssets}
-                className={
-                  showAssets
-                    ? `${Styles.menu_item} ${Styles.selected}`
-                    : `${Styles.menu_item}`
-                }
-              >
-                <Dropdown
-                  label={
-                    <div className={Styles.menuContainer}>
-                      <DeliveryTruckIcon
-                        color="white"
-                        className={Styles.navIcon}
-                      />
-                      <div>
-                        {
-                          // roleName === 'FINANCE MANAGER'
-                          //   ? 'Invoice '
-                          //   :
-                          roleName === 'PLANNING ENGINEER'
-                            ? 'Indent'
-                            : 'Procurement'
-                        }
-                      </div>
-
-                      <DropdownIcon color="white" className={Styles.navIcon} />
-                    </div>
-                  }
-                >
-                  <div className={Styles.container}>
-                    <div className={Styles.dropDownContainer}>
-                      <div>
-                        <div className={Styles.dropDownContent}>
-                          {roleName === 'PLANNING ENGINEER' ||
-                          roleName === 'PROJECT MANAGER' ? (
-                            <div
-                              className={Styles.dropDownItems}
-                              onClick={handleIndentapproval}
-                            >
-                              <div className={Styles.itemsTitle}>
-                                <h2>Indent Approval</h2>
-                              </div>
-                            </div>
-                          ) : null}
-
-                          {roleName === 'PURCHASE MANAGER' ||
-                          roleName === 'PROJECT MANAGER' ||
-                          roleName === 'ADMIN' ? (
-                            <div
-                              className={Styles.dropDownItems}
-                              onClick={handlePurchaseRequest}
-                            >
-                              <div className={Styles.itemsTitle}>
-                                <h2>Approved Indent</h2>
-                              </div>
-                            </div>
-                          ) : null}
-                          {/* <div className={Styles.dashedLine}></div> */}
-                          {roleName === 'PURCHASE MANAGER' ||
-                          roleName === 'PROJECT MANAGER' ||
-                          roleName === 'ADMIN' ? (
-                            <div
-                              className={Styles.dropDownItems}
-                              onClick={handlePurchaseRequestList}
-                            >
-                              <div className={Styles.itemsTitle}>
-                                <h2>Purchase Request</h2>
-                              </div>
-                            </div>
-                          ) : null}
-                          {/* <div className={Styles.dashedLine}></div> */}
-                          {roleName === 'PURCHASE MANAGER' ||
-                          roleName === 'PROJECT MANAGER' ||
-                          roleName === 'ADMIN' ? (
-                            <div
-                              className={Styles.dropDownItems}
-                              onClick={handlePurchaseOrder}
-                            >
-                              <div className={Styles.itemsTitle}>
-                                <h2>Purchase Order</h2>
-                              </div>
-                            </div>
-                          ) : null}
-                          {/* <div className={Styles.dashedLine}></div> */}
-                          {roleName === 'PURCHASE MANAGER' ||
-                          roleName === 'ADMIN' ? (
-                            <div
-                              className={Styles.dropDownItems}
-                              onClick={handleVendorList}
-                            >
-                              <div className={Styles.itemsTitle}>
-                                <h2>Vendors</h2>
-                              </div>
-                            </div>
-                          ) : null}
-
-                          {/* <div className={Styles.dashedLine}></div> */}
-                        </div>
-                      </div>
-                    </div>
-                    <div className={Styles.dropDownContainer}>
-                      <div></div>
-                    </div>
-                  </div>
-                </Dropdown>
-              </div>
-            ) : null}
-            <div>
-              <div
-                onClick={handleShowExpense}
-                className={
-                  showResources
-                    ? `${Styles.menu_item} ${Styles.selected}`
-                    : `${Styles.menu_item}`
-                }
-              >
-                <Dropdown
-                  // label={
-                  //   roleName === 'PROJECT MANAGER' || roleName === 'ADMIN' ? (
-                  //     <div className={Styles.menuContainer}>
-                  //       <BoxIcon color="white" />
-                  //       Expenses <DropdownIcon color="white" />
-                  //     </div>
-                  //   ) : null
-                  // }
-                  label={
-                    <div className={Styles.menuContainer}>
-                      <BoxIcon color="white" />
-                      Expenses <DropdownIcon color="white" />
-                    </div>
-                  }
-                >
-                  <div className={Styles.container}>
-                    <div className={Styles.dropDownContainer}>
-                      <div>
-                        <div className={Styles.dropDownContent}>
-                          <div
-                            className={Styles.dropDownItems}
-                            onClick={handleExpenseList}
-                          >
-                            <div className={Styles.itemsTitle}>
-                              <h2>Expense-Claim</h2>
-                            </div>
-                          </div>
-                          {roleName === 'PROJECT MANAGER' ||
-                          roleName === 'ADMIN' ? (
-                            <div
-                              className={Styles.dropDownItems}
-                              onClick={handleExpenseApproval}
-                            >
-                              <div className={Styles.itemsTitle}>
-                                {/* <CheckIcon /> */}
-                                <h2>Expense-Approval</h2>
-                              </div>
-                              {/* <p>Manage your expenses approval</p> */}
-                            </div>
-                          ) : null}
-
-                          {roleName === 'PROJECT MANAGER' ||
-                          roleName === 'ADMIN' ? (
-                            <div
-                              className={Styles.dropDownItems}
-                              onClick={handleExpenseRecall}
-                            >
-                              <div className={Styles.itemsTitle}>
-                                <h2>Expense-Reversal</h2>
-                              </div>
-                            </div>
-                          ) : null}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Dropdown>
-              </div>
-            </div>
-            <div>
-              <div
-                onClick={handleShowInvoice}
-                className={
-                  showInvoice
-                    ? `${Styles.menu_item} ${Styles.selected}`
-                    : `${Styles.menu_item}`
-                }
-              >
-                {roleName === 'ADMIN' || roleName === 'FINANCE MANAGER' ? (
-                  <div
-                    className={Styles.menuContainer}
-                    onClick={() => {
-                      resetMenustore();
-                      navigate('/finance-view');
-                    }}
-                  >
-                    <InvoiceIcon className={Styles.navIcon} color="white" />
-                    Invoice
-                  </div>
-                ) : null}
-              </div>
-            </div>
-            <div>
-              <div
-                onClick={handleShowReport}
-                className={
-                  showReport
-                    ? `${Styles.menu_item} ${Styles.selected}`
-                    : `${Styles.menu_item}`
-                }
-              >
-                <div
-                  className={Styles.menuContainer}
-                  onClick={() => {
-                    resetMenustore();
-                    navigate('/reports');
-                  }}
-                >
-                  <ReceptIcon className={Styles.navIcon} />
-                  Report
-                </div>
-              </div>
-            </div>
-            <div
-              onClick={handleShowProject}
+              onClick={handleShowHome}
               className={
-                showProject
+                showHome
                   ? `${Styles.menu_item} ${Styles.selected}`
                   : `${Styles.menu_item}`
               }
             >
               <div
+                className={Styles.logo}
                 onClick={() => {
                   resetMenustore();
-                  navigate('/project-list');
+                  navigate('/home');
                 }}
-                className={Styles.menuContainer}
               >
-                <BookIcon className={Styles.navIcon} />
-                Project
+                Omni ERP
               </div>
             </div>
-          </div>
-        </div>
-        <div className={Styles.acountContainer}>
-          <div className={Styles.rightSearch}>
-            {/* <SearchBar onSearch={handleSearch} /> */}
-          </div>
-          <div>
-            <div ref={notificationRef} onClick={notificationFunction}>
-              <div>
-                <BellIcon
-                  color="white"
-                  width={25}
-                  height={25}
-                  value={newNotificationCount}
-                />
-              </div>
-              {notificationOpen && (
-                <div className={Styles.menu1}>
-                  {initialData?.content?.map((data: any, index: any) => {
-                    const currentDate: any = new Date();
-                    const applied_date: any = new Date(data?.created_date);
-                    const timeDifference: any = currentDate - applied_date;
-                    const minutes = Math.floor(timeDifference / (1000 * 60));
-                    const hours = Math.floor(minutes / 60);
-                    const days = Math.floor(
-                      timeDifference / (24 * 60 * 60 * 1000)
-                    );
-                    return (
-                      <div>
-                        <div className={Styles.box}>
-                          {data?.is_read === false ? (
-                            <div className={Styles.menubox1}>
-                              <Avatar
-                                imageUrl={
-                                  data?.notification_from_user_data
-                                    ?.user_profiles?.profile_image_url
-                                }
-                                firstName={
-                                  data?.notification_from_user_data?.first_name
-                                }
-                                lastName={
-                                  data?.notification_from_user_data?.last_name
-                                }
-                                size={25}
-                                fontSizeChange={true}
-                              />
-                              <span className={Styles.lineHeading}>
-                                {data?.notification_from_user_data?.first_name +
-                                  ' ' +
-                                  data?.notification_from_user_data?.last_name}
-                              </span>
-                              <span>
-                                <StarIcon />
-                              </span>
-                            </div>
-                          ) : (
-                            <div className={Styles.menubox1}>
-                              <Avatar
-                                imageUrl={
-                                  data?.notification_from_user_data
-                                    ?.user_profiles?.profile_image_url
-                                }
-                                firstName={
-                                  data?.notification_from_user_data?.first_name
-                                }
-                                lastName={
-                                  data?.notification_from_user_data?.last_name
-                                }
-                                size={25}
-                                fontSizeChange={true}
-                              />
-                              <span className={Styles.lineHeading}>
-                                {data?.notification_from_user_data?.first_name +
-                                  ' ' +
-                                  data?.notification_from_user_data?.last_name}
-                              </span>
-                            </div>
-                          )}
-                          <div className={Styles.messages}>
-                            {data?.notification_type === 'Indent-Requested' ? (
-                              <span className={Styles.lineContent}>
-                                has requested an Indent
-                              </span>
-                            ) : (
-                              <span className={Styles.lineContent}>
-                                has approved an Indent
-                              </span>
-                            )}
-                            {timeDifference < 24 * 60 * 60 * 1000 ? (
-                              <span className={Styles.lineTime}>
-                                {` ${hours} hours ${minutes % 60} minutes ago`}
-                              </span>
-                            ) : (
-                              <span className={Styles.lineTime}>
-                                {`${days} days ago`}
-                              </span>
-                            )}
+
+            <div className={Styles.container}>
+              <div className={Styles.verticalLine}></div>
+            </div>
+            <div className={Styles.navMenu}>
+              {roleName === 'ADMIN' ||
+                roleName === 'PROJECT MANAGER' ||
+                roleName === 'PLANNING ENGINEER' ||
+                roleName === 'PURCHASE MANAGER' ? (
+                <div
+                  onClick={handleShowAssets}
+                  className={
+                    showAssets
+                      ? `${Styles.menu_item} ${Styles.selected}`
+                      : `${Styles.menu_item}`
+                  }
+                >
+                  <Dropdown
+                    label={
+                      <div className={Styles.menuContainer}>
+                        <DeliveryTruckIcon
+                          color="white"
+                          className={Styles.navIcon}
+                        />
+                        <div>
+                          {
+                            // roleName === 'FINANCE MANAGER'
+                            //   ? 'Invoice '
+                            //   :
+                            roleName === 'PLANNING ENGINEER'
+                              ? 'Indent'
+                              : 'Procurement'
+                          }
+                        </div>
+
+                        <DropdownIcon color="white" className={Styles.navIcon} />
+                      </div>
+                    }
+                  >
+                    <div className={Styles.container}>
+                      <div className={Styles.dropDownContainer}>
+                        <div>
+                          <div className={Styles.dropDownContent}>
+                            {roleName === 'PLANNING ENGINEER' ||
+                              roleName === 'PROJECT MANAGER' ? (
+                              <div
+                                className={Styles.dropDownItems}
+                                onClick={handleIndentapproval}
+                              >
+                                <div className={Styles.itemsTitle}>
+                                  <h2>Indent Approval</h2>
+                                </div>
+                              </div>
+                            ) : null}
+
+                            {roleName === 'PURCHASE MANAGER' ||
+                              roleName === 'PROJECT MANAGER' ||
+                              roleName === 'ADMIN' ? (
+                              <div
+                                className={Styles.dropDownItems}
+                                onClick={handlePurchaseRequest}
+                              >
+                                <div className={Styles.itemsTitle}>
+                                  <h2>Approved Indent</h2>
+                                </div>
+                              </div>
+                            ) : null}
+                            {/* <div className={Styles.dashedLine}></div> */}
+                            {roleName === 'PURCHASE MANAGER' ||
+                              roleName === 'PROJECT MANAGER' ||
+                              roleName === 'ADMIN' ? (
+                              <div
+                                className={Styles.dropDownItems}
+                                onClick={handlePurchaseRequestList}
+                              >
+                                <div className={Styles.itemsTitle}>
+                                  <h2>Purchase Request</h2>
+                                </div>
+                              </div>
+                            ) : null}
+                            {/* <div className={Styles.dashedLine}></div> */}
+                            {roleName === 'PURCHASE MANAGER' ||
+                              roleName === 'PROJECT MANAGER' ||
+                              roleName === 'ADMIN' ? (
+                              <div
+                                className={Styles.dropDownItems}
+                                onClick={handlePurchaseOrder}
+                              >
+                                <div className={Styles.itemsTitle}>
+                                  <h2>Purchase Order</h2>
+                                </div>
+                              </div>
+                            ) : null}
+                            {/* <div className={Styles.dashedLine}></div> */}
+                            {roleName === 'PURCHASE MANAGER' ||
+                              roleName === 'ADMIN' ? (
+                              <div
+                                className={Styles.dropDownItems}
+                                onClick={handleVendorList}
+                              >
+                                <div className={Styles.itemsTitle}>
+                                  <h2>Vendors</h2>
+                                </div>
+                              </div>
+                            ) : null}
+
+                            {/* <div className={Styles.dashedLine}></div> */}
                           </div>
-                          <div className={Styles.dividerStyle}></div>
                         </div>
                       </div>
-                    );
-                  })}
+                      <div className={Styles.dropDownContainer}>
+                        <div></div>
+                      </div>
+                    </div>
+                  </Dropdown>
                 </div>
-              )}
+              ) : null}
+              <div>
+                <div
+                  onClick={handleShowExpense}
+                  className={
+                    showResources
+                      ? `${Styles.menu_item} ${Styles.selected}`
+                      : `${Styles.menu_item}`
+                  }
+                >
+                  <Dropdown
+                    // label={
+                    //   roleName === 'PROJECT MANAGER' || roleName === 'ADMIN' ? (
+                    //     <div className={Styles.menuContainer}>
+                    //       <BoxIcon color="white" />
+                    //       Expenses <DropdownIcon color="white" />
+                    //     </div>
+                    //   ) : null
+                    // }
+                    label={
+                      <div className={Styles.menuContainer}>
+                        <BoxIcon color="white" />
+                        Expenses <DropdownIcon color="white" />
+                      </div>
+                    }
+                  >
+                    <div className={Styles.container}>
+                      <div className={Styles.dropDownContainer}>
+                        <div>
+                          <div className={Styles.dropDownContent}>
+                            <div
+                              className={Styles.dropDownItems}
+                              onClick={handleExpenseList}
+                            >
+                              <div className={Styles.itemsTitle}>
+                                <h2>Expense-Claim</h2>
+                              </div>
+                            </div>
+                            {roleName === 'PROJECT MANAGER' ||
+                              roleName === 'ADMIN' ? (
+                              <div
+                                className={Styles.dropDownItems}
+                                onClick={handleExpenseApproval}
+                              >
+                                <div className={Styles.itemsTitle}>
+                                  {/* <CheckIcon /> */}
+                                  <h2>Expense-Approval</h2>
+                                </div>
+                                {/* <p>Manage your expenses approval</p> */}
+                              </div>
+                            ) : null}
+
+                            {roleName === 'PROJECT MANAGER' ||
+                              roleName === 'ADMIN' ? (
+                              <div
+                                className={Styles.dropDownItems}
+                                onClick={handleExpenseRecall}
+                              >
+                                <div className={Styles.itemsTitle}>
+                                  <h2>Expense-Reversal</h2>
+                                </div>
+                              </div>
+                            ) : null}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Dropdown>
+                </div>
+              </div>
+              <div>
+                <div
+                  onClick={handleShowInvoice}
+                  className={
+                    showInvoice
+                      ? `${Styles.menu_item} ${Styles.selected}`
+                      : `${Styles.menu_item}`
+                  }
+                >
+                  {roleName === 'ADMIN' || roleName === 'FINANCE MANAGER' ? (
+                    <div
+                      className={Styles.menuContainer}
+                      onClick={() => {
+                        resetMenustore();
+                        navigate('/finance-view');
+                      }}
+                    >
+                      <InvoiceIcon className={Styles.navIcon} color="white" />
+                      Invoice
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+              <div>
+                <div
+                  onClick={handleShowReport}
+                  className={
+                    showReport
+                      ? `${Styles.menu_item} ${Styles.selected}`
+                      : `${Styles.menu_item}`
+                  }
+                >
+                  <div
+                    className={Styles.menuContainer}
+                    onClick={() => {
+                      resetMenustore();
+                      navigate('/reports');
+                    }}
+                  >
+                    <ReceptIcon className={Styles.navIcon} />
+                    Report
+                  </div>
+                </div>
+              </div>
+              <div
+                onClick={handleShowProject}
+                className={
+                  showProject
+                    ? `${Styles.menu_item} ${Styles.selected}`
+                    : `${Styles.menu_item}`
+                }
+              >
+                <div
+                  onClick={() => {
+                    resetMenustore();
+                    navigate('/project-list');
+                  }}
+                  className={Styles.menuContainer}
+                >
+                  <BookIcon className={Styles.navIcon} />
+                  Project
+                </div>
+              </div>
             </div>
           </div>
-          <div className={Styles.container}>
-            <div className={Styles.verticalLine}></div>
-          </div>
-          <div>
-            <div className={Styles.rightIcons}>
-              <div ref={menuRef} onClick={toggleMenu}>
-                <div className={Styles.profileDetailHead}>
-                  {/* <PersonIcon
+          <div className={Styles.acountContainer}>
+            <div className={Styles.rightSearch}>
+              {/* <SearchBar onSearch={handleSearch} /> */}
+            </div>
+            <div>
+              <div ref={notificationRef} onClick={notificationFunction}>
+                <div>
+                  <BellIcon
+                    color="white"
+                    width={25}
+                    height={25}
+                    value={newNotificationCount}
+                  />
+                </div>
+                {notificationOpen && (
+                  <div className={Styles.menu1}>
+                    {initialData?.content?.map((data: any, index: any) => {
+                      const currentDate: any = new Date();
+                      const applied_date: any = new Date(data?.created_date);
+                      const timeDifference: any = currentDate - applied_date;
+                      const minutes = Math.floor(timeDifference / (1000 * 60));
+                      const hours = Math.floor(minutes / 60);
+                      const days = Math.floor(
+                        timeDifference / (24 * 60 * 60 * 1000)
+                      );
+                      return (
+                        <div>
+                          <div className={Styles.box}>
+                            {data?.is_read === false ? (
+                              <div className={Styles.menubox1}>
+                                <Avatar
+                                  imageUrl={
+                                    data?.notification_from_user_data
+                                      ?.user_profiles?.profile_image_url
+                                  }
+                                  firstName={
+                                    data?.notification_from_user_data?.first_name
+                                  }
+                                  lastName={
+                                    data?.notification_from_user_data?.last_name
+                                  }
+                                  size={25}
+                                  fontSizeChange={true}
+                                />
+                                <span className={Styles.lineHeading}>
+                                  {data?.notification_from_user_data?.first_name +
+                                    ' ' +
+                                    data?.notification_from_user_data?.last_name}
+                                </span>
+                                <span>
+                                  <StarIcon />
+                                </span>
+                              </div>
+                            ) : (
+                              <div className={Styles.menubox1}>
+                                <Avatar
+                                  imageUrl={
+                                    data?.notification_from_user_data
+                                      ?.user_profiles?.profile_image_url
+                                  }
+                                  firstName={
+                                    data?.notification_from_user_data?.first_name
+                                  }
+                                  lastName={
+                                    data?.notification_from_user_data?.last_name
+                                  }
+                                  size={25}
+                                  fontSizeChange={true}
+                                />
+                                <span className={Styles.lineHeading}>
+                                  {data?.notification_from_user_data?.first_name +
+                                    ' ' +
+                                    data?.notification_from_user_data?.last_name}
+                                </span>
+                              </div>
+                            )}
+                            <div className={Styles.messages}>
+                              {data?.notification_type === 'Indent-Requested' ? (
+                                <span className={Styles.lineContent}>
+                                  has requested an Indent
+                                </span>
+                              ) : (
+                                <span className={Styles.lineContent}>
+                                  has approved an Indent
+                                </span>
+                              )}
+                              {timeDifference < 24 * 60 * 60 * 1000 ? (
+                                <span className={Styles.lineTime}>
+                                  {` ${hours} hours ${minutes % 60} minutes ago`}
+                                </span>
+                              ) : (
+                                <span className={Styles.lineTime}>
+                                  {`${days} days ago`}
+                                </span>
+                              )}
+                            </div>
+                            <div className={Styles.dividerStyle}></div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className={Styles.container}>
+              <div className={Styles.verticalLine}></div>
+            </div>
+            <div>
+              <div className={Styles.rightIcons}>
+                <div ref={menuRef} onClick={toggleMenu}>
+                  <div className={Styles.profileDetailHead}>
+                    {/* <PersonIcon
                     className={Styles.navIcon1}
                     color="white"
                     height={24}
                     width={24}
                   /> */}
-                  <Avatar
-                    imageUrl={profile}
-                    firstName={userData?.first_name}
-                    lastName={userData?.last_name}
-                    size={40}
-                  />
-                  <div
-                    className={Styles.profileContents}
-                    style={{ color: 'white' }}
-                  >
-                    <span className={Styles.profileName}>
-                      {userData?.first_name + ' ' + userData?.last_name}
-                    </span>
-                    <span className={Styles.profileRole}>
-                      {userData?.user_roles[0]?.role_data?.role_name}
-                    </span>
+                    <Avatar
+                      imageUrl={profile}
+                      firstName={userData?.first_name}
+                      lastName={userData?.last_name}
+                      size={40}
+                    />
+                    <div
+                      className={Styles.profileContents}
+                      style={{ color: 'white' }}
+                    >
+                      <span className={Styles.profileName}>
+                        {userData?.first_name + ' ' + userData?.last_name}
+                      </span>
+                      <span className={Styles.profileRole}>
+                        {userData?.user_roles[0]?.role_data?.role_name}
+                      </span>
+                    </div>
                   </div>
-                </div>
 
-                {isMenuOpen && (
-                  <div className={Styles.menu}>
-                    {/* <div className={Styles.box}>
+                  {isMenuOpen && (
+                    <div className={Styles.menu}>
+                      {/* <div className={Styles.box}>
                       <div className={Styles.profileDetail}>
                         <div>
                           <Avatar
@@ -676,39 +722,358 @@ const Navbar = () => {
                         </div>
                       </div>
                     </div> */}
-                    {roleName === 'ADMIN' ? (
+                      {roleName === 'ADMIN' ? (
+                        <div className={Styles.box}>
+                          <div>
+                            <div
+                              className={Styles.menubox}
+                              onClick={() => handleNavigate()}
+                            >
+                              <SettingIcon />
+                              <span>Settings</span>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        ''
+                      )}
                       <div className={Styles.box}>
                         <div>
                           <div
                             className={Styles.menubox}
-                            onClick={() => handleNavigate()}
+                            onClick={() => handleLogout()}
                           >
-                            <SettingIcon />
-                            <span>Settings</span>
+                            <LogoutIcon style={{ fontWeight: 'bolder' }} />
+                            <span>Logout</span>
                           </div>
                         </div>
                       </div>
-                    ) : (
-                      ''
-                    )}
-                    <div className={Styles.box}>
-                      <div>
-                        <div
-                          className={Styles.menubox}
-                          onClick={() => handleLogout()}
-                        >
-                          <LogoutIcon style={{ fontWeight: 'bolder' }} />
-                          <span>Logout</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
+      )}
+      {screenSize.width <= 750 && (
+        <nav className={Styles.navbar}>
+          <div className={Styles.appContainer}>
+            <div
+              onClick={handleShowHome}
+              className={
+                showHome
+                  ? `${Styles.menu_item} ${Styles.selected}`
+                  : `${Styles.menu_item}`
+              }
+            >
+              <div
+                className={Styles.logo}
+                onClick={() => {
+                  navigate('/home');
+                }}
+              >
+                Omni ERP
+              </div>
+            </div>
+          </div>
+          <div className={Styles.menuIcon} onClick={() => { handleMenuIcon() }}>
+            <MenuIcon />
+          </div>
+          {isMenuIconOpen ? (
+            <div>
+              <div className={Styles.popupContainer}>
+                <div className={Styles.popupContent}>
+                  <div className={Styles.leftdialogStyle}></div>
+                  <div className={Styles.dialogStyle}>
+                    <div className={Styles.boxStyle}>
+                      <div className={Styles.mainContent}>
+                        <div className={Styles.popupHeader}>
+                          <div className={Styles.closeMenuIcon} onClick={() => { handleMenuIcon() }}>
+                            <MenuIcon />
+                          </div>
+                        </div>
+                      </div>
+                      <div className={Styles.main_content}>
+                        <div className={Styles.navigationLinks}>
+                          {roleName !== 'FINANCE MANAGER' &&
+                            <div onClick={toggleCollapse} style={{ cursor: 'pointer' }}>
+                              <div className={Styles.verticalMenuContainer} data-toggle="collapse" data-target="#demo">
+                                <DeliveryTruckIcon
+                                  color="black"
+                                  className={Styles.navIcon}
+                                />
+                                <div>
+                                  {roleName === 'PLANNING ENGINEER'
+                                    ? 'Indent'
+                                    : 'Procurement'}
+                                </div>
+
+                                <DropdownIcon color="black" className={Styles.navIcon} />
+                              </div>
+                            </div>
+                          }
+                          <div id="demo" style={{
+                            maxHeight: isCollapsed ? '0' : 'none',
+                            overflow: 'hidden',
+                            transition: 'max-height 0.5s ease',
+                            padding: '6px 0px 0px 20px',
+                          }}>
+                            <div className={Styles.dropDownContainer}>
+                              <div className={Styles.dropDownContentForVerticalNav}>
+                                {roleName === 'PLANNING ENGINEER' ||
+                                  roleName === 'PROJECT MANAGER' ? (
+                                  <div
+                                    className={Styles.dropDownItems}
+                                    onClick={handleIndentapproval}
+                                  >
+                                    <div className={Styles.itemsTitle}>
+                                      <h2>Indent Approval</h2>
+                                    </div>
+                                  </div>
+                                ) : null}
+
+                                {roleName === 'PURCHASE MANAGER' ||
+                                  roleName === 'PROJECT MANAGER' ||
+                                  roleName === 'ADMIN' ? (
+                                  <div
+                                    className={Styles.dropDownItems}
+                                    onClick={handlePurchaseRequest}
+                                  >
+                                    <div className={Styles.itemsTitle}>
+                                      <h2>Approved Indent</h2>
+                                    </div>
+                                  </div>
+                                ) : null}
+
+                                {roleName === 'PURCHASE MANAGER' ||
+                                  roleName === 'PROJECT MANAGER' ||
+                                  roleName === 'ADMIN' ? (
+                                  <div
+                                    className={Styles.dropDownItems}
+                                    onClick={handlePurchaseRequestList}
+                                  >
+                                    <div className={Styles.itemsTitle}>
+                                      <h2>Purchase Request</h2>
+                                    </div>
+                                  </div>
+                                ) : null}
+                                {roleName === 'PURCHASE MANAGER' ||
+                                  roleName === 'PROJECT MANAGER' ||
+                                  roleName === 'ADMIN' ? (
+                                  <div
+                                    className={Styles.dropDownItems}
+                                    onClick={handlePurchaseOrder}
+                                  >
+                                    <div className={Styles.itemsTitle}>
+                                      <h2>Purchase Order</h2>
+                                    </div>
+                                  </div>
+                                ) : null}
+                                {roleName === 'PURCHASE MANAGER' ||
+                                  roleName === 'ADMIN' ? (
+                                  <div
+                                    className={Styles.dropDownItems}
+                                    onClick={handleVendorList}
+                                  >
+                                    <div className={Styles.itemsTitle}>
+                                      <h2>Vendors</h2>
+                                    </div>
+                                  </div>
+                                ) : null}
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <div
+                              onClick={handleShowResources}
+                            >
+                              <div onClick={resourceToggleCollapse} style={{ cursor: 'pointer' }}>
+                                <div className={Styles.verticalMenuContainer} data-toggle="collapse" data-target="#demo">
+                                  <BoxIcon
+                                    color="black"
+                                    className={Styles.navIcon}
+                                  />
+                                  <div>
+                                    Expenses
+                                  </div>
+                                  <DropdownIcon color="black" className={Styles.navIcon} />
+                                </div>
+                              </div>
+                              <div id="demo" style={{
+                                maxHeight: isResourceCollapsed ? '0' : 'none',
+                                overflow: 'hidden',
+                                transition: 'max-height 0.5s ease',
+                                padding: '6px 0px 0px 20px',
+                              }}>
+                                <div className={Styles.dropDownContainer}>
+                                  <div>
+                                    <div className={Styles.dropDownContentForVerticalNav}>
+                                      <div
+                                        className={Styles.dropDownItems}
+                                        onClick={handleExpenseList}
+                                      >
+                                        <div className={Styles.itemsTitle}>
+                                          <h2>Expense-Claim</h2>
+                                        </div>
+                                      </div>
+                                      {roleName === 'PROJECT MANAGER' ||
+                                        roleName === 'ADMIN' ? (
+                                        <div
+                                          className={Styles.dropDownItems}
+                                          onClick={handleExpenseApproval}
+                                        >
+                                          <div className={Styles.itemsTitle}>
+                                            <h2>Expense-Approval</h2>
+                                          </div>
+                                        </div>
+                                      ) : null}
+
+                                      {roleName === 'PROJECT MANAGER' ||
+                                        roleName === 'ADMIN' ? (
+                                        <div
+                                          className={Styles.dropDownItems}
+                                          onClick={handleExpenseRecall}
+                                        >
+                                          <div className={Styles.itemsTitle}>
+                                            <h2>Expense-Reversal</h2>
+                                          </div>
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          {roleName === 'ADMIN' || roleName === 'FINANCE MANAGER' ? (
+                            <div>
+                              <div
+                                onClick={handleShowInvoice}
+                                className={Styles.menu_item}
+                                style={{ display: 'flex', justifyContent: 'left' }}
+                              >
+                                <div
+                                  className={Styles.verticalMenuContainer}
+                                  onClick={() => {
+                                    resetMenustore();
+                                    navigate('/finance-view');
+                                  }}
+                                >
+                                  <InvoiceIcon className={Styles.navIcon} />
+                                  Invoice
+                                </div>
+                              </div>
+                            </div>
+                          ) : null}
+                          <div
+                            onClick={() => {
+                              resetMenustore();
+                              navigate('/reports');
+                            }}
+                          >
+                            <div
+                              onClick={handleShowReport}
+                              className={Styles.menu_item}
+                              style={{ display: 'flex', justifyContent: 'start' }}
+                            >
+                              <div className={Styles.verticalMenuContainer}>
+                                <ReceptIcon className={Styles.navIcon} />
+                                Report
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <div
+                              onClick={handleShowProject}
+                              className={Styles.menu_item}
+                              style={{ display: 'flex', justifyContent: 'left' }}
+                            >
+                              <div
+                                onClick={() => {
+                                  navigate('/project-list');
+                                }}
+                                className={Styles.verticalMenuContainer}
+                              >
+                                <BookIcon className={Styles.navIcon} />
+                                Project
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <div className={Styles.acountContainerForVerticalNav} >
+                            <div ref={menuRef} onClick={toggleMenu}>
+                              <div id="demo" style={{
+                                maxHeight: !isMenuOpen ? '0' : 'none',
+                                overflow: 'hidden',
+                                transition: 'max-height 0.5s ease',
+                              }}>
+                                <div className={Styles.dropDownContainer}>
+                                  <div className={Styles.dropDownContent}>
+                                    {roleName === 'ADMIN' ? (
+                                      <div className={Styles.box}>
+                                        <div>
+                                          <div
+                                            className={Styles.menubox}
+                                            onClick={() => handleNavigate()}
+                                          >
+                                            <SettingIcon />
+                                            <span>Settings</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      ''
+                                    )}
+                                    <div className={Styles.box}>
+                                      <div>
+                                        <div
+                                          className={Styles.menubox}
+                                          onClick={() => handleLogout()}
+                                        >
+                                          <LogoutIcon style={{ fontWeight: 'bolder' }} />
+                                          <span>Logout</span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className={Styles.profileDetailHeadForVerticalNav}>
+                                <Avatar
+                                  imageUrl={profile}
+                                  firstName={userData?.first_name}
+                                  lastName={userData?.last_name}
+                                  size={40}
+                                />
+                                <div
+                                  className={Styles.profileContents}
+                                  style={{ color: 'black' }}
+                                >
+                                  <span className={Styles.profileName}>
+                                    {userData?.first_name + ' ' + userData?.last_name}
+                                  </span>
+                                  <span className={Styles.profileRole}>
+                                    {userData?.user_roles[0]?.role_data?.role_name}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                )}
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </nav>
+          ) : (
+            ''
+          )
+          }
+        </nav>
+      )}
     </div>
   );
 };
