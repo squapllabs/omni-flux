@@ -32,11 +32,12 @@ const ExpenseApprove = () => {
     encryptedData?.userData?.user_roles[0]?.role_data?.role_name.toUpperCase();
   const navigate = useNavigate();
   let rowIndex = 0;
+  /* Function to update site expense */
   const { mutate: updateSiteExpenseData } = useUpdatesiteExpense();
-
+  /* Function to get project name list */
   const { data: getProjectList = [], isLoading: dropLoading } =
     useGetUserIDBasedProject(roleName === 'ADMIN' ? '' : userID);
-
+  /* Function to get site list based on a project */
   const fetchProjectSiteData = async (value: any) => {
     if (value) {
       const getData = await projectService.getOneProjectSite(value);
@@ -51,7 +52,7 @@ const ExpenseApprove = () => {
       setSiteData(arr);
     }
   };
-
+  /* Function to get project members involved in a particular project selected */
   const fetchMemberData = async (value: any) => {
     if (value) {
       const getData = await projectSettingsService.fetchAllProjectMembers(
@@ -68,7 +69,6 @@ const ExpenseApprove = () => {
       setProjectMemberData(arr);
     }
   };
-
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [filterValue, setFilterValue] = useState<any>({});
@@ -93,7 +93,6 @@ const ExpenseApprove = () => {
     setActiveButton(value);
     setCurrentPage(1);
   };
-
   const [initialValues, setInitialValues] = useState({
     employee_name: '',
     employee_id: '',
@@ -111,13 +110,13 @@ const ExpenseApprove = () => {
     progressed_by: '',
     updated_by: '',
   });
-
+  /* Function to change date values to a desired format */
   const dateFormat = (value: any) => {
     const currentDate = new Date(value);
     const formattedDate = format(currentDate, 'yyyy-MM-dd');
     return formattedDate;
   };
-
+  /* Function to get site expense details by ID */
   useEffect(() => {
     const fetchData = async () => {
       const datas = await siteExpenseService.getOnesiteExpenseByID(value);
@@ -146,7 +145,7 @@ const ExpenseApprove = () => {
     };
     if (value !== undefined) fetchData();
   }, [reload, value]);
-
+  /* Function to change page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
@@ -176,7 +175,7 @@ const ExpenseApprove = () => {
     setValue(id);
     setOpenReject(true);
   };
-
+  /* Function to approve the site expense raised */
   const approveSite = async () => {
     const object: any = {
       site_id: initialValues.site_id,
@@ -206,11 +205,10 @@ const ExpenseApprove = () => {
       },
     });
   };
-
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
+  /* Function to reject the site expense raised */
   const handleRejectWithComments = (comments: string) => {
     const object: any = {
       site_id: initialValues.site_id,
@@ -241,7 +239,6 @@ const ExpenseApprove = () => {
       },
     });
   };
-
   const demo: any = {
     offset: (currentPage - 1) * rowsPerPage,
     limit: rowsPerPage,
@@ -255,17 +252,16 @@ const ExpenseApprove = () => {
     employee_name: memberValue.project_member_name,
     is_draft: 'N',
   };
-
+  /* Function to get site expense data */
   const {
     isLoading: getAllLoadingPaginated,
     data: initialData,
     refetch,
   } = useGetAllPaginatedExpense(demo);
-
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
-
+  /* Function to search expense data based on user input */
   useEffect(() => {
     const handleSearch = setTimeout(() => {
       refetch();
@@ -294,7 +290,7 @@ const ExpenseApprove = () => {
                   optionList={dropLoading === true ? [] : getProjectList}
                   value={filterValue.project_id}
                   onSelect={(value) => {
-                    setFilterValue({ 'project_id': value });
+                    setFilterValue({ project_id: value });
                     fetchProjectSiteData(value);
                     fetchMemberData(value);
                     setCurrentPage(1);
@@ -395,8 +391,8 @@ const ExpenseApprove = () => {
                     <tr key={index}>
                       <td>{rowIndex}</td>
                       <td>{items?.expense_code}</td>
-                      <td>{items?.project_data?.project_name}</td>
-                      <td>{items?.site_data?.name}</td>
+                      <td>{items?.project_data?.project_name || "-"}</td>
+                      <td>{items?.site_data?.name || "-"}</td>
                       <td>{items?.employee_name}</td>
                       <td>{formatBudgetValue(sumOfRates)}</td>
                       {is_recall &&

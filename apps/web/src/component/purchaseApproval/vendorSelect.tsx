@@ -22,7 +22,7 @@ import * as Yup from 'yup';
 import userService from '../../service/user-service';
 import CustomConfirm from '../ui/CustomConfirmDialogBox';
 import FullStarIcon from '../menu/icons/fullStarIcon';
-
+/* Vendor approve screen */
 const VendorSelect = () => {
   const routeParams = useParams();
   const location = useLocation();
@@ -70,6 +70,7 @@ const VendorSelect = () => {
     setID(0);
     setOpenConfirm(false);
   };
+  /* Function to get the vendor quotes of the purchase request raised */
   useEffect(() => {
     const fetchData = async () => {
       const vendorQuotesDetails =
@@ -121,7 +122,6 @@ const VendorSelect = () => {
       setTotalBudget(sumOfRates);
     }
   }, [tableData]);
-
   const vendorData = {
     limit: rowsPerPage,
     offset: (currentPage - 1) * rowsPerPage,
@@ -131,6 +131,7 @@ const VendorSelect = () => {
     global_search: '',
     purchase_request_id: prID,
   };
+  /* Function to get all vendor quotes */
   const {
     data: getVendorQuotes,
     isLoading: loading,
@@ -153,7 +154,7 @@ const VendorSelect = () => {
     }
     refetch();
   }, [!vendorLoading && !loading]);
-
+  /* Fnction to give custom name to the file in the list */
   const generateCustomQuotationName = (data: any) => {
     if (data) {
       const vendorName =
@@ -172,11 +173,9 @@ const VendorSelect = () => {
     setOpen(true);
     setReload(false);
   };
-
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
   const handleApprove = (value: any) => {
     setID(value);
     setOpenConfirm(true);
@@ -194,7 +193,7 @@ const VendorSelect = () => {
     tempArry[index] = tempObj;
     setTableData(tempArry);
   };
-
+  /* Function to approve vendor */
   const handleSubmit = async () => {
     try {
       const data = await vendorQuotesService.getOneVendorQuotesById(Number(Id));
@@ -228,7 +227,6 @@ const VendorSelect = () => {
     );
   };
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
-
   const handleSubmitQuotation = () => {
     formik.submitForm();
   };
@@ -288,7 +286,6 @@ const VendorSelect = () => {
       });
     },
   });
-
   const handleFileSelect = async (e: any) => {
     const files = e.target.files;
     if (files.length > 0) {
@@ -328,7 +325,6 @@ const VendorSelect = () => {
       }
     }
   };
-
   const deleteFileinList = (index: any) => {
     let tempObj = {};
     vendorQuoteDocument[index].is_delete = 'Y';
@@ -339,6 +335,7 @@ const VendorSelect = () => {
     tempArry[index] = tempObj;
     setVendorQuoteDocument(tempArry);
   };
+  
   return (
     <div className={Styles.container}>
       <CustomLoader loading={loading} size={48} color="#333C44">

@@ -32,6 +32,7 @@ const Project = () => {
   const [screenSize, setScreenSize] = useState(getCurrentDimension());
   const [loader, setLoader] = useState(false);
   const [projectData, setProjectData] = useState<any>({});
+  /* Function to get project data based on a ID */
   useEffect(() => {
     const fetchData = async () => {
       const getData = await projectService.getOneProjectById(
@@ -105,7 +106,7 @@ const Project = () => {
       name: 'Site Claims',
     },
   ];
-
+  /* Function to see the tabs in the peoject window based on side nav */
   const handleMenuItemClick = (id: number) => {
     dispatch(setToken({ key: 'projectMenuID', value: id }));
     setSelectedItem(id);

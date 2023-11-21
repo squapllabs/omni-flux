@@ -75,7 +75,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   const handleClientFormClose = () => {
     setShowClientForm(false);
   };
-
+  /* Function to get one product details by ID */
   useEffect(() => {
     const fetchData = async () => {
       const getData = await projectService.getOneProjectById(
@@ -114,6 +114,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
   const submitHandler = () => {
     setOpenConfirm(true);
   };
+  /* Function to close popup dialog box */
   const handleCloseConfirm = () => {
     setOpenConfirm(false);
   };
@@ -234,6 +235,7 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
         'Project end date cannot be earlier than start date'
       ),
   });
+  /* Function to create or update project data */
   const formik = useFormik({
     initialValues,
     validationSchema:

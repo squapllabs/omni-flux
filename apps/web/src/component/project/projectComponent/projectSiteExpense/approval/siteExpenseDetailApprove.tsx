@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { store, RootState } from '../../../../../redux/store';
 import { getToken } from '../../../../../redux/reducer';
 import siteExpenseService from '../../../../../service/expense-service';
-import { format } from 'date-fns';
 import CustomSnackBar from '../../../../ui/customSnackBar';
 import { useParams, useNavigate } from 'react-router-dom';
 import CustomCard from '../../../../ui/CustomCard';
@@ -35,7 +34,6 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
   const projectId = Number(params?.projectId);
   const expenseId = Number(params?.id);
   const expenseIdFromProps = props?.expenseID;
-
   const [tableData, setTableData] = useState<any>([]);
   const [value, setValue] = useState(0);
   const [openApprove, setOpenApprove] = useState(false);
@@ -54,16 +52,9 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
     progressed_by: '',
     updated_by: '',
   });
-
   const { mutate: updateSiteExpenseDetailData } = useUpdatesiteExpenseDetail();
-
-  const dateFormat = (value: any) => {
-    const currentDate = new Date(value);
-    const formattedDate = format(currentDate, 'yyyy-MM-dd');
-    return formattedDate;
-  };
   let rowindex = 0;
-
+  /* Function to get site expense data */
   useEffect(() => {
     if (expenseIdFromProps === undefined) {
       const fetchData = async () => {
@@ -81,7 +72,7 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
       fetchData();
     }
   }, [reload]);
-
+  /* Function to get site expense details data  */
   useEffect(() => {
     const fetchData = async () => {
       const data = await siteExpenseService.getOnesiteExpenseDetailByID(value);
@@ -96,21 +87,18 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
     };
     if (value !== 0) fetchData();
   }, [reload, value]);
-
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
   const approveHandler = (id: any) => {
     setValue(id);
     setOpenApprove(true);
     setReload(false);
   };
-
   const handleCloseApprove = () => {
     setOpenApprove(false);
   };
-
+  /* Function to approve individual expenses raised for a particular site expense */
   const approveExpense = () => {
     const object: any = {
       expense_details_id: initialValues.expense_details_id,
@@ -129,16 +117,14 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
       },
     });
   };
-
   const rejectHandler = (id: any) => {
     setValue(id);
     setOpenReject(true);
   };
-
   const handleCloseReject = () => {
     setOpenReject(false);
   };
-
+  /* Function to reject particular expense in a site expense */
   const handleRejectWithComments = (comments: string) => {
     const object: any = {
       expense_details_id: initialValues.expense_details_id,
@@ -159,7 +145,7 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
       },
     });
   };
-
+  /* Function to approve the entire site expense */
   const approveSite = async () => {
     const object: any = {
       updated_by: userID,
@@ -178,7 +164,6 @@ const ExpenseDetailApprove: React.FC = (props: any) => {
       },
     });
   };
-
   const hanldeOpen = () => {
     setOpenComplete(true);
   };

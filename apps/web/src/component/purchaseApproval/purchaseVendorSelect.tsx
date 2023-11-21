@@ -18,7 +18,7 @@ import AutoCompleteSelect from '../ui/AutoCompleteSelect';
 import { getPurchaseRequestCreateValidateyup } from '../../helper/constants/purchaseRequestAdd-constants';
 import VendorService from '../../service/vendor-service';
 import CustomLoader from '../ui/customLoader';
-
+/* Vendor select screen for a purchase request */
 const VendorChooseModule = () => {
   const [initialValues, setInitialValues] = useState({
     vendor_id: '',
@@ -60,16 +60,14 @@ const VendorChooseModule = () => {
     updatedTableValue[index].purchase_requested_quantity = event.target.value;
     setTableValue(updatedTableValue);
   };
-
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
+  /* Function to delete an item from the table */
   const deleteRequestItems = (id: any) => {
     setValue(id);
     setOpenDelete(true);
   };
-
   const deleteItems = (value: any) => {
     tableValue.splice(value, 1);
     setTableValue([...tableValue]);
@@ -77,11 +75,9 @@ const VendorChooseModule = () => {
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
-
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-
   const handleDropChange = async () => {
     const vendorData = await VendorService.getAllVendors();
     const arr: any = [];
@@ -96,7 +92,7 @@ const VendorChooseModule = () => {
     setInitialVendorData(arr);
     setDynamicVendorData(arr);
   };
-
+  /* Function to delete a vendor after selection */
   const deleteVendor = (index: number) => {
     vendorData.splice(index, 1);
     setVendorData([...vendorData]);
@@ -122,7 +118,7 @@ const VendorChooseModule = () => {
       resetForm();
     },
   });
-
+  /* Function to submit the selected vendor data */
   const handleSubmit = () => {
     setSubmitLoader(true);
     const requestBody = {
@@ -156,10 +152,10 @@ const VendorChooseModule = () => {
       },
     });
   };
-
   useEffect(() => {
     handleDropChange();
   }, []);
+  
   return (
     <div>
       <CustomLoader loading={submitLoader} size={48} color="#333C44">

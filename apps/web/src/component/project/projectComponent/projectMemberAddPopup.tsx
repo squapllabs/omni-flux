@@ -16,7 +16,7 @@ import * as Yup from 'yup';
 import DatePicker from '../../ui/CustomDatePicker';
 import CustomPopup from '../../ui/CustomRightSidePopup';
 import CancelIcon from '../../menu/icons/closeIcon';
-
+/* Project member add form */
 const ProjectMemberAddPopup = (props: any) => {
   const [initialValues, setInitialValues] = useState({
     project_role_id: '',
@@ -32,8 +32,8 @@ const ProjectMemberAddPopup = (props: any) => {
   const { data: getAllRolesData = [], isLoading: dropLoading } =
     useGetAllSelectedRoles();
   const { mutate: createNewProjectMember } = useCreateProjectMember();
-
   const validationSchema = getProjectMemberCreationYupschema(Yup);
+  /* Function to get users based on their role */
   const fetchData = async (data: any) => {
     const roleObj = {
       id: props.projectId,
@@ -50,11 +50,10 @@ const ProjectMemberAddPopup = (props: any) => {
     });
     setUserData(arr);
   };
-
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
+  /* Function to create project member */
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -81,7 +80,6 @@ const ProjectMemberAddPopup = (props: any) => {
       });
     },
   });
-
   const handleClose = () => {
     props.setOpen(false);
   };

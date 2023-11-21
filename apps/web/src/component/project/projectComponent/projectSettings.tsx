@@ -5,7 +5,6 @@ import AddIcon from '../../menu/icons/addIcon';
 import CustomGroupButton from '../../ui/CustomGroupButton';
 import { useParams } from 'react-router-dom';
 import {
-  useGetBySearchProjectMembers,
   useGetAllPaginatedProjectMember,
   useDeleteProjectMember,
 } from '../../../hooks/projectSettings-hook';
@@ -28,31 +27,18 @@ const ProjectSettings: React.FC = (props: any) => {
   const [openDelete, setOpenDelete] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
   const [value, setValue] = useState();
-  const [reload, setReload] = useState(false);
   const [message, setMessage] = useState('');
-  const [dataShow, setDataShow] = useState(false);
   const [filterValues, setFilterValues] = useState({
     global_search: '',
   });
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const routeParams = useParams();
   const { mutate: getDeleteProjectMemberByID } = useDeleteProjectMember();
-
   const [buttonLabels, setButtonLabels] = useState([
     { label: 'Active', value: 'AC' },
     { label: 'Inactive', value: 'IN' },
   ]);
   const [projectId, setProjectId] = useState(Number(routeParams?.id));
-
-  const [initialValues, setInitialValues] = useState({
-    project_role_id: '',
-    project_role_name: '',
-    user_id: '',
-    access_start_date: '',
-    access_end_date: '',
-    project_id: Number(routeParams?.id),
-  });
-
   const object: any = {
     offset: (currentPage - 1) * rowsPerPage,
     limit: rowsPerPage,
@@ -62,27 +48,23 @@ const ProjectSettings: React.FC = (props: any) => {
     project_id: Number(routeParams?.id),
     global_search: filterValues.global_search,
   };
-
+  /* Function to get all members related to project */
   const {
     isLoading: getAllLoadingProjectMemberData,
     data: initialData,
     refetch,
   } = useGetAllPaginatedProjectMember(object);
-
   const handleSnackBarClose = () => {
     setOpenSnack(false);
   };
-
   const handleClosePopup = () => {
     setOpen(false);
     setModalOpen(false);
   };
-
   /* Function for changing the table page */
   const handlePageChange = (page: React.SetStateAction<number>) => {
     setCurrentPage(page);
   };
-
   /* Function for changing no of rows in pagination */
   const handleRowsPerPageChange = (
     newRowsPerPage: React.SetStateAction<number>
@@ -90,32 +72,21 @@ const ProjectSettings: React.FC = (props: any) => {
     setRowsPerPage(newRowsPerPage);
     setCurrentPage(1);
   };
-
-  const {
-    mutate: postDataForFilter,
-    data: getFilterData,
-    isLoading: FilterLoading,
-  } = useGetBySearchProjectMembers();
-
   /* Function for group button (Active and Inactive status) */
   const handleGroupButtonClick = (value: string) => {
     setActiveButton(value);
   };
-
   useEffect(() => {
     refetch();
   }, [currentPage, rowsPerPage, activeButton]);
-
   const deleteProjectMember = (id: any) => {
     setValue(id);
     setOpenDelete(true);
   };
-
   /* Function for closing the delete popup */
   const handleCloseDelete = () => {
     setOpenDelete(false);
   };
-
   /* Function for deleting a category */
   const deleteMember = () => {
     getDeleteProjectMemberByID(value);
@@ -125,7 +96,6 @@ const ProjectSettings: React.FC = (props: any) => {
     refetch();
     setActiveButton(activeButton);
   };
-
   useEffect(() => {
     if (modalOpen === true) {
       document.body.style.overflow = 'hidden';
@@ -139,7 +109,7 @@ const ProjectSettings: React.FC = (props: any) => {
   return (
     <div className={Styles.conatiner}>
       <CustomLoader
-        loading={FilterLoading ? FilterLoading : getAllLoadingProjectMemberData}
+        loading={getAllLoadingProjectMemberData}
         size={48}
         color="#333C44"
       >
@@ -189,66 +159,7 @@ const ProjectSettings: React.FC = (props: any) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {dataShow ? (
-                        getFilterData?.total_count === 0 ? (
-                          <tr>
-                            <td colSpan="4" style={{ textAlign: 'center' }}>
-                              No data found
-                            </td>
-                            {activeButton === 'AC' && <td></td>}
-                          </tr>
-                        ) : (
-                          getFilterData?.content?.map(
-                            (data: any, index: number) => (
-                              <tr key={data.project_member_association_id}>
-                                <td>{startingIndex + index}</td>
-                                <td>
-                                  <div className={Styles.profileDetail}>
-                                    <div>
-                                      <Avatar
-                                        firstName={data?.user_data?.first_name}
-                                        lastName={data?.user_data?.last_name}
-                                        size={40}
-                                      />
-                                    </div>
-                                    <div className={Styles.profileContents}>
-                                      <span className={Styles.profileName}>
-                                        {data?.user_data?.first_name}{' '}
-                                        {data?.user_data?.last_name}
-                                      </span>
-                                      <span className={Styles.emailContent}>
-                                        {data?.user_data?.email_id}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </td>
-                                <td>{data?.project_role_data?.role_name}</td>
-                                <td>
-                                  {data?.access_end_date == null
-                                    ? '-'
-                                    : format(
-                                        new Date(data?.access_end_date),
-                                        'MMM dd, yyyy'
-                                      )}
-                                </td>
-                                {activeButton === 'AC' && (
-                                  <td>
-                                    <div className={Styles.tablerow}>
-                                      <DeleteIcon
-                                        onClick={() =>
-                                          deleteProjectMember(
-                                            data?.project_member_association_id
-                                          )
-                                        }
-                                      />
-                                    </div>
-                                  </td>
-                                )}
-                              </tr>
-                            )
-                          )
-                        )
-                      ) : initialData?.total_count === 0 ? (
+                      {initialData?.total_count === 0 ? (
                         <tr>
                           <td colSpan="4" style={{ textAlign: 'center' }}>
                             No data found
@@ -312,16 +223,8 @@ const ProjectSettings: React.FC = (props: any) => {
                 <div>
                   <Pagination
                     currentPage={currentPage}
-                    totalPages={
-                      dataShow
-                        ? getFilterData?.total_page
-                        : initialData?.total_page
-                    }
-                    totalCount={
-                      dataShow
-                        ? getFilterData?.total_count
-                        : initialData?.total_count
-                    }
+                    totalPages={initialData?.total_page}
+                    totalCount={initialData?.total_count}
                     rowsPerPage={rowsPerPage}
                     onPageChange={handlePageChange}
                     onRowsPerPageChange={handleRowsPerPageChange}
@@ -387,7 +290,6 @@ const ProjectSettings: React.FC = (props: any) => {
           <CustomProjectMemberAddPopup
             setOpen={setOpen}
             open={open}
-            setReload={setReload}
             setOpenSnack={setOpenSnack}
             setMessage={setMessage}
             projectId={projectId}
