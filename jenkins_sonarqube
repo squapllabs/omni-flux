@@ -13,19 +13,25 @@ pipeline {
             ])
             echo 'git checkout completed'
             }
-		
-     stages {
-        stage('checkout code') {
-            steps {
-                def scannerHome = tool 'SonarQubeScanner5'
-                withSonarQubeEnv('SonarQube') {
-                    sh "${scannerHome}/bin/sonar-scanner"
-                }
-            }
+		}
+
+    pipeline {
+  agent any
+  stages {
+    stage('SonarQube analysis') {
+      tools {
+        sonarQube 'SonarQubeScanner5'
+      }
+      steps {
+        withSonarQubeEnv('SonarQube') {
+          sh 'sonar-scanner'
         }
+      }
     }
+  }
 }
 }
-}   
+}
+   
 
 
