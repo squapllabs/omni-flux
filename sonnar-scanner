@@ -1,0 +1,5 @@
+sonar-scanner \
+  -Dsonar.projectKey=erp \
+  -Dsonar.sources=. \
+  -Dsonar.host.url=http://192.168.2.29:9000 \
+  -Dsonar.token=sqp_1740876a2f5c91d532e506e3eefa6bc27b112b48
