@@ -13,6 +13,7 @@ pipeline {
             ])
             echo 'git checkout completed'
 		          }
+           }
             stage('sonarqube analysis'){
                  steps{
                  nodejs(nodeJSInstallation: 'nodeJS'){
@@ -21,5 +22,4 @@ pipeline {
                  }
                }
             }
- 	        }
 }
