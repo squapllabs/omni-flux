@@ -1,7 +1,7 @@
 import React from 'react';
 import CloseIcon from '../menu/icons/closeIcon';
 
-const Popup = (props) => {
+const Popup = (props : any) => {
     const { title, children, openPopup, setOpenPopup,content } = props;
 
     const handleClose = () => {

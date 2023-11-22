@@ -413,37 +413,43 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
             <div className={Styles.dividerStyleOne}></div>
             <div className={Styles.subChildTwo}>
               <div className={Styles.subTwoChildOne}>
-                <div>
+                <div style={{ width: '40%'}}>
                   <DatePicker
+                    width="55%"
                     label="Start Date"
                     name="date_started"
                     mandatory={true}
                     value={formik.values.date_started}
                     onChange={formik.handleChange}
-                    InputProps={{
-                      inputProps: {
-                        min: '1930-01-01',
-                        max: `${new Date().toISOString().slice(0, 10)}`,
-                      },
-                    }}
+                    min="1930-01-01"
+                    max={new Date().toISOString().slice(0, 10)}
+                    // InputProps={{
+                    //   inputProps: {
+                    //     min: '1930-01-01',
+                    //     max: `${new Date().toISOString().slice(0, 10)}`,
+                    //   },
+                    // }}
                     error={
                       formik.touched.date_started && formik.errors.date_started
                     }
                   />
                 </div>
-                <div>
+                <div style={{ width: '40%' }}>
                   <DatePicker
+                    width="55%"
                     label="End Date"
                     name="date_ended"
                     mandatory={true}
                     value={formik.values.date_ended}
                     onChange={formik.handleChange}
-                    InputProps={{
-                      inputProps: {
-                        min: '1930-01-01',
-                        max: `${new Date().toISOString().slice(0, 10)}`,
-                      },
-                    }}
+                    min="1930-01-01"
+                    max={new Date().toISOString().slice(0, 10)}
+                    // InputProps={{
+                    //   inputProps: {
+                    //     min: '1930-01-01',
+                    //     max: `${new Date().toISOString().slice(0, 10)}`,
+                    //   },
+                    // }}
                     error={
                       formik.touched.date_ended && formik.errors.date_ended
                     }

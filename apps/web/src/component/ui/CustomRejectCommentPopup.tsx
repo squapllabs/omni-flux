@@ -54,7 +54,7 @@ const CustomRejectIndentPopup = (props: {
         };
         updateIndent(Object, {
           onSuccess: (data,variables,context) => {
-            console.log('samlpe data==>', data);
+            // console.log('samlpe data==>', data);
             if (data?.status === true) {
               setMessage('Rejected Successfully');
               setOpenSnack(true);

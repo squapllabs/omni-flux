@@ -6,7 +6,7 @@ const ReportGenerator = () => {
     const doc = new jsPDF();
     doc.text('Purchase Order', 10, 10);
 
-    console.log("text");
+    // console.log("text");
     
     // Add more content to the PDF
     // For example:

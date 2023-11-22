@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import DropdownIcon from '../menu/icons/dropDownButton';
-// import CancelFilterIcon from '../menu/icons/cancelFilterIcon';
 import CloseIcon from '../menu/icons/closeIcon';
 import AddIcon from '../menu/icons/addIcon';
 
@@ -175,13 +174,14 @@ const AutoCompleteSelect: React.FC<
   ...props
 }) => {
   const shouldShowAsterisk = mandatory;
+  const showClearIconString = showclearicon.toString();
   // console.log("check option list data--->", optionList)
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [allOptions, setAllOptions] = useState(optionList); // Replace with actual data source
   const [open, setOpen] = useState(false);
   const [values, setValues] = useState('');
 
-  const handleChange = (e) => {
+  const handleChange = (e : any) => {
     setValues(e.target.value);
     const filtered = allOptions.filter((option) =>
       option.label.toLowerCase().includes(e.target.value.toLowerCase())
@@ -247,7 +247,7 @@ const AutoCompleteSelect: React.FC<
           hassuffixicon={!!suffixIcon}
           placeholder={placeholder}
           disabled={disabled}
-          showclearicon={showclearicon}
+          showclearicon={showClearIconString}
           value={values}
           {...props}
           onChange={(e) => handleChange(e)}
@@ -265,13 +265,13 @@ const AutoCompleteSelect: React.FC<
             }}
           >
             {!disabled && values !== '' && showclearicon ? (
-              <CloseIcon width={10} onClick={(e) => handleClear(e)} />
+              <CloseIcon width={10} onClick={handleClear} />
             ) : (
               ''
             )}
 
             <DropdownIcon
-              onClick={(e) => {
+              onClick={(e : any) => {
                 e.stopPropagation();
                 setOpen(!open);
               }}

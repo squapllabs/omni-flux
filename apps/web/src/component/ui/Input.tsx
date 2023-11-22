@@ -23,6 +23,9 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   prefixIcon?: React.ReactNode;
   suffixIcon?: React.ReactNode;
   transparent?: boolean;
+  disabled?: boolean;
+  errorDisable?: boolean;
+  borderError?: boolean; 
 }
 
 const InputWrapper = styled.div<InputWrapperProps>`
@@ -119,8 +122,6 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
   mandatory = false,
   ...props
 }) => {
-  // console.log('error', props.errorFree);
-
   const shouldShowAsterisk = mandatory;
   return (
     <InputWrapper width={width}>
