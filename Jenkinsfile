@@ -12,8 +12,10 @@ pipeline {
                 ]]
             ])
             echo 'git checkout completed'
+            withSonarQubeEnv(installationName: 'SonarQube_Server') {
+	        sh 'mvn clean package sonar:sonar'
+		          }
             }
  	        }
-      stage('code analyse')
       }     
 }
