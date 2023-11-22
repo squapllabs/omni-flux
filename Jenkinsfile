@@ -4,7 +4,7 @@ pipeline {
         stage('checkout code'){
             steps {
                 checkout([$class: 'GitSCM',
-                branches: [[name: '*/main']],
+                branches: [[name: '*/code-analysis-sonar']],
                 extensions: scm.extensions,
                 userRemoteConfigs: [[
                     url: 'git@github.com:squapllabs/omni-flux.git',
@@ -13,7 +13,7 @@ pipeline {
             ])
             echo 'git checkout completed'
 		          }
-            stage("sonarqube analysis"){
+            stage('sonarqube analysis'){
                  steps{
                  nodejs(nodeJSInstallation: 'nodeJS'){
                       sh "npm install"
