@@ -13,7 +13,7 @@ pipeline {
             ])
             echo 'git checkout completed'
             }
- 	}
-      
-    }     
+ 	        }
+      stage('code analyse')
+      }     
 }
