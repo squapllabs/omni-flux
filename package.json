@@ -112,3 +112,12 @@
     "vitest": "^0.31.0"
   }
 }
+sonar.projectKey=Omni-ERP
+sonar.projectName=Omni-ERP
+sonar.projectVersion=1.0
+sonar.sources=.
+sonar.sourceEncoding=UTF-8
+sonar.host.url=http://192.168.2.29:9000
+sonar.login=sqa_7f260feeeec2af61c8c0409260fc7722ffbf153f
+sonar.exclusions=**node_modules/**,/coverage/lcov-report/*,test/*.js
+sonar.javascript.lcov.reportPaths=coverage/lcov.info
