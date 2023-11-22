@@ -13,7 +13,15 @@ pipeline {
             ])
             echo 'git checkout completed'
             }
-		}
-      
-}
+      stages {
+          stage('Code_Analysis'){
+            steps {
+              		withSonarQubeEnv(installationName: 'SonarQube_Server') {
+	        sh 'mvn clean package sonar:sonar'
+		         }
+		      }   
+        }
+      }
+     }
+   }
 }
