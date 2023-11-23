@@ -14,7 +14,18 @@ pipeline {
             echo 'git checkout completed'
             }
 		}
-      
+      stage('sonarqube analysis'){
+                 steps{
+                 nodejs(nodeJSInstallationName: 'NodeJS'){
+                      sh "npm install"
+                      withSonarQubeEnv('SonarQube_Server'){
+                      sh "npm install sonar-scanner"
+                      sh "npm run sonar"
+                        
+                    }
+                }
+            }
+        }
       stage('File copy and remove') {
         steps {
             sh 'zip -r /var/lib/jenkins/workspace/Omni_test1.zip /var/lib/jenkins/workspace/Omni_test1'
