@@ -6,11 +6,9 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { persistor, store } from './redux/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-
 import Routes from './routes/Routes';
-
+import KeycloakRoutes from './routes/keycloakauthRoute/keycloakRoutes';
 const queryClient = new QueryClient();
-
 
 function ReduxProvider({ children }: { children: ReactNode }) {
   return (
@@ -27,7 +25,8 @@ function MainApp() {
         <ReduxProvider>
           <QueryClientProvider client={queryClient}>
             <ReactQueryDevtools initialIsOpen={true} />
-            <Routes />
+            {/* <Routes /> */}
+            <KeycloakRoutes />
           </QueryClientProvider>
         </ReduxProvider>
       </Router>
