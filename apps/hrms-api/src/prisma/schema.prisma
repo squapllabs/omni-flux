@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("HRMS_DATABASE_URL")
+}
+
+model users {
+  user_id                    Int                          @id @default(autoincrement())
+  first_name                 String?                      @db.VarChar(100)
+  last_name                  String?                      @db.VarChar(100)
+  user_password              String?                      @db.VarChar(255)
+  contact_no                 String?                      @db.VarChar(20)
+  email_id                   String                       @db.VarChar(100)
+  user_status                String?                      @db.VarChar(5)
+  created_by                 Int?
+  created_date               DateTime
+  updated_by                 Int?
+  updated_date               DateTime
+  is_delete                  Boolean                      @default(false) @db.Boolean
+  is_initial_login           Boolean                      @default(true) @db.Boolean
+  department                 String?                      @db.VarChar(100)
+  is_two_factor              Boolean                      @default(false) @db.Boolean
+  parent_user_id             Int?
+  otp_secret                 Int?
+  otp_attempts               Int?
+  otp_expired_in             DateTime?
+  is_otp_verified            Boolean                      @default(false) @db.Boolean
+  parent_data                users?                       @relation("childToParent", fields: [parent_user_id], references: [user_id])
+  child_data                 users[]                      @relation("childToParent")
+  projects                   project[]                    @relation("approvar_relation")
+  user_profiles              user_profiles?
+  sales_person_name          lead_enquiry_product[]
+  project                    project[]
+  site_expense_details       site_expense_details[]
+  project_site               project_site[]
+  user_roles                 user_roles[]
+  user_primary_project       user_primary_project[]
+  project_member_association project_member_association[]
+  store                      store[]
+  indent_requester           indent_request[]             @relation("indentRequesterUser")
+  indent_approvar            indent_request[]             @relation("indentApproverUser")
+  purchase_request           purchase_request[]
+  stock_outward              stock_outward[]
+  expense_details            expense_details[]
+  expense_approver           expense[]                    @relation("expenseApproverUser")
+  expense_applier            expense[]                    @relation("expenseApplierUser")
+  expense_recall             expense_recall[]
+  grn                        grn[]
+  notification_from_user     notifications[]              @relation("notificationFromUserId")
+  notification_to_user       notifications[]              @relation("notificationToUserId")
+  po_invoice_requested_by    purchase_order_invoice[]     @relation("PoInvoiceRequestedBy")
+  po_invoice_paid_by         purchase_order_invoice[]     @relation("PoInvoicePaidBy")
+
+  @@unique([email_id], name: "uk_users_email_id")
+}
+
+model user_roles {
+  user_role_id Int      @id @default(autoincrement())
+  user_id      Int?
+  role_id      Int?
+  created_date DateTime
+  updated_date DateTime
+  created_by   Int?
+  updated_by   Int?
+  user_data    users?   @relation(fields: [user_id], references: [user_id])
+  role_data    role?    @relation(fields: [role_id], references: [role_id])
+
+  @@unique([user_id, role_id], name: "uk_user_roles_user_id_role_id")
+}
+
+model role {
+  role_id                    Int                          @id @default(autoincrement())
+  role_name                  String                       @db.VarChar(100)
+  created_date               DateTime
+  updated_date               DateTime
+  created_by                 Int?
+  updated_by                 Int?
+  description                String?
+  user_roles                 user_roles[]
+  permissions                permissions[]
+  project_member_association project_member_association[]
+
+  @@map("role")
+}

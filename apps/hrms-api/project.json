@@ -1,0 +1,57 @@
+{
+  "name": "hrms-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/hrms-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/hrms-api",
+        "main": "apps/hrms-api/src/main.ts",
+        "tsConfig": "apps/hrms-api/tsconfig.app.json",
+        "assets": ["apps/hrms-api/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/hrms-api/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "hrms-api:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "hrms-api:build:development"
+        },
+        "production": {
+          "buildTarget": "hrms-api:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/hrms-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/hrms-api/jest.config.ts"
+      }
+    }
+  },
+  "tags": []
+}
