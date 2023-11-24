@@ -4,7 +4,7 @@ pipeline {
         stage('checkout code'){
             steps {
                 checkout([$class: 'GitSCM',
-                branches: [[name: '*/main']],
+                branches: [[name: '*/feature/components-enhancement']],
                 extensions: scm.extensions,
                 userRemoteConfigs: [[
                     url: 'git@github.com:squapllabs/omni-flux.git',
@@ -12,16 +12,23 @@ pipeline {
                 ]]
             ])
             echo 'git checkout completed'
+		          }
+           }
+            stage('sonarqube analysis'){
+                 steps{
+                 nodejs(nodeJSInstallationName: 'NodeJS'){
+                      sh "npm install"
+                      withSonarQubeEnv('SonarQube_Server'){
+                      sh "npm install sonar-scanner"
+                      sh "npm run sonar"
+                        
+                    }
+                }
             }
-		}
-      
-      stage('File copy and remove') {
-        steps {
-            sh 'zip -r /var/lib/jenkins/workspace/Omni_test1.zip /var/lib/jenkins/workspace/Omni_test1'
-            sh 'scp /var/lib/jenkins/workspace/Omni_test1.zip root@192.168.2.27:/root/omniflux_application'
-            sh 'sh /var/lib/jenkins/workspace/omniflux_deploy.sh'
         }
-      }
+    }
+}
+
     //     stage('docker image build') {
     //         steps {
     //             echo 'running docker container details'
@@ -32,6 +39,5 @@ pipeline {
     //             echo 'docker build completed'
     //         }
     //     }
-    }     
-}
+        
 
