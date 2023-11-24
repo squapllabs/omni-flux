@@ -99,21 +99,6 @@ const TextArea: React.FC<TextAreaProps & { mandatory?: boolean }> = ({
       : 40 - (currentValue || '').toString().length;
     setCharacterCount(remainingCharacters);
   }, [currentValue, maxCharacterCount]);
-
-  // const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-  //   const inputValue = event.target.value;
-  //   const remainingCharacters = maxCharacterCount
-  //     ? maxCharacterCount - inputValue.length
-  //     : 40 - inputValue.length;
-
-  //   if (remainingCharacters >= 0) {
-  //     setCurrentValue(inputValue);
-  //     setCharacterCount(remainingCharacters);
-  //   } else if (maxCharacterCount) {
-  //     setCurrentValue(inputValue.slice(0, maxCharacterCount));
-  //     setCharacterCount(0);
-  //   }
-  // };
   const shouldShowAsterisk = mandatory;
   return (
     <InputWrapper width={width} height={height}>
@@ -122,22 +107,12 @@ const TextArea: React.FC<TextAreaProps & { mandatory?: boolean }> = ({
           {label} {shouldShowAsterisk && <RequiredField>*</RequiredField>}
         </StyledLabel>
       )}
-      {/* <StyledTextArea
-        error={!!error}
-        placeholder={placeholder}
-        rows={rows}
-        onChange={handleInputChange}
-        value={currentValue}
-        // readOnly={characterCount === 0}
-        maxLength={maxCharacterCount}
-        {...props}
-      /> */}
       <StyledTextArea
         error={!!error}
         placeholder={placeholder}
         rows={rows}
-        onChange={props.onChange} // Delegate handling up to the parent
-        value={value} // Using value prop directly
+        onChange={props.onChange} 
+        value={value} 
         maxLength={maxCharacterCount}
         {...props}
       />

@@ -1,26 +1,23 @@
 .sideContainer {
   height: 100vh;
-  color: var(--secondary-color);
-  font-weight: 500;
+  color: var(--sidebar-font-color);
+  font-weight: 100;
   box-shadow: 5px 0 10px rgba(233, 233, 233, 0.5);
 }
 .side_menu {
   ul {
     list-style: none;
-    // margin: 0;
     li {
-      padding: 12px;
+      padding: var(--sidebar-padding);
       cursor: pointer;
-      font-size: 14px;
+      font-size: var(--sidebar-fontsize);
       &:hover {
         background-color: #efefef;
       }
 
       &.selected {
         background-color: #d5d9eb;
-        // padding: 8px, 12px, 8px, 12px;
         color: black;
-        // border-radius: 6px;
         font-weight: 600;
       }
     }

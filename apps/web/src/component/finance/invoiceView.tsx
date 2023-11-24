@@ -173,19 +173,21 @@ const OrderView = () => {
                 />
               </div>
               <Button
-                className={Styles.searchButton}
+                // className={Styles.searchButton}
                 shape="rectangle"
                 justify="center"
                 size="small"
+                color='search'
                 onClick={handleSearch}
               >
                 Search
               </Button>
               <Button
-                className={Styles.resetButton}
+                // className={Styles.resetButton}
                 shape="rectangle"
                 justify="center"
                 size="small"
+                color='reset'
                 disabled={isResetDisabled}
                 onClick={handleReset}
               >

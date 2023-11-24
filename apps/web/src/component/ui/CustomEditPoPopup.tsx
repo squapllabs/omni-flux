@@ -327,8 +327,9 @@ const CustomEditPoPopup = (props: {
                 <div className={Styles.formButton}>
                   <div>
                     <Button
-                      className={Styles.cancelButton}
+                      // className={Styles.cancelButton}
                       shape="rectangle"
+                      color='cancel'
                       justify="center"
                       size="small"
                       onClick={handleCloseForm}

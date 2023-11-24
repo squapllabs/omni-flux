@@ -159,11 +159,6 @@ const Input: React.FC<InputProps & { mandatory?: boolean }> = ({
           </ErrorMessageWrapper>
         )
       )}
-      {/* {!errorDisable && error && (
-        <ErrorMessageWrapper>
-          <InputError>{error}</InputError>
-        </ErrorMessageWrapper>
-      )} */}
     </InputWrapper>
   );
 };

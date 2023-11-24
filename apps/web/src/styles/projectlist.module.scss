@@ -136,7 +136,7 @@
       background-color: var(--tableRow-backgroundColor);
     }
   }
- 
+
   .td_desc {
     min-width: 55.5rem;
   }
@@ -165,23 +165,23 @@
 }
 
 .completedStatus {
-  background-color: #ecfdf3;
-  padding: 6px;
-  border-radius: 50px;
-  color: #027a48;
+  background-color: var(--completed-backgroundColor);
+  padding: var(--status-padding);
+  border-radius: var(--status-borderRadius);
+  color: var(--completed-color);
 }
 .inprogressStatus {
-  background-color: #fdf2fa;
-  padding: 6px;
-  border-radius: 50px;
-  color: #c11574;
+  background-color: var(--inprogress-backgroundColor);
+  padding: var(--status-padding);
+  color: var(--inprogress-color);
+  border-radius: var(--status-borderRadius);
 }
 
 .draftStatus {
-  background-color: #eff8ff;
-  padding: 6px;
-  border-radius: 50px;
-  color: #175cd3;
+  background-color: var(--draft-backgroundColor);
+  padding: var(--status-padding);
+  border-radius: var(--status-borderRadius);
+  color: var(--draft-color)
 }
 
 .tablerow {
@@ -278,14 +278,13 @@
   gap: 10px;
 }
 
-
 @media (max-width: 750px) {
   .header {
     justify-content: center;
   }
 
   .tableContainer {
-    overflow-x: auto; 
+    overflow-x: auto;
     margin: 0px 10px;
   }
 
@@ -305,5 +304,4 @@
     display: flex;
     justify-content: center;
   }
-
 }

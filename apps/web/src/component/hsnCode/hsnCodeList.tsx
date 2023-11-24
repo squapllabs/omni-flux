@@ -9,7 +9,7 @@ import CustomSnackBar from '../ui/customSnackBar';
 import EditIcon from '../menu/icons/newEditIcon';
 import HsnForm from './hsnCodeCreate';
 import Button from '../ui/Button';
-import Button1 from '../menu/button';
+// import Button1 from '../menu/button';
 import Input from '../ui/Input';
 import * as XLSX from 'xlsx';
 import SearchIcon from '../menu/icons/search';
@@ -58,6 +58,7 @@ const HsnCodeList = () => {
   const [openDelete, setOpenDelete] = useState(false);
   const [sortColumn, setSortColumn] = useState('');
   const [sortOrder, setSortOrder] = useState('desc');
+  const [modalOpen, setModalOpen] = useState(false);
 
   const hsnCodeData = {
     limit: rowsPerPage,
@@ -94,6 +95,7 @@ const HsnCodeList = () => {
     setMode('EDIT');
     setHsnCodeId(value);
     setOpenHsnForm(true);
+    setModalOpen(true);
   };
 
   useEffect(() => {
@@ -226,7 +228,16 @@ const HsnCodeList = () => {
 
   const handleHsnFormClose = () => {
     setOpenHsnForm(false);
+    setModalOpen(false);
   };
+
+  useEffect(() => {
+    if (modalOpen === true) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [modalOpen]);
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
@@ -255,6 +266,7 @@ const HsnCodeList = () => {
                       onClick={() => {
                         setMode('ADD');
                         setOpenHsnForm(true);
+                        setModalOpen(true);
                       }}
                     >
                       Add HSN Code
@@ -318,7 +330,17 @@ const HsnCodeList = () => {
                   </Button>
                 </div>
                 <div className={Styles.button}>
-                  <Button1
+                  <Button
+                    color="outlined"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<DownloadIcon color='#7f56d9'/>}
+                    onClick={handleDownload}
+                  >
+                    Download Sample Data
+                  </Button>
+                  {/* <Button1
                     text={
                       <div className={Styles.downloadButton}>
                         <DownloadIcon />
@@ -331,7 +353,7 @@ const HsnCodeList = () => {
                     width={140}
                     border="1px solid #D0D5DD"
                     borderRadius={8}
-                  />
+                  /> */}
                 </div>
               </div>
               {error && <div className={Styles.error}>{error}</div>}
@@ -477,6 +499,7 @@ const HsnCodeList = () => {
           content={
             <HsnForm
               open={openHsnForm}
+              setModalOpen={setModalOpen}
               setOpen={setOpenHsnForm}
               reload={reload}
               setReload={setReload}

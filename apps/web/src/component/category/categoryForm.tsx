@@ -171,7 +171,7 @@ const CategoryForm: React.FC = (props: any) => {
         <div className={Styles.dividerStyle}></div>
         <div className={Styles.formButton}>
           <div>
-            <Button className={Styles.cancelButton} shape="rectangle" justify="center" size="small" onClick={handleClose}>
+            <Button shape="rectangle" color='cancel' justify="center" size="small" onClick={handleClose}>
               Cancel
             </Button>
           </div>

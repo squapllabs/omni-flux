@@ -47,6 +47,7 @@ const ClientForm: React.FC = (props: any) => {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
               props.setOpen(false);
+              props.setModalOpen(false);
               props.setReload(true);
               props.setMessage('Client created');
               props.setOpenSnack(true);
@@ -63,6 +64,7 @@ const ClientForm: React.FC = (props: any) => {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
               props.setOpen(false);
+              props.setModalOpen(false);
               props.setReload(true);
               props.setMessage('Client edited');
               props.setOpenSnack(true);
@@ -75,6 +77,7 @@ const ClientForm: React.FC = (props: any) => {
   //Function for closing
   const handleClose = () => {
     props.setOpen(false);
+    props.setModalOpen(false);
   };
 
   return (
@@ -121,7 +124,8 @@ const ClientForm: React.FC = (props: any) => {
                   justify="center"
                   size="small"
                   onClick={handleClose}
-                  className={Styles.cancelButton}
+                  color='cancel'
+                  // className={Styles.cancelButton}
                 >
                   Cancel
                 </Button>

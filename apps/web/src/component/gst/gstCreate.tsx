@@ -95,7 +95,7 @@ const GstCreate: React.FC = (props: any) => {
           <div className={Styles.dividerStyle}></div>
           <div className={Styles.formButton}>
             <div>
-              <Button className={Styles.cancelButton} shape="rectangle" justify="center" size="small" onClick={handleClose}>
+              <Button color='cancel' shape="rectangle" justify="center" size="small" onClick={handleClose}>
                 Cancel
               </Button>
             </div>

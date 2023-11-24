@@ -70,6 +70,42 @@ body {
   --tableData-fontSize: 12px;
   --tableData-fontWeight: 500;
   --tableRow-backgroundColor: #ebebeb;
+
+  /*project form divider line*/
+  --divider-projectForm : 1px solid rgb(118, 238, 126);
+
+  /* project list status and site expenselist*/
+  --status-padding : 6px;
+  --status-borderRadius: 50px;
+  --inprogress-backgroundColor : #fdf2fa;
+  --inprogress-color : #c11574;
+  --completed-backgroundColor : #ecfdf3;
+  --completed-color : #027a48;
+  --draft-backgroundColor : #eff8ff;
+  --draft-color : #175cd3;
+  --rejected-backgroundColor : #fffaeb;
+  --rejected-color : #b54708;
+  --completed-text : #118153;
+  --rejected-text : red;
+  --pending-text : #c01574;
+
+  /* project dashboard card*/
+  --card-top : #ecfdf3;
+  --card-bottom-left : #f9f5ff;
+  --card-bottom-right : #fffaeb;
+
+  /* Overall dashboard card*/
+  --card-left-corner : #ecfdf3;
+  --card-center : #f9f5ff;
+  --card-right-corner : #d1fadf;
+  --table-rows-color : #7f56d9;
+
+  /*Project edit page sidebar*/
+  --project-sidebar-width : 20%;
+  --sidebar-right-border : 1px solid #ccc;
+  --sidebar-font-color : #7f56d9;
+  --sidebar-padding : 12px;
+  --sidebar-fontsize : 14px;
 }
 
 .globaltabledata {

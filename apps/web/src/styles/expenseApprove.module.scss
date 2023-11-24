@@ -169,31 +169,31 @@
 }
 
 .approvedStatus {
-  background-color: #ecfdf3;
-  padding: 4px;
-  border-radius: 50px;
-  color: #027a48;
+  background-color: var(--completed-backgroundColor);
+  padding: var(--status-padding);
+  border-radius: var(--status-borderRadius);
+  color: var(--completed-color);
 }
 
 .pendingStatus {
-  background-color: #fdf2fa;
-  padding: 4px;
-  border-radius: 35px;
-  color: #c11574;
+  background-color: var(--inprogress-backgroundColor);
+  padding: var(--status-padding);
+  border-radius: var(--status-borderRadius);
+  color: var(--inprogress-color);
 }
 
 .rejectedStatus {
-  background-color: #fffaeb;
-  padding: 4px;
-  border-radius: 35px;
-  color: #b54708;
+  background-color: var(--rejected-backgroundColor);
+  padding: var(--status-padding);
+  border-radius: var(--status-borderRadius);
+  color: var(--rejected-color);
 }
 
 .draftStatus {
-  background-color: #eff8ff;
-  padding: 4px;
-  border-radius: 35px;
-  color: #175cd3;
+  background-color:var(--draft-backgroundColor);
+  padding: var(--status-padding);
+  border-radius: var(--status-borderRadius);
+  color: var(--draft-color);
 }
 
 //EXPENSE DETAIL

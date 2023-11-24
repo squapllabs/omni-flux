@@ -42,7 +42,7 @@
   height: 20%;
   border-radius: 8px;
   padding: 20px 0px;
-  background-color: #ecfdf3;
+  background-color: var(--card-top)
 }
 
 .card:hover {
@@ -61,7 +61,7 @@
   height: 20%;
   border-radius: 10px;
   padding: 25px;
-  background-color: #f9f5ff;
+  background-color: var(--card-bottom-left);
 }
 .card2 {
   display: flex;
@@ -71,7 +71,7 @@
   height: 20%;
   border-radius: 10px;
   padding: 25px;
-  background-color: #fffaeb;
+  background-color: var(--card-bottom-right);
 }
 
 .graphCard {

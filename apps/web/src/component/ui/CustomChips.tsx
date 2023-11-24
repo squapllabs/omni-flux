@@ -1,13 +1,16 @@
+
 import React, { useState } from 'react';
 
 interface CustomChipWithDeleteProps {
   label: string;
   onDelete: () => void;
+  variant?: 'default' | 'outlined'; 
 }
 
 const CustomChipWithDelete: React.FC<CustomChipWithDeleteProps> = ({
   label,
   onDelete,
+  variant = 'default',
 }) => {
   const [isVisible, setIsVisible] = useState(true);
 
@@ -18,27 +21,26 @@ const CustomChipWithDelete: React.FC<CustomChipWithDeleteProps> = ({
 
   if (!isVisible) return null;
 
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        backgroundColor: '#E0E0E0',
-        padding: '4px 8px',
-        borderRadius: '16px',
-        margin: '4px',
-      }}
-    >
-      <span style={{ flex: 1 }}>{label}</span>
-      <button
-        onClick={handleDelete}
-        style={{
-          background: 'none',
-          border: 'none',
-          cursor: 'pointer',
+  const containerStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    padding: '4px 8px',
+    margin: '4px',
+    backgroundColor: variant ==='default' ?  '#E0E0E0' : 'none',
+    borderRadius: '16px', 
+    border: variant === 'outlined' ? '1.5px solid #E0E0E0' : 'none',
+  };
 
-        }}
-      >
+  const buttonStyle = {
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+  };
+
+  return (
+    <div style={containerStyle}>
+      <span style={{ flex: 1 }}>{label}</span>
+      <button onClick={handleDelete} style={buttonStyle}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"

@@ -57,6 +57,7 @@ const UomForm: React.FC = (props: any) => {
               props.setReload(true);
               props.setMessage('UOM created');
               props.setOpenSnack(true);
+              props.setModalOpen(false);
             }
           },
         });
@@ -70,6 +71,7 @@ const UomForm: React.FC = (props: any) => {
           onSuccess: (data, variables, context) => {
             if (data?.message === 'success') {
               props.setOpen(false);
+              props.setModalOpen(false);
               props.setReload(true);
               props.setMessage('UOM edited');
               props.setOpenSnack(true);
@@ -82,6 +84,7 @@ const UomForm: React.FC = (props: any) => {
 
   const handleClose = () => {
     props.setOpen(false);
+    props.setModalOpen(false);
   };
 
   return (
@@ -125,7 +128,8 @@ const UomForm: React.FC = (props: any) => {
                   justify="center"
                   size="small"
                   onClick={handleClose}
-                  className={Styles.cancelButton}
+                  color='cancel'
+                  // className={Styles.cancelButton}
                 >
                   Cancel
                 </Button>

@@ -250,6 +250,7 @@ const VendorChooseModule = () => {
                       {vendorData.map((item: any, index: any) => (
                         <CustomChip
                           key={item.value}
+                          variant='outlined'
                           label={item.label}
                           onDelete={() => deleteVendor(index)}
                         />

@@ -32,6 +32,7 @@ const LabourList = () => {
   const [message, setMessage] = useState('');
   const [sortColumn, setSortColumn] = useState('');
   const [sortOrder, setSortOrder] = useState('desc');
+  const [modalOpen, setModalOpen] = useState(false);
 
   const object: any = {
     offset: (currentPage - 1) * rowsPerPage,
@@ -52,12 +53,14 @@ const LabourList = () => {
   const handleAddLabourData = () => {
     setOpen(true);
     setMode('ADD');
+    setModalOpen(true);
   };
 
   const handleEdit = (value: any) => {
     setLabourId(value);
     setOpen(true);
     setMode('EDIT');
+    setModalOpen(true);
   };
 
   useEffect(() => {
@@ -78,6 +81,7 @@ const LabourList = () => {
 
   const handleClosePopup = () => {
     setOpen(false);
+    setModalOpen(false)
   };
 
   /* Function for changing no of rows in pagination */
@@ -100,6 +104,14 @@ const LabourList = () => {
     setMessage('Successfully deleted');
     setOpenSnack(true);
   };
+
+  useEffect(() => {
+    if (modalOpen === true) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [modalOpen]);
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
@@ -290,6 +302,7 @@ const LabourList = () => {
         content={
           <CustomLabourAddPopup
             setOpen={setOpen}
+            setModalOpen={setModalOpen}
             open={open}
             mode={mode}
             labourId={labourId}

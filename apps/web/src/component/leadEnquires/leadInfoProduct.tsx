@@ -2,27 +2,38 @@ import { useParams } from 'react-router-dom';
 import CustomCard from '../ui/CustomCard';
 import { useGetByleadEnquiryID } from '../../hooks/leadEnquires-hooks';
 import Styles from '../../styles/projectInfo.module.scss';
-import Button from '../menu/button';
+import Button from '../ui/button';
 import { useNavigate } from 'react-router-dom';
 
 const LeadInfoProduct = () => {
   const routeParams = useParams();
   const LeadId = Number(routeParams?.id);
   const { data: getOneLead } = useGetByleadEnquiryID(LeadId);
-  
+
   const navigate = useNavigate();
   return (
     <div>
       <div className={Styles.title}>
         <h2>Lead Product Information</h2>
         <Button
+          color="primary"
+          shape="rectangle"
+          justify="center"
+          size="small"
+          onClick={() => {
+            navigate('/settings');
+          }}
+        >
+          Back
+        </Button>
+        {/* <Button
           text="Back"
           backgroundColor="#7F56D9"
           fontSize={14}
           fontWeight={500}
           width={100}
           onClick={() => navigate('/settings')}
-        />
+        /> */}
       </div>
       <div className={Styles.cardContent}>
         <CustomCard>
@@ -109,7 +120,8 @@ const LeadInfoProduct = () => {
               </tr>
             </thead>
             <tbody>
-              {getOneLead?.lead_enquiry_product?.[0]?.lead_enquiry_product_item.length === 0 ? (
+              {getOneLead?.lead_enquiry_product?.[0]?.lead_enquiry_product_item
+                .length === 0 ? (
                 <tr>
                   <td></td>
                   <td>No data found</td>

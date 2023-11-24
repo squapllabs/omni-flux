@@ -57,6 +57,7 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
           onSuccess: (data, variables, context) => {
             if (data?.mesage === 'success') {
               props.setOpen(false);
+              props.setModalOpen(false);
               props.setReload(true);
               props.setMessage('Hsc Code created');
               props.setOpenSnack(true);
@@ -73,6 +74,7 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
           onSuccess: (data, variables, context) => {
             if (data?.mesage === 'success') {
               props.setOpen(false);
+              props.setModalOpen(false);
               props.setReload(true);
               props.setMessage('Hsn Code edited');
               props.setOpenSnack(true);
@@ -85,6 +87,7 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
 
   const handleClose = () => {
     props.setOpen(false);
+    props.setModalOpen(false);
   };
 
   return (
@@ -128,8 +131,9 @@ const HsnCodeForm: React.FC = (props: any, { mode, id }) => {
                   shape="rectangle"
                   justify="center"
                   size="small"
+                  color='cancel'
                   onClick={handleClose}
-                  className={Styles.cancelButton}
+                  // className={Styles.cancelButton}
                 >
                   Cancel
                 </Button>

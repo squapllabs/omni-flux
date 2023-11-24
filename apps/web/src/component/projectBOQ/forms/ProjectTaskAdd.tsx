@@ -16,7 +16,7 @@ import AutoCompleteSelect from '../../ui/AutoCompleteSelect';
 import { useGetUomByType } from '../../../hooks/uom-hooks';
 
 const ProjectTaskAdd: React.FC = (props: any) => {
-  console.log('props', props?.isCollapsed);
+  // console.log('props', props?.isCollapsed);
   const validationSchemaSubCategory = getSubCategoryValidateyup(Yup);
   const { mutate: createNewSubCategory } = useCreateInstantSubcategory();
   const { mutate: createInstantSubcategoryData } =
@@ -288,7 +288,8 @@ const ProjectTaskAdd: React.FC = (props: any) => {
                 justify="center"
                 size="small"
                 onClick={handleClose}
-                className={Styles.cancelButton}
+                color='cancel'
+                // className={Styles.cancelButton}
               >
                 Cancel
               </Button>

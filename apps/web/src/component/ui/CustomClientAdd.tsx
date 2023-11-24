@@ -93,7 +93,8 @@ const CustomClientAdd = (props: { isVissible: any; onAction: any }) => {
                     <div className={Styles.dividerStyle}></div>
                     <div className={Styles.button}>
                       <Button
-                        className={Styles.cancelButton}
+                        // className={Styles.cancelButton}
+                        color='cancel'
                         shape="rectangle"
                         justify="center"
                         size="small"

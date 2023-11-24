@@ -174,8 +174,6 @@ const AutoCompleteSelect: React.FC<
   ...props
 }) => {
   const shouldShowAsterisk = mandatory;
-  const showClearIconString = showclearicon.toString();
-  // console.log("check option list data--->", optionList)
   const [filteredOptions, setFilteredOptions] = useState([]);
   const [allOptions, setAllOptions] = useState(optionList); // Replace with actual data source
   const [open, setOpen] = useState(false);
@@ -247,7 +245,7 @@ const AutoCompleteSelect: React.FC<
           hassuffixicon={!!suffixIcon}
           placeholder={placeholder}
           disabled={disabled}
-          showclearicon={showClearIconString}
+          showclearicon={showclearicon}
           value={values}
           {...props}
           onChange={(e) => handleChange(e)}

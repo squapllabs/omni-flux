@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Button from '../ui/Button';
-import ButtonOne from '../menu/button';
+// import ButtonOne from '../menu/button';
 import { useNavigate } from 'react-router-dom';
 import Styles from '..//../styles/listItem.module.scss';
 import Pagination from '../menu/CustomPagination';
@@ -142,7 +142,17 @@ const ProductPage = () => {
                   </Button>
                 </div>
                 <div className={Styles.button}>
-                  <ButtonOne
+                <Button
+                    color="outlined"
+                    shape="rectangle"
+                    justify="center"
+                    size="small"
+                    icon={<DownloadIcon color='#7f56d9'/>}
+                    onClick={handleDownload}
+                  >
+                    Download csv
+                  </Button>
+                  {/* <ButtonOne
                     text={
                       <div style={{ display: 'flex', alignItems: 'center' }}>
                         <DownloadIcon style={{ padding: '4px' }} />
@@ -157,7 +167,7 @@ const ProductPage = () => {
                     style={{ paddingLeft: '8px' }}
                     border="1px solid #D0D5DD"
                     borderRadius={5}
-                  />
+                  /> */}
                 </div>
               </div>
               <div className={Styles.filters}>

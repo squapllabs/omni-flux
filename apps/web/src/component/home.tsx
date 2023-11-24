@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Styles from '../styles/home.module.scss';
-import Button from './menu/button';
+// import Button from './menu/button';
 import Vector from './menu/icons/vector';
 import FolderIcon from './menu/icons/folderIcon';
 import CustomCard from './ui/CustomCard';

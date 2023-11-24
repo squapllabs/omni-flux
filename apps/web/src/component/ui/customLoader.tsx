@@ -4,6 +4,7 @@ interface PageLoaderProps {
   loading: boolean;
   size?: number;
   color?: string;
+  children?:any;
 }
 
 const CustomLoader: React.FC<PageLoaderProps> = ({

@@ -60,19 +60,6 @@ const DialogBox: React.FC<DialogBoxProps> = ({
     cursor: 'pointer',
   };
 
-  const cancelButtonStyle: React.CSSProperties = {
-    ...buttonStyle,
-    borderRadius: '8px',
-    borderStyle:'solid',
-    borderWidth:'1px',
-    borderColor:"#7f56d9"
-  };
-
-  const conformButtonStyle: React.CSSProperties = {
-    ...buttonStyle,
-    borderRadius: '8px',
-  };
-
   const mainContentStyle: React.CSSProperties = {
     display: 'flex', 
     flexDirection: 'row'
@@ -99,10 +86,11 @@ const DialogBox: React.FC<DialogBoxProps> = ({
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'flex-end',
+            gap:'10px'
           }}
         >
           <Button
-            style={cancelButtonStyle}
+            color='cancel'
             shape="rectangle"
             justify="center"
             size="small"
@@ -111,7 +99,7 @@ const DialogBox: React.FC<DialogBoxProps> = ({
             Cancel
           </Button>
           <Button
-            style={conformButtonStyle}
+            // style={conformButtonStyle}
             shape="rectangle"
             justify="center"
             color="primary"

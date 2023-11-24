@@ -32,6 +32,7 @@ const UomList = () => {
   const [value, setValue] = useState();
   const [openUomForm, setOpenUomForm] = useState(false);
   const [sortColumn, setSortColumn] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState('desc');
   const [filterValues, setFilterValues] = useState({
     search_by_name: '',
@@ -58,6 +59,7 @@ const UomList = () => {
     setMode('EDIT');
     setUomID(value);
     setOpenUomForm(true);
+    setModalOpen(true);
   };
   const handleSnackBarClose = () => {
     setOpenSnack(false);
@@ -95,7 +97,16 @@ const UomList = () => {
 
   const handleCloseUomForm = () => {
     setOpenUomForm(false);
+    setModalOpen(false);
   };
+
+  useEffect(() => {
+    if (modalOpen === true) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [modalOpen]);
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
   return (
@@ -123,6 +134,7 @@ const UomList = () => {
                       onClick={() => {
                         setMode('ADD');
                         setOpenUomForm(true);
+                        setModalOpen(true);
                       }}
                     >
                       Add Uom
@@ -259,6 +271,7 @@ const UomList = () => {
           content={
             <UomForm
               open={openUomForm}
+              setModalOpen={setModalOpen}
               setOpen={setOpenUomForm}
               reload={reload}
               setReload={setReload}

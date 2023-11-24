@@ -105,7 +105,7 @@ const RFQRegisterForm: React.FC = (props: any) => {
           <div>
             <Button
               type="button"
-              color="secondary"
+              color="cancel"
               shape="rectangle"
               size="small"
               justify="center"

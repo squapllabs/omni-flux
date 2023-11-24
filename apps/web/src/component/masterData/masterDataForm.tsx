@@ -84,6 +84,7 @@ const MasterDataForm: React.FC = (props: any) => {
               props.setMessage('Master Data created');
               props.setOpenSnack(true);
               props.setOpen(false);
+              props.setModalOpen(false);
               resetForm();
             }
           },
@@ -103,6 +104,7 @@ const MasterDataForm: React.FC = (props: any) => {
               props.setOpen(false);
               props.setReload(true);
               props.setMessage('Master Data edited');
+              props.setModalOpen(false);
               props.setOpenSnack(true);
             }
           },
@@ -113,6 +115,7 @@ const MasterDataForm: React.FC = (props: any) => {
 
   const handleClose = () => {
     props.setOpen(false);
+    props.setModalOpen(false);
   };
 
   return (
@@ -198,8 +201,9 @@ const MasterDataForm: React.FC = (props: any) => {
                   shape="rectangle"
                   justify="center"
                   size="small"
+                  color='cancel'
                   onClick={handleClose}
-                  className={Styles.cancelButton}
+                  // className={Styles.cancelButton}
                 >
                   Cancel
                 </Button>

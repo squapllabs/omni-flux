@@ -301,7 +301,7 @@ const LocalPurchaseOrder = () => {
       <ApproveDialogBox
         open={openApprove}
         title="Move Local Purchase to Purchase Order"
-        contentLine1="Are yoy sure want to move this to purchase order ?"
+        contentLine1="Are you sure want to move this to purchase order ?"
         contentLine2=""
         handleClose={handleCloseApprove}
         handleConfirm={() => handleConvertToPo()}

@@ -400,7 +400,7 @@ const IndentRequest: React.FC = (props: any) => {
               >
                 <Button
                   type="button"
-                  color="secondary"
+                  color="draft"
                   shape="rectangle"
                   size="small"
                   justify="center"

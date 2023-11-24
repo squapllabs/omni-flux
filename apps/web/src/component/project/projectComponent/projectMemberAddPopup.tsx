@@ -173,8 +173,9 @@ const ProjectMemberAddPopup = (props: any) => {
               shape="rectangle"
               justify="center"
               size="small"
+              color="cancel"
               onClick={handleClose}
-              className={Styles.cancelButton}
+              // className={Styles.cancelButton}
             >
               Cancel
             </Button>

@@ -11,8 +11,8 @@
   display: flex;
 }
 .sidnav {
-  width: 20%;  
-  border-right: 1px solid #ccc;
+  width: var(--project-sidebar-width);  
+  border-right: var(--sidebar-right-border);
 }
 .mainbar {
   width: 75%;

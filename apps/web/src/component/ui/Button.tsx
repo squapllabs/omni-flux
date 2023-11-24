@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: 'primary' | 'secondary' | 'transparent' | 'outlined';
+  color?: 'primary' | 'secondary' | 'transparent' | 'outlined' | 'cancel' | 'search' | 'reset' | 'draft';
   size?: 'small' | 'medium' | 'large';
   shape?: 'rectangle' | 'rounded' | 'outlined';
   icon?: React.ReactNode;
@@ -24,6 +24,70 @@ const primaryStyles = css`
 
   &:disabled {
     background: #e9d7fe;
+  }
+`;
+
+const cancelStyles = css`
+  background: #fef3f2;
+  color: #b42318;
+
+  &:hover {
+    background: #FEE4E2;
+  }
+
+  &:active {
+    background: #fef3f2;
+  }
+
+  &:disabled {
+    background: #e9d7fe;
+  }
+`;
+const searchStyles = css`
+  background: #F4F4F5;
+  color: #70707B;
+  &:hover {
+    background: #D6D6D6;
+  }
+
+  &:active {
+    background: #F4F4F5;
+  }
+
+  &:disabled {
+    background: #e9d7fe;
+  }
+`;
+
+const resetStyles = css`
+  background: #F4F4F5;
+  color: #70707B;
+  &:hover {
+    background: #D6D6D6;
+  }
+
+  &:active {
+    background: #F4F4F5;
+  }
+
+  &:disabled {
+    background: #ffffff;
+  }
+`;
+
+const draftStyles = css`
+  background: #F4F4F5;
+  color: #7f56d9;
+  &:hover {
+    background: #D6D6D6;
+  }
+
+  &:active {
+    background: #F4F4F5;
+  }
+
+  &:disabled {
+    background: #ffffff;
   }
 `;
 
@@ -94,6 +158,10 @@ const StyledButton = styled.button<ButtonProps>`
   width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
 
   ${({ color }) => color === 'primary' && primaryStyles}
+  ${({ color }) => color === 'cancel' && cancelStyles}
+  ${({ color }) => color === 'search' && searchStyles}
+  ${({ color }) => color === 'reset' && resetStyles}
+  ${({ color }) => color === 'draft' && draftStyles}
   ${({ color }) => color === 'transparent' && transparentStyles}
   ${({ color }) => color === 'outlined' && outlinedColorStyles}
 

@@ -198,7 +198,7 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   width: 60%;
   border-radius: 10px;
-  background-color: #ecfdf3;
+  background-color: var(--card-left-corner)
 }
 
 .cardContainer:hover {
@@ -214,7 +214,7 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   width: 20%;
   border-radius: 10px;
-  background-color: #f9f5ff;
+  background-color: var(--card-center);
 }
 
 .cardContainer1:hover {
@@ -230,7 +230,7 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   width: 20%;
   border-radius: 10px;
-  background-color: #d1fadf;
+  background-color: var(--card-right-corner);
 }
 
 .cardContainer2:hover {
@@ -347,7 +347,7 @@
     // border: 0px 0px 1px;
     font-size: 14px;
     border: none;
-    color: var(--secondary-color);
+    color: var(--table-rows-color);
     /* Remove borders */
     // border-bottom: 0.1px solid #f0f0f0;
   }

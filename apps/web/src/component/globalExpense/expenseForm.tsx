@@ -576,22 +576,22 @@ const GlobalExpenseForm: React.FC = (props: any) => {
                   </Button>
                   <Button
                     type="button"
-                    color="secondary"
+                    color="draft"
                     shape="rectangle"
                     size="small"
                     justify="center"
-                    className={Styles.draftButton}
+                    // className={Styles.draftButton}
                     onClick={() => drafthandler()}
                   >
                     Save Draft
                   </Button>
                   <Button
                     type="button"
-                    color="secondary"
+                    color="cancel"
                     shape="rectangle"
                     size="small"
                     justify="center"
-                    className={Styles.cancelButton}
+                    // className={Styles.cancelButton}
                     onClick={() => props.setOpen(false)}
                   >
                     Cancel

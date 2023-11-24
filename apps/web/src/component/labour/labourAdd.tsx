@@ -52,6 +52,7 @@ const LabourAddForm = (props : any) => {
 
   const handleClose = () => {
     props.setOpen(false);
+    props.setModalOpen(false)
 };
 
   const handleSnackBarClose = () => {
@@ -169,8 +170,8 @@ const LabourAddForm = (props : any) => {
           <div className={Styles.submitButton}>
             <div>
               <Button
-                className={Styles.cancelButton}
-                color="secondary"
+                // className={Styles.cancelButton}
+                color="cancel"
                 shape="rectangle"
                 justify="center"
                 size="small"

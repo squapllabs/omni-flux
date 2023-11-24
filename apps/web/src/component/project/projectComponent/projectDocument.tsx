@@ -240,7 +240,8 @@ const ProjectDocument: React.FC = (props: any) => {
                   type="button"
                   shape="rectangle"
                   size="small"
-                  icon={<AddIcon />}
+                  color='search'
+                  icon={<AddIcon color='#70707B'/>}
                 >
                   Add Files
                 </Button>

@@ -520,11 +520,11 @@ const ProjectGeneralDetails: React.FC = (props: any) => {
             <div className={Styles.bottomButton}>
               <Button
                 type="button"
-                color="secondary"
+                color="cancel"
                 shape="rectangle"
                 size="small"
                 justify="center"
-                className={Styles.cancelButton}
+                // className={Styles.cancelButton}
                 onClick={() => cancelhandler()}
               >
                 Cancel

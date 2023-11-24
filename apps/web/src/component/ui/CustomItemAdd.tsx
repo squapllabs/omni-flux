@@ -215,7 +215,8 @@ const InstantItemAdd = (props: {
           <div className={Styles.buttonFields}>
             <div>
               <Button
-                className={Styles.cancelButton}
+                // className={Styles.cancelButton}
+                color='cancel'
                 shape="rectangle"
                 justify="center"
                 size="small"

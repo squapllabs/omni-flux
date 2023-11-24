@@ -99,7 +99,8 @@ const ProductItemEdit: React.FC = (props: any) => {
         <div className={Styles.formButton}>
           <div>
             <Button
-              className={Styles.cancelButton}
+              // className={Styles.cancelButton}
+              color='cancel'
               shape="rectangle"
               justify="center"
               size="small"

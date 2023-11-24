@@ -261,7 +261,7 @@ const Project = () => {
               </div>
             </div>
           </div>
-          <div className={Styles.selected}></div>
+          {/* <div className={Styles.selected}></div> */}
           <div className={Styles.mainContainer}>
             <div className={Styles.sidnav}>
               <SideNav
@@ -302,7 +302,7 @@ const Project = () => {
               </div>
             </div>
           </div>
-          <div className={Styles.selected}></div>
+          {/* <div className={Styles.selected}></div> */}
           <div className={Styles.mainContainer}>
             <div className={Styles.sidnav}>
               <SideNav

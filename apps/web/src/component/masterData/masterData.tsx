@@ -37,7 +37,7 @@ const MaterData = () => {
   const [masterDataFormOpen, setMasterDataFormOpen] = useState(false);
   const [sortColumn, setSortColumn] = useState('');
   const [sortOrder, setSortOrder] = useState('desc');
-
+  const [modalOpen, setModalOpen] = useState(false);
   const { mutate: getDeleteMasterDataID } = useDeletemasertData();
 
   const masterData = {
@@ -83,6 +83,7 @@ const MaterData = () => {
     setMode('Edit');
     setMasterDataID(value);
     setMasterDataFormOpen(true);
+    setModalOpen(true);
   };
   const handleCloseDelete = () => {
     setOpenDelete(false);
@@ -100,7 +101,16 @@ const MaterData = () => {
 
   const handleCloseMasterForm = () => {
     setMasterDataFormOpen(false);
+    setModalOpen(false);
   };
+
+  useEffect(() => {
+    if (modalOpen === true) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [modalOpen]);
 
   return (
     <div>
@@ -123,6 +133,7 @@ const MaterData = () => {
                     onClick={() => {
                       setMode('Add');
                       setMasterDataFormOpen(true);
+                      setModalOpen(true);
                     }}
                   >
                     Add Master Data
@@ -292,6 +303,7 @@ const MaterData = () => {
           <MasterDataForm
             open={masterDataFormOpen}
             setOpen={setMasterDataFormOpen}
+            setModalOpen={setModalOpen}
             reload={reload}
             setReload={setReload}
             openSnack={openSnack}

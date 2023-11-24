@@ -77,7 +77,8 @@ const IndentApprovePopup = (props: any) => {
             justify="center"
             size="small"
             onClick={handleClose}
-            className={Styles.cancelButton}
+            color='cancel'
+            // className={Styles.cancelButton}
           >
             Cancel
           </Button>

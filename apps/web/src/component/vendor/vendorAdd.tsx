@@ -564,7 +564,7 @@ const AddVendor = () => {
             <div>
               {projectId !== null ? (
                 <Button
-                  color="secondary"
+                  color="cancel"
                   shape="rectangle"
                   justify="center"
                   size="small"
@@ -574,11 +574,11 @@ const AddVendor = () => {
                     });
                   }}
                 >
-                  Back
+                  Cancel
                 </Button>
               ) : (
                 <Button
-                  color="secondary"
+                  color="cancel"
                   shape="rectangle"
                   justify="center"
                   size="small"
@@ -586,7 +586,7 @@ const AddVendor = () => {
                     navigate('/settings');
                   }}
                 >
-                  Back
+                  Cancel
                 </Button>
               )}
             </div>

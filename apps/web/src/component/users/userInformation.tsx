@@ -3,7 +3,7 @@ import Styles from '../../styles/userInfo.module.scss';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import Card from '@mui/material/Card';
-import Button from '../menu/button';
+import Button from '../ui/button';
 
 const UserInformation = () => {
   const routeParams = useParams();
@@ -89,14 +89,25 @@ const UserInformation = () => {
           </div>
         </Card>
         <div className={Styles.buttonContainer}>
-          <Button
+          {/* <Button
             text="Back"
             backgroundColor="#7F56D9"
             fontSize={14}
             fontWeight={500}
             width={100}
             onClick={() => navigate('/userList')}
-          />
+          /> */}
+          <Button
+            color="primary"
+            shape="rectangle"
+            justify="center"
+            size="small"
+            onClick={() => {
+              navigate('/userList');
+            }}
+          >
+            Back
+          </Button>
         </div>
       </div>
     </div>

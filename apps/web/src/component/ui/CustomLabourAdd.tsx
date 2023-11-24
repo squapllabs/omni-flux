@@ -106,8 +106,8 @@ const InstantLabourAdd = (props: {
           <div className={Styles.submitButton}>
             <div>
               <Button
-                className={Styles.cancelButton}
-                color="secondary"
+                // className={Styles.cancelButton}
+                color="cancel"
                 shape="rectangle"
                 justify="center"
                 size="small"

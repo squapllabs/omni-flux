@@ -127,7 +127,7 @@ const ExpenseRecall = () => {
             Submit
           </Button>
           <Button
-            color="secondary"
+            color="reset"
             shape="rectangle"
             justify="center"
             size="small"

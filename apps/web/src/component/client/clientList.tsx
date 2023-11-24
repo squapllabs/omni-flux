@@ -38,6 +38,7 @@ const ClientList = () => {
   const [activeButton, setActiveButton] = useState<string | null>('AC');
   const [sortColumn, setSortColumn] = useState('');
   const [sortOrder, setSortOrder] = useState('desc');
+  const [modalOpen, setModalOpen] = useState(false);
 
   const clientData = {
     limit: rowsPerPage,
@@ -73,6 +74,7 @@ const ClientList = () => {
     setMode('EDIT');
     setClientID(value);
     setOpenClientForm(true);
+    setModalOpen(true);
   };
 
   const handleSnackBarClose = () => {
@@ -101,7 +103,16 @@ const ClientList = () => {
   /* Function to close the client create and edit form */
   const handleClientFormClose = () => {
     setOpenClientForm(false);
+    setModalOpen(false);
   };
+
+  useEffect(() => {
+    if (modalOpen === true) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [modalOpen]);
 
   const startingIndex = (currentPage - 1) * rowsPerPage + 1;
 
@@ -130,6 +141,7 @@ const ClientList = () => {
                       onClick={() => {
                         setMode('ADD');
                         setOpenClientForm(true);
+                        setModalOpen(true);
                       }}
                     >
                       Add Client
@@ -269,6 +281,7 @@ const ClientList = () => {
           content={
             <ClientForm
               open={openClientForm}
+              setModalOpen={setModalOpen}
               setOpen={setOpenClientForm}
               reload={reload}
               setReload={setReload}

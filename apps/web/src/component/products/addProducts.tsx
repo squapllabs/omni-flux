@@ -10,7 +10,7 @@ import Styles from '../../styles/addItem.module.scss';
 import Input from '../ui/Input';
 import AddItem from '../../service/add-product';
 import CustomSelect from '../ui/customSelect';
-import Button from '../menu/button';
+// import Button from '../menu/button';
 interface FormValues {
   item_name: string;
   sub_sub_category_id: number;
@@ -260,12 +260,12 @@ const AddProducts = () => {
                 </div>
               </div>
             </div>
-            <Button
+            {/* <Button
               type="submit"
               text="Add item"
               backgroundColor="#6941C6"
               onClick={handleAddItem}
-            />
+            /> */}
           </form>
         </div>
       </div>
