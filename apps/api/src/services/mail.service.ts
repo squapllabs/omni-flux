@@ -83,7 +83,7 @@ const OTPEmail = async (body) => {
                       </p>
                       <p style="padding: 0; margin: 0; font-size: 16px">
                         Best Regards,<br />
-                        The OmniFlux ERP Team
+                        ${process.env.COMPANY_NAME}
                       </p>
                     </div>
                   </td>
@@ -242,7 +242,9 @@ const purchaseRequestEmailForVendor = async (body) => {
                     >
                       <p>
                         <b
-                          >&copy; ${currentYear} The Omni-Flux ERP. All rights
+                          >&copy; ${currentYear} ${
+      process.env.COMPANY_NAME
+    }. All rights
                           reserved.</b
                         >
                       </p>
@@ -363,7 +365,7 @@ const forgotPasswordEmail = async (email_id: string, link: string) => {
                         "
                       >
                         Best Regards,<br />
-                        The Omni-Flux ERP Team
+                        ${process.env.COMPANY_NAME}
                       </p>
                     </div>
                   </td>
